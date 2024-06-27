@@ -1,6 +1,8 @@
 import numpy as np
 from trained_connectome_with_bias import wormConnectone
 import time 
+import ray
+
 class GeneticAlgorithm:
     def __init__(self, population_size, matrix_shape, mutation_rate=0.5, total_episodes=10, training_interval=25):
         self.population_size = population_size
@@ -19,6 +21,7 @@ class GeneticAlgorithm:
     def evaluate_fitness(self, candidate,worm_num, env):
         cumulative_rewards = []
         env.reset()
+        
         for _ in range(self.total_episodes):
             observation = env._get_observations()
             
@@ -56,19 +59,30 @@ class GeneticAlgorithm:
             #print(np.random.rand())
             child.weight_matrix += (np.random.randn(self.matrix_shape))*10 * self.mutation_rate
         return offspring
-
     
+    @ray.remote
+    def evaluate_fitness_ray(self, candidate, worm_num, env):
+        
+        cumulative_reward = self.evaluate_fitness(candidate, worm_num, env)
+        return cumulative_reward
 
     def run(self, env, generations=50):
+        ray.init(ignore_reinit_error=True)
+
         prev_weight_matrix = None
         total_diff = 0
         num_diffs = 0
 
         for generation in range(generations):
             fitnesses = []
+            
+            # Parallel evaluation of fitness using Ray
+            futures = []
             for worm_num, candidate in enumerate(self.population):
-                fitnesses.append(self.evaluate_fitness(candidate, worm_num, env))
-                candidate.createpostSynaptic()
+                futures.append(self.evaluate_fitness_ray.remote(self=self,candidate=candidate, worm_num=worm_num, env=env))
+
+            # Gather results from Ray futures
+            fitnesses = ray.get(futures)
 
             best_fitness = max(fitnesses)
             print(f"Generation {generation + 1} - Best Fitness: {best_fitness}")
@@ -93,6 +107,8 @@ class GeneticAlgorithm:
                 print(f"Generation {generation + 1} - Average Weight Matrix Difference: {overall_avg_diff:.4f}")
             
             prev_weight_matrix = current_weight_matrix
+
+        ray.shutdown()
 
         # Return the best solution found
         fitnesses = [self.evaluate_fitness(candidate, worm_num, env) for worm_num, candidate in enumerate(self.population)]

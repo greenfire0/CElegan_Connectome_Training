@@ -6,7 +6,7 @@ from c_worm import *
 from celegan_env import WormSimulationEnv
 from trained_connectome_with_bias import all_neuron_names
 from Genetic_TRAINING import GeneticAlgorithm
-
+#from Genetic_running import GeneticAlgorithm
 # Genetic Algorithm parameters
 population_size = 32
 generations = 100
