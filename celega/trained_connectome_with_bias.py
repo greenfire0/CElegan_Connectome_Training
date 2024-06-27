@@ -21,7 +21,6 @@ import numpy as np
 # The postSynaptic dictionary contains the accumulated weighted values as the
 # connectome is executed
 
-
 global thisState
 global nextState
 thisState = 0 
@@ -31,10 +30,6 @@ nextState = 1
 # the Neurite will fire
 threshold = 30
 
-# Accumulators are used to decide the value to send to the Left and Right motors
-# of the GoPiGo robot
-accumleft = 0
-accumright = 0
 
 # Used to remove from Axon firing since muscles cannot fire.
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
@@ -61,7 +56,7 @@ all_neuron_names = [
     'DB6', 'DB7', 'DD1', 'DD2', 'DD3', 'DD4', 'DD5', 'DD6', 'DVA', 'DVB', 'DVC', 'FLPL', 'FLPR',
     'HSNL', 'HSNR', 'I1L', 'I1R', 'I2L', 'I2R', 'I3', 'I4', 'I5', 'I6', 'IL1DL', 'IL1DR', 'IL1L',
     'IL1R', 'IL1VL', 'IL1VR', 'IL2L', 'IL2R', 'IL2DL', 'IL2DR', 'IL2VL', 'IL2VR', 'LUAL', 'LUAR',
-    'M1', 'M2L', 'M2R', 'M3L', 'M3R', 'M4', 'M5', 'MANAL', 'MCL', 'MCR', 'MDL01', 'MDL02', 'MDL03',
+    'M1', 'M2L', 'M2R', 'M3L', 'M3R', 'M4', 'M5',  'MCL', 'MCR', 'MDL01', 'MDL02', 'MDL03',
     'MDL04', 'MDL05', 'MDL06', 'MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14',
     'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MDL24', 'MDR01',
     'MDR02', 'MDR03', 'MDR04', 'MDR05', 'MDR06', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12',
@@ -98,17 +93,21 @@ combined_weights= dict
 class wormConnectone:
     def __init__(self, weight_m):
         self.weight_matrix = weight_m
+        self.fire=0
+        self.spike_count=2
         self.postSynaptic = {}
+        self.createpostSynaptic()
+        
 
 
 
     def apply(self,neuron_name):
+            
             if neuron_name != "BIAS":
                 for neuron, weight in combined_weights[neuron_name].items():
                         #print(neuron, weight,neuron_name)
                         self.postSynaptic[neuron][nextState] += weight
             else:
-                print(all_neuron_names,self.weight_matrix)
                 for neuron, weight in zip(all_neuron_names, self.weight_matrix):
                         self.postSynaptic[neuron][nextState] += weight
 
@@ -126,8 +125,8 @@ class wormConnectone:
                 self.accumright += self.postSynaptic[muscle][nextState]
                 self.postSynaptic[muscle][nextState] = 0
 
-        new_speed = abs(accumleft) + abs(accumright)
-        return [accumleft,accumright,min(max(new_speed,75),150)
+        new_speed = abs(self.accumleft) + abs(self.accumright)
+        return [self.accumleft,self.accumright,min(max(new_speed,75),150)
 ]
 
 
@@ -136,11 +135,13 @@ class wormConnectone:
 
 
     def fireNeuron(self,fneuron):
+        global fire
         # The threshold has been exceeded and we fire the neurite
         if fneuron != "MVULVA":
             self.apply(fneuron)
             # postSynaptic[fneuron][nextState] = 0
             # postSynaptic[fneuron][thisState] = 0
+            self.fire+=1
             self.postSynaptic[fneuron][nextState] = 0
         
 
@@ -173,10 +174,7 @@ class wormConnectone:
 
 
 
-
-
-
-    def move(self, dist,sees_food):
+    def move(self, dist,sees_food,interval):
                             if dist > 0 and dist < 100:
                                     self.dendriteAccumulate("FLPR")
                                     self.dendriteAccumulate("FLPL")
@@ -191,7 +189,13 @@ class wormConnectone:
                                     return (self.runconnectome())
                                     
                             else:
-                                    if sees_food:
+                                    if interval == -10:
+                                          for _ in range (self.spike_count): ##cheaty work around?
+                                            self.dendriteAccumulate("BIAS")
+                                            self.runconnectome()
+                            
+                                          
+                                    elif sees_food:
                                             self.dendriteAccumulate("ADFL")
                                             self.dendriteAccumulate("ADFR")
                                             self.dendriteAccumulate("ASGR")
@@ -204,6 +208,7 @@ class wormConnectone:
                                             #tfood += 0.5
                                             #if tfood > 20:
                                             #        tfood = 0
+
                                     else: return self.runconnectome()
     def createpostSynaptic(self):
         # The postSynaptic dictionary maintains the accumulated values for
@@ -212,4 +217,5 @@ class wormConnectone:
             self.postSynaptic[muscle] = [0,0]
         for neuron in all_neuron_names:
             self.postSynaptic[neuron] = [0,0]
+        self.postSynaptic['BIAS']=[0,0]
         

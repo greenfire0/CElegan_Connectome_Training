@@ -23,7 +23,7 @@ class Worm:
         # Calculate the new speed based on the accumulated speeds
         new_speed = abs(left_speed) + abs(right_speed)
         
-        linear_velocity = min(max(new_speed,75),150)/15
+        linear_velocity = min(max(new_speed,75),150)/7
 
         # Update the facing direction
         self.facing_dir += angular_velocity
@@ -50,7 +50,7 @@ class Worm:
 
 
     def _is_food_in_vision(self, food):
-        vision_radius = 500  # Radius of the vision cone
+        vision_radius = 100  # Radius of the vision cone
         vision_angle = np.pi / 4  # Angle of the vision cone
 
         # Define the vectors representing the edges of the vision cone
@@ -70,4 +70,4 @@ class Worm:
         
         # Check if the food is within the vision cone
         is_within_cone = np.dot(v1, v_food_normalized) >= 0 and np.dot(v2, v_food_normalized) >= 0
-        return is_within_cone
+        return is_within_cone                       
