@@ -135,7 +135,6 @@ class wormConnectone:
 
 
     def fireNeuron(self,fneuron):
-        global fire
         # The threshold has been exceeded and we fire the neurite
         if fneuron != "MVULVA":
             self.apply(fneuron)

@@ -1,84 +1,35 @@
 import numpy as np
 from trained_connectome_with_bias import wormConnectone
 import time 
-import ray
 
-class GeneticAlgorithm:
-    def __init__(self, population_size, matrix_shape, mutation_rate=0.5, total_episodes=10, training_interval=25):
-        self.population_size = population_size
-        self.matrix_shape = matrix_shape
-        self.mutation_rate = mutation_rate
-        self.total_episodes = total_episodes
+class GeneticRUN:
+    def __init__(self, population_dna,  total_episodes=10, training_interval=25):
+        self.population_dna = population_dna
+
         self.training_interval = training_interval
         self.population = self.initialize_population()
 
     def initialize_population(self):
-        population = []
-        for _ in range(self.population_size):
-            population.append(wormConnectone(weight_m=[-16.39834144, -5.08909839, -9.71061058, 5.88618198, -3.22057452, -7.5491297, -24.39183127, -2.36577854, 6.2843566, 1.93263778, 5.50560142, 1.86040237, -14.02705477, 2.78594974, 12.35488767, 9.69635845, -0.62231118, -19.62616898, 11.8494034, -12.61881154, 5.00638618, -15.79134968, -2.8022389, -18.86614217, 13.71719024, -4.84958004, 9.22207756, -25.86594097, 15.38151109, 4.50167717, -0.31066895, -9.52712318, -15.20166699, 11.65248643, -11.77073393, 12.20329426, 20.68229725, -15.08798345, -20.80723126, -19.18750499, -11.14659909, 1.33659052, -25.18211546, 11.35325793, -12.37709474, -3.2377641, 9.16658119, 3.46170266, -5.3428703, -5.59997311, 12.0380532, -4.73976305, 18.70452503, -7.05601509, 12.96367175, 13.36520303, 14.07766944, -15.83875637, -10.40410413, 12.23872134, -6.14704882, 8.6061554, -9.00019889, -20.41995758, 3.30500727, 8.432837, 24.42368381, 12.1767956, -2.10392767, -19.89067045, -9.71899914, -23.83838964, 1.74374131, 9.88018051, 10.70158414, -6.87998785, 1.13510173, -27.23924895, 13.09978695, 7.66804838, 9.17067215, -4.24736895, 29.99883999, 4.20779797, -0.35019974, -1.56274878, -24.51830425, -5.75920028, 0.98141404, 2.36307091, 9.62261954, 1.66483125, -28.36135288, 24.38687488, 2.33379762, -1.18721579, -12.1479646, 22.93716491, -9.58197733, 12.14607173, 12.61153816, 0.88010487, -4.07509433, -26.14566973, 12.94256108, 6.55263305, -2.6946327, -13.03971837, -9.71070769, -23.74145783, 0.08478168, -3.21821196, 4.63593645, 9.09059456, -17.87616063, 6.50835185, -9.49779797, -15.25197979, -4.40902709, 7.59281742, -9.31414856, 12.10121293, 1.54818197, 0.26949285, 1.81229682, 2.75466455, 17.64901648, -14.29793028, -11.93407112, -2.08393159, 4.41968559, 1.5376456, -7.96219334, -3.99441715, -20.60212636, -12.36857067, -2.63442188, -7.94342213, -11.2553526, -13.72483683, -18.94930886, -11.52962396, -0.33998104, -17.52571243, -13.53001794, -13.69050882, 3.3171495, 6.35672938, -2.42751191, -16.90480925, 6.12244543, -5.15077657, 7.06263102, -14.58383221, -0.90884839, 7.43713804, 3.60827215, -3.00983082, 14.60593454, -14.10350422, -27.11613717, 36.98387818, 0.11352424, -5.09411179, -3.40257102, -4.39429239, -4.88721271, -9.34850006, 9.69805866, -0.22826773, 15.72462576, -4.84820748, 0.18736253, 8.47914454, -0.60106012, 5.88985208, -9.04779227, -0.12627606, 6.71308321, -17.73564343, 0.06317312, 6.6745527, -11.62032497, -6.30114191, 18.52093278, -1.64543211, 1.74407529, -12.72338948, 4.88912442, 8.63865667, 19.81951997, -13.82870994, -10.44307364, -11.97883576, 14.54248529, 12.0235517, 4.09037842, 8.30150945, 6.14743984, 18.1317999, -4.65320528, 5.5255594, -0.78533029, -18.2824915, -24.15142386, 2.19981422, -18.64636906, 16.68226221, 3.20016038, 14.099662, -7.07569044, -1.64999242, -10.92665789, 3.70356061, 10.89214877, -17.40916173, 10.65196031, 10.62668176, -15.54632442, 13.09469924, -0.94115647, -13.29637375, -19.67819048, -15.23347387, -14.72449652, -21.00455215, 15.31228908, -3.82218233, 1.63606363, 10.94359821, 10.77265292, 11.30747197, -11.47563743, 7.521811, -9.26117069, -1.85609478, -1.70135675, 6.53734299, 5.79117091, 5.44915759, 5.13952191, 12.59013182, 9.91665436, 9.00879268, 2.80766279, -31.54020802, -8.18038488, 12.76723267, 14.10030225, 14.66621989, -2.0539816, -2.38110612, 13.30348837, 27.66690114, 4.0960436, 4.85354733, -6.58982097, -4.54478374, -2.01907384, -15.22930775, -2.93535759, -13.91445251, -7.85737986, 4.06372752, -2.65110161, -3.71235578, 8.0242075, -1.34951297, 2.59531708, -21.10326194, 4.90647469, -11.19514803, 11.69455102, 5.11391048, -19.30660943, -23.76272413, 5.35459307, 14.2497043, 4.52912983, -10.4474156, 3.2167049, -4.74453374, -1.02568487, 11.49059123, -8.90674989, 16.30557617, 18.71094484, 23.69312216, -5.85596708, 12.02152636, 3.73758753, 9.75393754, -27.28812237, 2.34468985, 8.90423367, -17.64929809, 2.98457321, -17.70483881, -18.86709757, 8.21641777, -13.39180742, 4.49872549, -5.50068526, -14.38739326, -2.22184081, -16.52825201, 2.32869975, 5.89870439, -0.93537135, -4.67887798, 11.01153674, 15.08343037, 13.44815234, 6.43028727, 2.70703611, 11.39204848, -4.59927727, 14.47989096, -9.59464213, -14.29033559, 6.44342128, 3.15350545, 15.4821982, -16.19057429, 13.06943462, -20.22744015, -3.86103565, -10.73845979, -3.01068261, 26.34887398, -1.17304589, 2.56128987, -3.81631774, 13.07601096, -5.89927113, 0.06080852, 2.30671882, -0.1475208, -2.44669689, 23.99776029, -18.0041321, 22.10484861, 0.86953685, 0.39124965, -12.02031779, 6.97484024, -12.60137663, -10.50906485, 12.67456852, 12.47224031, -29.89443746, 8.20799514, 10.54135567, 15.84949663, -12.08422367, -3.24619398, -3.75870123, 4.11219111, 7.05855821, -5.54957479, 3.32272198, -11.98552701, -13.95462446, -3.60136248, -4.88932915, 2.56049387, -2.33796368, 4.29730599, 6.31840636, -1.32203388, 10.23294335, -18.43939045, -21.02894823, -1.03616325, -7.24394124, -13.70908517, -12.71189414, -16.26919278, 22.89045728, -6.11644012, -9.8371468, -9.76611287, -1.28090972, 8.82379632, 4.51531844, -8.15512067, 38.16353937, -5.86022538, -15.52381592, 31.17537025, -11.33357797, -3.60824412, 1.98915924, -15.28762161, 5.19142561, 20.02176004]))
+        population = [wormConnectone(weight_m=self.population_dna)]
         return population
 
     def evaluate_fitness(self, candidate,worm_num, env):
-        cumulative_rewards = []
-        env.reset()
-        
-        for _ in range(self.total_episodes):
+            env.reset()
             observation = env._get_observations()
-            
-            #print(candidate.weight_matrix)
-            done = False
-            cumulative_reward = 0.0
             for _ in range(self.training_interval):
                 movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food,self.training_interval)
                 next_observation, reward, done, _ = env.step(movement,worm_num,candidate)
                 
-                env.render(worm_num)
-                cumulative_reward += reward
+                env.render(worm_num)                
                 observation = next_observation
-            cumulative_rewards.append(cumulative_reward)
-            
-            
-        return np.sum(cumulative_rewards)
 
-    def select_parents(self, fitnesses, num_parents):
-        parents = np.argsort(fitnesses)[-num_parents:]
-        return [self.population[i] for i in parents]
-
-    def crossover(self, parents, num_offspring):
-        offspring = []
-        for _ in range(num_offspring):
-            parent1 = parents[np.random.randint(len(parents))]
-            parent2 = parents[np.random.randint(len(parents))]
-            splice_point = np.random.randint(1, len(parent1.weight_matrix))  # Ensure at least one element is selected
-            child_weight_matrix = np.concatenate((parent1.weight_matrix[:splice_point], parent2.weight_matrix[splice_point:]))            
-            offspring.append(wormConnectone(weight_m=child_weight_matrix))
-        return offspring
-
-    def mutate(self, offspring):
-        for child in offspring:
-            child.weight_matrix += (np.random.randn(self.matrix_shape))*10 * self.mutation_rate
-        return offspring
     
     def evaluate_fitness_ray(self, candidate, worm_num, env):
-        
         cumulative_reward = self.evaluate_fitness(candidate, worm_num, env)
         return cumulative_reward
 
     def run(self, env, generations=50):
-
-        prev_weight_matrix = None
-        total_diff = 0
-        num_diffs = 0
-
         for generation in range(generations):
-            fitnesses = []
-            
-            # Parallel evaluation of fitness using Ray
-            futures = []
             for worm_num, candidate in enumerate(self.population):
                 self.evaluate_fitness(candidate, worm_num, env)
-
-        # Return the best solution found
-        fitnesses = [self.evaluate_fitness(candidate, worm_num, env) for worm_num, candidate in enumerate(self.population)]
-        best_index = np.argmax(fitnesses)
-        return self.population[best_index].weight_matrix
+                candidate.createpostSynaptic()
