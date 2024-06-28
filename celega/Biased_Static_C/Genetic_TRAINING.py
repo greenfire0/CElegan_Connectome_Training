@@ -54,10 +54,11 @@ class GeneticAlgorithm:
             offspring.append(wormConnectone(weight_m=child_weight_matrix))
         return offspring
 
-    def mutate(self, offspring):
+    def mutate(self, offspring: np.ndarray) -> np.ndarray:
         for child in offspring:
-            #print(np.random.rand())
-            child.weight_matrix += (np.random.randn(self.matrix_shape))*10 * self.mutation_rate
+            if np.random.rand() < self.mutation_rate:
+                mutation = np.random.standard_cauchy(size=self.matrix_shape) * 5
+                child.weight_matrix += mutation
         return offspring
     
     @ray.remote

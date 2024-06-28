@@ -86,23 +86,30 @@ all_neuron_names = [
 # arr=postSynaptic['AIBR'] potential optimization
 
 from weight_dict import dict
-    # Add other neuron combinations as needed
-combined_weights= dict
+
 
 
 class wormConnectone:
-    def __init__(self, weight_m):
-        self.weight_matrix = weight_m
+    def __init__(self,weight_matrix):
+        self.combined_weights = {neuron: {post_neuron: 0.0 for post_neuron in dict[neuron]} for neuron in dict}
         self.fire=0
-        self.spike_count=2
         self.postSynaptic = {}
+        self.weight_matrix=weight_matrix
+        
         self.createpostSynaptic()
+        #self.modify_combined_weights()
+        
+    def modify_combined_weights(self):
+        index = 0
+        for pre_neuron, connections in self.combined_weights.items():
+            for post_neuron in connections:
+                self.combined_weights[pre_neuron][post_neuron] = self.weight_matrix[index]
+                index += 1
         
 
 
-
     def apply(self,neuron_name):
-                for neuron, weight in combined_weights[neuron_name].items():
+                for neuron, weight in self.combined_weights[neuron_name].items():
                         #print(neuron, weight,neuron_name)
                         self.postSynaptic[neuron][nextState] += weight
 
@@ -168,44 +175,17 @@ class wormConnectone:
         return movement
 
 
-
-    def move(self, dist,sees_food,interval):
-                            if dist > 0 and dist < 100:
-                                    self.dendriteAccumulate("FLPR")
-                                    self.dendriteAccumulate("FLPL")
-                                    self.dendriteAccumulate("ASHL")
-                                    self.dendriteAccumulate("ASHR")
-                                    self.dendriteAccumulate("IL1VL")
-                                    self.dendriteAccumulate("IL1VR")
-                                    self.dendriteAccumulate("OLQDL")
-                                    self.dendriteAccumulate("OLQDR")
-                                    self.dendriteAccumulate("OLQVR")
-                                    self.dendriteAccumulate("OLQVL")
-                                    return (self.runconnectome())
-                                    
-                            else:
-                                
-                                    if sees_food:
-                                            self.dendriteAccumulate("ADFL")
-                                            self.dendriteAccumulate("ADFR")
-                                            self.dendriteAccumulate("ASGR")
-                                            self.dendriteAccumulate("ASGL")
-                                            self.dendriteAccumulate("ASIL")
-                                            self.dendriteAccumulate("ASIR")
-                                            self.dendriteAccumulate("ASJR")
-                                            self.dendriteAccumulate("ASJL")
-                                            return self.runconnectome()
-                                            #tfood += 0.5
-                                            #if tfood > 20:
-                                            #        tfood = 0
-
-                                    else: return self.runconnectome()
-    def createpostSynaptic(self):
-        # The postSynaptic dictionary maintains the accumulated values for
-        # each neuron and muscle. The Accumulated values are initialized to Zero
-        for muscle in muscleList:
-            self.postSynaptic[muscle] = [0,0]
-        for neuron in all_neuron_names:
-            self.postSynaptic[neuron] = [0,0]
-        self.postSynaptic['BIAS']=[0,0]
+    def move(self, dist, sees_food, interval):
+        if dist > 0 and dist < 100:
+            for dneuron in ["FLPR", "FLPL", "ASHL", "ASHR", "IL1VL", "IL1VR", "OLQDL", "OLQDR", "OLQVR", "OLQVL"]:
+                self.dendriteAccumulate(dneuron)
+        else:
+            if sees_food:
+                for dneuron in ["ADFL", "ADFR", "ASGR", "ASGL", "ASIL", "ASIR", "ASJR", "ASJL"]:
+                    self.dendriteAccumulate(dneuron)
         
+        return self.runconnectome()
+    
+
+    def createpostSynaptic(self):
+        self.postSynaptic = {neuron: [0, 0] for neuron in all_neuron_names}
