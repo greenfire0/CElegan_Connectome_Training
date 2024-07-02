@@ -2,6 +2,10 @@ import numpy as np
 from trained_connectome import wormConnectone
 import time 
 import ray
+from graphing import graph
+from weight_dict import dict
+import tracemalloc
+
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size, matrix_shape, mutation_rate=0.5, total_episodes=10, training_interval=25):
@@ -70,51 +74,56 @@ class Genetic_Dyn_Algorithm:
         return cumulative_reward
 
     def run(self, env, generations=50):
-        #ray.init(ignore_reinit_error=True)
+        tracemalloc.start()
 
-        prev_weight_matrix = None
-        total_diff = 0
-        num_diffs = 0
+        # Initialize Ray
+        ray.init(ignore_reinit_error=True)
 
-        for generation in range(generations):
-            fitnesses = []
-            
-            # Parallel evaluation of fitness using Ray
-            futures = []
-            for worm_num, candidate in enumerate(self.population):
-                futures.append(self.evaluate_fitness_ray.remote(self=self,candidate=candidate, worm_num=worm_num, env=env))
-                
-                #fitnesses.append(self.evaluate_fitness(candidate, worm_num, env))
-            # Gather results from Ray futures
-            fitnesses = ray.get(futures)
+        try:
+            for generation in range(generations):
+                fitnesses = []
 
-            best_fitness = max(fitnesses)
-            print(f"Generation {generation + 1} - Best Fitness: {best_fitness}")
+                # Parallel evaluation of fitness using Ray
+                futures = []
+                for worm_num, candidate in enumerate(self.population):
+                    futures.append(self.evaluate_fitness_ray.remote(self, candidate=candidate, worm_num=worm_num, env=env))
 
-            num_parents = self.population_size // 2
-            parents = self.select_parents(fitnesses, num_parents)
-            print(f"Generation {generation + 1} - Fitness Standard Deviation: {np.std(fitnesses):.4f}")
+                # Gather results from Ray futures
+                fitnesses = ray.get(futures)
 
-            num_offspring = self.population_size - num_parents
-            offspring = self.crossover(parents, num_offspring)
-            offspring = self.mutate(offspring)
-            self.population = parents + offspring
-            
-            current_weight_matrix = self.population[0].weight_matrix
-            
-            if prev_weight_matrix is not None:
-                diff = np.abs(current_weight_matrix - prev_weight_matrix)
-                avg_diff = np.mean(diff)
-                total_diff += avg_diff
-                num_diffs += 1
-                overall_avg_diff = total_diff / num_diffs
-                print(f"Generation {generation + 1} - Average Weight Matrix Difference: {overall_avg_diff:.4f}")
-            
-            prev_weight_matrix = current_weight_matrix
+                best_fitness = max(fitnesses)
+                print(f"Generation {generation + 1} - Best Fitness: {best_fitness}")
 
-        ray.shutdown()
+                num_parents = self.population_size // 2
+                parents = self.select_parents(fitnesses, num_parents)
+
+                num_offspring = self.population_size - num_parents
+                offspring = self.crossover(parents, num_offspring)
+                offspring = self.mutate(offspring)
+                self.population = parents + offspring
+
+                current_weight_matrix = self.population[0].weight_matrix
+                graph(current_weight_matrix, dict, generation)
+
+                # Explicitly delete unused variables to free memory
+                del futures, fitnesses, parents, offspring
+
+                # Optionally, force garbage collection
+                import gc
+                gc.collect()
+
+        finally:
+            # Ensure Ray is shut down even if an error occurs
+            ray.shutdown()
 
         # Return the best solution found
         fitnesses = [self.evaluate_fitness(candidate, worm_num, env) for worm_num, candidate in enumerate(self.population)]
         best_index = np.argmax(fitnesses)
+        
+        snapshot = tracemalloc.take_snapshot()
+        top_stats = snapshot.statistics('lineno')
+        print("[ Top 10 ]")
+        for stat in top_stats[:10]:
+            print(stat)
+        
         return self.population[best_index].weight_matrix

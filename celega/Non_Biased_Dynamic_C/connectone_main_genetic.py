@@ -8,10 +8,10 @@ from trained_connectome import all_neuron_names
 from Genetic_running import GeneticRUN
 # Genetic Algorithm parameters
 from Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm
-from graphing import graph, graph_weight_sum_divided_by_connections
+from graphing import graph, graph_dif
 from weight_dict import dict
 population_size = 16
-generations = 300
+generations = 50
 mutation_rate = 0.5
 training_interval = 150  # Train the agent every 25 steps
 total_episodes = 1  # Number of episodes per evaluation
@@ -22,10 +22,15 @@ env = WormSimulationEnv(num_worms=population_size)
 ga = Genetic_Dyn_Algorithm(population_size, train_params, mutation_rate, total_episodes, training_interval)
 best_weight_matrix = ga.run(env, generations)
 print("Best weight matrix found:", best_weight_matrix)
+values_list = []
+
+for sub_dict in dict.values():
+    # Extend the values list with the values from each sub-dictionary
+    values_list.extend(sub_dict.values())
 
 
-
-graph(best_weight_matrix,dict)
+#graph(best_weight_matrix,dict)
+graph_dif(best_weight_matrix,np.array(values_list),dict)
 #graph_weight_sum_divided_by_connections(best_weight_matrix, dict)
 # Run the simulation with the best weight matrix
 GeneticRUN(best_weight_matrix, total_episodes, training_interval).run(env)

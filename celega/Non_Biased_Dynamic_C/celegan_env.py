@@ -26,7 +26,6 @@ class WormSimulationEnv(gym.Env):
         self.generate_food_pattern()
         self.generate_circle_of_food()
         #self.generate_circle_of_food()
-        self.steps_without_food = 0
         self.max_steps_without_food = 25
 
     def generate_circle_of_food(self, num_food=40, radius=200):
@@ -53,7 +52,6 @@ class WormSimulationEnv(gym.Env):
         self.food = []
         self.generate_circle_of_food()
         self.generate_food_pattern()
-        self.steps_without_food = 0
         return self._get_observations()
 
 
@@ -66,7 +64,6 @@ class WormSimulationEnv(gym.Env):
         self._check_eat_food(candidate)
         done = self._check_done()
 
-        self.steps_without_food += 1
 
         return observations, rewards, done, {}
 
@@ -78,7 +75,6 @@ class WormSimulationEnv(gym.Env):
                         candidate.move(10000,False,-10)
                         
                     self.food.remove(food)
-                    self.steps_without_food = 0
                     break
 
     def render(self,worm_num=0, mode='human'):
@@ -130,7 +126,6 @@ class WormSimulationEnv(gym.Env):
         worm= self.worms[worm_num]
         wall_reward = 0
         if any(np.linalg.norm(np.array(worm.position) - np.array(food)) < self.foodradius for food in self.food):
-                self.steps_without_food = 0
                 wall_reward += 20
                 
 
