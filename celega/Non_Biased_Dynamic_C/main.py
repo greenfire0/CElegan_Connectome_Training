@@ -1,5 +1,5 @@
 
-import gym
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -11,6 +11,7 @@ from Genetic_running import GeneticRUN
 from Genetic_Dynamic_TRAINING import * 
 #from graphing import graph, graph_dif
 from weight_dict import dict
+from util.write_read_txt import write_array_to_file
 population_size = 16
 generations = 500
 mutation_rate = 1
@@ -33,15 +34,7 @@ print("Best weight matrix found:", best_weight_matrix)
 
 
 
-def write_array_to_file(array, filename):
-    """Write an array to a text file, with each element on a new line."""
-    try:
-        with open(filename, 'w') as file:
-            for item in array:
-                file.write(f"{item}\n")
-        print(f"Array successfully written to {filename}")
-    except Exception as e:
-        print(f"An error occurred while writing to the file: {e}")
+
     
 write_array_to_file(best_weight_matrix,"array.txt")
 

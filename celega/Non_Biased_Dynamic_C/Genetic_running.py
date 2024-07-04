@@ -1,9 +1,8 @@
 import numpy as np
 from trained_connectome import wormConnectone
-import time 
 
 class GeneticRUN:
-    def __init__(self, population_dna,  total_episodes=10, training_interval=25):
+    def __init__(self, population_dna, training_interval=25):
         self.population_dna = population_dna
 
         self.training_interval = training_interval
