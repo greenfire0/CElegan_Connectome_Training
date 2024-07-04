@@ -1,10 +1,9 @@
 import numpy as np
-from trained_connectome import wormConnectone
-import time 
 import ray
+from Worm_Env.trained_connectome import wormConnectone
 from graphing import graph
-from weight_dict import dict
-
+from Worm_Env.weight_dict import dict
+from tqdm import tqdm
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size, matrix_shape, mutation_rate=0.5, total_episodes=10, training_interval=25,genome=None):
@@ -38,7 +37,7 @@ class Genetic_Dyn_Algorithm:
             #print(candidate.weight_matrix)
             done = False
             for _ in range(self.training_interval):
-                movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food,self.training_interval)
+                movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food)
                 next_observation, reward, done, _ = env.step(movement,worm_num,candidate)
                 
                 #env.render(worm_num)
@@ -100,7 +99,7 @@ class Genetic_Dyn_Algorithm:
         ray.init(ignore_reinit_error=True)
 
         try:
-            for generation in range(generations):
+            for generation in tqdm(range(generations), desc="Generations"):
                 fitnesses = []
 
                 # Parallel evaluation of fitness using Ray
@@ -115,7 +114,7 @@ class Genetic_Dyn_Algorithm:
                 best_index = np.argmax(fitnesses)
                 best_candidate = self.population[best_index]
                 best_fitness = fitnesses[best_index]
-                print(f"Generation {generation + 1} - Best Fitness: {best_fitness}")
+                #print(f"Best Fitness: {best_fitness}")
                 # Select parents based on fitness
                 num_parents = self.population_size // 2
                 parents = self.select_parents(fitnesses, num_parents)
