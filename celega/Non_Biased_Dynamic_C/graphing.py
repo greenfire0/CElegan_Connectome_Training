@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from trained_connectome import all_neuron_names
-
+##gabriel
 def graph(combined_weights, connections_dict, generation):
     # Create a list of neuron labels from connections_dict
     neuron_labels = list(all_neuron_names)
@@ -30,6 +30,8 @@ def graph(combined_weights, connections_dict, generation):
     sorted_matrix_df = weight_matrix_df.iloc[sorted_row_indices]
         
     max_weight = np.max(np.abs(sorted_matrix_df.values))
+
+    max_weight=30
     vmin = -max_weight
     vmax = max_weight
     
@@ -129,8 +131,6 @@ def graph(combined_weights, connections_dict, generation):
     # Subplot for distribution of weights
     
     
-    # Subplot for distribution of weights
-     # Reshape combined_weights into a square matrix
     weights_by_pre_neurons = {}
 
     for post_neuron in all_neuron_names:
@@ -143,8 +143,7 @@ def graph(combined_weights, connections_dict, generation):
                 weights_by_pre_neurons[num_pre_neurons] = []
             weights_by_pre_neurons[num_pre_neurons].extend(weights)
 
-    num_pre_neurons_list = list(weights_by_pre_neurons.keys())
-    num_pre_neurons_array = np.array(num_pre_neurons_list)
+    num_pre_neurons_array = np.array(list(weights_by_pre_neurons.keys()))
 
     # Automatically determine bin edges using numpy's histogram function
     num_bins = 10  # You can adjust the number of bins if needed
@@ -169,7 +168,7 @@ def graph(combined_weights, connections_dict, generation):
         upper_edge = bin_edges[i + 1]
         weights = weights_by_bin[lower_edge]
         if weights:
-            count_above_90 = sum(w > 90 for w in weights)
+            count_above_90 = sum(np.abs(w) > 15 for w in weights)  # Changed threshold to 90 as per your description
             percentage = count_above_90 / len(weights)  # Percentage as a fraction (out of 1)
         else:
             percentage = 0
@@ -180,9 +179,9 @@ def graph(combined_weights, connections_dict, generation):
     plt.subplot(3, 3, 5)
     plt.bar(bin_labels, percentages, color='lightcoral', edgecolor='black')
     plt.xlabel('Number of Pre-Neurons (Bin Ranges)')
-    plt.ylabel('Percentage of Weights > 90')
-    plt.title('Percentage of Weights Greater Than 90 by Number of Pre-Neurons')
-    plt.xticks(rotation=45)  # Rotate x-ticks if necessary for readability
+    plt.ylabel('Percentage of Weights > 20')
+    plt.title('Percentage of Weights Greater Than 20 by Number of Pre-Neurons')
+    plt.xticks(rotation=45, ha='right') 
 
 
 
@@ -201,7 +200,7 @@ def graph(combined_weights, connections_dict, generation):
     # Plotting histogram using plt.bar
     bin_centers = (bins[:-1] + bins[1:]) / 2
     plt.bar(bin_centers, hist, width=np.diff(bins), color='lightcoral', edgecolor='black')
-    
+    plt.xlim = [vmin,vmax]
     plt.xlabel('Weight')
     plt.ylabel('Frequency')
     plt.title('Distribution of Weights (Non-zero)')
@@ -212,7 +211,7 @@ def graph(combined_weights, connections_dict, generation):
     # Show the plot
     #plt.show()
     
-    filename = f'mtp/weight_matrix_generation_{10000+generation}.png'
+    filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/mtp/weight_matrix_generation_{10000+generation}.png'
     plt.savefig(filename)
     plt.close()
-
+    del square_weight_matrix, weight_matrix_df, sorted_matrix_df, flattened_weights, non_zero_weights

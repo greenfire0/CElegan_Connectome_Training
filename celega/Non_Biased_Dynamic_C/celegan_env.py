@@ -13,20 +13,10 @@ class WormSimulationEnv(gym.Env):
         self.dimy = 1200
         self.num_worms = num_worms
         super(WormSimulationEnv, self).__init__()
-        self.action_space = spaces.Box(low=np.array([[-1.0, -1.0]] * num_worms), 
-                                       high=np.array([[1.0, 1.0]] * num_worms), 
-                                       dtype=np.float32)  # Continuous action space for motor speeds
-        self.observation_space = spaces.Box(low=np.array([[0, 0, 0, -np.pi, 0]] * num_worms, dtype=np.float64),
-                                            high=np.array([[self.dimx, self.dimx, self.dimy/2, np.pi, 1]] * num_worms, dtype=np.float64),
-                                            dtype=np.float64)  # (distance_to_wall, x, y, facingDir, seesFood)
-        self.worms = [Worm(position=[1000, 600]) for _ in range(num_worms)]
-        self.food = []
         self.foodradius = 20
         self.fig, self.ax = plt.subplots()
-        self.generate_food_pattern()
-        self.generate_circle_of_food()
-        #self.generate_circle_of_food()
-        self.max_steps_without_food = 25
+        self.range = 200
+        self.reset()
 
     def generate_circle_of_food(self, num_food=40, radius=200):
         for i in range(num_food):
@@ -48,10 +38,11 @@ class WormSimulationEnv(gym.Env):
         self.food.append([950, 1000])
     
     def reset(self):
-        self.worms = [Worm(position=[self.dimx/2, self.dimy/2]) for _ in range(self.num_worms)]
+        self.worms = [Worm(position=[self.dimx/2, self.dimy/2],range=self.range) for _ in range(self.num_worms)]
         self.food = []
         self.generate_circle_of_food()
         self.generate_food_pattern()
+        #self.generate_random_food(20)
         return self._get_observations()
 
 
@@ -81,18 +72,13 @@ class WormSimulationEnv(gym.Env):
         self.ax.clear()
         worm = self.worms[worm_num]
         self.ax.plot(worm.position[0], worm.position[1], 'ro')
-        self.ax.plot([worm.position[0], worm.position[0] + 20 * np.cos(worm.facing_dir)],
-                         [worm.position[1], worm.position[1] + 20 * np.sin(worm.facing_dir)], 'b-')
+        self.ax.plot([worm.position[0], worm.position[0] + 100 * np.cos(worm.facing_dir)],
+                         [worm.position[1], worm.position[1] + 100 * np.sin(worm.facing_dir)], 'b-')
 
-        vision_radius = 100
-        vision_angle = np.pi / 4
-        for angle_offset, color in zip([-vision_angle, 0, vision_angle], ['r', 'g', 'b']):
-                vision_end_x = worm.position[0] + vision_radius * np.cos(worm.facing_dir + angle_offset)
-                vision_end_y = worm.position[1] + vision_radius * np.sin(worm.facing_dir + angle_offset)
-                self.ax.plot([worm.position[0], vision_end_x], [worm.position[1], vision_end_y], color + '-')
+
         worm = self.worms[worm_num]
         for f in self.food:
-            if worm._is_food_in_vision(f):
+            if worm.is_food_close(f):
                     self.ax.plot(f[0], f[1], 'yo')
             else:
                     self.ax.plot(f[0], f[1], 'bo')
@@ -122,16 +108,18 @@ class WormSimulationEnv(gym.Env):
         return np.array(observations)
 
     def _calculate_rewards(self,worm_num):
-        rewards = []
         worm= self.worms[worm_num]
         wall_reward = 0
         if any(np.linalg.norm(np.array(worm.position) - np.array(food)) < self.foodradius for food in self.food):
                 wall_reward += 20
                 
+        vision_radius = self.range  # The maximum distance for food reward gradient
 
-        if worm.sees_food:
-                wall_reward += 0.5
-
+        # Calculate the reward based on the distance to each food item
+        for food in self.food:
+            distance_to_food = np.linalg.norm(np.array(worm.position) - np.array(food))
+            if distance_to_food < vision_radius:
+                wall_reward += max(0, (vision_radius - distance_to_food) / vision_radius) / 30
 
 
         return wall_reward
