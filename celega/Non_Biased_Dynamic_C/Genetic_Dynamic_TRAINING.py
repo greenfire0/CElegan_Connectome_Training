@@ -1,7 +1,7 @@
 import numpy as np
 import ray
 from Worm_Env.trained_connectome import wormConnectone
-from graphing import graph
+from graphing import graph,graph_comparison
 from Worm_Env.weight_dict import dict
 from tqdm import tqdm
 
@@ -12,6 +12,7 @@ class Genetic_Dyn_Algorithm:
         self.mutation_rate = mutation_rate
         self.total_episodes = total_episodes
         self.training_interval = training_interval
+        self.original_genome = genome
         self.population = self.initialize_population(genome)
 
     def initialize_population(self,genome=None):
@@ -25,27 +26,29 @@ class Genetic_Dyn_Algorithm:
                 population.append(wormConnectone(weight_matrix=np.array(genome, dtype=float))) 
         return population
 
-    def evaluate_fitness(self, candidate,worm_num, env):
+    def evaluate_fitness(self, candidate,worm_num, env,prob_type):
         cumulative_rewards = []
-        env.reset()
+        
         candidate.modify_combined_weights()
-        for _ in range(self.total_episodes):
-            observation = env._get_observations()
-            #print(candidate.weight_matrix)
-            
-            #print(list(candidate.combined_weights.items())[0:2])
-            #print(candidate.weight_matrix)
-            done = False
-            for _ in range(self.training_interval):
-                movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food)
-                next_observation, reward, done, _ = env.step(movement,worm_num,candidate)
+        for a in prob_type:
+            env.reset(a)
+            for _ in range(self.total_episodes):
+                observation = env._get_observations()
+                #print(candidate.weight_matrix)
                 
-                #env.render(worm_num)
-                observation = next_observation
-                cumulative_rewards.append(reward)
-            
-            
-        return np.sum(cumulative_rewards)
+                #print(list(candidate.combined_weights.items())[0:2])
+                #print(candidate.weight_matrix)
+                done = False
+                for _ in range(self.training_interval):
+                    movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food)
+                    next_observation, reward, done, _ = env.step(movement,worm_num,candidate)
+                    
+                    #env.render(worm_num)
+                    observation = next_observation
+                    cumulative_rewards.append(reward)
+                
+                
+            return np.sum(cumulative_rewards)
 
     def select_parents(self, fitnesses, num_parents):
         parents = np.argsort(fitnesses)[-num_parents:]
@@ -88,12 +91,12 @@ class Genetic_Dyn_Algorithm:
         return offspring
     
     @ray.remote
-    def evaluate_fitness_ray(self, candidate, worm_num, env):
+    def evaluate_fitness_ray(self, candidate, worm_num, env,pat):
         
-        cumulative_reward = self.evaluate_fitness(candidate, worm_num, env)
+        cumulative_reward = self.evaluate_fitness(candidate, worm_num, env,pat)
         return cumulative_reward
 
-    def run(self, env, generations=50):
+    def run(self, env,old_wm, generations=50):
 
         # Initialize Ray
         ray.init(ignore_reinit_error=True)
@@ -101,11 +104,12 @@ class Genetic_Dyn_Algorithm:
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 fitnesses = []
+                pattern =  np.random.choice(["circle", "square", "clusters", "triangle", "grid"], size=3, replace=False)
 
                 # Parallel evaluation of fitness using Ray
                 futures = []
                 for worm_num, candidate in enumerate(self.population):
-                    futures.append(self.evaluate_fitness_ray.remote(self, candidate=candidate, worm_num=worm_num, env=env))
+                    futures.append(self.evaluate_fitness_ray.remote(self, candidate=candidate, worm_num=worm_num, env=env,pat=pattern))
                     #fitnesses.append(self.evaluate_fitness(candidate, worm_num, env))
                 # Gather results from Ray futures
                 fitnesses = ray.get(futures)
@@ -114,7 +118,7 @@ class Genetic_Dyn_Algorithm:
                 best_index = np.argmax(fitnesses)
                 best_candidate = self.population[best_index]
                 best_fitness = fitnesses[best_index]
-                #print(f"Best Fitness: {best_fitness}")
+                print(f"Best Fitness: {best_fitness}")
                 # Select parents based on fitness
                 num_parents = self.population_size // 2
                 parents = self.select_parents(fitnesses, num_parents)
@@ -127,10 +131,9 @@ class Genetic_Dyn_Algorithm:
                 # Create the new population, ensuring the best candidate survives
                 self.population = parents + offspring
                 self.population.append(best_candidate)
-
                 # Graph the best candidate's weight matrix
-                graph(self.population[0].weight_matrix, dict, generation)
-
+                #graph(self.population[0].weight_matrix, dict, generation)
+                graph_comparison(self.population[0].weight_matrix,np.array(old_wm),dict,generation)
                 # Explicitly delete unused variables to free memory
                 del fitnesses, parents, offspring
 

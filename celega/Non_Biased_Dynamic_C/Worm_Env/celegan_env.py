@@ -13,7 +13,7 @@ class WormSimulationEnv(gym.Env):
         self.foodradius = 20
         self.fig, self.ax = plt.subplots()
         self.range = 150
-        self.reset()
+        #self.reset()
 
     def generate_circle_of_food(self, num_food=40, radius=200):
         for i in range(num_food):
@@ -23,23 +23,110 @@ class WormSimulationEnv(gym.Env):
             self.food.append([food_x, food_y])
 
     def generate_random_food(self, num_food=2):
-        for _ in range(num_food):
+        center_x = self.dimx / 2
+        center_y = self.dimy / 2
+
+        while len(self.food) < num_food:
             food_x = np.random.uniform(0, self.dimx)
             food_y = np.random.uniform(0, self.dimy)
-            self.food.append([food_x, food_y])
-    
-    def generate_food_pattern(self):
+
+            # Calculate distance from the center
+            distance_from_center = np.sqrt((food_x - center_x) ** 2 + (food_y - center_y) ** 2)
+
+            if distance_from_center >= 400:
+                self.food.append([food_x, food_y])
+
+    def generate_food_pattern(self, pattern_type="random", num_food=10):
+        self.food = []
+        
+        if pattern_type == "random":
+            self.generate_random_food(num_food)
+            
+        elif pattern_type == "grid":
+            grid_size = int(np.sqrt(num_food))
+            spacing_x = self.dimx / (grid_size + 1)
+            spacing_y = self.dimy / (grid_size + 1)
+            for i in range(1, grid_size + 1):
+                for j in range(1, grid_size + 1):
+                    self.food.append([i * spacing_x, j * spacing_y])
+                    
+        elif pattern_type == "clusters":
+            cluster_centers = [
+                [self.dimx / 2, self.dimy / 4], 
+                [self.dimx / 4, self.dimy / 2], 
+                [self.dimx * 3 / 4, self.dimy / 2], 
+                [self.dimx / 2, self.dimy * 3 / 4]
+            ]
+            for center in cluster_centers:
+                for _ in range(num_food // len(cluster_centers)):
+                    offset_x = np.random.uniform(-50, 50)
+                    offset_y = np.random.uniform(-50, 50)
+                    self.food.append([center[0] + offset_x, center[1] + offset_y])
+
+        elif pattern_type == "square":
+            center_x, center_y = self.dimx / 2, self.dimy / 2
+            side_length = min(self.dimx, self.dimy) / 2
+            for i in range(num_food):
+                side = i // (num_food // 4)
+                position = (i % (num_food // 4)) / (num_food // 4 - 1)
+                if side == 0:  # Top side
+                    food_x = center_x - side_length / 2 + position * side_length
+                    food_y = center_y - side_length / 2
+                elif side == 1:  # Right side
+                    food_x = center_x + side_length / 2
+                    food_y = center_y - side_length / 2 + position * side_length
+                elif side == 2:  # Bottom side
+                    food_x = center_x + side_length / 2 - position * side_length
+                    food_y = center_y + side_length / 2
+                else:  # Left side
+                    food_x = center_x - side_length / 2
+                    food_y = center_y + side_length / 2 - position * side_length
+                self.food.append([food_x, food_y])
+
+        elif pattern_type == "circle":
+            center_x, center_y = self.dimx / 2, self.dimy / 2
+            radius = min(self.dimx, self.dimy) / 4
+            for i in range(num_food):
+                angle = 2 * np.pi * i / num_food
+                food_x = center_x + radius * np.cos(angle)
+                food_y = center_y + radius * np.sin(angle)
+                self.food.append([food_x, food_y])
+                
+        elif pattern_type == "triangle":
+            top_vertex = (self.dimx / 2, self.dimy / 4)
+            left_vertex = (self.dimx / 4, self.dimy * 3 / 4)
+            right_vertex = (self.dimx * 3 / 4, self.dimy * 3 / 4)
+            vertices = [top_vertex, left_vertex, right_vertex]
+            for i in range(num_food):
+                p = i / (num_food - 1)
+                if p <= 1/3:
+                    ratio = p / (1/3)
+                    x = top_vertex[0] + ratio * (left_vertex[0] - top_vertex[0])
+                    y = top_vertex[1] + ratio * (left_vertex[1] - top_vertex[1])
+                elif p <= 2/3:
+                    ratio = (p - 1/3) / (1/3)
+                    x = left_vertex[0] + ratio * (right_vertex[0] - left_vertex[0])
+                    y = left_vertex[1] + ratio * (right_vertex[1] - left_vertex[1])
+                else:
+                    ratio = (p - 2/3) / (1/3)
+                    x = right_vertex[0] + ratio * (top_vertex[0] - right_vertex[0])
+                    y = right_vertex[1] + ratio * (top_vertex[1] - right_vertex[1])
+                self.food.append([x, y])
+
+    def generate_food_pattern_old(self):
         self.food.append([1000, 600])
         self.food.append([900, 1000])
         self.food.append([925, 1000])
         self.food.append([950, 1000])
     
-    def reset(self):
+    def reset(self, pattern_type, num_food=40):
         self.worms = [Worm(position=[self.dimx/2, self.dimy/2],range=self.range) for _ in range(self.num_worms)]
         self.food = []
-        self.generate_circle_of_food()
-        self.generate_food_pattern()
-        #self.generate_random_food(20)
+        #self.generate_circle_of_food()
+        #self.generate_food_pattern()
+        #self.generate_random_food(40)
+        #print(pattern_type)
+        self.generate_food_pattern(pattern_type, num_food)
         return self._get_observations()
 
 
@@ -108,7 +195,7 @@ class WormSimulationEnv(gym.Env):
         worm= self.worms[worm_num]
         wall_reward = 0
         if any(np.linalg.norm(np.array(worm.position) - np.array(food)) < self.foodradius for food in self.food):
-                wall_reward += 20
+                wall_reward += 30
                 
         vision_radius = self.range  # The maximum distance for food reward gradient
 
@@ -117,7 +204,7 @@ class WormSimulationEnv(gym.Env):
             distance_to_food = np.linalg.norm(np.array(worm.position) - np.array(food))
             if distance_to_food < vision_radius:
                 wall_reward += max(0, (vision_radius - distance_to_food) / vision_radius) / 30
-
+        
         #print(wall_reward)
         return wall_reward
 
