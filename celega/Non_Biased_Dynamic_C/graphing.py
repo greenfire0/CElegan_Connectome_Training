@@ -320,7 +320,7 @@ def graph_comparison(combined_weights1, combined_weights2, connections_dict,gene
         ax.bar(post_neurons, avg_weight_sums, color='skyblue')
         ax.set_xlabel('Post Neurons')
         ax.set_ylabel('Normalized Weight Quotient')
-        #ax.set_ylim([0, 0.01])
+        ax.set_ylim([-0.005, 0.005])
         ax.set_title(title)
         #ax.xticks(rotation=90)  # Rotate x-axis labels for better readability if needed
 
@@ -429,7 +429,7 @@ def graph_comparison(combined_weights1, combined_weights2, connections_dict,gene
         bin_centers = (bins[:-1] + bins[1:]) / 2
         ax.bar(bin_centers, hist_diff, width=np.diff(bins), color='lightcoral', edgecolor='black')
 
-        ax.set_ylim([-125, 125])
+        ax.set_ylim([-150, 150])
         ax.set_xlim(xlim)
         
         ax.set_xlabel('Weight')
@@ -459,7 +459,7 @@ def graph_comparison(combined_weights1, combined_weights2, connections_dict,gene
     
     dif_avg = np.array(val12)-np.array(val22)
     ax3 = plt.subplot(3, 3, 3)
-    plot_avg_weight_by_connections(ax3,dif_avg,post21,'Weight Sum * Number of Connections')
+    plot_avg_weight_by_connections(ax3,dif_avg,post21,'Weight Sum / Number of Connections')
 
     n_values, weight_sum_values1 = calculate_n_weight_sum(combined_weights1)
     n_values, weight_sum_values2 = calculate_n_weight_sum(combined_weights2)

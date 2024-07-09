@@ -25,6 +25,13 @@ def remove_duplicate_images(image_folder):
 
     return unique_images
 
+def delete_all_images(image_folder):
+    for img in sorted(os.listdir(image_folder)):
+        if img.endswith('.png'):
+            img_path = os.path.join(image_folder, img)
+            os.remove(img_path)
+            print(f"Deleted image: {img_path}")
+
 def compile_images_to_video(image_folder, output_video_path, fps=1):
     # Remove duplicate images and get a list of unique image file paths
     unique_images = remove_duplicate_images(image_folder)
@@ -34,10 +41,13 @@ def compile_images_to_video(image_folder, output_video_path, fps=1):
     
     # Write the video file to the specified output path
     clip.write_videofile(output_video_path, codec='libx264')
+    
+    # Delete all images in the folder after video generation
+    delete_all_images(image_folder)
 
 # Specify the folder containing the images and the output video file path
 image_folder = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img'
 output_video_path = 'weight_matrix_video_unclipped_patternfood.mp4'
 
 # Compile the images into a video
-compile_images_to_video(image_folder, output_video_path, fps=3)
+compile_images_to_video(image_folder, output_video_path, fps=10)

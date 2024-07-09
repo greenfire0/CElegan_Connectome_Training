@@ -40,7 +40,7 @@ class WormSimulationEnv(gym.Env):
         self.food = []
         
         if pattern_type == "random":
-            self.generate_random_food(num_food)
+            self.generate_random_food(40)
             
         elif pattern_type == "grid":
             grid_size = int(np.sqrt(num_food))

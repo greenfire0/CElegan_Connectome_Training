@@ -43,12 +43,12 @@ class Genetic_Dyn_Algorithm:
                     movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food)
                     next_observation, reward, done, _ = env.step(movement,worm_num,candidate)
                     
-                    #env.render(worm_num)
+                   # env.render(worm_num)
                     observation = next_observation
                     cumulative_rewards.append(reward)
                 
                 
-            return np.sum(cumulative_rewards)
+        return np.sum(cumulative_rewards)
 
     def select_parents(self, fitnesses, num_parents):
         parents = np.argsort(fitnesses)[-num_parents:]
@@ -80,7 +80,31 @@ class Genetic_Dyn_Algorithm:
 
         return offspring
 
-    def mutate(self, offspring: np.ndarray) -> np.ndarray:
+    def mutate(self, offspring: np.ndarray, n: int = 10) -> np.ndarray:
+        for child in offspring:
+            if np.random.rand() < self.mutation_rate:
+                # Flatten the weight matrix to simplify index manipulation
+                flat_weights = child.weight_matrix.flatten()
+                
+                # Randomly choose `n` indices to mutate
+                indices_to_mutate = np.random.choice(len(flat_weights), size=n, replace=False)
+                
+                # Generate random values between -20 and 20
+                new_values = np.random.uniform(low=-20, high=20, size=n)
+                
+                # Apply the mutations
+                flat_weights[indices_to_mutate] = new_values
+                
+                # Reshape back to original matrix shape
+                child.weight_matrix = flat_weights.reshape(self.matrix_shape)
+                
+                # Optionally print the updated weight matrix
+                # print(child.weight_matrix)
+                
+        return offspring
+    
+
+    def mutate_addition(self, offspring: np.ndarray) -> np.ndarray:
         for child in offspring:
             if np.random.rand() < self.mutation_rate:
                 mutation = np.random.uniform(low=-1, high=1, size=self.matrix_shape)
@@ -104,13 +128,13 @@ class Genetic_Dyn_Algorithm:
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 fitnesses = []
-                pattern =  np.random.choice(["circle", "square", "clusters", "triangle", "grid"], size=3, replace=False)
+                pattern =  ["triangle"]
 
                 # Parallel evaluation of fitness using Ray
                 futures = []
                 for worm_num, candidate in enumerate(self.population):
                     futures.append(self.evaluate_fitness_ray.remote(self, candidate=candidate, worm_num=worm_num, env=env,pat=pattern))
-                    #fitnesses.append(self.evaluate_fitness(candidate, worm_num, env))
+                    #fitnesses.append(self.evaluate_fitness(candidate, worm_num, env,pattern))
                 # Gather results from Ray futures
                 fitnesses = ray.get(futures)
 
@@ -146,7 +170,7 @@ class Genetic_Dyn_Algorithm:
             ray.shutdown()
 
         # Return the best solution found
-        fitnesses = [self.evaluate_fitness(candidate, worm_num, env) for worm_num, candidate in enumerate(self.population)]
+        fitnesses = [self.evaluate_fitness(candidate, worm_num, env,pattern) for worm_num, candidate in enumerate(self.population)]
         best_index = np.argmax(fitnesses)
 
         return self.population[best_index].weight_matrix
