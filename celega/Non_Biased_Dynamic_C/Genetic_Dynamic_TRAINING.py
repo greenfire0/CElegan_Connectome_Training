@@ -67,9 +67,10 @@ class Genetic_Dyn_Algorithm:
 
     def initialize_population(self, genome=None):
         population = []
-        if genome is None:
-            for _ in range(self.population_size):
-                population.append(WormConnectome(weight_matrix=np.random.randn(self.matrix_shape) * 10))
+        population.append(WormConnectome(weight_matrix=np.array(genome, dtype=float), all_neuron_names=all_neuron_names))
+        if genome is not None:
+            for _ in range(self.population_size-1):
+                population.append(WormConnectome(weight_matrix=np.random.uniform(low=-20, high=20, size=self.matrix_shape), all_neuron_names=all_neuron_names))
         else:
             for _ in range(self.population_size):
                 population.append(WormConnectome(weight_matrix=np.array(genome, dtype=float), all_neuron_names=all_neuron_names))
@@ -148,19 +149,17 @@ class Genetic_Dyn_Algorithm:
     def run(self, env, old_wm, generations=50):
         ray.init(ignore_reinit_error=True)
         pattern = [5]
-
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 start_time = time.time()
                 fitnesses = ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, pattern, mLeft, mRight, muscleList, muscles) for worm_num, candidate in enumerate(self.population)])
                 best_index = np.argmax(fitnesses)
-                best_candidate = self.population[best_index]
                 best_fitness = fitnesses[best_index]
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
                 self.population = self.select_parents(fitnesses, self.population_size // 2)
                 offspring = self.crossover(self.population, fitnesses, self.population_size - len(self.population))
                 offspring = self.mutate(offspring)
-                offspring = self.mutate_addition(offspring)
+                #offspring = self.mutate_addition(offspring)
                 self.population.extend(offspring)
             fitnesses = [self.evaluate_fitness(candidate, worm_num, env, pattern) for worm_num, candidate in enumerate(self.population)]
             best_index = np.argmax(fitnesses)
