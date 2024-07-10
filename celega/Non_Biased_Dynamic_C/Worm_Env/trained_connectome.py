@@ -29,8 +29,7 @@ def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
             accumright += post_synaptic[muscle][next_state]
             post_synaptic[muscle][next_state] = 0
     
-    new_speed = min(max(abs(accumleft) + abs(accumright), 75), 150)
-    return accumleft, accumright, new_speed
+    return accumleft, accumright
 
 @njit
 def run_connectome(post_synaptic, combined_weights, threshold, muscles, muscleList, mLeft, mRight, thisState, nextState):

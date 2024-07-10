@@ -50,4 +50,4 @@ image_folder = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Bi
 output_video_path = 'weight_matrix_video_unclipped_patternfood.mp4'
 
 # Compile the images into a video
-compile_images_to_video(image_folder, output_video_path, fps=10)
+compile_images_to_video(image_folder, output_video_path, fps=3)

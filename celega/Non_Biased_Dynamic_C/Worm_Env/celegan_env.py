@@ -3,7 +3,7 @@ import gym
 import numpy as np
 import math
 from numba import njit
-from Worm_Env.c_worm import Worm
+from Worm_Env.c_worm import Worm,is_food_close
 
 class WormSimulationEnv(gym.Env):
     def __init__(self, num_worms=1):
@@ -32,7 +32,8 @@ class WormSimulationEnv(gym.Env):
     def calculate_rewards(worm_pos, food_positions, foodradius, vision_radius):
         reward = 0.0
         for f in food_positions:
-            distance_to_food = np.sqrt((worm_pos[0] - f[0]) ** 2 + (worm_pos[1] - f[1]) ** 2)
+            distance_to_food = np.linalg.norm(worm_pos - f)
+
             if distance_to_food < foodradius:
                 reward += 30.0
             if distance_to_food < vision_radius:
@@ -106,7 +107,6 @@ class WormSimulationEnv(gym.Env):
             top_vertex = (dimx / 2, dimy / 4)
             left_vertex = (dimx / 4, dimy * 3 / 4)
             right_vertex = (dimx * 3 / 4, dimy * 3 / 4)
-            vertices = [top_vertex, left_vertex, right_vertex]
             for i in range(num_food):
                 p = i / (num_food - 1)
                 if p <= 1/3:
@@ -131,7 +131,7 @@ class WormSimulationEnv(gym.Env):
         return self._get_observations()
 
     def step(self, actions, worm_num, candidate):
-        left_speed, right_speed, speed = actions
+        left_speed, right_speed = actions
         self.worms[worm_num].update(left_speed=left_speed, right_speed=right_speed, food_positions=self.food)
 
         observations = self._get_observations()
@@ -141,16 +141,15 @@ class WormSimulationEnv(gym.Env):
         
         rewards = WormSimulationEnv.calculate_rewards(worm_pos, food_positions, self.foodradius, self.range)
         
-        self._check_eat_food(candidate)
+        self._check_eat_food(worm_pos)
         done = self._check_done()
 
         return observations, rewards, done
 
-    def _check_eat_food(self, candidate):
+    def _check_eat_food(self, worm_pos):
         to_remove = []
         for i, food in enumerate(self.food):
-            for worm in self.worms:
-                if np.linalg.norm(np.array(worm.position) - np.array(food)) < self.foodradius:
+                if np.linalg.norm(np.array(worm_pos) - np.array(food)) < self.foodradius:
                     to_remove.append(i)
                     break
         self.food = np.delete(self.food, to_remove, axis=0)
@@ -162,9 +161,11 @@ class WormSimulationEnv(gym.Env):
         self.ax.plot([worm.position[0], worm.position[0] + 100 * np.cos(worm.facing_dir)],
                      [worm.position[1], worm.position[1] + 100 * np.sin(worm.facing_dir)], 'b-')
 
-        worm = self.worms[worm_num]
         for f in self.food:
-            self.ax.plot(f[0], f[1], 'bo')
+            if is_food_close(worm.position,f,150):
+                self.ax.plot(f[0], f[1], 'yo')
+            else:    
+                self.ax.plot(f[0], f[1], 'bo')
 
         self.ax.set_xlim(0, self.dimx)
         self.ax.set_ylim(0, self.dimy)

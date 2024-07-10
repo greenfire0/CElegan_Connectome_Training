@@ -4,18 +4,13 @@ from Worm_Env.trained_connectome import WormConnectome
 from graphing import graph,graph_comparison
 from Worm_Env.weight_dict import dict
 from tqdm import tqdm
-import time 
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
-
 muscleList = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
 
 mLeft = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23']
 mRight = ['MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
 # Used to accumulate muscle weighted values in body muscles 07-23 = worm locomotion
-musDleft = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23']
-musVleft = ['MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23']
-musDright = ['MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23']
-musVright = ['MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
+
 all_neuron_names = [
     'ADAL', 'ADAR', 'ADEL', 'ADER', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'AFDL', 'AFDR',
     'AIAL', 'AIAR', 'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'AIYL', 'AIYR',
@@ -54,7 +49,6 @@ all_neuron_names = [
 ]
 
 
-
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size, matrix_shape, mutation_rate=0.5, total_episodes=10, training_interval=25, genome=None):
         self.population_size = population_size
@@ -82,10 +76,9 @@ class Genetic_Dyn_Algorithm:
             env.reset(a)
             for _ in range(self.total_episodes):
                 observation = env._get_observations()
-                done = False
                 for _ in range(self.training_interval):
                     movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, done = env.step(movement, worm_num, candidate)
+                    next_observation, reward, _ = env.step(movement, worm_num, candidate)
                     #env.render(worm_num)
                     observation = next_observation
                     cumulative_rewards.append(reward)
@@ -94,7 +87,7 @@ class Genetic_Dyn_Algorithm:
     def select_parents(self, fitnesses, num_parents):
         parents = np.argsort(fitnesses)[-num_parents:]
         return [self.population[i] for i in parents]
-
+###fix the corssover function so that for each theers a crossvoer
     def crossover(self, parents, fitnesses, num_offspring):
         offspring = []
         parent_fitnesses = np.array([fitnesses[i] for i in np.argsort(fitnesses)[-len(parents):]])
@@ -103,15 +96,13 @@ class Genetic_Dyn_Algorithm:
         for _ in range(num_offspring):
             parent1 = np.random.choice(parents, p=fitness_probs)
             parent2 = np.random.choice(parents, p=fitness_probs)
-            total_length = len(parent1.weight_matrix)
             crossover_prob = fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)])
-            splice_point = int(crossover_prob * total_length)
-            splice_point = max(1, min(splice_point, total_length - 1))
-            child_weight_matrix = np.concatenate((parent1.weight_matrix[:splice_point], parent2.weight_matrix[splice_point:]))
-            offspring.append(WormConnectome(weight_matrix=child_weight_matrix,all_neuron_names=all_neuron_names))
+            prob_array = (np.random.rand(self.matrix_shape) < crossover_prob).astype(int)
+            final_array = np.where(prob_array, parent1.weight_matrix, parent2.weight_matrix)
+            offspring.append(WormConnectome(weight_matrix=final_array,all_neuron_names=all_neuron_names))
         return offspring
 
-    def mutate(self, offspring, n=10):
+    def mutate(self, offspring, n=5):
         for child in offspring:
             if np.random.rand() < self.mutation_rate:
                 flat_weights = child.weight_matrix.flatten()
@@ -130,39 +121,53 @@ class Genetic_Dyn_Algorithm:
 
     @staticmethod
     @ray.remote
-    def evaluate_fitness_ray(candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles):
+    def evaluate_fitness_ray(candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
         candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
         cumulative_rewards = []
         for a in prob_type:
             env.reset(a)
-            for _ in range(10):  # total_episodes
+            for _ in range(episodes):  # total_episodes
                 observation = env._get_observations()
-                done = False
-                for _ in range(25):  # training_interval
+                for _ in range(interval):  # training_interval
                     movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, done = env.step(movement, worm_num, candidate)
+                    next_observation, reward, _ = env.step(movement, worm_num, candidate)
                     #env.render(worm_num)
                     observation = next_observation
                     cumulative_rewards.append(reward)
         return np.sum(cumulative_rewards)
 
-    def run(self, env, old_wm, generations=50):
-        ray.init(ignore_reinit_error=True)
+    def run(self, env, old_wm, generations=50, batch_size=32):
+        ray.init(
+            ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
+            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
+            num_cpus=16,                                # Number of CPU cores
+            num_gpus=1    # Limit on the memory that Redis can use (bytes)
+        )       
         pattern = [5]
         try:
             for generation in tqdm(range(generations), desc="Generations"):
-                start_time = time.time()
-                fitnesses = ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, pattern, mLeft, mRight, muscleList, muscles) for worm_num, candidate in enumerate(self.population)])
+                population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
+                fitnesses = []
+                for batch in population_batches:
+                    fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, pattern, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
+                
                 best_index = np.argmax(fitnesses)
                 best_fitness = fitnesses[best_index]
+                best_candidate = self.population[best_index]
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
+                # Select parents from the entire population
                 self.population = self.select_parents(fitnesses, self.population_size // 2)
-                offspring = self.crossover(self.population, fitnesses, self.population_size - len(self.population))
+                
+                # Generate offspring through crossover and mutation
+                offspring = self.crossover(self.population, fitnesses, self.population_size - len(self.population)-1)
                 offspring = self.mutate(offspring)
-                #offspring = self.mutate_addition(offspring)
+                
+                # Extend the population with the new offspring
+                graph(best_candidate.weight_matrix, dict, generation)
                 self.population.extend(offspring)
-            fitnesses = [self.evaluate_fitness(candidate, worm_num, env, pattern) for worm_num, candidate in enumerate(self.population)]
-            best_index = np.argmax(fitnesses)
-            return self.population[best_index].weight_matrix
+                self.population.append(best_candidate)
+
+            return best_candidate.weight_matrix
+        
         finally:
             ray.shutdown()
