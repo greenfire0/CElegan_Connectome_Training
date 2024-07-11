@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+
 all_neuron_names = [
     'ADAL', 'ADAR', 'ADEL', 'ADER', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'AFDL', 'AFDR',
     'AIAL', 'AIAR', 'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'AIYL', 'AIYR',
@@ -40,7 +41,36 @@ all_neuron_names = [
 ]
 
 
-def graph(combined_weights, connections_dict, generation):
+def graph(combined_weights, connections_dict, generation,old_wm):
+    def plot_weight_distribution(ax, weight_matrix1, weight_matrix2, num_bins=30):
+            non_zero_weights1 = weight_matrix1[weight_matrix1 != 0]
+            non_zero_weights2 = weight_matrix2[weight_matrix2 != 0]
+
+            # Set x-axis limits
+            xlim = [-40, 40]
+
+            # Generate evenly spaced bins over the specified xlim range
+            bins = np.linspace(xlim[0], xlim[1], num_bins + 1)
+
+            # Calculate histogram data
+            hist1, _ = np.histogram(non_zero_weights1, bins=bins)
+            hist2, _ = np.histogram(non_zero_weights2, bins=bins)
+            
+            # Calculate the difference between the histograms
+            hist_diff = hist1 - hist2
+
+            # Plotting histogram difference using ax.bar
+            bin_centers = (bins[:-1] + bins[1:]) / 2
+            ax.bar(bin_centers, hist_diff, width=np.diff(bins), color='lightcoral', edgecolor='black')
+
+            ax.set_ylim([-20, 20])
+            ax.set_xlim(xlim)
+            
+            ax.set_xlabel('Weight')
+            ax.set_ylabel('Difference in Frequency')
+            ax.set_title('Difference in Weight Distribution (Non-zero)')
+    
+    
     neuron_labels = list(all_neuron_names)
     matrix_size = len(neuron_labels)
     n_neurons = len(connections_dict.keys())
@@ -117,87 +147,71 @@ def graph(combined_weights, connections_dict, generation):
     plt.ylim = [0, 0.01]
     plt.title('Weight Sum / Number of Connections')
 
-    n_values = []
-    weight_sum_values = []
 
-    for post_neuron in all_neuron_names:
-        pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-        if pre_neurons:
-            indices = [neuron_indices[pre_neuron] for pre_neuron in pre_neurons]
-            weights = abs_combined_weights[indices]
-            n = len(pre_neurons)
-            weight_sum = np.sum(weights)
-            n_values.append(n)
-            weight_sum_values.append(weight_sum / n)
 
-    # Correlation Subplot
+
+    # Identify transitions
+    neg_to_pos = np.sum((old_wm < 0) & (combined_weights >= 0))
+    pos_to_neg = np.sum((old_wm >= 0) & (combined_weights < 0))
+
+    # Plotting the results
+    labels = ['Negative to Positive', 'Positive to Negative']
+    counts = [neg_to_pos, pos_to_neg]
     plt.subplot(3, 3, 4)
-    plt.scatter(n_values, weight_sum_values, color='purple')
-    plt.xlabel('Number of Connections (n)')
-    plt.ylabel('n / Sum of Weights')
-    plt.title('Correlation between n / Sum(w) and n')
+    plt.bar(labels, counts, color=['blue', 'red'])
+    plt.xlabel('Transition Type')
+    plt.ylabel('Count')
+    plt.title('Count of Transitions Between Negative and Positive Values')
+
 
     # Percentage of Weights Greater Than 20 by Number of Pre-Neurons Subplot
-    weights_by_pre_neurons = {}
+    weights_by_pre_neurons_combined = {}
+    weights_by_pre_neurons_old = {}
+
     for post_neuron in all_neuron_names:
         pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
         num_pre_neurons = len(pre_neurons)
         if num_pre_neurons > 0:
             indices = [neuron_indices[pre_neuron] for pre_neuron in pre_neurons]
-            weights = combined_weights[indices]
-            weights_by_pre_neurons.setdefault(num_pre_neurons, []).extend(weights)
+            combined_weights_subset = combined_weights[indices]
+            old_weights_subset = old_wm[indices]
 
-    num_pre_neurons_array = np.array(list(weights_by_pre_neurons.keys()))
+            weights_by_pre_neurons_combined.setdefault(num_pre_neurons, []).extend(combined_weights_subset)
+            weights_by_pre_neurons_old.setdefault(num_pre_neurons, []).extend(old_weights_subset)
+
+    num_pre_neurons_array = np.array(list(weights_by_pre_neurons_combined.keys()))
     num_bins = 10
     bin_edges = np.linspace(num_pre_neurons_array.min(), num_pre_neurons_array.max(), num_bins + 1)
-    weights_by_bin = {edge: [] for edge in bin_edges}
-    
-    for num_pre_neurons, weights in weights_by_pre_neurons.items():
+    weight_diffs_by_bin = {edge: [] for edge in bin_edges}
+
+    for num_pre_neurons in weights_by_pre_neurons_combined:
         for i in range(len(bin_edges) - 1):
             if bin_edges[i] <= num_pre_neurons < bin_edges[i + 1]:
-                weights_by_bin[bin_edges[i]].extend(weights)
+                combined_weights_bin = np.array(weights_by_pre_neurons_combined[num_pre_neurons])
+                old_weights_bin = np.array(weights_by_pre_neurons_old[num_pre_neurons])
+                weight_diff = np.mean(combined_weights_bin) - np.mean(old_weights_bin)
+                weight_diffs_by_bin[bin_edges[i]].append(weight_diff)
                 break
 
-    percentages = []
-    bin_labels = []
-
-    for i in range(len(bin_edges) - 1):
-        lower_edge = bin_edges[i]
-        upper_edge = bin_edges[i + 1]
-        weights = weights_by_bin[lower_edge]
-        if weights:
-            count_above_20 = sum(np.abs(w) > 20 for w in weights)
-            percentage = count_above_20 / len(weights)
-        else:
-            percentage = 0
-        percentages.append(percentage)
-        bin_labels.append(f'{int(lower_edge)}-{int(upper_edge)}')
+    bin_labels = [f'{int(bin_edges[i])}-{int(bin_edges[i + 1])}' for i in range(len(bin_edges) - 1)]
+    avg_weight_diffs = [np.mean(weight_diffs_by_bin[bin]) for bin in bin_edges[:-1]]
 
     plt.subplot(3, 3, 5)
-    plt.bar(bin_labels, percentages, color='lightcoral', edgecolor='black')
+    plt.bar(bin_labels, avg_weight_diffs, color='lightcoral', edgecolor='black')
     plt.xlabel('Number of Pre-Neurons (Bin Ranges)')
-    plt.ylabel('Percentage of Weights > 20')
-    plt.title('Percentage of Weights Greater Than 20 by Number of Pre-Neurons')
+    plt.ylabel('Average Weight Difference')
+    plt.title('Difference in Weights by Number of Pre-Neurons')
     plt.xticks(rotation=45, ha='right')
 
     # Distribution of Weights Subplot
-    plt.subplot(3, 3, 6)
-    non_zero_weights = weight_matrix_df.values.flatten()
-    non_zero_weights = non_zero_weights[non_zero_weights != 0]
-    num_bins = 30
-    hist, bins = np.histogram(non_zero_weights, bins=num_bins)
-    bin_centers = (bins[:-1] + bins[1:]) / 2
-    plt.bar(bin_centers, hist, width=np.diff(bins), color='lightcoral', edgecolor='black')
-    plt.xlim([vmin, vmax])
-    plt.xlabel('Weight')
-    plt.ylabel('Frequency')
-    plt.title('Distribution of Weights (Non-zero)')
+    ax6 = plt.subplot(3, 3, 6)
+    plot_weight_distribution(ax6,combined_weights,old_wm)
 
     plt.tight_layout()
     filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img/weight_matrix_generation_{10000+generation}.png'
     plt.savefig(filename)
-    plt.close()
-    del square_weight_matrix, weight_matrix_df, sorted_matrix_df, non_zero_weights
+    plt.close('all')
+    del square_weight_matrix, weight_matrix_df, sorted_matrix_df
 
 
 

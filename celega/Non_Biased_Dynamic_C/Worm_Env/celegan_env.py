@@ -127,7 +127,7 @@ class WormSimulationEnv(gym.Env):
 
     def reset(self, pattern_type, num_food=40):
         self.worms = [Worm(position=[self.dimx/2, self.dimy/2], range=self.range) for _ in range(self.num_worms)]
-        self.food = WormSimulationEnv.generate_food_pattern(pattern_type, num_food, self.dimx, self.dimy)
+        self.food = np.array(WormSimulationEnv.generate_food_pattern(pattern_type, num_food, self.dimx, self.dimy))
         return self._get_observations()
 
     def step(self, actions, worm_num, candidate):
@@ -137,9 +137,8 @@ class WormSimulationEnv(gym.Env):
         observations = self._get_observations()
         
         worm_pos = self.worms[worm_num].position
-        food_positions = np.array(self.food)
         
-        rewards = WormSimulationEnv.calculate_rewards(worm_pos, food_positions, self.foodradius, self.range)
+        rewards = WormSimulationEnv.calculate_rewards(worm_pos, self.food, self.foodradius, self.range)
         
         self._check_eat_food(worm_pos)
         done = self._check_done()
@@ -147,12 +146,9 @@ class WormSimulationEnv(gym.Env):
         return observations, rewards, done
 
     def _check_eat_food(self, worm_pos):
-        to_remove = []
-        for i, food in enumerate(self.food):
-                if np.linalg.norm(np.array(worm_pos) - np.array(food)) < self.foodradius:
-                    to_remove.append(i)
-                    break
+        to_remove = [i for i, food in enumerate(self.food) if np.linalg.norm(worm_pos - food) < self.foodradius]
         self.food = np.delete(self.food, to_remove, axis=0)
+        del to_remove
 
     def render(self, worm_num=0, mode='human'):
         self.ax.clear()

@@ -52,7 +52,7 @@ class WormConnectome:
             key_type=types.unicode_type,
             value_type=types.DictType(types.unicode_type, types.float64)
         )
-        self.weight_matrix=weight_matrix
+        self.weight_matrix = weight_matrix.astype(np.float64)
         for neuron in dict:
             self.combined_weights[neuron] = typed.Dict.empty(
                 key_type=types.unicode_type,

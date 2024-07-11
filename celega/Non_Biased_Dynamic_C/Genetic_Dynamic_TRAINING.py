@@ -62,12 +62,10 @@ class Genetic_Dyn_Algorithm:
     def initialize_population(self, genome=None):
         population = []
         population.append(WormConnectome(weight_matrix=np.array(genome, dtype=float), all_neuron_names=all_neuron_names))
-        if genome is not None:
-            for _ in range(self.population_size-1):
-                population.append(WormConnectome(weight_matrix=np.random.uniform(low=-20, high=20, size=self.matrix_shape), all_neuron_names=all_neuron_names))
-        else:
-            for _ in range(self.population_size):
-                population.append(WormConnectome(weight_matrix=np.array(genome, dtype=float), all_neuron_names=all_neuron_names))
+
+        for _ in range(self.population_size-1):
+                population.append(WormConnectome(weight_matrix=np.random.uniform(low=-20, high=20, size=self.matrix_shape).astype(np.float32), all_neuron_names=all_neuron_names))
+
         return population
 
     def evaluate_fitness(self, candidate, worm_num, env, prob_type):
@@ -163,7 +161,7 @@ class Genetic_Dyn_Algorithm:
                 offspring = self.mutate(offspring)
                 
                 # Extend the population with the new offspring
-                graph(best_candidate.weight_matrix, dict, generation)
+                graph(best_candidate.weight_matrix, dict, generation,old_wm)
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
 

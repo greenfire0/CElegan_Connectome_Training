@@ -6,8 +6,8 @@ from util.write_read_txt import write_array_to_file, read_array_from_file
 import numpy as np 
 
 
-population_size = 64*8*8
-generations = 75
+population_size = 8
+generations = 300
 mutation_rate = 1
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
@@ -25,7 +25,7 @@ values_list = []
 for sub_dict in dict.values():
      # Extend the values list with the values from each sub-dictionary
     values_list.extend(sub_dict.values())
-old_wm = np.array(read_array_from_file("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/random_worm.txt"))
+old_wm = np.array(values_list)
 print("Running Genetic Algoritm")
 env = WormSimulationEnv(num_worms=population_size)
 ga = Genetic_Dyn_Algorithm(population_size, train_params, mutation_rate, total_episodes, training_interval,values_list)

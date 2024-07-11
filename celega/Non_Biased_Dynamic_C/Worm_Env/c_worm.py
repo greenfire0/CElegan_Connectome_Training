@@ -52,14 +52,14 @@ def update(position, facing_dir, left_speed, right_speed, food_positions, range)
 
 class Worm:
     def __init__(self, position, facing_dir=0, speed=20, range=200):
-        self.position = np.array(position, dtype=np.float64)
+        self.position = np.array(position, dtype=np.float32)
         self.facing_dir = facing_dir
         self.speed = speed
         self.sees_food = False
         self.range = range
 
     def update(self, left_speed, right_speed, food_positions):
-        food_positions = np.array(food_positions, dtype=np.float64)  # Ensure food_positions is a NumPy array
+        food_positions = np.array(food_positions, dtype=np.float32)  # Ensure food_positions is a NumPy array
         self.position, self.facing_dir, self.sees_food = update(
             self.position, self.facing_dir, left_speed, right_speed, food_positions, self.range
         )
