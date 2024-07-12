@@ -6,8 +6,8 @@ from util.write_read_txt import write_array_to_file, read_array_from_file
 import numpy as np 
 
 
-population_size = 8
-generations = 300
+population_size = 8**3
+generations = 100
 mutation_rate = 1
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
@@ -25,6 +25,8 @@ values_list = []
 for sub_dict in dict.values():
      # Extend the values list with the values from each sub-dictionary
     values_list.extend(sub_dict.values())
+#3 1.0 376
+print()
 old_wm = np.array(values_list)
 print("Running Genetic Algoritm")
 env = WormSimulationEnv(num_worms=population_size)
@@ -35,7 +37,7 @@ write_array_to_file(best_weight_matrix,"cheaty_worm4.txt")
 
 #best_weight_matrix = read_array_from_file("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/cheaty_worm.txt")
 #graph_comparison(best_weight_matrix,np.array(values_list),dict)
-#graph(best_weight_matrix,dict)
+#   graph(best_weight_matrix,dict)
 #graph(np.array(values_list),dict)
 
 # Run the simulation with the best weight matrix

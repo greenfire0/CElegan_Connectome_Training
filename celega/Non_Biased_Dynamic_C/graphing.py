@@ -2,42 +2,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 
 all_neuron_names = [
-    'ADAL', 'ADAR', 'ADEL', 'ADER', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'AFDL', 'AFDR',
-    'AIAL', 'AIAR', 'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'AIYL', 'AIYR',
-    'AIZL', 'AIZR', 'ALA', 'ALML', 'ALMR', 'ALNL', 'ALNR', 'AQR', 'AS1', 'AS10', 'AS11',
-    'AS2', 'AS3', 'AS4', 'AS5', 'AS6', 'AS7', 'AS8', 'AS9', 'ASEL', 'ASER', 'ASGL', 'ASGR',
-    'ASHL', 'ASHR', 'ASIL', 'ASIR', 'ASJL', 'ASJR', 'ASKL', 'ASKR', 'AUAL', 'AUAR', 'AVAL',
-    'AVAR', 'AVBL', 'AVBR', 'AVDL', 'AVDR', 'AVEL', 'AVER', 'AVFL', 'AVFR', 'AVG', 'AVHL',
-    'AVHR', 'AVJL', 'AVJR', 'AVKL', 'AVKR', 'AVL', 'AVM', 'AWAL', 'AWAR', 'AWBL', 'AWBR',
-    'AWCL', 'AWCR', 'BAGL', 'BAGR', 'BDUL', 'BDUR', 'CEPDL', 'CEPDR', 'CEPVL', 'CEPVR', 'DA1',
-    'DA2', 'DA3', 'DA4', 'DA5', 'DA6', 'DA7', 'DA8', 'DA9', 'DB1', 'DB2', 'DB3', 'DB4', 'DB5',
-    'DB6', 'DB7', 'DD1', 'DD2', 'DD3', 'DD4', 'DD5', 'DD6', 'DVA', 'DVB', 'DVC', 'FLPL', 'FLPR',
-    'HSNL', 'HSNR', 'I1L', 'I1R', 'I2L', 'I2R', 'I3', 'I4', 'I5', 'I6', 'IL1DL', 'IL1DR', 'IL1L',
-    'IL1R', 'IL1VL', 'IL1VR', 'IL2L', 'IL2R', 'IL2DL', 'IL2DR', 'IL2VL', 'IL2VR', 'LUAL', 'LUAR',
-    'M1', 'M2L', 'M2R', 'M3L', 'M3R', 'M4', 'M5',  'MCL', 'MCR', 'MDL01', 'MDL02', 'MDL03',
-    'MDL04', 'MDL05', 'MDL06', 'MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14',
-    'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MDL24', 'MDR01',
-    'MDR02', 'MDR03', 'MDR04', 'MDR05', 'MDR06', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12',
-    'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDR21', 'MDR22', 'MDR23',
-    'MDR24', 'MI', 'MVL01', 'MVL02', 'MVL03', 'MVL04', 'MVL05', 'MVL06', 'MVL07', 'MVL08', 'MVL09',
-    'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20',
-    'MVL21', 'MVL22', 'MVL23', 'MVR01', 'MVR02', 'MVR03', 'MVR04', 'MVR05', 'MVR06', 'MVR07', 'MVR08',
-    'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19',
-    'MVR20', 'MVR21', 'MVR22', 'MVR23', 'MVR24', 'MVULVA', 'NSML', 'NSMR', 'OLLL', 'OLLR', 'OLQDL',
-    'OLQDR', 'OLQVL', 'OLQVR', 'PDA', 'PDB', 'PDEL', 'PDER', 'PHAL', 'PHAR', 'PHBL', 'PHBR', 'PHCL',
-    'PHCR', 'PLML', 'PLMR', 'PLNL', 'PLNR', 'PQR', 'PVCL', 'PVCR', 'PVDL', 'PVDR', 'PVM', 'PVNL', 'PVNR',
-    'PVPL', 'PVPR', 'PVQL', 'PVQR', 'PVR', 'PVT', 'PVWL', 'PVWR', 'RIAL', 'RIAR', 'RIBL', 'RIBR', 'RICL',
-    'RICR', 'RID', 'RIFL', 'RIFR', 'RIGL', 'RIGR', 'RIH', 'RIML', 'RIMR', 'RIPL', 'RIPR', 'RIR', 'RIS',
-    'RIVL', 'RIVR', 'RMDDL', 'RMDDR', 'RMDL', 'RMDR', 'RMDVL', 'RMDVR', 'RMED', 'RMEL', 'RMER', 'RMEV',
-    'RMFL', 'RMFR', 'RMGL', 'RMGR', 'RMHL', 'RMHR', 'SAADL', 'SAADR', 'SAAVL', 'SAAVR', 'SABD', 'SABVL',
-    'SABVR', 'SDQL', 'SDQR', 'SIADL', 'SIADR', 'SIAVL', 'SIAVR', 'SIBDL', 'SIBDR', 'SIBVL', 'SIBVR',
-    'SMBDL', 'SMBDR', 'SMBVL', 'SMBVR', 'SMDDL', 'SMDDR', 'SMDVL', 'SMDVR', 'URADL', 'URADR', 'URAVL',
-    'URAVR', 'URBL', 'URBR', 'URXL', 'URXR', 'URYDL', 'URYDR', 'URYVL', 'URYVR', 'VA1', 'VA10', 'VA11',
-    'VA12', 'VA2', 'VA3', 'VA4', 'VA5', 'VA6', 'VA7', 'VA8', 'VA9', 'VB1', 'VB10', 'VB11', 'VB2', 'VB3',
-    'VB4', 'VB5', 'VB6', 'VB7', 'VB8', 'VB9', 'VC1', 'VC2', 'VC3', 'VC4', 'VC5', 'VC6', 'VD1', 'VD10',
-    'VD11', 'VD12', 'VD13', 'VD2', 'VD3', 'VD4', 'VD5', 'VD6', 'VD7', 'VD8', 'VD9'
+    'ADAL', 'ADAR', 'ADEL', 'ADER', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'AFDL', 'AFDR', 'AIAL', 'AIAR', 'AIBL', 'AIBR', 'AIML', 'AIMR',
+    'AINL', 'AINR', 'AIYL', 'AIYR', 'AIZL', 'AIZR', 'ALA', 'ALML', 'ALMR', 'ALNL', 'ALNR', 'AQR', 'AS1', 'AS2', 'AS3', 'AS4', 'AS5',
+    'AS6', 'AS7', 'AS8', 'AS9', 'AS10', 'AS11', 'ASEL', 'ASER', 'ASGL', 'ASGR', 'ASHL', 'ASHR', 'ASIL', 'ASIR', 'ASJL', 'ASJR', 'ASKL',
+    'ASKR', 'AUAL', 'AUAR', 'AVAL', 'AVAR', 'AVBL', 'AVBR', 'AVDL', 'AVDR', 'AVEL', 'AVER', 'AVFL', 'AVFR', 'AVG', 'AVHL', 'AVHR', 'AVJL',
+    'AVJR', 'AVKL', 'AVKR', 'AVL', 'AVM', 'AWAL', 'AWAR', 'AWBL', 'AWBR', 'AWCL', 'AWCR', 'BAGL', 'BAGR', 'BDUL', 'BDUR', 'CEPDL', 'CEPDR',
+    'CEPVL', 'CEPVR', 'DA1', 'DA2', 'DA3', 'DA4', 'DA5', 'DA6', 'DA7', 'DA8', 'DA9', 'DB1', 'DB2', 'DB3', 'DB4', 'DB5', 'DB6', 'DB7', 'DD1',
+    'DD2', 'DD3', 'DD4', 'DD5', 'DD6', 'DVA', 'DVB', 'DVC', 'FLPL', 'FLPR', 'HSNL', 'HSNR', 'I1L', 'I1R', 'I2L', 'I2R', 'I3', 'I4', 'I5', 'I6',
+    'IL1DL', 'IL1DR', 'IL1L', 'IL1R', 'IL1VL', 'IL1VR', 'IL2L', 'IL2R', 'IL2DL', 'IL2DR', 'IL2VL', 'IL2VR', 'LUAL', 'LUAR', 'M1', 'M2L', 'M2R',
+    'M3L', 'M3R', 'M4', 'M5', 'MCL', 'MCR', 'MDL01', 'MDL02', 'MDL03', 'MDL04', 'MDL05', 'MDL06', 'MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11',
+    'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MDL24', 'MDR01', 'MDR02', 'MDR03',
+    'MDR04', 'MDR05', 'MDR06', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19',
+    'MDR20', 'MDR21', 'MDR22', 'MDR23', 'MDR24', 'MI', 'MVL01', 'MVL02', 'MVL03', 'MVL04', 'MVL05', 'MVL06', 'MVL07', 'MVL08', 'MVL09', 'MVL10',
+    'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MVR01', 'MVR02', 'MVR03',
+    'MVR04', 'MVR05', 'MVR06', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19',
+    'MVR20', 'MVR21', 'MVR22', 'MVR23', 'MVR24', 'MVULVA', 'NSML', 'NSMR', 'OLLL', 'OLLR', 'OLQDL', 'OLQDR', 'OLQVL', 'OLQVR', 'PDA', 'PDB', 'PDEL',
+    'PDER', 'PHAL', 'PHAR', 'PHBL', 'PHBR', 'PHCL', 'PHCR', 'PLML', 'PLMR', 'PLNL', 'PLNR', 'PQR', 'PVCL', 'PVCR', 'PVDL', 'PVDR', 'PVM', 'PVNL',
+    'PVNR', 'PVPL', 'PVPR', 'PVQL', 'PVQR', 'PVR', 'PVT', 'PVWL', 'PVWR', 'RIAL', 'RIAR', 'RIBL', 'RIBR', 'RICL', 'RICR', 'RID', 'RIFL', 'RIFR',
+    'RIGL', 'RIGR', 'RIH', 'RIML', 'RIMR', 'RIPL', 'RIPR', 'RIR', 'RIS', 'RIVL', 'RIVR', 'RMDDL', 'RMDDR', 'RMDL', 'RMDR', 'RMDVL', 'RMDVR', 'RMED',
+    'RMEL', 'RMER', 'RMEV', 'RMFL', 'RMFR', 'RMGL', 'RMGR', 'RMHL', 'RMHR', 'SAADL', 'SAADR', 'SAAVL', 'SAAVR', 'SABD', 'SABVL', 'SABVR', 'SDQL',
+    'SDQR', 'SIADL', 'SIADR', 'SIAVL', 'SIAVR', 'SIBDL', 'SIBDR', 'SIBVL', 'SIBVR', 'SMBDL', 'SMBDR', 'SMBVL', 'SMBVR', 'SMDDL', 'SMDDR', 'SMDVL',
+    'SMDVR', 'URADL', 'URADR', 'URAVL', 'URAVR', 'URBL', 'URBR', 'URXL', 'URXR', 'URYDL', 'URYDR', 'URYVL', 'URYVR', 'VA1', 'VA2', 'VA3', 'VA4', 'VA5',
+    'VA6', 'VA7', 'VA8', 'VA9', 'VA10', 'VA11', 'VA12', 'VB1', 'VB2', 'VB3', 'VB4', 'VB5', 'VB6', 'VB7', 'VB8', 'VB9', 'VB10', 'VB11', 'VC1', 'VC2',
+    'VC3', 'VC4', 'VC5', 'VC6', 'VD1', 'VD2', 'VD3', 'VD4', 'VD5', 'VD6', 'VD7', 'VD8', 'VD9', 'VD10', 'VD11', 'VD12', 'VD13'
 ]
 
 
@@ -70,7 +60,7 @@ def graph(combined_weights, connections_dict, generation,old_wm):
             ax.set_ylabel('Difference in Frequency')
             ax.set_title('Difference in Weight Distribution (Non-zero)')
     
-    
+
     neuron_labels = list(all_neuron_names)
     matrix_size = len(neuron_labels)
     n_neurons = len(connections_dict.keys())
@@ -126,7 +116,7 @@ def graph(combined_weights, connections_dict, generation,old_wm):
             weight_quots[post_neuron] = weight_quotient
             tot_product += weight_product
             tot_quot += weight_quotient
-
+            
     post_neurons = list(weight_sums.keys())
     avg_weight_sums = [weight_sums[post_neuron] / tot_product for post_neuron in post_neurons]
     avg_weight_quots = [weight_quots[post_neuron] / tot_quot for post_neuron in post_neurons]
@@ -165,50 +155,64 @@ def graph(combined_weights, connections_dict, generation,old_wm):
 
 
     # Percentage of Weights Greater Than 20 by Number of Pre-Neurons Subplot
-    weights_by_pre_neurons_combined = {}
+    weights_by_pre_neurons_new = {}
     weights_by_pre_neurons_old = {}
 
-    for post_neuron in all_neuron_names:
-        pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-        num_pre_neurons = len(pre_neurons)
-        if num_pre_neurons > 0:
-            indices = [neuron_indices[pre_neuron] for pre_neuron in pre_neurons]
-            combined_weights_subset = combined_weights[indices]
-            old_weights_subset = old_wm[indices]
+    c=0
+    for pre_neuron in connections_dict.keys():
+        if pre_neuron[:3] not in muscles:
+            neuron_connections_old =connections_dict[pre_neuron]
+            post_count = len(neuron_connections_old)
+            sum_old =0
+            sum_new=0
+            for n,a in neuron_connections_old.items():
+                sum_old+=a
+                sum_new+=combined_weights[c]
+                
+                #print(n,a,combined_weights[c],c)
+                c+=1
 
-            weights_by_pre_neurons_combined.setdefault(num_pre_neurons, []).extend(combined_weights_subset)
-            weights_by_pre_neurons_old.setdefault(num_pre_neurons, []).extend(old_weights_subset)
+            weights_by_pre_neurons_new[pre_neuron] = {'post_count': post_count, 'value_new': sum_new,'value_old':sum_old}
 
-    num_pre_neurons_array = np.array(list(weights_by_pre_neurons_combined.keys()))
-    num_bins = 10
-    bin_edges = np.linspace(num_pre_neurons_array.min(), num_pre_neurons_array.max(), num_bins + 1)
-    weight_diffs_by_bin = {edge: [] for edge in bin_edges}
+    post_counts = []
+    value_new = []
+    value_old = []
+    for neuron, values in weights_by_pre_neurons_new.items():
+        post_counts.append(values['post_count'])
+        value_new.append(values['value_new'])
+        value_old.append(values['value_old'])
 
-    for num_pre_neurons in weights_by_pre_neurons_combined:
-        for i in range(len(bin_edges) - 1):
-            if bin_edges[i] <= num_pre_neurons < bin_edges[i + 1]:
-                combined_weights_bin = np.array(weights_by_pre_neurons_combined[num_pre_neurons])
-                old_weights_bin = np.array(weights_by_pre_neurons_old[num_pre_neurons])
-                weight_diff = np.mean(combined_weights_bin) - np.mean(old_weights_bin)
-                weight_diffs_by_bin[bin_edges[i]].append(weight_diff)
-                break
+    # Define bins (10 bins for example)
+    bins = np.linspace(np.min(post_counts), np.max(post_counts), 11)  # 11 edges for 10 bins
 
-    bin_labels = [f'{int(bin_edges[i])}-{int(bin_edges[i + 1])}' for i in range(len(bin_edges) - 1)]
-    avg_weight_diffs = [np.mean(weight_diffs_by_bin[bin]) for bin in bin_edges[:-1]]
+    # Calculate sum of value_new for each bin
+    sum_value_new = np.zeros(len(bins) - 1)
 
+    # Populate the sum_value_new array
+    for pc, vn,vo in zip(post_counts, value_new,value_old):
+        bin_index = np.digitize(pc, bins) - 2  # Find the bin index for the post_count
+        #
+        sum_value_new[bin_index] += (-1 if vn < vo else (0 if vn ==vo else 1))
+    
+    # Plot the histogram
     plt.subplot(3, 3, 5)
-    plt.bar(bin_labels, avg_weight_diffs, color='lightcoral', edgecolor='black')
-    plt.xlabel('Number of Pre-Neurons (Bin Ranges)')
-    plt.ylabel('Average Weight Difference')
-    plt.title('Difference in Weights by Number of Pre-Neurons')
-    plt.xticks(rotation=45, ha='right')
+    plt.hist(bins[:-1], bins=bins, weights=sum_value_new, edgecolor='black', alpha=0.7)
+    plt.xlabel('Post Count Range')
+    plt.ylabel('Sum of value_new')
+    plt.title('Histogram of Sum of value_new by Post Count Range')
+    bin_edges_labels = [f'{int(bins[i])}' for i in range(len(bins))]
+    plt.xticks(bins, bin_edges_labels, ha='right')
+
+
+
 
     # Distribution of Weights Subplot
     ax6 = plt.subplot(3, 3, 6)
     plot_weight_distribution(ax6,combined_weights,old_wm)
 
     plt.tight_layout()
-    filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img/weight_matrix_generation_{10000+generation}.png'
+    filename = rf'C:\Users\Miles\Desktop\Work\C.-Elegan-bias-Exploration\celega\Non_Biased_Dynamic_C\tmp_img\weight_matrix_generation_{10000+generation}.png'
+
     plt.savefig(filename)
     plt.close('all')
     del square_weight_matrix, weight_matrix_df, sorted_matrix_df

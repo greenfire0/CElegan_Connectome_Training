@@ -94,7 +94,7 @@ class Genetic_Dyn_Algorithm:
         for _ in range(num_offspring):
             parent1 = np.random.choice(parents, p=fitness_probs)
             parent2 = np.random.choice(parents, p=fitness_probs)
-            crossover_prob = fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)])
+            crossover_prob = (fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)]))**1.2
             prob_array = (np.random.rand(self.matrix_shape) < crossover_prob).astype(int)
             final_array = np.where(prob_array, parent1.weight_matrix, parent2.weight_matrix)
             offspring.append(WormConnectome(weight_matrix=final_array,all_neuron_names=all_neuron_names))
@@ -137,10 +137,9 @@ class Genetic_Dyn_Algorithm:
     def run(self, env, old_wm, generations=50, batch_size=32):
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
-            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
+            object_store_memory=10 * 1024 * 1024 * 1024,  # 20 GB in bytes
             num_cpus=16,                                # Number of CPU cores
-            num_gpus=1    # Limit on the memory that Redis can use (bytes)
-        )       
+            )       
         pattern = [5]
         try:
             for generation in tqdm(range(generations), desc="Generations"):
