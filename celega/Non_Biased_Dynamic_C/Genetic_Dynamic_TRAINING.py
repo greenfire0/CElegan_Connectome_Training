@@ -3,6 +3,7 @@ import ray
 from Worm_Env.trained_connectome import WormConnectome
 from graphing import graph,graph_comparison
 from Worm_Env.weight_dict import dict
+from util.dist_dict_calc import dist_calc
 from tqdm import tqdm
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 muscleList = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
@@ -135,6 +136,7 @@ class Genetic_Dyn_Algorithm:
         return np.sum(cumulative_rewards)
 
     def run(self, env, old_wm, generations=50, batch_size=32):
+        dist_dict = dist_calc(dict)
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
             object_store_memory=10 * 1024 * 1024 * 1024,  # 20 GB in bytes
@@ -160,7 +162,7 @@ class Genetic_Dyn_Algorithm:
                 offspring = self.mutate(offspring)
                 
                 # Extend the population with the new offspring
-                graph(best_candidate.weight_matrix, dict, generation,old_wm)
+                graph(best_candidate.weight_matrix, dict, generation,old_wm,dist_dict)
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
 

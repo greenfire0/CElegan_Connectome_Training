@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import networkx as nx
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 
 all_neuron_names = [
@@ -29,9 +30,75 @@ all_neuron_names = [
     'VA6', 'VA7', 'VA8', 'VA9', 'VA10', 'VA11', 'VA12', 'VB1', 'VB2', 'VB3', 'VB4', 'VB5', 'VB6', 'VB7', 'VB8', 'VB9', 'VB10', 'VB11', 'VC1', 'VC2',
     'VC3', 'VC4', 'VC5', 'VC6', 'VD1', 'VD2', 'VD3', 'VD4', 'VD5', 'VD6', 'VD7', 'VD8', 'VD9', 'VD10', 'VD11', 'VD12', 'VD13'
 ]
+neuron_groups = {
+    "Sensory Neurons": [
+        'ADAL', 'ADAR', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'ASEL', 'ASER', 'ASHL', 'ASHR',
+        'ASIL', 'ASIR', 'ASJL', 'ASJR', 'ASKL', 'ASKR', 'AUAL', 'AUAR', 'AWAL', 'AWAR',
+        'AWBL', 'AWBR', 'AWCL', 'AWCR', 'BAGL', 'BAGR', 'CEPDL', 'CEPDR', 'CEPVL',
+        'CEPVR', 'FLPL', 'FLPR', 'OLQDL', 'OLQDR', 'OLQVL', 'OLQVR', 'PDEL', 'PDER',
+        'PHAL', 'PHAR', 'PHBL', 'PHBR', 'PHCL', 'PHCR', 'PLML', 'PLMR', 'PLNL', 'PLNR',
+        'PQR', 'SDQL', 'SDQR', 'URADL', 'URADR', 'URAVL', 'URAVR', 'URBL', 'URBR',
+        'URXL', 'URXR', 'URYDL', 'URYDR', 'URYVL', 'URYVR', 'ADEL', 'ADER', 'AFDL',
+        'AFDR', 'ALNL', 'ALNR', 'AS1', 'AS2', 'AS3', 'AS4', 'AS5', 'AS6', 'AS7',
+        'AS8', 'AS9', 'AS10', 'AS11', 'ASGL', 'ASGR', 'AVL', 'BDUL', 'BDUR'
+    ],
+    "Interneurons": [
+        'AIAL', 'AIAR', 'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'AIYL', 'AIYR',
+        'AIZL', 'AIZR', 'ALA', 'AVAL', 'AVAR', 'AVBL', 'AVBR', 'AVDL', 'AVDR', 'AVEL',
+        'AVER', 'AVFL', 'AVFR', 'AVG', 'AVHL', 'AVHR', 'AVJL', 'AVJR', 'AVKL', 'AVKR',
+        'DVA', 'DVB', 'DVC', 'RIAL', 'RIAR', 'RIBL', 'RIBR', 'RICL', 'RICR', 'RID',
+        'RIFL', 'RIFR', 'RIGL', 'RIGR', 'RIH', 'RIML', 'RIMR', 'RIPL', 'RIPR', 'RIR',
+        'RIS', 'RIVL', 'RIVR', 'RMDDL', 'RMDDR', 'RMDL', 'RMDR', 'RMDVL', 'RMDVR',
+        'RMED', 'RMEL', 'RMER', 'RMEV', 'RMFL', 'RMFR', 'RMGL', 'RMGR', 'RMHL', 'RMHR',
+        'SAADL', 'SAADR', 'SAAVL', 'SAAVR', 'SABD', 'SABVL', 'SABVR', 'SIADL', 'SIADR',
+        'SIAVL', 'SIAVR', 'SIBDL', 'SIBDR', 'SIBVL', 'SIBVR', 'SMBDL', 'SMBDR', 'SMBVL',
+        'SMBVR', 'SMDDL', 'SMDDR', 'SMDVL', 'SMDVR', 'PVCL', 'PVCR', 'PVDL', 'PVDR',
+        'PVM', 'PVNL', 'PVNR', 'PVPL', 'PVPR', 'PVQL', 'PVQR', 'PVR', 'PVT', 'PVWL',
+        'PVWR', 'MCL', 'MCR'
+    ],
+    "Pharyngeal Neurons": [
+        'I1L', 'I1R', 'I2L', 'I2R', 'I3', 'I4', 'I5', 'I6', 'M1', 'M2L', 'M2R', 'M3L',
+        'M3R', 'M4', 'M5'
+    ],
+    "Other Groups": [
+        'AQR', 'HSNL', 'HSNR', 'NSML', 'NSMR', 'IL1DL', 'IL1DR', 'IL1L', 'IL1R', 'IL1VL',
+        'IL1VR', 'IL2L', 'IL2R', 'IL2DL', 'IL2DR', 'IL2VL', 'IL2VR', 'LUAL', 'LUAR',
+        'PDA', 'PDB'
+    ],
+    "Mechanosensory Neurons": [
+        'ALML', 'ALMR', 'AVM'
+    ],
+    "Touch Neurons": [
+        'DE1', 'DE2'
+    ],
+    "Specialized Neurons": [
+        'RIAL', 'RIAR', 'RIGL', 'RIGR', 'RIPL', 'RIPR'
+    ],
+    "Ring Interneurons": [
+        'RIAL', 'RIAR'
+    ],
+    "Motor Neurons": [
+        'DA1', 'DA2', 'DA3', 'DA4', 'DA5', 'DA6', 'DA7', 'DA8', 'DA9', 'DB1', 'DB2',
+        'DB3', 'DB4', 'DB5', 'DB6', 'DB7', 'DD1', 'DD2', 'DD3', 'DD4', 'DD5', 'DD6',
+        'VA1', 'VA2', 'VA3', 'VA4', 'VA5', 'VA6', 'VA7', 'VA8', 'VA9', 'VA10', 'VA11',
+        'VA12', 'VB1', 'VB2', 'VB3', 'VB4', 'VB5', 'VB6', 'VB7', 'VB8', 'VB9', 'VB10',
+        'VB11', 'VC1', 'VC2', 'VC3', 'VC4', 'VC5', 'VC6', 'VD1', 'VD2', 'VD3', 'VD4',
+        'VD5', 'VD6', 'VD7', 'VD8', 'VD9', 'VD10', 'VD11', 'VD12', 'VD13', 'MI',
+        'MDL01', 'MDL02', 'MDL03', 'MDL04', 'MDL05', 'MDL06', 'MDL07', 'MDL08', 'MDL09',
+        'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18',
+        'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MDL24', 'MDR01', 'MDR02', 'MDR03',
+        'MDR04', 'MDR05', 'MDR06', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12',
+        'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDR21',
+        'MDR22', 'MDR23', 'MDR24', 'MVL01', 'MVL02', 'MVL03', 'MVL04', 'MVL05', 'MVL06',
+        'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15',
+        'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MVR01',
+        'MVR02', 'MVR03', 'MVR04', 'MVR05', 'MVR06', 'MVR07', 'MVR08', 'MVR09', 'MVR10',
+        'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19',
+        'MVR20', 'MVR21', 'MVR22', 'MVR23', 'MVR24', 'MVULVA', 'OLLL', 'OLLR', 'PDA', 'PDB'
+    ]
+}
 
-
-def graph(combined_weights, connections_dict, generation,old_wm):
+def graph(combined_weights, connections_dict, generation,old_wm,shortest_distances):
     def plot_weight_distribution(ax, weight_matrix1, weight_matrix2, num_bins=30):
             non_zero_weights1 = weight_matrix1[weight_matrix1 != 0]
             non_zero_weights2 = weight_matrix2[weight_matrix2 != 0]
@@ -47,13 +114,13 @@ def graph(combined_weights, connections_dict, generation,old_wm):
             hist2, _ = np.histogram(non_zero_weights2, bins=bins)
             
             # Calculate the difference between the histograms
-            hist_diff = hist1 - hist2
+            hist_diff = hist1
 
             # Plotting histogram difference using ax.bar
             bin_centers = (bins[:-1] + bins[1:]) / 2
             ax.bar(bin_centers, hist_diff, width=np.diff(bins), color='lightcoral', edgecolor='black')
 
-            ax.set_ylim([-20, 20])
+            ax.set_ylim([-35, 35])
             ax.set_xlim(xlim)
             
             ax.set_xlabel('Weight')
@@ -141,8 +208,14 @@ def graph(combined_weights, connections_dict, generation,old_wm):
 
 
     # Identify transitions
-    neg_to_pos = np.sum((old_wm < 0) & (combined_weights >= 0))
-    pos_to_neg = np.sum((old_wm >= 0) & (combined_weights < 0))
+    neg_to_pos_indices = np.where((old_wm < 0) & (combined_weights > 0))[0]
+    pos_to_neg_indices = np.where((old_wm > 0) & (combined_weights < 0))[0]
+
+    # Calculate the counts
+    neg_to_pos = len(neg_to_pos_indices)
+    pos_to_neg = len(pos_to_neg_indices)
+    print("Indices where old_wm is negative and combined_weights is positive:", neg_to_pos_indices)
+    print("Indices where old_wm is positive and combined_weights is negative:", pos_to_neg_indices)
 
     # Plotting the results
     labels = ['Negative to Positive', 'Positive to Negative']
@@ -152,69 +225,88 @@ def graph(combined_weights, connections_dict, generation,old_wm):
     plt.xlabel('Transition Type')
     plt.ylabel('Count')
     plt.title('Count of Transitions Between Negative and Positive Values')
+    plt.ylim = [0,20]
 
 
     # Percentage of Weights Greater Than 20 by Number of Pre-Neurons Subplot
-    weights_by_pre_neurons_new = {}
-    weights_by_pre_neurons_old = {}
+    neuron_to_group = {}
+    for group, neurons in neuron_groups.items():
+        for neuron in neurons:
+            neuron_to_group[neuron] = group
 
-    c=0
+    # Initialize dictionaries to store the sums
+    group_sums_new = {group: 0 for group in neuron_groups.keys()}
+
+    c = 0
     for pre_neuron in connections_dict.keys():
         if pre_neuron[:3] not in muscles:
-            neuron_connections_old =connections_dict[pre_neuron]
-            post_count = len(neuron_connections_old)
-            sum_old =0
-            sum_new=0
-            for n,a in neuron_connections_old.items():
-                sum_old+=a
-                sum_new+=combined_weights[c]
-                
-                #print(n,a,combined_weights[c],c)
-                c+=1
+            neuron_connections_old = connections_dict[pre_neuron]
+            #sum_old = 0
+            #sum_new = 0
+            group = neuron_to_group.get(pre_neuron)
+            for n, a in neuron_connections_old.items():
+                vn = combined_weights[c]
+                vo = a
+                c += 1                
+                group_sums_new[group] += (-1 if vn < vo else (0 if vn >vo else 0))
+    # Calculate the differences for each group
+    group_diffs = {group: (group_sums_new[group]) for group in neuron_groups.keys()}
 
-            weights_by_pre_neurons_new[pre_neuron] = {'post_count': post_count, 'value_new': sum_new,'value_old':sum_old}
+    # Prepare data for plotting
+    groups = list(neuron_groups.keys())
+    values = [group_diffs[group] for group in groups]
 
-    post_counts = []
-    value_new = []
-    value_old = []
-    for neuron, values in weights_by_pre_neurons_new.items():
-        post_counts.append(values['post_count'])
-        value_new.append(values['value_new'])
-        value_old.append(values['value_old'])
-
-    # Define bins (10 bins for example)
-    bins = np.linspace(np.min(post_counts), np.max(post_counts), 11)  # 11 edges for 10 bins
-
-    # Calculate sum of value_new for each bin
-    sum_value_new = np.zeros(len(bins) - 1)
-
-    # Populate the sum_value_new array
-    for pc, vn,vo in zip(post_counts, value_new,value_old):
-        bin_index = np.digitize(pc, bins) - 2  # Find the bin index for the post_count
-        #
-        sum_value_new[bin_index] += (-1 if vn < vo else (0 if vn ==vo else 1))
-    
     # Plot the histogram
-    plt.subplot(3, 3, 5)
-    plt.hist(bins[:-1], bins=bins, weights=sum_value_new, edgecolor='black', alpha=0.7)
-    plt.xlabel('Post Count Range')
-    plt.ylabel('Sum of value_new')
-    plt.title('Histogram of Sum of value_new by Post Count Range')
-    bin_edges_labels = [f'{int(bins[i])}' for i in range(len(bins))]
-    plt.xticks(bins, bin_edges_labels, ha='right')
+    plt.subplot(3,3,5)
+    plt.ylim= [-10,10]
+    plt.bar(groups, values, edgecolor='black', alpha=0.7)
+    plt.xlabel('Neuron Group')
+    plt.ylabel('Number of Increases or Decreases')
+    plt.title('Cumulative Accumulation of Increases and Decreases ')
+    plt.xticks(rotation=90)
+    
+            
+    neuron_to_group = shortest_distances
+    dist_groups = np.unique(list(neuron_to_group.values()))
+    # Initialize dictionaries to store the sums
+    group_sums_new = {group: 0 for group in dist_groups}
+    c = 0
+    for pre_neuron in connections_dict.keys():
+        if pre_neuron[:3] not in muscles:
+            neuron_connections_old = connections_dict[pre_neuron]
+            #sum_old = 0
+            #sum_new = 0
+            group = neuron_to_group.get(pre_neuron)
+            for n, a in neuron_connections_old.items():
+                vn = combined_weights[c]
+                vo = a
+                c += 1
+            
+                group_sums_new[group] += (-1 if vn < vo else (0 if vn >vo else 0))
+            
+    # Calculate the differences for each group
+    group_diffs = {group: (group_sums_new[group]) for group in dist_groups}
 
+    # Prepare data for plotting
+    groups = dist_groups
+    values = [group_diffs[group] for group in groups]
 
-
-
+    # Plot the histogram
+    plt.subplot(3,3,6)
+    #plt.ylim= [-10,10]
+    plt.bar(groups, values, edgecolor='black', alpha=0.7)
+    plt.xlabel('Distance from Motor Neuron')
+    plt.ylabel('Number of Increases or Decreases')
+    plt.title('Cumulative Accumulation of Increases and Decreases ')
+    
     # Distribution of Weights Subplot
-    ax6 = plt.subplot(3, 3, 6)
-    plot_weight_distribution(ax6,combined_weights,old_wm)
+    #ax6 = plt.subplot(3, 3, 6)
+    #plot_weight_distribution(ax6,combined_weights,old_wm)
 
     plt.tight_layout()
-    filename = rf'C:\Users\Miles\Desktop\Work\C.-Elegan-bias-Exploration\celega\Non_Biased_Dynamic_C\tmp_img\weight_matrix_generation_{10000+generation}.png'
-
+    filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img/weight_matrix_generation_{10000+generation}.png'
     plt.savefig(filename)
-    plt.close('all')
+    plt.close()
     del square_weight_matrix, weight_matrix_df, sorted_matrix_df
 
 

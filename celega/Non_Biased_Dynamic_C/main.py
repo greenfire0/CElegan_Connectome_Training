@@ -6,12 +6,16 @@ from util.write_read_txt import write_array_to_file, read_array_from_file
 import numpy as np 
 
 
-population_size = 8**3
-generations = 100
+population_size = 8*2
+generations = 300
 mutation_rate = 1
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
 train_params =3689 #number of connections
+
+
+##DISTANCE FROM MOTOR ON Y
+##CHANGE IN SYNAPTIC STRENGTH ANALOG
 
 
 
@@ -26,7 +30,6 @@ for sub_dict in dict.values():
      # Extend the values list with the values from each sub-dictionary
     values_list.extend(sub_dict.values())
 #3 1.0 376
-print()
 old_wm = np.array(values_list)
 print("Running Genetic Algoritm")
 env = WormSimulationEnv(num_worms=population_size)
