@@ -2,7 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-import networkx as nx
+import statistics
+
+
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 
 all_neuron_names = [
@@ -251,7 +253,6 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
                 group_sums_new[group] += (-1 if vn < vo else (0 if vn >vo else 0))
     # Calculate the differences for each group
     group_diffs = {group: (group_sums_new[group]) for group in neuron_groups.keys()}
-
     # Prepare data for plotting
     groups = list(neuron_groups.keys())
     values = [group_diffs[group] for group in groups]
@@ -265,7 +266,22 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     plt.title('Cumulative Accumulation of Increases and Decreases ')
     plt.xticks(rotation=90)
     
-            
+    #print(shortest_distances)
+    group_sums_new = {group: [] for group in neuron_groups.keys()}
+    for pre_neuron in connections_dict.keys():
+        if pre_neuron[:3] not in muscles:
+            neuron_connections_old = connections_dict[pre_neuron]
+            #sum_old = 0
+            #sum_new = 0
+            group = neuron_to_group.get(pre_neuron)     
+            val = shortest_distances.get(pre_neuron)
+            group_sums_new[group].append(val)
+    for a in group_sums_new.keys():
+        if group_sums_new[a] !=[]:
+            print(a,statistics.mode(group_sums_new[a]))
+
+    quit()
+
     neuron_to_group = shortest_distances
     dist_groups = np.unique(list(neuron_to_group.values()))
     # Initialize dictionaries to store the sums

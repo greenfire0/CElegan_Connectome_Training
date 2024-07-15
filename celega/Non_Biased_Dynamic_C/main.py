@@ -7,7 +7,7 @@ import numpy as np
 
 
 population_size = 8*2
-generations = 300
+generations = 1 
 mutation_rate = 1
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
