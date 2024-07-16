@@ -65,6 +65,7 @@ class GeneticRUN:
         cumulative_rewards = []
         for a in prob_type:
             env.reset(a)
+            candidate= WormConnectome(weight_matrix=self.random_dna,all_neuron_names=all_neuron_names)
             for _ in range(1):
                 observation = env._get_observations()
                 done = False
@@ -96,7 +97,7 @@ try:
 except:
     print("Input weights not read correctly")
 
-training_interval = 200  # Train the agent every 25 steps
+training_interval = 250  # Train the agent every 25 steps
 env = WormSimulationEnv(num_worms=1)
 
 GeneticRUN(random_dna, training_interval).run(env)

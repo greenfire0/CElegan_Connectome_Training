@@ -6,8 +6,8 @@ from util.write_read_txt import write_array_to_file, read_array_from_file
 import numpy as np 
 
 
-population_size = 8*2
-generations = 1 
+population_size = 8**3
+generations = 500
 mutation_rate = 1
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
@@ -17,7 +17,7 @@ train_params =3689 #number of connections
 ##DISTANCE FROM MOTOR ON Y
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
 
-
+### coiunt direct connections to the motor neurons/ number of neurons int yhe group
 
 ##que te vaya bien
 ##constantly validate results

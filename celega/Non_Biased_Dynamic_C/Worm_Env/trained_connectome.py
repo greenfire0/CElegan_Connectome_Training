@@ -3,7 +3,6 @@ from Worm_Env.weight_dict import dict
 import copy
 from numba import njit, typed, types
 from numba.typed import List
-
 import numpy as np
 
 @njit
@@ -20,7 +19,6 @@ def dendrite_accumulate(post_synaptic, combined_weights, dneuron, next_state):
 def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
     accumleft = 0
     accumright = 0
-    
     for muscle in muscleList:
         if muscle in mLeft:
             accumleft += post_synaptic[muscle][next_state]

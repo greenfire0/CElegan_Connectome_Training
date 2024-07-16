@@ -26,43 +26,62 @@ all_neuron_names = [
 
 
 neuron_groups = {
-    "Sensory Neurons": [
-        'ADAL', 'ADAR', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'ASEL', 'ASER', 'ASHL', 'ASHR',
-        'ASIL', 'ASIR', 'ASJL', 'ASJR', 'ASKL', 'ASKR', 'AUAL', 'AUAR', 'AWAL', 'AWAR',
-        'AWBL', 'AWBR', 'AWCL', 'AWCR', 'BAGL', 'BAGR', 'CEPDL', 'CEPDR', 'CEPVL',
-        'CEPVR', 'FLPL', 'FLPR', 'OLQDL', 'OLQDR', 'OLQVL', 'OLQVR', 'PDEL', 'PDER',
-        'PHAL', 'PHAR', 'PHBL', 'PHBR', 'PHCL', 'PHCR', 'PLML', 'PLMR', 'PLNL', 'PLNR',
-        'PQR', 'SDQL', 'SDQR', 'URADL', 'URADR', 'URAVL', 'URAVR', 'URBL', 'URBR',
-        'URXL', 'URXR', 'URYDL', 'URYDR', 'URYVL', 'URYVR', 'ADEL', 'ADER', 'AFDL',
-        'AFDR', 'ALNL', 'ALNR', 'AS1', 'AS2', 'AS3', 'AS4', 'AS5', 'AS6', 'AS7',
-        'AS8', 'AS9', 'AS10', 'AS11', 'ASGL', 'ASGR', 'AVL', 'BDUL', 'BDUR'
+    "Chemosensory Neurons": [
+        'ASEL', 'ASER', 'ASGL', 'ASGR', 'ASIL', 'ASIR', 'ASJL', 'ASJR', 'ASKL', 'ASKR',
+        'ASHL', 'ASHR', 'PLNL', 'PLNR'
     ],
-    "Interneurons": [
-        'AIAL', 'AIAR', 'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'AIYL', 'AIYR',
-        'AIZL', 'AIZR', 'ALA', 'AVAL', 'AVAR', 'AVBL', 'AVBR', 'AVDL', 'AVDR', 'AVEL',
-        'AVER', 'AVFL', 'AVFR', 'AVG', 'AVHL', 'AVHR', 'AVJL', 'AVJR', 'AVKL', 'AVKR',
-        'DVA', 'DVB', 'DVC', 'RIAL', 'RIAR', 'RIBL', 'RIBR', 'RICL', 'RICR', 'RID',
-        'RIFL', 'RIFR', 'RIGL', 'RIGR', 'RIH', 'RIML', 'RIMR', 'RIPL', 'RIPR', 'RIR',
-        'RIS', 'RIVL', 'RIVR', 'RMDDL', 'RMDDR', 'RMDL', 'RMDR', 'RMDVL', 'RMDVR',
-        'RMED', 'RMEL', 'RMER', 'RMEV', 'RMFL', 'RMFR', 'RMGL', 'RMGR', 'RMHL', 'RMHR',
-        'SAADL', 'SAADR', 'SAAVL', 'SAAVR', 'SABD', 'SABVL', 'SABVR', 'SIADL', 'SIADR',
-        'SIAVL', 'SIAVR', 'SIBDL', 'SIBDR', 'SIBVL', 'SIBVR', 'SMBDL', 'SMBDR', 'SMBVL',
-        'SMBVR', 'SMDDL', 'SMDDR', 'SMDVL', 'SMDVR', 'PVCL', 'PVCR', 'PVDL', 'PVDR',
-        'PVM', 'PVNL', 'PVNR', 'PVPL', 'PVPR', 'PVQL', 'PVQR', 'PVR', 'PVT', 'PVWL',
-        'PVWR', 'MCL', 'MCR'
+    "Mechanosensory Neurons": [
+        'ALML', 'ALMR', 'AVM', 'PLML', 'PLMR', 'PVD',  'ALML', 'ALMR', 'AVM'
+    ],
+    "Thermosensory Neurons": [
+        'AFDL', 'AFDR', 'AFD'
+    ],
+    "Photosensory Neurons": [
+        'CEPDL', 'CEPDR', 'CEPVL', 'CEPVR', 'URBL', 'URBR'
+    ],
+    "Multimodal Sensory Neurons": [
+        'ADAL', 'ADAR', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'AUAL', 'AUAR', 'AWAL', 'AWAR',
+        'AWBL', 'AWBR', 'AWCL', 'AWCR', 'BAGL', 'BAGR', 'FLPL', 'FLPR', 'OLQDL', 'OLQDR',
+        'OLQVL', 'OLQVR', 'PDEL', 'PDER', 'PHAL', 'PHAR', 'PHBL', 'PHBR', 'PHCL', 'PHCR',
+        'PQR', 'SDQL', 'SDQR', 'URADL', 'URADR', 'URAVL', 'URAVR', 'URXL', 'URXR', 'URYDL',
+        'URYDR', 'URYVL', 'URYVR', 'ADEL', 'ADER', 'AFDL', 'AFDR', 'ALNL', 'ALNR', 'AS1',
+        'AS2', 'AS3', 'AS4', 'AS5', 'AS6', 'AS7', 'AS8', 'AS9', 'AS10', 'AS11', 'ASGL',
+        'ASGR', 'AVL', 'BDUL', 'BDUR'
+    ],
+    "Locomotion-related Interneurons": [
+        'AVAL', 'AVAR', 'AVBL', 'AVBR', 'AVDL', 'AVDR', 'AVEL', 'AVER', 'RIML', 'RIMR',
+        'SAADL', 'SAADR', 'SAAVL', 'SAAVR', 'SMBDL', 'SMBDR', 'SMBVL', 'SMBVR', 'SMDDL',
+        'SMDDR', 'SMDVL', 'SMDVR', 'PVCL', 'PVCR', 'PVDL', 'PVDR'
+    ],
+    "Feeding-related Interneurons": [
+        'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'RIBL', 'RIBR', 'RICL', 'RICR',
+        'RID', 'RIFL', 'RIFR', 'RIGL', 'RIGR', 'RIH', 'RIPL', 'RIPR', 'RIR', 'RIS', 'RIVL',
+        'RIVR', 'RMED', 'RMEL', 'RMER', 'RMEV', 'RMFL', 'RMFR', 'RMGL', 'RMGR', 'RMHL',
+        'RMHR', 'RMDDL', 'RMDDR', 'RMDL', 'RMDR', 'RMDVL', 'RMDVR'
+    ],
+    "Egg-laying and Reproductive Interneurons": [
+        'HSNL', 'HSNR', 'PVNL', 'PVNR', 'PVQL', 'PVQR', 'PVR', 'PVT', 'PVWL', 'PVWR',
+        'PVM', 'PVPL', 'PVPR'
+    ],
+    "Sensory Integration Interneurons": [
+        'AIAL', 'AIAR', 'AIYL', 'AIYR', 'AIZL', 'AIZR', 'ALA', 'AVFL', 'AVFR', 'AVHL',
+        'AVHR', 'AVJL', 'AVJR', 'AVKL', 'AVKR', 'DVA', 'DVB', 'DVC', 'RIAL', 'RIAR', 'RIH',
+        'RIS', 'AVG'
+    ],
+    "Neuroendocrine Interneurons": [
+        'ALA', 'NSM'
     ],
     "Pharyngeal Neurons": [
         'I1L', 'I1R', 'I2L', 'I2R', 'I3', 'I4', 'I5', 'I6', 'M1', 'M2L', 'M2R', 'M3L',
-        'M3R', 'M4', 'M5'
+        'M3R', 'M4', 'M5', 'MCL', 'MCR'
     ],
     "Other Groups": [
         'AQR', 'HSNL', 'HSNR', 'NSML', 'NSMR', 'IL1DL', 'IL1DR', 'IL1L', 'IL1R', 'IL1VL',
         'IL1VR', 'IL2L', 'IL2R', 'IL2DL', 'IL2DR', 'IL2VL', 'IL2VR', 'LUAL', 'LUAR',
-        'PDA', 'PDB'
+        'PDA', 'PDB', 'SABD', 'SABVL', 'SABVR', 'SIADL', 'SIADR', 'SIAVL', 'SIAVR',
+        'SIBDL', 'SIBDR', 'SIBVL', 'SIBVR'
     ],
-    "Mechanosensory Neurons": [
-        'ALML', 'ALMR', 'AVM'
-    ],
+
     "Touch Neurons": [
         'DE1', 'DE2'
     ],
@@ -92,8 +111,6 @@ neuron_groups = {
         'MVR20', 'MVR21', 'MVR22', 'MVR23', 'MVR24', 'MVULVA', 'OLLL', 'OLLR', 'PDA', 'PDB'
     ]
 }
-
-
 missing_neurons = [neuron for neuron in all_neuron_names if neuron not in [neuron for group in neuron_groups.values() for neuron in group]]
 if missing_neurons:
     print(f"Missing neurons: {missing_neurons}")

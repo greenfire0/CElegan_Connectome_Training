@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import statistics
-
+from util.multimode import custom_multimode
 
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 
@@ -33,43 +33,62 @@ all_neuron_names = [
     'VC3', 'VC4', 'VC5', 'VC6', 'VD1', 'VD2', 'VD3', 'VD4', 'VD5', 'VD6', 'VD7', 'VD8', 'VD9', 'VD10', 'VD11', 'VD12', 'VD13'
 ]
 neuron_groups = {
-    "Sensory Neurons": [
-        'ADAL', 'ADAR', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'ASEL', 'ASER', 'ASHL', 'ASHR',
-        'ASIL', 'ASIR', 'ASJL', 'ASJR', 'ASKL', 'ASKR', 'AUAL', 'AUAR', 'AWAL', 'AWAR',
-        'AWBL', 'AWBR', 'AWCL', 'AWCR', 'BAGL', 'BAGR', 'CEPDL', 'CEPDR', 'CEPVL',
-        'CEPVR', 'FLPL', 'FLPR', 'OLQDL', 'OLQDR', 'OLQVL', 'OLQVR', 'PDEL', 'PDER',
-        'PHAL', 'PHAR', 'PHBL', 'PHBR', 'PHCL', 'PHCR', 'PLML', 'PLMR', 'PLNL', 'PLNR',
-        'PQR', 'SDQL', 'SDQR', 'URADL', 'URADR', 'URAVL', 'URAVR', 'URBL', 'URBR',
-        'URXL', 'URXR', 'URYDL', 'URYDR', 'URYVL', 'URYVR', 'ADEL', 'ADER', 'AFDL',
-        'AFDR', 'ALNL', 'ALNR', 'AS1', 'AS2', 'AS3', 'AS4', 'AS5', 'AS6', 'AS7',
-        'AS8', 'AS9', 'AS10', 'AS11', 'ASGL', 'ASGR', 'AVL', 'BDUL', 'BDUR'
+    "Chemosensory Neurons": [
+        'ASEL', 'ASER', 'ASGL', 'ASGR', 'ASIL', 'ASIR', 'ASJL', 'ASJR', 'ASKL', 'ASKR',
+        'ASHL', 'ASHR', 'PLNL', 'PLNR'
     ],
-    "Interneurons": [
-        'AIAL', 'AIAR', 'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'AIYL', 'AIYR',
-        'AIZL', 'AIZR', 'ALA', 'AVAL', 'AVAR', 'AVBL', 'AVBR', 'AVDL', 'AVDR', 'AVEL',
-        'AVER', 'AVFL', 'AVFR', 'AVG', 'AVHL', 'AVHR', 'AVJL', 'AVJR', 'AVKL', 'AVKR',
-        'DVA', 'DVB', 'DVC', 'RIAL', 'RIAR', 'RIBL', 'RIBR', 'RICL', 'RICR', 'RID',
-        'RIFL', 'RIFR', 'RIGL', 'RIGR', 'RIH', 'RIML', 'RIMR', 'RIPL', 'RIPR', 'RIR',
-        'RIS', 'RIVL', 'RIVR', 'RMDDL', 'RMDDR', 'RMDL', 'RMDR', 'RMDVL', 'RMDVR',
-        'RMED', 'RMEL', 'RMER', 'RMEV', 'RMFL', 'RMFR', 'RMGL', 'RMGR', 'RMHL', 'RMHR',
-        'SAADL', 'SAADR', 'SAAVL', 'SAAVR', 'SABD', 'SABVL', 'SABVR', 'SIADL', 'SIADR',
-        'SIAVL', 'SIAVR', 'SIBDL', 'SIBDR', 'SIBVL', 'SIBVR', 'SMBDL', 'SMBDR', 'SMBVL',
-        'SMBVR', 'SMDDL', 'SMDDR', 'SMDVL', 'SMDVR', 'PVCL', 'PVCR', 'PVDL', 'PVDR',
-        'PVM', 'PVNL', 'PVNR', 'PVPL', 'PVPR', 'PVQL', 'PVQR', 'PVR', 'PVT', 'PVWL',
-        'PVWR', 'MCL', 'MCR'
+    "Mechanosensory Neurons": [
+        'ALML', 'ALMR', 'AVM', 'PLML', 'PLMR', 'PVD',  'ALML', 'ALMR', 'AVM'
+    ],
+    "Thermosensory Neurons": [
+        'AFDL', 'AFDR', 'AFD'
+    ],
+    "Photosensory Neurons": [
+        'CEPDL', 'CEPDR', 'CEPVL', 'CEPVR', 'URBL', 'URBR'
+    ],
+    "Multimodal Sensory Neurons": [
+        'ADAL', 'ADAR', 'ADFL', 'ADFR', 'ADLL', 'ADLR', 'AUAL', 'AUAR', 'AWAL', 'AWAR',
+        'AWBL', 'AWBR', 'AWCL', 'AWCR', 'BAGL', 'BAGR', 'FLPL', 'FLPR', 'OLQDL', 'OLQDR',
+        'OLQVL', 'OLQVR', 'PDEL', 'PDER', 'PHAL', 'PHAR', 'PHBL', 'PHBR', 'PHCL', 'PHCR',
+        'PQR', 'SDQL', 'SDQR', 'URADL', 'URADR', 'URAVL', 'URAVR', 'URXL', 'URXR', 'URYDL',
+        'URYDR', 'URYVL', 'URYVR', 'ADEL', 'ADER', 'AFDL', 'AFDR', 'ALNL', 'ALNR', 'AS1',
+        'AS2', 'AS3', 'AS4', 'AS5', 'AS6', 'AS7', 'AS8', 'AS9', 'AS10', 'AS11', 'ASGL',
+        'ASGR', 'AVL', 'BDUL', 'BDUR'
+    ],
+    "Locomotion-related Interneurons": [
+        'AVAL', 'AVAR', 'AVBL', 'AVBR', 'AVDL', 'AVDR', 'AVEL', 'AVER', 'RIML', 'RIMR',
+        'SAADL', 'SAADR', 'SAAVL', 'SAAVR', 'SMBDL', 'SMBDR', 'SMBVL', 'SMBVR', 'SMDDL',
+        'SMDDR', 'SMDVL', 'SMDVR', 'PVCL', 'PVCR', 'PVDL', 'PVDR'
+    ],
+    "Feeding-related Interneurons": [
+        'AIBL', 'AIBR', 'AIML', 'AIMR', 'AINL', 'AINR', 'RIBL', 'RIBR', 'RICL', 'RICR',
+        'RID', 'RIFL', 'RIFR', 'RIGL', 'RIGR', 'RIH', 'RIPL', 'RIPR', 'RIR', 'RIS', 'RIVL',
+        'RIVR', 'RMED', 'RMEL', 'RMER', 'RMEV', 'RMFL', 'RMFR', 'RMGL', 'RMGR', 'RMHL',
+        'RMHR', 'RMDDL', 'RMDDR', 'RMDL', 'RMDR', 'RMDVL', 'RMDVR'
+    ],
+    "Reproductive Interneurons": [
+        'HSNL', 'HSNR', 'PVNL', 'PVNR', 'PVQL', 'PVQR', 'PVR', 'PVT', 'PVWL', 'PVWR',
+        'PVM', 'PVPL', 'PVPR'
+    ],
+    "Sensory Integration Interneurons": [
+        'AIAL', 'AIAR', 'AIYL', 'AIYR', 'AIZL', 'AIZR', 'ALA', 'AVFL', 'AVFR', 'AVHL',
+        'AVHR', 'AVJL', 'AVJR', 'AVKL', 'AVKR', 'DVA', 'DVB', 'DVC', 'RIAL', 'RIAR', 'RIH',
+        'RIS', 'AVG'
+    ],
+    "Neuroendocrine Interneurons": [
+        'ALA', 'NSM'
     ],
     "Pharyngeal Neurons": [
         'I1L', 'I1R', 'I2L', 'I2R', 'I3', 'I4', 'I5', 'I6', 'M1', 'M2L', 'M2R', 'M3L',
-        'M3R', 'M4', 'M5'
+        'M3R', 'M4', 'M5', 'MCL', 'MCR'
     ],
     "Other Groups": [
         'AQR', 'HSNL', 'HSNR', 'NSML', 'NSMR', 'IL1DL', 'IL1DR', 'IL1L', 'IL1R', 'IL1VL',
         'IL1VR', 'IL2L', 'IL2R', 'IL2DL', 'IL2DR', 'IL2VL', 'IL2VR', 'LUAL', 'LUAR',
-        'PDA', 'PDB'
+        'PDA', 'PDB', 'SABD', 'SABVL', 'SABVR', 'SIADL', 'SIADR', 'SIAVL', 'SIAVR',
+        'SIBDL', 'SIBDR', 'SIBVL', 'SIBVR'
     ],
-    "Mechanosensory Neurons": [
-        'ALML', 'ALMR', 'AVM'
-    ],
+
     "Touch Neurons": [
         'DE1', 'DE2'
     ],
@@ -216,8 +235,8 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     # Calculate the counts
     neg_to_pos = len(neg_to_pos_indices)
     pos_to_neg = len(pos_to_neg_indices)
-    print("Indices where old_wm is negative and combined_weights is positive:", neg_to_pos_indices)
-    print("Indices where old_wm is positive and combined_weights is negative:", pos_to_neg_indices)
+    #print("Indices where old_wm is negative and combined_weights is positive:", neg_to_pos_indices)
+    #print("Indices where old_wm is positive and combined_weights is negative:", pos_to_neg_indices)
 
     # Plotting the results
     labels = ['Negative to Positive', 'Positive to Negative']
@@ -235,7 +254,7 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     for group, neurons in neuron_groups.items():
         for neuron in neurons:
             neuron_to_group[neuron] = group
-
+    #print(neuron_to_group)  
     # Initialize dictionaries to store the sums
     group_sums_new = {group: 0 for group in neuron_groups.keys()}
 
@@ -249,7 +268,8 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
             for n, a in neuron_connections_old.items():
                 vn = combined_weights[c]
                 vo = a
-                c += 1                
+                c += 1              
+                
                 group_sums_new[group] += (-1 if vn < vo else (0 if vn >vo else 0))
     # Calculate the differences for each group
     group_diffs = {group: (group_sums_new[group]) for group in neuron_groups.keys()}
@@ -265,22 +285,50 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     plt.ylabel('Number of Increases or Decreases')
     plt.title('Cumulative Accumulation of Increases and Decreases ')
     plt.xticks(rotation=90)
-    
-    #print(shortest_distances)
-    group_sums_new = {group: [] for group in neuron_groups.keys()}
-    for pre_neuron in connections_dict.keys():
-        if pre_neuron[:3] not in muscles:
-            neuron_connections_old = connections_dict[pre_neuron]
-            #sum_old = 0
-            #sum_new = 0
-            group = neuron_to_group.get(pre_neuron)     
-            val = shortest_distances.get(pre_neuron)
-            group_sums_new[group].append(val)
-    for a in group_sums_new.keys():
-        if group_sums_new[a] !=[]:
-            print(a,statistics.mode(group_sums_new[a]))
+    def print_connection_info(neuron_to_group):
+        #print(shortest_distances)
+        group_sums_new = {group: [] for group in neuron_groups.keys()}
+        print("Mode connection distance from motor neuron")
+        for pre_neuron in connections_dict.keys():
+            if pre_neuron[:3] not in muscles:
+                neuron_connections_old = connections_dict[pre_neuron]
+                #sum_old = 0
+                #sum_new = 0
+                group = neuron_to_group.get(pre_neuron)     
+                val = shortest_distances.get(pre_neuron)
+                group_sums_new[group].append(val)
+        for a in group_sums_new.keys():
+            if group_sums_new[a] !=[]:
+                print(a,custom_multimode(group_sums_new[a]))
+        print("Direct Connections (Connections with 1 distance) to the Motor Neurons by neuron group")
+        lst= []
+        neuron_to_group = shortest_distances
+        dist_groups = np.unique(list(neuron_to_group.values()))
+        # Initialize dictionaries to store the sums
+        group_sums_new = {group: 0 for group in dist_groups}
+        c = 0
+        for pre_neuron in connections_dict.keys():
+            if pre_neuron[:3] not in muscles:
+                neuron_connections_old = connections_dict[pre_neuron]
+                #sum_old = 0
+                #sum_new = 0
+                group = neuron_to_group.get(pre_neuron)
+                if group ==1:
+                    lst.append(pre_neuron)
+                    
+        group_counts = {group: 0 for group in neuron_groups}
 
-    quit()
+        # Count the preneurons in lst for each group
+        for neuron in lst:
+            for group, neurons in neuron_groups.items():
+                if neuron in neurons:
+                    group_counts[group] += 1
+                    break  # Move to the next neuron in lst once a match is found
+        # Output the counts
+        print(group_counts)
+    
+    #print_connection_info(neuron_to_group)
+
 
     neuron_to_group = shortest_distances
     dist_groups = np.unique(list(neuron_to_group.values()))
@@ -318,7 +366,38 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     # Distribution of Weights Subplot
     #ax6 = plt.subplot(3, 3, 6)
     #plot_weight_distribution(ax6,combined_weights,old_wm)
+    def Cululative_gains_plot(ax,shortest_distances):
+        neuron_to_group = {}
+        for group, neurons in neuron_groups.items():
+            for neuron in neurons:
+                neuron_to_group[neuron] = group
+        group_sums_new = {group: 0 for group in neuron_groups.keys()}
+        c = 0
+        for pre_neuron in connections_dict.keys():
+            if pre_neuron[:3] not in muscles:
+                neuron_connections_old = connections_dict[pre_neuron]
+                #sum_old = 0
+                #sum_new = 0
+                group = neuron_to_group.get(pre_neuron)
+                for n, a in neuron_connections_old.items():
+                    vn = combined_weights[c]
+                    vo = a
+                    c += 1                
+                    group_sums_new[group] += (0 if vn < vo else (1 if vn >vo else 0))
+        # Calculate the differences for each group
+        group_diffs = {group: (group_sums_new[group]) for group in neuron_groups.keys()}
+        # Prepare data for plotting
+        groups = list(neuron_groups.keys())
+        values = [group_diffs[group] for group in groups]
 
+        # Plot the histogram
+
+        ax.bar(groups, values, edgecolor='black', alpha=0.7)
+        ax.set_xlabel('Neuron Group')
+        ax.set_ylabel('Number of Increases or Decreases')
+        ax.set_title('Cumulative Accumulation of Increases and Decreases ')
+        plt.xticks(rotation=90)
+    Cululative_gains_plot(plt.subplot(3,3,7),shortest_distances)
     plt.tight_layout()
     filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img/weight_matrix_generation_{10000+generation}.png'
     plt.savefig(filename)
