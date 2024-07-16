@@ -4,6 +4,7 @@ import seaborn as sns
 import pandas as pd
 import statistics
 from util.multimode import custom_multimode
+from collections import defaultdict
 
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 
@@ -258,33 +259,9 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     # Initialize dictionaries to store the sums
     group_sums_new = {group: 0 for group in neuron_groups.keys()}
 
-    c = 0
-    for pre_neuron in connections_dict.keys():
-        if pre_neuron[:3] not in muscles:
-            neuron_connections_old = connections_dict[pre_neuron]
-            #sum_old = 0
-            #sum_new = 0
-            group = neuron_to_group.get(pre_neuron)
-            for n, a in neuron_connections_old.items():
-                vn = combined_weights[c]
-                vo = a
-                c += 1              
-                
-                group_sums_new[group] += (-1 if vn < vo else (0 if vn >vo else 0))
-    # Calculate the differences for each group
-    group_diffs = {group: (group_sums_new[group]) for group in neuron_groups.keys()}
-    # Prepare data for plotting
     groups = list(neuron_groups.keys())
-    values = [group_diffs[group] for group in groups]
 
-    # Plot the histogram
-    plt.subplot(3,3,5)
-    plt.ylim= [-10,10]
-    plt.bar(groups, values, edgecolor='black', alpha=0.7)
-    plt.xlabel('Neuron Group')
-    plt.ylabel('Number of Increases or Decreases')
-    plt.title('Cumulative Accumulation of Increases and Decreases ')
-    plt.xticks(rotation=90)
+
     def print_connection_info(neuron_to_group):
         #print(shortest_distances)
         group_sums_new = {group: [] for group in neuron_groups.keys()}
@@ -328,6 +305,78 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
         print(group_counts)
     
     #print_connection_info(neuron_to_group)
+    def plot_loco_neuron_changes(subplot, loco_neuron_change):
+        """
+        Plots a bar graph of locomotion-related neuron changes.
+
+        Parameters:
+        subplot (matplotlib.axes.Axes): The subplot to plot the graph on.
+        loco_neuron_change (dict): Dictionary of neuron names and their corresponding changes.
+        """
+        neuron_names = list(loco_neuron_change.keys())
+        changes = list(loco_neuron_change.values())
+
+        subplot.bar(neuron_names, changes, color='skyblue')
+        subplot.set_xlabel('Neuron Names')
+        subplot.set_ylabel('Changes')
+        subplot.tick_params(axis='x', labelsize=6)
+        subplot.set_title('Locomotion-related Neuron Changes')
+        subplot.tick_params(axis='x', rotation=90)
+
+    loco_neuron_change_neg = defaultdict(lambda: 0)
+    loco_neuron_change_pos = defaultdict(lambda: 0)
+    modal_neuron_change_neg = defaultdict(lambda: 0)
+    modal_neuron_change_pos = defaultdict(lambda: 0)
+
+
+    neuron_to_group = shortest_distances
+    dist_groups = np.unique(list(neuron_to_group.values()))
+    # Initialize dictionaries to store the sums
+    group_sums_new = {group: 0 for group in dist_groups}
+    c = 0
+    for pre_neuron in connections_dict.keys():
+
+        if pre_neuron[:3] not in muscles:
+            neuron_connections_old = connections_dict[pre_neuron]
+            #sum_old = 0
+            #sum_new = 0
+            group = neuron_to_group.get(pre_neuron)
+            for n, a in neuron_connections_old.items():
+                vn = combined_weights[c]
+                vo = a
+                c += 1
+                #print(vn,vo)
+                v= (-1 if vn < vo else (0 if vn >vo else 0))
+                if pre_neuron in neuron_groups['Locomotion-related Interneurons']:
+                        loco_neuron_change_pos[pre_neuron] +=(0 if vn < vo else (1 if vn >vo else 0))
+                        loco_neuron_change_neg[pre_neuron] += v
+                elif pre_neuron in neuron_groups['Multimodal Sensory Neurons']:
+                        modal_neuron_change_neg[pre_neuron] += v
+                        modal_neuron_change_pos[pre_neuron] += (0 if vn < vo else (1 if vn >vo else 0))
+   
+
+                group_sums_new[group] += v
+            
+    # Calculate the differences for each group
+    group_diffs = {group: (group_sums_new[group]) for group in dist_groups}
+    # Prepare data for plotting
+    groups = dist_groups
+    values = [group_diffs[group] for group in groups]
+    plot_loco_neuron_changes(plt.subplot(3,3,8),loco_neuron_change_pos)
+    #plot_loco_neuron_changes(plt.subplot(3,3,8),loco_neuron_change_neg)
+    #plot_loco_neuron_changes(plt.subplot(3,3,7),modal_neuron_change_neg)
+    plot_loco_neuron_changes(plt.subplot(3,3,7),modal_neuron_change_pos)
+
+    # Plot the histogram
+    plt.subplot(3,3,9)
+    #plt.ylim= [-10,10]
+    plt.bar(groups, values, edgecolor='black', alpha=0.7)
+    plt.xlabel('Distance from Motor Neuron')
+    plt.ylabel('Number of Increases or Decreases')
+    plt.title('Number of Neuron connection Decreases By distance from motors')
+
+
+
 
 
     neuron_to_group = shortest_distances
@@ -346,7 +395,7 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
                 vo = a
                 c += 1
             
-                group_sums_new[group] += (-1 if vn < vo else (0 if vn >vo else 0))
+                group_sums_new[group] += (0 if vn < vo else (1 if vn >vo else 0))
             
     # Calculate the differences for each group
     group_diffs = {group: (group_sums_new[group]) for group in dist_groups}
@@ -356,17 +405,17 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     values = [group_diffs[group] for group in groups]
 
     # Plot the histogram
-    plt.subplot(3,3,6)
+    plt.subplot(3,3,9)
     #plt.ylim= [-10,10]
     plt.bar(groups, values, edgecolor='black', alpha=0.7)
     plt.xlabel('Distance from Motor Neuron')
-    plt.ylabel('Number of Increases or Decreases')
-    plt.title('Cumulative Accumulation of Increases and Decreases ')
+    plt.ylabel('Number of Increases ')
+    plt.title('Number of Increases by Distance from Motors')
     
     # Distribution of Weights Subplot
     #ax6 = plt.subplot(3, 3, 6)
     #plot_weight_distribution(ax6,combined_weights,old_wm)
-    def Cululative_gains_plot(ax,shortest_distances):
+    def Cululative_gains_plot(ax,shortest_distances,pos,t):
         neuron_to_group = {}
         for group, neurons in neuron_groups.items():
             for neuron in neurons:
@@ -383,7 +432,7 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
                     vn = combined_weights[c]
                     vo = a
                     c += 1                
-                    group_sums_new[group] += (0 if vn < vo else (1 if vn >vo else 0))
+                    group_sums_new[group] += (pos-1 if vn < vo else (pos  if vn >vo else 0))
         # Calculate the differences for each group
         group_diffs = {group: (group_sums_new[group]) for group in neuron_groups.keys()}
         # Prepare data for plotting
@@ -394,10 +443,11 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
 
         ax.bar(groups, values, edgecolor='black', alpha=0.7)
         ax.set_xlabel('Neuron Group')
-        ax.set_ylabel('Number of Increases or Decreases')
-        ax.set_title('Cumulative Accumulation of Increases and Decreases ')
+        ax.set_ylabel(t)
+        ax.set_title(t)
         plt.xticks(rotation=90)
-    Cululative_gains_plot(plt.subplot(3,3,7),shortest_distances)
+    Cululative_gains_plot(plt.subplot(3,3,5),shortest_distances,1,"Number of Increases")
+    Cululative_gains_plot(plt.subplot(3,3,6),shortest_distances,0,"Number of Decreases")
     plt.tight_layout()
     filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img/weight_matrix_generation_{10000+generation}.png'
     plt.savefig(filename)

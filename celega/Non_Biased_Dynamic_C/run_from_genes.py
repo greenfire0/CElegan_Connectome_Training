@@ -78,12 +78,8 @@ class GeneticRUN:
         return sum(cumulative_rewards)
 
     def run(self, env, generations=100):
-        pattern =  [5]
+        pattern =  [4]
         for _ in range(generations):
-            # Evaluate pattern worm
-
-                
-            # Evaluate random worm
             for worm_num, candidate in enumerate(self.population_random):
                 random_reward = self.evaluate_fitness(candidate, worm_num, env,pattern)
                 #candidate.createpostSynaptic()

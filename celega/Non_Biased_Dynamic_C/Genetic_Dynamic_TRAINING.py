@@ -149,7 +149,7 @@ class Genetic_Dyn_Algorithm:
                 fitnesses = []
                 for batch in population_batches:
                     fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, pattern, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
-                
+                #print(fitnesses)
                 best_index = np.argmax(fitnesses)
                 best_fitness = fitnesses[best_index]
                 best_candidate = self.population[best_index]

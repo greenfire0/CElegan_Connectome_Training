@@ -6,8 +6,8 @@ from util.write_read_txt import write_array_to_file, read_array_from_file
 import numpy as np 
 
 
-population_size = 8**3
-generations = 500
+population_size = 8*2
+generations = 50
 mutation_rate = 1
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
