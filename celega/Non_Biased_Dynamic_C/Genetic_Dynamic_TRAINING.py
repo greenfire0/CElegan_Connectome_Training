@@ -85,6 +85,7 @@ class Genetic_Dyn_Algorithm:
 
     def select_parents(self, fitnesses, num_parents):
         parents = np.argsort(fitnesses)[-num_parents:]
+    
         return [self.population[i] for i in parents]
 ###fix the corssover function so that for each theers a crossvoer
     def crossover(self, parents, fitnesses, num_offspring):
@@ -139,7 +140,7 @@ class Genetic_Dyn_Algorithm:
         dist_dict = dist_calc(dict)
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
-            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
+            object_store_memory=10 * 1024 * 1024 * 1024,  # 20 GB in bytes
             num_cpus=16,                                # Number of CPU cores
             )       
         pattern = [5]
