@@ -215,7 +215,7 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     plt.bar(post_neurons, avg_weight_sums, color='skyblue')
     plt.xlabel('Post Neurons')
     plt.ylabel('Normalized Weight Product')
-    plt.ylim = [0, 0.1]
+    plt.ylim(0, 0.1)
     plt.title('Weight Sum * Number of Connections')
 
     # Average Weight Quotient Subplot
@@ -223,7 +223,7 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     plt.bar(post_neurons, avg_weight_quots, color='skyblue')
     plt.xlabel('Post Neurons')
     plt.ylabel('Normalized Weight Quotient')
-    plt.ylim = [0, 0.01]
+    plt.ylim(0, 0.01)
     plt.title('Weight Sum / Number of Connections')
 
 
@@ -247,7 +247,7 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     plt.xlabel('Transition Type')
     plt.ylabel('Count')
     plt.title('Count of Transitions Between Negative and Positive Values')
-    plt.ylim = [0,20]
+    plt.ylim(0,20)
 
 
     # Percentage of Weights Greater Than 20 by Number of Pre-Neurons Subplot
@@ -304,10 +304,9 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
         # Output the counts
         print(group_counts)
     
-    #print_connection_info(neuron_to_group)
-    def plot_loco_neuron_changes(subplot, loco_neuron_change,t,c):
+    def plot_loco_neuron_changes(subplot, loco_neuron_change, t, c):
         """
-        Plots a bar graph of locomotion-related neuron changes.
+        Plots a bar graph of locomotion-related neuron changes with a solid horizontal line at y=0.
 
         Parameters:
         subplot (matplotlib.axes.Axes): The subplot to plot the graph on.
@@ -316,13 +315,24 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
         neuron_names = list(loco_neuron_change.keys())
         changes = list(loco_neuron_change.values())
 
-        subplot.bar(neuron_names, changes, color=c)
+        # Plot the bar chart with adjusted width and spacing
+        bar_width = 0.6  # Width of bars
+        x = np.arange(len(neuron_names))  # Positions of bars
+        subplot.bar(x, changes, width=bar_width, color=c,edgecolor='black',)
+
+        # Set the labels and title
         subplot.set_xlabel('Neuron Names')
         subplot.set_ylabel('Changes')
+        subplot.set_ylim([-5, 5])
         subplot.tick_params(axis='x', labelsize=6)
         subplot.set_title(t)
         subplot.tick_params(axis='x', rotation=90)
-        subplot.set
+
+        # Draw solid horizontal line at y=0
+
+        # Adjust x-ticks to match the bars
+        subplot.set_xticks(x)
+        subplot.set_xticklabels(neuron_names)
 
     loco_neuron_change_neg = defaultdict(lambda: 0)
     loco_neuron_change_pos = defaultdict(lambda: 0)
@@ -364,7 +374,6 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
 
     # Plot the histogram
     plt.subplot(3,3,9)
-    #plt.ylim= [-10,10]
     plt.bar(groups, values, edgecolor='black', alpha=0.7)
     plt.xlabel('Distance from Motor Neuron')
     plt.ylabel('Number of Increases or Decreases')
@@ -409,10 +418,13 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     plt.subplot(3,3,9)
     #plt.ylim= [-10,10]
     plt.bar(groups, values, edgecolor='black', alpha=0.7)
+ 
     plt.xlabel('Distance from Motor Neuron')
-    plt.ylabel('Number of Increases ')
+    plt.ylabel('Number of Increases or Decreases ')
     plt.title('Number of Increases by Distance from Motors')
-    print(loco_neuron_change_pos)
+    plt.ylim(-10, 10) 
+
+
     plot_loco_neuron_changes(plt.subplot(3,3,8),loco_neuron_change_pos,"Locomotion-related Neuron Changes","orange")
     plot_loco_neuron_changes(plt.subplot(3,3,8),loco_neuron_change_neg,"Locomotion-related Neuron Changes","skyblue")
     plot_loco_neuron_changes(plt.subplot(3,3,7),modal_neuron_change_pos,"Modal-related Neuron Changes","orange")
@@ -446,7 +458,8 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
         values = [group_diffs[group] for group in groups]
 
         # Plot the histogram
-
+        if pos: ax.set_ylim([0,10]) 
+        else: ax.set_ylim([-10,0])
         ax.bar(groups, values, edgecolor='black', alpha=0.7)
         ax.set_xlabel('Neuron Group')
         ax.set_ylabel(t)
@@ -455,9 +468,9 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
     Cululative_gains_plot(plt.subplot(3,3,5),shortest_distances,1,"Number of Increases")
     Cululative_gains_plot(plt.subplot(3,3,6),shortest_distances,0,"Number of Decreases")
     plt.tight_layout()
-    plt.show()
+    #plt.show()
     filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img/weight_matrix_generation_{10000+generation}.png'
-    #plt.savefig(filename)
+    plt.savefig(filename)
     plt.close()
     del square_weight_matrix, weight_matrix_df, sorted_matrix_df
 

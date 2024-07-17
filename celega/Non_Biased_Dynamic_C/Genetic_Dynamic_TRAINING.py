@@ -104,27 +104,19 @@ class Genetic_Dyn_Algorithm:
 
     def mutate(self, offspring, n=5):
         for child in offspring:
-            if np.random.rand() < self.mutation_rate:
-                flat_weights = child.weight_matrix.flatten()
-                indices_to_mutate = np.random.choice(len(flat_weights), size=n, replace=False)
+            if np.random.rand() < self.mutation_rate: 
+                indices_to_mutate = np.random.choice(self.matrix_shape, size=n, replace=False)
                 new_values = np.random.uniform(low=-20, high=20, size=n)
-                flat_weights[indices_to_mutate] = new_values
-                child.weight_matrix = flat_weights.reshape(self.matrix_shape)
-        return offspring
-
-    def mutate_addition(self, offspring):
-        for child in offspring:
-            if np.random.rand() < self.mutation_rate:
-                mutation = np.random.uniform(low=-1, high=1, size=self.matrix_shape)
-                child.weight_matrix += mutation
+                child.weight_matrix[indices_to_mutate] = new_values
         return offspring
 
     @staticmethod
     @ray.remote
     def evaluate_fitness_ray(candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
-        candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
-        cumulative_rewards = []
+        
+        sum_rewards = 0
         for a in prob_type:
+            candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
             env.reset(a)
             for _ in range(episodes):  # total_episodes
                 observation = env._get_observations()
@@ -133,8 +125,8 @@ class Genetic_Dyn_Algorithm:
                     next_observation, reward, _ = env.step(movement, worm_num, candidate)
                     #env.render(worm_num)
                     observation = next_observation
-                    cumulative_rewards.append(reward)
-        return np.sum(cumulative_rewards)
+                    sum_rewards+=reward
+        return sum_rewards
 
     def run(self, env, old_wm, generations=50, batch_size=32):
         dist_dict = dist_calc(dict)
@@ -143,7 +135,7 @@ class Genetic_Dyn_Algorithm:
             object_store_memory=10 * 1024 * 1024 * 1024,  # 20 GB in bytes
             num_cpus=16,                                # Number of CPU cores
             )       
-        pattern = [5]
+        pattern = [5,4]
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]

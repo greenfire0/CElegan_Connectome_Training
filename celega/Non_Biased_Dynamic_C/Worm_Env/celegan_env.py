@@ -33,7 +33,6 @@ class WormSimulationEnv(gym.Env):
         reward = 0.0
         for f in food_positions:
             distance_to_food = np.linalg.norm(worm_pos - f)
-
             if distance_to_food < foodradius:
                 reward += 30.0
             if distance_to_food < vision_radius:

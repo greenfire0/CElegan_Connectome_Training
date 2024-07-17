@@ -63,6 +63,7 @@ class GeneticRUN:
 
     def evaluate_fitness(self, candidate, worm_num, env, prob_type):
         cumulative_rewards = []
+        
         for a in prob_type:
             env.reset(a)
             candidate= WormConnectome(weight_matrix=self.random_dna,all_neuron_names=all_neuron_names)
@@ -78,7 +79,7 @@ class GeneticRUN:
         return sum(cumulative_rewards)
 
     def run(self, env, generations=100):
-        pattern =  [4]
+        pattern =  [5,4]
         for _ in range(generations):
             for worm_num, candidate in enumerate(self.population_random):
                 random_reward = self.evaluate_fitness(candidate, worm_num, env,pattern)
