@@ -17,3 +17,25 @@ def read_array_from_file(filename):
     except Exception as e:
         print(f"An error occurred while reading from the file: {e}")
         return []
+    
+
+def read_arrays_from_csv_pandas(filename):
+    import pandas as pd
+    df = pd.read_csv(filename, header=None)
+    arrays = df.values.tolist()  # Convert DataFrame to a list of lists
+    return arrays
+
+def delete_arrays_csv_if_exists():
+    import os
+    filename = 'arrays.csv'
+    if os.path.exists(filename):
+        os.remove(filename)
+        print(f"{filename} has been deleted.")
+    else:
+        print(f"{filename} does not exist.")
+    image_folder = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img'
+    for img in sorted(os.listdir(image_folder)):
+        if img.endswith('.png'):
+            img_path = os.path.join(image_folder, img)
+            os.remove(img_path)
+            print(f"Deleted image: {img_path}")

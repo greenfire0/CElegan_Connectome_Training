@@ -16,16 +16,7 @@ class WormSimulationEnv(gym.Env):
         self.range = 150
         self.reset(0, 40)
 
-    @staticmethod
-    @njit
-    def generate_circle_of_food(num_food, radius, center_x, center_y):
-        food = np.empty((num_food, 2))
-        for i in range(num_food):
-            angle = i * (2 * math.pi / num_food)
-            food_x = center_x + radius * math.cos(angle)
-            food_y = center_y + radius * math.sin(angle)
-            food[i] = [food_x, food_y]
-        return food
+
 
     @staticmethod
     @njit

@@ -3,8 +3,10 @@ import ray
 from Worm_Env.trained_connectome import WormConnectome
 from graphing import graph,graph_comparison
 from Worm_Env.weight_dict import dict
-from util.dist_dict_calc import dist_calc
+
 from tqdm import tqdm
+import csv
+
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 muscleList = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
 
@@ -51,22 +53,20 @@ all_neuron_names = [
 
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size, matrix_shape, mutation_rate=0.5, total_episodes=10, training_interval=25, genome=None):
+    def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3689,):
         self.population_size = population_size
         self.matrix_shape = matrix_shape
-        self.mutation_rate = mutation_rate
         self.total_episodes = total_episodes
         self.training_interval = training_interval
         self.original_genome = genome
+        self.food_patterns = pattern
         self.population = self.initialize_population(genome)
 
     def initialize_population(self, genome=None):
         population = []
         population.append(WormConnectome(weight_matrix=np.array(genome, dtype=float), all_neuron_names=all_neuron_names))
-
         for _ in range(self.population_size-1):
                 population.append(WormConnectome(weight_matrix=np.random.uniform(low=-20, high=20, size=self.matrix_shape).astype(np.float32), all_neuron_names=all_neuron_names))
-
         return population
 
     def evaluate_fitness(self, candidate, worm_num, env, prob_type):
@@ -104,7 +104,6 @@ class Genetic_Dyn_Algorithm:
 
     def mutate(self, offspring, n=5):
         for child in offspring:
-            if np.random.rand() < self.mutation_rate: 
                 indices_to_mutate = np.random.choice(self.matrix_shape, size=n, replace=False)
                 new_values = np.random.uniform(low=-20, high=20, size=n)
                 child.weight_matrix[indices_to_mutate] = new_values
@@ -128,20 +127,19 @@ class Genetic_Dyn_Algorithm:
                     sum_rewards+=reward
         return sum_rewards
 
-    def run(self, env, old_wm, generations=50, batch_size=32):
-        dist_dict = dist_calc(dict)
+    def run(self, env , generations=50, batch_size=32):
+        last_best = self.original_genome
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
-            object_store_memory=10 * 1024 * 1024 * 1024,  # 20 GB in bytes
+            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
             num_cpus=16,                                # Number of CPU cores
             )       
-        pattern = [5,4]
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 for batch in population_batches:
-                    fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, pattern, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
+                    fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
                 #print(fitnesses)
                 best_index = np.argmax(fitnesses)
                 best_fitness = fitnesses[best_index]
@@ -153,12 +151,16 @@ class Genetic_Dyn_Algorithm:
                 # Generate offspring through crossover and mutation
                 offspring = self.crossover(self.population, fitnesses, self.population_size - len(self.population)-1)
                 offspring = self.mutate(offspring)
-                
-                # Extend the population with the new offspring
-                graph(best_candidate.weight_matrix, dict, generation,old_wm,dist_dict)
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
+                
 
+                if not np.array_equal(last_best, best_candidate.weight_matrix):
+                    last_best = best_candidate.weight_matrix
+                    print("update")
+                    with open('arrays.csv', 'a', newline='') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow(best_candidate.weight_matrix.flatten().tolist()) 
             return best_candidate.weight_matrix
         
         finally:

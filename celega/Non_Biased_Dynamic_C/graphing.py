@@ -121,6 +121,7 @@ neuron_groups = {
 }
 
 def graph(combined_weights, connections_dict, generation,old_wm,shortest_distances):
+    assert type(combined_weights) == type(np.array([0])) ,  f"Expected type {type(np.array([0]))}, but got type {type(combined_weights)}"
     def plot_weight_distribution(ax, weight_matrix1, weight_matrix2, num_bins=30):
             non_zero_weights1 = weight_matrix1[weight_matrix1 != 0]
             non_zero_weights2 = weight_matrix2[weight_matrix2 != 0]
