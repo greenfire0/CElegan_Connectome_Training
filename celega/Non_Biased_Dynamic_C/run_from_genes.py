@@ -2,7 +2,10 @@ from Worm_Env.trained_connectome import WormConnectome
 from Worm_Env.celegan_env import WormSimulationEnv
 from util.write_read_txt import read_array_from_file
 import numpy as np
-
+import matplotlib
+from util.write_read_txt import read_arrays_from_csv_pandas
+matplotlib.use('TkAgg')  # TkAgg is a commonly used backend for interactive sessions
+import matplotlib.pyplot as plt
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 
 muscleList = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
@@ -79,7 +82,7 @@ class GeneticRUN:
         return sum(cumulative_rewards)
 
     def run(self, env, generations=100):
-        pattern =  [5,4]
+        pattern =  [5,1]
         for _ in range(generations):
             for worm_num, candidate in enumerate(self.population_random):
                 random_reward = self.evaluate_fitness(candidate, worm_num, env,pattern)
@@ -88,11 +91,13 @@ class GeneticRUN:
             # Print the difference in rewards
             print(f"Random worm reward: {random_reward}")
 
-try:
-    random_dna = np.array(read_array_from_file("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/cheaty_worm4.txt"))
-    assert len(random_dna) == 3689, "Random worm file not read correctly, missing weights or incorrect file"
-except:
-    print("Input weights not read correctly")
+
+random_dna = np.array(read_arrays_from_csv_pandas("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/arrays.csv"))
+random_dna = random_dna
+random_dna=random_dna[len(random_dna)-1]
+print()
+assert len(random_dna) == 3689, "Random worm file not read correctly, missing weights or incorrect file"
+
 
 training_interval = 250  # Train the agent every 25 steps
 env = WormSimulationEnv(num_worms=1)

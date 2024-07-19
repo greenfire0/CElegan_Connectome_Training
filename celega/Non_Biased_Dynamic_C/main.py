@@ -1,16 +1,17 @@
 from Worm_Env.celegan_env import WormSimulationEnv
 from Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm
+#from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm
 from Worm_Env.weight_dict import dict
 from graphing import graph_comparison,graph
 from util.write_read_txt import write_array_to_file, read_array_from_file, read_arrays_from_csv_pandas,delete_arrays_csv_if_exists
 import numpy as np 
 from util.dist_dict_calc import dist_calc
 
-population_size = 8*2
-generations = 15
+population_size = 8**3
+generations = 400
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
-food_patterns = [5,1]
+food_patterns = [5]
 
 ##DISTANCE FROM MOTOR ON Y
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
@@ -19,9 +20,9 @@ food_patterns = [5,1]
 ##constantly validate results
 ##start from a prexisting model and validate your code by recontruction of results
 
-clean_env = 1
-run_gen = 0
-graphing = 0
+clean_env = 0
+run_gen = 1
+graphing = 1
 
 ##normalize reward
 
