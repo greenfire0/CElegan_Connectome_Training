@@ -7,6 +7,8 @@ import PyNomad
 from tqdm import tqdm
 import csv
 
+values_list = []
+
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 muscleList = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
 
@@ -109,11 +111,26 @@ class Genetic_Dyn_Algorithm:
                 child.weight_matrix[indices_to_mutate] = new_values
         return offspring
 
-
+    @staticmethod
+    @ray.remote
+    def evaluate_fitness_ray_evo(candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
+        
+        sum_rewards = 0
+        for a in prob_type:
+            candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
+            env.reset(a)
+            for _ in range(episodes):  # total_episodes
+                observation = env._get_observations()
+                for _ in range(interval):  # training_interval
+                    movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
+                    next_observation, reward, _ = env.step(movement, worm_num, candidate)
+                    #env.render(worm_num)
+                    observation = next_observation
+                    sum_rewards+=reward
+        return sum_rewards
 
     def run(self, env, generations=50, batch_size=32):
         last_best = self.original_genome
-        
         ray.init(
             ignore_reinit_error=True,
             object_store_memory=15 * 1024 * 1024 * 1024,
@@ -124,14 +141,60 @@ class Genetic_Dyn_Algorithm:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
+                nomad_res=[]
+                futures = []
                 for batch in population_batches:
-                    fitnesses.extend(([self.evaluate_fitness_nomad(self.original_genome,candidate.weight_matrix, all_neuron_names, worm_num, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
-                quit()
+                    for worm_num, candidate in enumerate(batch):
+                        ind = len(np.where(candidate.weight_matrix != self.original_genome)[0])
+                        if (ind < 50) and (ind > 0):
+                            # Submit task to Ray and collect future
+                            futures.append(self.evaluate_fitness_nomad.remote(
+                                self.original_genome,
+                                candidate.weight_matrix,
+                                all_neuron_names,
+                                worm_num,
+                                env,
+                                self.food_patterns,
+                                mLeft,
+                                mRight,
+                                muscleList,
+                                muscles,
+                                self.training_interval,
+                                self.total_episodes
+                            ))
+                        else:
+                            # Submit task to Ray and collect future
+                            futures.append(self.evaluate_fitness_ray_evo.remote(
+                                candidate.weight_matrix,
+                                all_neuron_names,
+                                worm_num,
+                                env,
+                                self.food_patterns,
+                                mLeft,
+                                mRight,
+                                muscleList,
+                                muscles,
+                                self.training_interval,
+                                self.total_episodes
+                            ))
+
+                # Retrieve results from all futures
+                results = ray.get(futures)
+
+                # Process results
+                fitnesses = []
+                for result in results:
+                    # If `result` is a tuple, extract the relevant part. Modify as needed.
+                    if isinstance(result, tuple):
+                        fitnesses.append(result[1])
+                    else:
+                        fitnesses.append(result)
+
+                #print(fitnesses)
                 # Evaluate fitness using NOMAD in parallel
-                for batch in population_batches:
-                    fitnesses.extend(ray.get([self.evaluate_fitness_nomad.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
+             
                 
-                best_index = np.argmin(fitnesses)  # Use np.argmin for minimization
+                best_index = np.argmax(fitnesses)  # Use np.argmin for minimization
                 best_fitness = fitnesses[best_index]
                 best_candidate = self.population[best_index]
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
@@ -158,65 +221,70 @@ class Genetic_Dyn_Algorithm:
             ray.shutdown()
 
     @staticmethod
-    
-    #@ray.remote
-    def evaluate_fitness_nomad(ori,candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
+    @ray.remote
+    def evaluate_fitness_nomad(ori, candidate_weights, nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes):
         # Example of using NOMAD for fitness evaluation
-    
-        ind = np.where(candidate_weights!=ori)
+        candidate_weights = np.array(candidate_weights)
+
+        candidate_weights[0] = candidate_weights[0] - 1
+        candidate_weights[1] = candidate_weights[1] + 1
+
+        ind= np.where(candidate_weights != ori)[0]  # Get indices where the candidate weights differ from the original
         print(ind)
-        # Define bounds for NOMAD (if applicable)
-        x0 = candidate_weights
-        lower_bounds = candidate_weights-1
-
-        upper_bounds = candidate_weights+1
-        print(lower_bounds[0],upper_bounds[0])
+        assert ind != []
+        # Define initial point and bounds only for differing values
+        x0 = np.array(candidate_weights[ind])
+        lower_bounds = (x0 - 1).tolist()
+        upper_bounds = (x0 + 1).tolist()
+        x0 = x0.tolist()
+        
         params = [
+            'DISPLAY_DEGREE 0', 
+            'DISPLAY_STATS BBE BLK_SIZE OBJ', 
+            'BB_MAX_BLOCK_SIZE 4',
+            'MAX_BB_EVAL 100'
+        ]
+        wrapper = BlackboxWrapper(env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,ori)
+        result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)
+        # Use NOMAD's minimize function with blackbox_block and pass additional args
+        
+        # Reconstruct the full candidate weights with optimized values
+        #optimized_weights[ind] = result.x
+        candidate_weights[ind] = result['x_best']
+        return candidate_weights,-result['f_best']
 
-        'DISPLAY_DEGREE 0', 
-        'DISPLAY_STATS BBE BLK_SIZE OBJ', 
-        'BB_MAX_BLOCK_SIZE 4'
-    ]
-        # Use NOMAD's minimize function
-        result = PyNomad.optimize(blackbox_block, x0, lower_bounds, upper_bounds, params)
-        print(result)
-        return result.final_f
-    
-##heres the idea only optimization on points that changed check for floaths then find optimzal vales for htat subset
-def blackbox(eval_point):
-    from Worm_Env.celegan_env import WormSimulationEnv
+class BlackboxWrapper:
+    def __init__(self, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,index,ori):
+        self.env = env
+        self.prob_type = prob_type
+        self.mLeft = mLeft
+        self.mRight = mRight
+        self.muscleList = muscleList
+        self.muscles = muscles
+        self.interval = interval
+        self.episodes = episodes
+        self.ind = index
+        self.old_worm = ori
 
-    # Convert the evaluation point to a format suitable for candidate_weights
-    candidate_weights = eval_point.get_x().tolist()
-    
-    # Define other parameters required by evaluate_fitness_ray
-    nur_name = all_neuron_names        # Replace with actual neuron names
-    worm_num = 0           # Replace with actual worm number if needed
-    env = env = WormSimulationEnv(num_worms=1)          # Replace with actual environment instance
-    prob_type = [5]      # Replace with actual problem types
-    mLeft = mLeft           # Replace with actual value for mLeft
-    mRight = mRight         # Replace with actual value for mRight
-    muscleList = muscleList     # Replace with actual muscle list
-    muscles = muscles        # Replace with actual muscles
-    interval = 250        # Replace with actual interval
-    episodes = 1         # Replace with actual episodes
-    
-    # Evaluate fitness using evaluate_fitness_ray
-    eval_value = evaluate_fitness_ray(
-        candidate_weights, nur_name, worm_num, env, prob_type, 
-        mLeft, mRight, muscleList, muscles, interval, episodes
-    )
-    
-    # Set the evaluation value for NOMAD
-    eval_point.setBBO(str(eval_value).encode('utf-8'))
-    return True
+    def blackbox(self, eval_point):
+            candidate_edit = []
+            candidate_weights = np.copy(self.old_worm)
+            for a in range(len(self.ind)):
+                candidate_edit.append(eval_point.get_coord(a))
+            candidate_weights[self.ind] = candidate_edit
+            eval_value = evaluate_fitness_ray(
+                candidate_weights, all_neuron_names, 0, self.env, self.prob_type, 
+                self.mLeft, self.mRight, self.muscleList, self.muscles, self.interval, self.episodes
+            )
+            eval_point.setBBO(str(eval_value).encode('utf-8'))
+            return True
 
-def blackbox_block (eval_block):
-            eval_state = []
-            for index in range(eval_block.size()):
-                eval_point = eval_block.get_x(index)
-                eval_state.append(blackbox(eval_point))
-            return eval_state
+    def blackbox_block(self, eval_block):
+        eval_state = []
+        for index in range(eval_block.size()):
+            eval_point = eval_block.get_x(index)
+            eval_state.append(self.blackbox(eval_point))
+        return eval_state
 
 
 def evaluate_fitness_ray(candidate_weights, nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes):
@@ -231,4 +299,6 @@ def evaluate_fitness_ray(candidate_weights, nur_name, worm_num, env, prob_type, 
                     next_observation, reward, _ = env.step(movement, worm_num, candidate)
                     observation = next_observation
                     sum_rewards += reward
-        return -sum_rewards  # Minimize negative rewards
+        return float(-(sum_rewards))  # Minimize negative rewards
+
+
