@@ -125,7 +125,7 @@ class Genetic_Dyn_Algorithm:
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 for batch in population_batches:
-                    fitnesses.extend(([self.evaluate_fitness_nomad(candidate.weight_matrix, all_neuron_names, worm_num, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
+                    fitnesses.extend(([self.evaluate_fitness_nomad(self.original_genome,candidate.weight_matrix, all_neuron_names, worm_num, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
                 quit()
                 # Evaluate fitness using NOMAD in parallel
                 for batch in population_batches:
@@ -160,10 +160,11 @@ class Genetic_Dyn_Algorithm:
     @staticmethod
     
     #@ray.remote
-    def evaluate_fitness_nomad(candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
+    def evaluate_fitness_nomad(ori,candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
         # Example of using NOMAD for fitness evaluation
     
-        
+        ind = np.where(candidate_weights!=ori)
+        print(ind)
         # Define bounds for NOMAD (if applicable)
         x0 = candidate_weights
         lower_bounds = candidate_weights-1

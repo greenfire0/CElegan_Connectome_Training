@@ -7,7 +7,7 @@ from util.write_read_txt import write_array_to_file, read_array_from_file, read_
 import numpy as np 
 from util.dist_dict_calc import dist_calc
 
-population_size = 8**3
+population_size = 8*2
 generations = 400
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
@@ -20,7 +20,7 @@ food_patterns = [5]
 ##constantly validate results
 ##start from a prexisting model and validate your code by recontruction of results
 
-clean_env = 0
+clean_env = 1
 run_gen = 1
 graphing = 1
 
