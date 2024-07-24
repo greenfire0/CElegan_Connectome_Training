@@ -6,6 +6,7 @@ import matplotlib
 from util.write_read_txt import read_arrays_from_csv_pandas
 matplotlib.use('TkAgg')  # TkAgg is a commonly used backend for interactive sessions
 import matplotlib.pyplot as plt
+from Worm_Env.weight_dict import dict
 muscles = ['MVU', 'MVL', 'MDL', 'MVR', 'MDR']
 
 muscleList = ['MDL07', 'MDL08', 'MDL09', 'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18', 'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MVL07', 'MVL08', 'MVL09', 'MVL10', 'MVL11', 'MVL12', 'MVL13', 'MVL14', 'MVL15', 'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14', 'MDR15', 'MDR16', 'MDR17', 'MDR18', 'MDR19', 'MDR20', 'MDL21', 'MDR22', 'MDR23', 'MVR07', 'MVR08', 'MVR09', 'MVR10', 'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19', 'MVR20', 'MVL21', 'MVR22', 'MVR23']
@@ -58,48 +59,53 @@ class GeneticRUN:
         self.random_dna = random_dna
 
         self.training_interval = training_interval
-        self.population_random = self.initialize_population(self.random_dna)
+        self.population_random = self.initialize_population()
 
-    def initialize_population(self, dna):
-        population = [WormConnectome(weight_matrix=dna,all_neuron_names=all_neuron_names)]
+    def initialize_population(self):
+        population = []
+        for a in [self.random_dna]:
+            print(a)
+            population.append(WormConnectome(weight_matrix=np.array(a, dtype=np.float32), all_neuron_names=all_neuron_names))
         return population
 
-    def evaluate_fitness(self, candidate, worm_num, env, prob_type):
-        cumulative_rewards = []
-        
+    def evaluate_fitness(self, candidate, env, prob_type):
+        sum_rewards = 0
         for a in prob_type:
             env.reset(a)
-            candidate= WormConnectome(weight_matrix=self.random_dna,all_neuron_names=all_neuron_names)
-            for _ in range(1):
+            candidate = WormConnectome(weight_matrix=(candidate.weight_matrix),all_neuron_names=all_neuron_names)
+            for _ in range(1):  # total_episodes
                 observation = env._get_observations()
-                done = False
-                for _ in range(self.training_interval):
-                    movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, done = env.step(movement, worm_num, candidate)
-                    env.render(worm_num)
+                for _ in range(self.training_interval):  # training_interval
+                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
+                    next_observation, reward, _ = env.step(movement, 0, candidate)
+                    env.render()
                     observation = next_observation
-                    cumulative_rewards.append(reward)
-        return sum(cumulative_rewards)
+                    sum_rewards+=reward
+        return sum_rewards
 
     def run(self, env, generations=100):
-        pattern =  [5,1]
+        pattern =  [5]
         for _ in range(generations):
-            for worm_num, candidate in enumerate(self.population_random):
-                random_reward = self.evaluate_fitness(candidate, worm_num, env,pattern)
+            for  candidate in (self.population_random):
+                random_reward = self.evaluate_fitness(candidate, env,pattern)
                 #candidate.createpostSynaptic()
 
             # Print the difference in rewards
-            print(f"Random worm reward: {random_reward}")
+                print(f"Random worm reward: {random_reward}")
 
 
 random_dna = np.array(read_arrays_from_csv_pandas("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/arrays.csv"))
-random_dna = random_dna
-random_dna=random_dna[len(random_dna)-1]
-print()
+random_dna = random_dna[len(random_dna)-1]
+print(len(random_dna))
+values_list = []
+for sub_dict in dict.values():
+    values_list.extend(sub_dict.values())
+print(np.where(random_dna != values_list))
+random_dna=random_dna
 assert len(random_dna) == 3689, "Random worm file not read correctly, missing weights or incorrect file"
 
 
 training_interval = 250  # Train the agent every 25 steps
-env = WormSimulationEnv(num_worms=1)
+env = WormSimulationEnv()
 
 GeneticRUN(random_dna, training_interval).run(env)

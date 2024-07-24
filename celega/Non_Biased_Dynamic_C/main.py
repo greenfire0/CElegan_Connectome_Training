@@ -6,14 +6,15 @@ from graphing import graph_comparison,graph
 from util.write_read_txt import write_array_to_file, read_array_from_file, read_arrays_from_csv_pandas,delete_arrays_csv_if_exists
 import numpy as np 
 from util.dist_dict_calc import dist_calc
+from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
 
-population_size = 8**3
-generations = 400
+population_size = 64
+generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
 food_patterns = [5]
 
-##DISTANCE FROM MOTOR ON Y
+
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
 ##que te vaya bien
 ##gandul
@@ -25,13 +26,15 @@ run_gen = 1
 graphing = 1
 
 ##normalize reward
-
+     
 ##nomad algorithm
 
 values_list = []
 for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
-
+random_dna = np.array(read_arrays_from_csv_pandas("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/arrays.csv"))
+random_dna = random_dna
+values_list=random_dna[len(random_dna)-1]
 if clean_env:
     print("Clearning Environment ")
     delete_arrays_csv_if_exists()

@@ -1,12 +1,12 @@
 import numpy as np
 import ray
 from Worm_Env.trained_connectome import WormConnectome
-from graphing import graph,graph_comparison
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
 import PyNomad
 from tqdm import tqdm
 import csv
-
+import copy
+from util.write_read_txt import read_arrays_from_csv_pandas
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,):
         self.population_size = population_size
@@ -16,10 +16,23 @@ class Genetic_Dyn_Algorithm:
         self.original_genome = genome
         self.food_patterns = pattern
         self.population = self.initialize_population(genome)
-
+    def evaluate_fitness(self, candidate, env, prob_type):
+        sum_rewards = 0
+        for a in prob_type:
+            env.reset(a)
+            candidate = WormConnectome(weight_matrix=(candidate.weight_matrix),all_neuron_names=all_neuron_names)
+            for _ in range(1):  # total_episodes
+                observation = env._get_observations()
+                for _ in range(self.training_interval):  # training_interval
+                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
+                    next_observation, reward, _ = env.step(movement, 0, candidate)
+                    env.render()
+                    observation = next_observation
+                    sum_rewards+=reward
+        return sum_rewards
     def initialize_population(self, genome=None):
         population = []
-        population.append(WormConnectome(weight_matrix=np.array(genome, dtype=float), all_neuron_names=all_neuron_names))
+        population.append(WormConnectome(weight_matrix=np.array(genome, dtype=np.float32), all_neuron_names=all_neuron_names))
         for _ in range(self.population_size-1):
                 population.append(self.give_random_worm())
         return population
@@ -57,7 +70,7 @@ class Genetic_Dyn_Algorithm:
 
     @staticmethod
     @ray.remote
-    def evaluate_fitness_ray_evo(candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
+    def evaluate_fitness_ray_evo(candidate_weights,nur_name, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
         sum_rewards = 0
         for a in prob_type:
             candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
@@ -65,14 +78,15 @@ class Genetic_Dyn_Algorithm:
             for _ in range(episodes):  # total_episodes
                 observation = env._get_observations()
                 for _ in range(interval):  # training_interval
-                    movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, _ = env.step(movement, worm_num, candidate)
+                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
+                    next_observation, reward, _ = env.step(movement, 0, candidate)
+
                     observation = next_observation
                     sum_rewards+=reward
         return sum_rewards
 
     def run(self, env, generations=50, batch_size=32):
-        last_best = self.original_genome
+        last_best = 400
         ray.init(
             ignore_reinit_error=True,
             object_store_memory=15 * 1024 * 1024 * 1024,
@@ -84,16 +98,20 @@ class Genetic_Dyn_Algorithm:
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 futures = []
+                record_ind = []
+            
                 for batch in population_batches:
-                    for  candidate in enumerate(batch):
+                    for candidate in (batch):
                         ind = (np.where(candidate.weight_matrix != self.original_genome)[0])
-                        if (len(ind) < 50) and (len(ind) > 0):
+                        if (len(ind) < 50) and (len(ind) > 0) and not any(np.array_equal(ind, arr) for arr in record_ind):
+                            record_ind.append(ind)
+                            #print(record_ind)
                             # Submit task to Ray and collect future
+                            
                             futures.append(self.evaluate_fitness_nomad.remote(
                                 self.original_genome,
                                 candidate.weight_matrix,
                                 all_neuron_names,
-                                0,
                                 env,
                                 self.food_patterns,
                                 mLeft,
@@ -104,12 +122,14 @@ class Genetic_Dyn_Algorithm:
                                 self.total_episodes,
                                 ind
                             ))
+
+                            
                         else:
                             # Submit task to Ray and collect future
                             futures.append(self.evaluate_fitness_ray_evo.remote(
                                 candidate.weight_matrix,
                                 all_neuron_names,
-                                0,
+                                
                                 env,
                                 self.food_patterns,
                                 mLeft,
@@ -120,16 +140,16 @@ class Genetic_Dyn_Algorithm:
                                 self.total_episodes
                             ))
                 results = ray.get(futures)
-
                 # Process results
                 fitnesses = []
-                for result in results:
+                for a,result in enumerate(results):
                     if isinstance(result, tuple):
+                        
+                        self.population[a].weight_matrix[result[0][0]] = np.copy(result[0][1])
                         fitnesses.append(result[1])
                     else:
                         fitnesses.append(result)
 
-                #print(fitnesses)
                 # Evaluate fitness using NOMAD in parallel
              
                 
@@ -137,7 +157,6 @@ class Genetic_Dyn_Algorithm:
                 best_fitness = fitnesses[best_index]
                 best_candidate = self.population[best_index]
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
-                
                 # Select parents from the entire population
                 self.population = self.select_parents(fitnesses, self.population_size // 2)
                 
@@ -146,27 +165,31 @@ class Genetic_Dyn_Algorithm:
                 offspring = self.mutate(offspring)
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
-
-                if not np.array_equal(last_best, best_candidate.weight_matrix):
-                    last_best = best_candidate.weight_matrix
+                
+                
+                if best_fitness>last_best :
+                    last_best = best_fitness
                     print("Update")
+                    #print(self.evaluate_fitness(best_candidate,env,[5]))
                     with open('arrays.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
-                        writer.writerow(best_candidate.weight_matrix.flatten().tolist())
+                        
+                        writer.writerow(best_candidate.weight_matrix.tolist())
+
             
             return best_candidate.weight_matrix
         
         finally:
             ray.shutdown()
-
+    ##prevent already searched shit from vbieng searchged
     @staticmethod
     @ray.remote
-    def evaluate_fitness_nomad(ori, candidate_weights, nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind):
+    def evaluate_fitness_nomad(ori, candidate_weights, nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind):
         if ind.size == 0:
                 raise ValueError("No difference between candidate weights and original weights")
         x0 = np.array(candidate_weights[ind])
-        lower_bounds = (x0 - 1).tolist()
-        upper_bounds = (x0 + 1).tolist()
+        lower_bounds = (x0 - 2).tolist()
+        upper_bounds = (x0 + 2).tolist()
         x0 = x0.tolist()
         
         params = [
@@ -203,11 +226,13 @@ class BlackboxWrapper:
             for a in range(len(self.ind)):
                 candidate_edit.append(eval_point.get_coord(a))
             candidate_weights[self.ind] = candidate_edit
+
             eval_value = evaluate_fitness_ray(
-                candidate_weights, all_neuron_names, 0, self.env, self.prob_type, 
-                self.mLeft, self.mRight, self.muscleList, self.muscles, self.interval, self.episodes
-            )
+                    candidate_weights, all_neuron_names, self.env, self.prob_type, 
+                    self.mLeft, self.mRight, self.muscleList, self.muscles, self.interval, self.episodes)
+            
             eval_point.setBBO(str(eval_value).encode('utf-8'))
+            del candidate_weights
             return True
 
     def blackbox_block(self, eval_block):
@@ -218,7 +243,7 @@ class BlackboxWrapper:
         return eval_state
 
 
-def evaluate_fitness_ray(candidate_weights, nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes):
+def evaluate_fitness_ray(candidate_weights, nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes):
         sum_rewards = 0
         for a in prob_type:
             candidate = WormConnectome(weight_matrix=candidate_weights, all_neuron_names=nur_name)
@@ -226,8 +251,8 @@ def evaluate_fitness_ray(candidate_weights, nur_name, worm_num, env, prob_type, 
             for _ in range(episodes):
                 observation = env._get_observations()
                 for _ in range(interval):
-                    movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, _ = env.step(movement, worm_num, candidate)
+                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
+                    next_observation, reward, _ = env.step(movement, 0, candidate)
                     observation = next_observation
                     sum_rewards += reward
         return float(-(sum_rewards))  # Minimize negative rewards

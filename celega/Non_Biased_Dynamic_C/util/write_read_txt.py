@@ -21,8 +21,11 @@ def read_array_from_file(filename):
 
 def read_arrays_from_csv_pandas(filename):
     import pandas as pd
-    df = pd.read_csv(filename, header=None)
-    arrays = df.values.tolist()  # Convert DataFrame to a list of lists
+    df = (pd.read_csv(filename, header=None))
+    print(f"{df} Worms Loaded")
+    arrays = df.values.tolist()  
+    assert len(df) == len(arrays)
+    df.to_csv(filename, index=False, header=False)
     return arrays
 
 def delete_arrays_csv_if_exists():
