@@ -9,7 +9,7 @@ from util.dist_dict_calc import dist_calc
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
 
 population_size = 64
-generations = 100
+generations = 200
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
 food_patterns = [5]
