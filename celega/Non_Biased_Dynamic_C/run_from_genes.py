@@ -84,7 +84,7 @@ class GeneticRUN:
         return sum_rewards
 
     def run(self, env, generations=100):
-        pattern =  [5]
+        pattern =  [5,1]
         for _ in range(generations):
             for  candidate in (self.population_random):
                 random_reward = self.evaluate_fitness(candidate, env,pattern)

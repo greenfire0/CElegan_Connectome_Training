@@ -8,14 +8,16 @@ import csv
 import copy
 from util.write_read_txt import read_arrays_from_csv_pandas
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,):
+    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,testing_mode=0,matrix_shape= 3689):
         self.population_size = population_size
         self.matrix_shape = matrix_shape
         self.total_episodes = total_episodes
         self.training_interval = training_interval
         self.original_genome = genome
         self.food_patterns = pattern
+        assert(len(genome) == matrix_shape)
         self.population = self.initialize_population(genome)
+        self.testing_mode = testing_mode
     def evaluate_fitness(self, candidate, env, prob_type):
         sum_rewards = 0
         for a in prob_type:
@@ -86,20 +88,22 @@ class Genetic_Dyn_Algorithm:
         return sum_rewards
 
     def run(self, env, generations=50, batch_size=32):
-        last_best = 400
+        last_best = 0
         ray.init(
             ignore_reinit_error=True,
             object_store_memory=15 * 1024 * 1024 * 1024,
             num_cpus=16,
         )
-        
+        if self.testing_mode:
+            while 1:
+                print(self.evaluate_fitness(self.population[0],env,self.food_patterns))
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 futures = []
                 record_ind = []
-            
+
                 for batch in population_batches:
                     for candidate in (batch):
                         ind = (np.where(candidate.weight_matrix != self.original_genome)[0])
@@ -166,11 +170,14 @@ class Genetic_Dyn_Algorithm:
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
                 
-                
                 if best_fitness>last_best :
+                    
+
                     last_best = best_fitness
                     print("Update")
-                    #print(self.evaluate_fitness(best_candidate,env,[5]))
+                    val = (self.evaluate_fitness(best_candidate,env,self.food_patterns))
+                    print(val)
+                    assert best_fitness==val
                     with open('arrays.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
                         

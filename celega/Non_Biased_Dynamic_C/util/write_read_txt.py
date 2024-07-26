@@ -22,7 +22,7 @@ def read_array_from_file(filename):
 def read_arrays_from_csv_pandas(filename):
     import pandas as pd
     df = (pd.read_csv(filename, header=None))
-    print(f"{df} Worms Loaded")
+    print(f"{(df.shape[0])} Worms Loaded")
     arrays = df.values.tolist()  
     assert len(df) == len(arrays)
     df.to_csv(filename, index=False, header=False)

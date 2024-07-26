@@ -8,22 +8,26 @@ import numpy as np
 from util.dist_dict_calc import dist_calc
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
 
+# Set up logging to only display ERROR and CRITICAL messages
+## guided evolutionary nomadic search
 population_size = 64
-generations = 200
+generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
-food_patterns = [5]
+food_patterns = [5,1]
 
 
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
 ##que te vaya bien
 ##gandul
+##ssh miles@upf.gdsa
 ##constantly validate results
 ##start from a prexisting model and validate your code by recontruction of results
 
-clean_env = 0
+clean_env = 1
 run_gen = 1
 graphing = 1
+testing_mode = 0
 
 ##normalize reward
      
@@ -32,16 +36,14 @@ graphing = 1
 values_list = []
 for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
-random_dna = np.array(read_arrays_from_csv_pandas("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/arrays.csv"))
-random_dna = random_dna
-values_list=random_dna[len(random_dna)-1]
+
 if clean_env:
     print("Clearning Environment ")
     delete_arrays_csv_if_exists()
 if run_gen:
     print("Running Genetic Algoritm")
     env = WormSimulationEnv()
-    ga = Genetic_Dyn_Algorithm(population_size, food_patterns, total_episodes, training_interval,values_list)
+    ga = Genetic_Dyn_Algorithm(population_size, food_patterns, total_episodes, training_interval,values_list,testing_mode)
     best_weight_matrix = ga.run(env, generations)
     print("Best weight matrix found:", best_weight_matrix)   
 if graphing:
