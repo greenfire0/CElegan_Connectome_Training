@@ -10,7 +10,7 @@ from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron
 
 # Set up logging to only display ERROR and CRITICAL messages
 ## guided evolutionary nomadic search
-population_size = 64
+population_size = 4
 generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
