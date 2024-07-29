@@ -53,7 +53,7 @@ all_neuron_names = [
 
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3689,):
+    def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3689):
         self.population_size = population_size
         self.matrix_shape = matrix_shape
         self.total_episodes = total_episodes
@@ -111,7 +111,7 @@ class Genetic_Dyn_Algorithm:
 
     @staticmethod
     @ray.remote
-    def evaluate_fitness_ray(candidate_weights,nur_name, worm_num, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
+    def evaluate_fitness_ray(candidate_weights,nur_name, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
         
         sum_rewards = 0
         for a in prob_type:
@@ -120,15 +120,15 @@ class Genetic_Dyn_Algorithm:
             for _ in range(episodes):  # total_episodes
                 observation = env._get_observations()
                 for _ in range(interval):  # training_interval
-                    movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, _ = env.step(movement, worm_num, candidate)
+                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
+                    next_observation, reward, _ = env.step(movement, 0, candidate)
                     #env.render(worm_num)
                     observation = next_observation
                     sum_rewards+=reward
         return sum_rewards
 
     def run(self, env , generations=50, batch_size=32):
-        last_best = self.original_genome
+        last_best =0
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
             object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
@@ -139,7 +139,7 @@ class Genetic_Dyn_Algorithm:
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 for batch in population_batches:
-                    fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, worm_num, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
+                    fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
                 #print(fitnesses)
                 best_index = np.argmax(fitnesses)
                 best_fitness = fitnesses[best_index]
@@ -155,9 +155,9 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_candidate)
                 
 
-                if not np.array_equal(last_best, best_candidate.weight_matrix):
-                    last_best = best_candidate.weight_matrix
-                    print("update")
+                if not np.array_equal(last_best, best_candidate.weight_matrix) or True:
+                    #last_best = best_candidate.weight_matrix
+                    #print("update")
                     with open('arrays.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
                         writer.writerow(best_candidate.weight_matrix.flatten().tolist()) 
