@@ -1,6 +1,7 @@
 from Worm_Env.celegan_env import WormSimulationEnv
 #from Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm
-from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm
+#from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm
+from Figure_gen import Genetic_Dyn_Algorithm
 from Worm_Env.weight_dict import dict
 from graphing import graph_comparison,graph
 from util.write_read_txt import write_array_to_file, read_array_from_file, read_arrays_from_csv_pandas,delete_arrays_csv_if_exists
@@ -10,11 +11,11 @@ from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron
 
 # Set up logging to only display ERROR and CRITICAL messages
 ## guided evolutionary nomadic search
-population_size = 64
-generations = 100
+population_size = (8**4)*2
+generations = 1
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
-food_patterns = [5,1]
+food_patterns = [5]
 
 
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
@@ -24,9 +25,9 @@ food_patterns = [5,1]
 ##constantly validate results
 ##start from a prexisting model and validate your code by recontruction of results
 
-clean_env = 1
+clean_env = 0
 run_gen = 1
-graphing = 1
+graphing = 0
 testing_mode = 0
 
 ##normalize reward
@@ -43,7 +44,7 @@ if clean_env:
 if run_gen:
     print("Running Genetic Algoritm")
     env = WormSimulationEnv()
-    ga = Genetic_Dyn_Algorithm(population_size, food_patterns, total_episodes, training_interval,values_list,testing_mode)
+    ga = Genetic_Dyn_Algorithm(population_size, food_patterns, total_episodes, training_interval,values_list)
     best_weight_matrix = ga.run(env, generations)
     print("Best weight matrix found:", best_weight_matrix)   
 if graphing:
