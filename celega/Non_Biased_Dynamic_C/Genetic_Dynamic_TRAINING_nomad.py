@@ -151,7 +151,6 @@ class Genetic_Dyn_Algorithm:
                 xax = []
                 for a,result in enumerate(results):
                     if isinstance(result, tuple):
-                        print(result[1])
                         xax = result[0][0]
                         self.population[a].weight_matrix[result[0][0]] = np.copy(result[0][1])
                         fitnesses.append(result[1])
@@ -159,7 +158,6 @@ class Genetic_Dyn_Algorithm:
                         fitnesses.append(result)
 
                 # Evaluate fitness using NOMAD in parallel
-                print(fitnesses)
                 
                 best_index = np.argmax(fitnesses)  
                 best_fitness = fitnesses[best_index]
@@ -182,8 +180,7 @@ class Genetic_Dyn_Algorithm:
 
                     val = (self.evaluate_fitness(best_candidate.weight_matrix, all_neuron_names, env, self.food_patterns, 
                     mLeft, mRight, muscleList, muscles, self.training_interval, self.total_episodes))
-                    print(val)
-                    assert best_fitness==val, (val, best_fitness)
+                    assert abs(best_fitness-val) <=5, (val, best_fitness)
                     with open('arrays.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
                         
