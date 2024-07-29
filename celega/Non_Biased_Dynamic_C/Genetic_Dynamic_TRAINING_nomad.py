@@ -8,7 +8,7 @@ import csv
 import copy
 from util.write_read_txt import read_arrays_from_csv_pandas
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,testing_mode=0,matrix_shape= 3689):
+    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689):
         self.population_size = population_size
         self.matrix_shape = matrix_shape
         self.total_episodes = total_episodes
@@ -17,7 +17,6 @@ class Genetic_Dyn_Algorithm:
         self.food_patterns = pattern
         assert(len(genome) == matrix_shape)
         self.population = self.initialize_population(genome)
-        self.testing_mode = testing_mode
 
 
     def initialize_population(self, genome=None):
