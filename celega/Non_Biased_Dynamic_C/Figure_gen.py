@@ -92,7 +92,7 @@ class Genetic_Dyn_Algorithm:
         last_best = self.original_genome
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
-            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
+            object_store_memory=7 * 1024 * 1024 * 1024,  # 20 GB in bytes
             num_cpus=16,                                # Number of CPU cores
             )       
         try:
@@ -117,7 +117,7 @@ class Genetic_Dyn_Algorithm:
                     # Data for the bar chart
                     data = [count_greater_than_first, count_smaller_than_first]
                     labels = ['Random Weights Perform Better', 'C. Elegan Weights Perform Better']
-
+                    print([count_greater_than_first, count_smaller_than_first])
                     
                     # Plotting the bar chart
                     plt.bar(labels, data)
