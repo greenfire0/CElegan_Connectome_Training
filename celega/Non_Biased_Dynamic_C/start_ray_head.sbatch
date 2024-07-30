@@ -2,9 +2,10 @@
 #SBATCH --job-name=ray_head
 #SBATCH --output=ray_head.out
 #SBATCH --error=ray_head.err
-#SBATCH --time=14:00:00  # Adjust the time limit as needed
+#SBATCH --time=2:00:00  # Adjust the time limit as needed
 #SBATCH --partition=normal  # Adjust the partition as needed
 #SBATCH --nodes=1
+#SBATCH --mem=50G 
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16  # Adjust the number of CPUs as needed
 #SBATCH --mail-type=END
