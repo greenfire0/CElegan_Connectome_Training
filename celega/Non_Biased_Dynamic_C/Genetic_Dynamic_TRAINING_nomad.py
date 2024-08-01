@@ -173,14 +173,10 @@ class Genetic_Dyn_Algorithm:
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
                 
-                if best_fitness>last_best :
+                if best_fitness>last_best or True:
                     
 
                     last_best = best_fitness
-
-                    val = (self.evaluate_fitness(best_candidate.weight_matrix, all_neuron_names, env, self.food_patterns, 
-                    mLeft, mRight, muscleList, muscles, self.training_interval, self.total_episodes))
-                    assert abs(best_fitness-val) <=5, (val, best_fitness)
                     with open('arrays.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
                         

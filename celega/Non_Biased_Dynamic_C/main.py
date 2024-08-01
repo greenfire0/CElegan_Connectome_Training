@@ -16,7 +16,7 @@ population_size = 64
 generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
-food_patterns = [5]
+food_patterns = [5,1]
 
 #[0, 16383] for both
 #[1, 16382] for traingle
