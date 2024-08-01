@@ -84,6 +84,7 @@ class Genetic_Dyn_Algorithm:
                     next_observation, reward, _ = env.step(movement, 0, candidate)
                     observation = next_observation
                     sum_rewards+=reward
+        
         return sum_rewards
 
     def run(self, env, generations=50, batch_size=32):

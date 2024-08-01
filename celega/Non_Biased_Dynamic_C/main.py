@@ -1,7 +1,8 @@
 from Worm_Env.celegan_env import WormSimulationEnv
 #from Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm
-from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm
+#from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm
 #from Figure_gen import Genetic_Dyn_Algorithm
+from Graph_fitness_over_time import Genetic_Dyn_Algorithm
 from Worm_Env.weight_dict import dict
 from graphing import graph_comparison,graph
 from util.write_read_txt import write_array_to_file, read_array_from_file, read_arrays_from_csv_pandas,delete_arrays_csv_if_exists
@@ -15,14 +16,14 @@ population_size = 64
 generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
-food_patterns = [5,1]
+food_patterns = [5]
 
 #[0, 16383] for both
 #[1, 16382] for traingle
 
 
 
-
+##imagine you are explaining to a person when writing paper
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
 ##que te vaya bien
 ##gandul

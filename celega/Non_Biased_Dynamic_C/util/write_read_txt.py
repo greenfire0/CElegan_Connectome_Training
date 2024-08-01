@@ -19,7 +19,7 @@ def read_array_from_file(filename):
         return []
     
 
-def read_arrays_from_csv_pandas(filename):
+def read_arrays_from_csv_pandas(filename: str): 
     import pandas as pd
     df = (pd.read_csv(filename, header=None))
     print(f"{(df.shape[0])} Worms Loaded")
