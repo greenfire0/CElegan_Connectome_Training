@@ -112,10 +112,9 @@ class WormSimulationEnv(gym.Env):
                     x = right_vertex[0] + ratio * (top_vertex[0] - right_vertex[0])
                     y = right_vertex[1] + ratio * (top_vertex[1] - right_vertex[1])
                 food.append([x, y])
-        
         return np.array(food)
 
-    def reset(self, pattern_type, num_food=40):
+    def reset(self, pattern_type, num_food=36):
         self.worms = [Worm(position=[self.dimx/2, self.dimy/2], range=self.range) for _ in range(self.num_worms)]
         self.food = np.array(WormSimulationEnv.generate_food_pattern(pattern_type, num_food, self.dimx, self.dimy))
         return self._get_observations()

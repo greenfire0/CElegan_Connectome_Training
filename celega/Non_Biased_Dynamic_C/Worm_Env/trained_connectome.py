@@ -5,15 +5,12 @@ from numba import njit, typed, types
 from numba.typed import List
 import numpy as np
 
+
 @njit
-def apply_weights(post_synaptic, combined_weights, neuron_name, next_state):
+def dendrite_accumulate(post_synaptic, combined_weights, neuron_name, next_state):
     for neuron in combined_weights[neuron_name].keys():
         weight = combined_weights[neuron_name][neuron]
         post_synaptic[neuron][next_state] += weight
-
-@njit
-def dendrite_accumulate(post_synaptic, combined_weights, dneuron, next_state):
-    apply_weights(post_synaptic, combined_weights, dneuron, next_state)
 
 @njit
 def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
@@ -26,14 +23,13 @@ def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
         elif muscle in mRight:
             accumright += post_synaptic[muscle][next_state]
             post_synaptic[muscle][next_state] = 0
-    
     return accumleft, accumright
 
 @njit
 def run_connectome(post_synaptic, combined_weights, threshold, muscles, muscleList, mLeft, mRight, thisState, nextState):
     for ps in post_synaptic.keys():
         if ps[:3] not in muscles and abs(post_synaptic[ps][thisState]) > threshold:
-            apply_weights(post_synaptic, combined_weights, ps, nextState)
+            dendrite_accumulate(post_synaptic, combined_weights, ps, nextState)
             post_synaptic[ps][nextState] = 0
     
     movement = motor_control(post_synaptic, mLeft, mRight, muscleList, nextState)
@@ -65,7 +61,6 @@ class WormConnectome:
                 self.combined_weights[pre_neuron][post_neuron] = weight_matrix[index]
                 index += 1
         
-        self.fire = 0
         self.all_neuron_names = all_neuron_names
         self.postSynaptic = typed.Dict.empty(
             key_type=types.unicode_type,
