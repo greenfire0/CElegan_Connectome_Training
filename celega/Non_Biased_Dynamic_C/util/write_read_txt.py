@@ -25,7 +25,6 @@ def read_arrays_from_csv_pandas(filename: str):
     print(f"{(df.shape[0])} Worms Loaded")
     arrays = df.values.tolist()  
     assert len(df) == len(arrays)
-    df.to_csv(filename, index=False, header=False)
     return arrays
 
 def delete_arrays_csv_if_exists():

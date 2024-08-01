@@ -18,12 +18,11 @@ class Genetic_Dyn_Algorithm:
         self.training_interval = training_interval
         self.original_genome = genome
         self.food_patterns = pattern
+        self.population = []
 
     def initialize_population(self, genomes=None):
-        population = []
-        for g in range(genomes):
-                population.append(WormConnectome(weight_matrix=np.array(g, dtype=float), all_neuron_names=all_neuron_names))
-        self.population= population
+        for g in (genomes):
+                self.population.append(WormConnectome(weight_matrix=np.array(g, dtype=float), all_neuron_names=all_neuron_names))
 
     @staticmethod
     @ray.remote
@@ -44,7 +43,6 @@ class Genetic_Dyn_Algorithm:
         return sum_rewards
 
     def run(self, env , path='Results/Results_for_paper' , batch_size=1):
-        length =100
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
             object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
@@ -55,22 +53,20 @@ class Genetic_Dyn_Algorithm:
         full_folder_path = os.path.join(base_dir, folder_path)
         for filename in os.listdir(full_folder_path):
             
-            self.population = self.initialize_population(read_arrays_from_csv_pandas(filename))
-            assert len(self.population) == length
+            self.initialize_population(read_arrays_from_csv_pandas(os.path.join(full_folder_path,filename)))
             population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
             fitnesses = []
             for batch in population_batches:
                     fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
             best_index = np.argmax(fitnesses)
-            assert best_index == len(fitnesses)
-            self.population = ""
+            print(fitnesses[best_index])
             plt.plot(fitnesses)
                 
-        plt.xlabel('Generation')
-        plt.ylabel('Fitness')
-        plt.title('Fitness Over Generations')
-        plt.legend()
+            plt.xlabel('Generation')
+            plt.ylabel('Fitness')
+            plt.title('Fitness Over Generations')
+            plt.legend()
 
-        # Show plot
-        plt.show()
+            # Show plot
+            plt.show()
         ray.shutdown()
