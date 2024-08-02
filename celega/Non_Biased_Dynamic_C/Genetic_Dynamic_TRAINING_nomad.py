@@ -173,7 +173,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
                 
-                if best_fitness>last_best or True:
+                if (    best_fitness>last_best) or True:
                     
 
                     last_best = best_fitness
