@@ -13,6 +13,7 @@ from util.write_read_txt import read_arrays_from_csv_pandas
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3689):
         self.population_size = population_size
+        print(pattern)
         self.matrix_shape = matrix_shape
         self.total_episodes = total_episodes
         self.training_interval = training_interval
@@ -43,6 +44,7 @@ class Genetic_Dyn_Algorithm:
         return sum_rewards
 
     def run(self, env , path='Results/Results_for_paper' , batch_size=1):
+        fitness_hold =[]
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
             object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
@@ -52,21 +54,27 @@ class Genetic_Dyn_Algorithm:
         base_dir = os.path.dirname(__file__)  # Get the directory of the current script
         full_folder_path = os.path.join(base_dir, folder_path)
         for filename in os.listdir(full_folder_path):
-            
+            self.population = []
             self.initialize_population(read_arrays_from_csv_pandas(os.path.join(full_folder_path,filename)))
+            
             population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
             fitnesses = []
             for batch in population_batches:
                     fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
             best_index = np.argmax(fitnesses)
             print(fitnesses[best_index])
-            plt.plot(fitnesses)
+            if fitness_hold:
+                pass
+                #fitnesses.extend(np.zeros(len(fitness_hold)-len(fitnesses)))
+                #print( np.where(np.abs(np.array(fitnesses) - np.array(fitness_hold)) <= 2))
+            plt.plot((fitnesses), label=filename)
+            fitness_hold.extend(fitnesses)
                 
-            plt.xlabel('Generation')
-            plt.ylabel('Fitness')
-            plt.title('Fitness Over Generations')
-            plt.legend()
+        plt.xlabel('Generation')
+        plt.ylabel('Fitness')
+        plt.title('Fitness Over Generations')
+        plt.legend()
 
             # Show plot
-            plt.show()
+        plt.show()
         ray.shutdown()
