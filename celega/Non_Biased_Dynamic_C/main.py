@@ -9,7 +9,7 @@ from util.write_read_txt import write_array_to_file, read_array_from_file, read_
 import numpy as np 
 from util.dist_dict_calc import dist_calc
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
-
+from util.movie import compile_images_to_video
 # Set up logging to only display ERROR and CRITICAL messages
 ## guided evolutionary nomadic search
 population_size = 64
@@ -17,12 +17,10 @@ generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
 food_patterns = [5]
-
+path = "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C"
+csv_name = "1:50:00_nomad_tri_669_25"
 #[0, 16383] for both
 #[1, 16382] for traingle
-
-
-
 ##imagine you are explaining to a person when writing paper
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
 ##que te vaya bien
@@ -32,8 +30,8 @@ food_patterns = [5]
 ##start from a prexisting model and validate your code by recontruction of results
 
 clean_env = 0
-run_gen = 1
-graphing = 0
+run_gen = 0
+graphing = 1
 testing_mode = 0
 
 ##normalize reward
@@ -58,9 +56,14 @@ if graphing:
     print("Graphing Results")
     dist_dict = dist_calc(dict)
     gen=0
-    for a in (read_arrays_from_csv_pandas("arrays.csv")):
-        graph(np.array(a), dict, gen,old_wm,dist_dict)
-        gen+=1
+    file_name= csv_name
+    for a in (read_arrays_from_csv_pandas(path+"/Results/Results_for_paper/"+file_name+".csv")):
+         graph(np.array(a), dict, gen,old_wm,dist_dict)
+         gen+=1
+    compile_images_to_video(path+"/tmp_img","_".join(file_name.split("_")[1:])+".mp4",fps=3)
+
+    
+
 
 
 #best_weight_matrix = read_array_from_file("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/cheaty_worm.txt")
