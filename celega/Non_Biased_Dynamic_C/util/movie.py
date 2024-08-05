@@ -46,8 +46,9 @@ def compile_images_to_video(image_folder, output_video_path, fps=1):
     delete_all_images(image_folder)
 
 # Specify the folder containing the images and the output video file path
-image_folder = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img'
-output_video_path = 'weight_matrix_video_unclipped_patternfood.mp4'
+if __name__=="main":
+    image_folder = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img'
+    output_video_path = 'weight_matrix_video_unclipped_patternfood.mp4'
 
-# Compile the images into a video
-compile_images_to_video(image_folder, output_video_path, fps=3)
+    # Compile the images into a video
+    compile_images_to_video(image_folder, output_video_path, fps=3)
