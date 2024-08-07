@@ -22,7 +22,10 @@ class Genetic_Dyn_Algorithm:
         self.population = []
 
     def initialize_population(self, genomes=None):
+        if (len(genomes)>400):
+            genomes = genomes[0:400]
         for g in (genomes):
+
                 self.population.append(WormConnectome(weight_matrix=np.array(g, dtype=float), all_neuron_names=all_neuron_names))
 
     @staticmethod
@@ -43,11 +46,11 @@ class Genetic_Dyn_Algorithm:
                     sum_rewards+=reward
         return sum_rewards
 
-    def run(self, env , path='Results/Results_for_paper' , batch_size=1):
+    def run(self, env , path='Results/Results_for_paper' , batch_size=10):
         fitness_hold =[]
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
-            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
+            object_store_memory=14 * 1024 * 1024 * 1024,  # 20 GB in bytes
             num_cpus=16,                                # Number of CPU cores
             )       
         folder_path = 'Results/Results_for_paper'  
@@ -63,11 +66,19 @@ class Genetic_Dyn_Algorithm:
                     fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
             best_index = np.argmax(fitnesses)
             print(fitnesses[best_index])
-            if fitness_hold:
-                pass
-                #fitnesses.extend(np.zeros(len(fitness_hold)-len(fitnesses)))
-                #print( np.where(np.abs(np.array(fitnesses) - np.array(fitness_hold)) <= 2))
-            plt.plot((fitnesses), label=filename)
+        
+            if '25' in filename:
+                color = 'red'
+            elif '50' in filename:
+                 color = 'white'
+            elif '100' in filename:
+                color = 'white'
+            elif 'genetic' in filename:
+                color = 'blue'
+            else:
+                color = 'black'
+
+            plt.plot((fitnesses), label=filename, color=color)
             fitness_hold.extend(fitnesses)
                 
         plt.xlabel('Generation')
