@@ -14,7 +14,7 @@ class WormSimulationEnv(gym.Env):
         self.foodradius = 20
         self.fig, self.ax = plt.subplots()
         self.range = 150
-        self.reset(0, 40)
+        self.reset(0, 40) ##posibly remove this
 
 
 
@@ -147,7 +147,7 @@ class WormSimulationEnv(gym.Env):
                      [worm.position[1], worm.position[1] + 100 * np.sin(worm.facing_dir)], 'b-')
 
         for f in self.food:
-            if is_food_close(worm.position,f,150):
+            if is_food_close(worm.position,f,self.range):
                 self.ax.plot(f[0], f[1], 'yo')
             else:    
                 self.ax.plot(f[0], f[1], 'bo')

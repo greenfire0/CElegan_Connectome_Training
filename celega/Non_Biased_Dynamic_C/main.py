@@ -1,8 +1,8 @@
 from Worm_Env.celegan_env import WormSimulationEnv
 #from Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm
-from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm
+#from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm
 #from Figure_gen import Genetic_Dyn_Algorithm
-#from Graph_fitness_over_time import Genetic_Dyn_Algorithm
+from Graph_fitness_over_time import Genetic_Dyn_Algorithm
 from Worm_Env.weight_dict import dict
 from graphing import graph_comparison,graph
 from util.write_read_txt import write_array_to_file, read_array_from_file, read_arrays_from_csv_pandas,delete_arrays_csv_if_exists
@@ -17,8 +17,7 @@ generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
 food_patterns = [5]
-path = "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C"
-csv_name = "1:50:00_nomad_tri_669_25"
+
 #[0, 16383] for both
 #[1, 16382] for traingle
 ##imagine you are explaining to a person when writing paper
@@ -30,8 +29,8 @@ csv_name = "1:50:00_nomad_tri_669_25"
 ##start from a prexisting model and validate your code by recontruction of results
 
 clean_env = 0
-run_gen = 0
-graphing = 1
+run_gen = 1
+graphing = 0
 testing_mode = 0
 
 ##normalize reward
@@ -52,6 +51,8 @@ if run_gen:
     best_weight_matrix = ga.run(env, generations)
     print("Best weight matrix found:", best_weight_matrix)   
 if graphing:
+    path = "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C"
+    csv_name = "13:00:35_NOMAD_BOTH_853_100"
     old_wm = np.array(values_list)
     print("Graphing Results")
     dist_dict = dist_calc(dict)

@@ -41,3 +41,23 @@ def delete_arrays_csv_if_exists():
             img_path = os.path.join(image_folder, img)
             os.remove(img_path)
             print(f"Deleted image: {img_path}")
+
+
+def save_last_100_rows(input_file: str, output_file: str):
+    # Read the CSV file
+    import pandas as pd
+    df = read_arrays_from_csv_pandas(input_file)
+    
+    # Get the last 100 rows
+    last_100_rows = df[len(df)-100:len(df)]
+    last_100_rows=(pd.DataFrame(last_100_rows))
+    # Save the last 100 rows to a new CSV file
+    last_100_rows.to_csv(output_file, index=False,header=False)
+    print(last_100_rows.head(5))
+    print(f"Saved the last 100 rows to {output_file}")
+
+
+if 0:
+    input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/14:53_genetic_tri_550.csv'    # Replace with your input file name
+    output_file = 'output5_genetic_tri.csv'  # Replace with your desired output file name
+    save_last_100_rows(input_file, output_file)

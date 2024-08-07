@@ -6,7 +6,6 @@ def move(position, facing_dir, left_speed, right_speed):
     wheel_base = 10.0  # distance between the two wheels
 
     # Calculate the linear and angular velocities
-    linear_velocity = (left_speed + right_speed) / 2.0
     angular_velocity = (right_speed - left_speed) / wheel_base
 
     # Calculate the new speed based on the accumulated speeds

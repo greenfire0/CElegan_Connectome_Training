@@ -202,7 +202,7 @@ class Genetic_Dyn_Algorithm:
             'DISPLAY_DEGREE 0', 
             'DISPLAY_STATS BBE BLK_SIZE OBJ', 
             'BB_MAX_BLOCK_SIZE 4',
-            'MAX_BB_EVAL 25'
+            'MAX_BB_EVAL 50'
         ]
         wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,ori)
         result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)
