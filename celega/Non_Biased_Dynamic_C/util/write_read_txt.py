@@ -61,3 +61,16 @@ if 0:
     input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/14:53_genetic_tri_550.csv'    # Replace with your input file name
     output_file = 'output5_genetic_tri.csv'  # Replace with your desired output file name
     save_last_100_rows(input_file, output_file)
+
+def read_excel(file_path):
+    import pandas as pd
+    df = pd.read_excel(file_path, sheet_name='Connectome')
+    return df.values.tolist()
+
+# Flatten the dictionary values into a list
+def flatten_dict_values(d):
+    flattened = []
+    for key, subdict in d.items():
+        for subkey, value in subdict.items():
+            flattened.append((subkey, value))
+    return flattened

@@ -8,8 +8,9 @@ import csv
 import copy
 from util.write_read_txt import read_arrays_from_csv_pandas
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689):
+    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
         self.population_size = population_size
+        self.indicies = indicies
         self.matrix_shape = matrix_shape
         self.total_episodes = total_episodes
         self.training_interval = training_interval
@@ -50,7 +51,7 @@ class Genetic_Dyn_Algorithm:
 
     def mutate(self, offspring, n=5):
         for child in offspring:
-                indices_to_mutate = np.random.choice(self.matrix_shape, size=n, replace=False)
+                indices_to_mutate = np.random.choice(self.indicies, size=n, replace=False)
                 new_values = np.random.uniform(low=-20, high=20, size=n)
                 child.weight_matrix[indices_to_mutate] = new_values
         return offspring

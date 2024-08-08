@@ -77,8 +77,9 @@ neuron_groups = {
         'VA1', 'VA2', 'VA3', 'VA4', 'VA5', 'VA6', 'VA7', 'VA8', 'VA9', 'VA10', 'VA11',
         'VA12', 'VB1', 'VB2', 'VB3', 'VB4', 'VB5', 'VB6', 'VB7', 'VB8', 'VB9', 'VB10',
         'VB11', 'VC1', 'VC2', 'VC3', 'VC4', 'VC5', 'VC6', 'VD1', 'VD2', 'VD3', 'VD4',
-        'VD5', 'VD6', 'VD7', 'VD8', 'VD9', 'VD10', 'VD11', 'VD12', 'VD13', 'MI',
-        'MDL01', 'MDL02', 'MDL03', 'MDL04', 'MDL05', 'MDL06', 'MDL07', 'MDL08', 'MDL09',
+        'VD5', 'VD6', 'VD7', 'VD8', 'VD9', 'VD10', 'VD11', 'VD12', 'VD13', 'MI', 'OLLL', 'OLLR', 'PDA', 'PDB'
+    ],
+    "Motors (Static)":[        'MDL01', 'MDL02', 'MDL03', 'MDL04', 'MDL05', 'MDL06', 'MDL07', 'MDL08', 'MDL09',
         'MDL10', 'MDL11', 'MDL12', 'MDL13', 'MDL14', 'MDL15', 'MDL16', 'MDL17', 'MDL18',
         'MDL19', 'MDL20', 'MDL21', 'MDL22', 'MDL23', 'MDL24', 'MDR01', 'MDR02', 'MDR03',
         'MDR04', 'MDR05', 'MDR06', 'MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12',
@@ -88,8 +89,7 @@ neuron_groups = {
         'MVL16', 'MVL17', 'MVL18', 'MVL19', 'MVL20', 'MVL21', 'MVL22', 'MVL23', 'MVR01',
         'MVR02', 'MVR03', 'MVR04', 'MVR05', 'MVR06', 'MVR07', 'MVR08', 'MVR09', 'MVR10',
         'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19',
-        'MVR20', 'MVR21', 'MVR22', 'MVR23', 'MVR24', 'MVULVA', 'OLLL', 'OLLR', 'PDA', 'PDB'
-    ]
+        'MVR20', 'MVR21', 'MVR22', 'MVR23', 'MVR24', 'MVULVA']
 }
 
 def graph(combined_weights, connections_dict, generation,old_wm,shortest_distances):

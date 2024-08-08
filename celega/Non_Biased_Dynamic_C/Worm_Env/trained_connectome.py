@@ -23,12 +23,14 @@ def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
         elif muscle in mRight:
             accumright += post_synaptic[muscle][next_state]
             post_synaptic[muscle][next_state] = 0
+    #print(accumleft)
     return accumleft, accumright
 
 @njit
 def run_connectome(post_synaptic, combined_weights, threshold, muscles, muscleList, mLeft, mRight, thisState, nextState):
     for ps in post_synaptic.keys():
-        if ps[:3] not in muscles and abs(post_synaptic[ps][thisState]) > threshold:
+        if ps[:3] not in muscles and post_synaptic[ps][thisState] > threshold:
+            print(post_synaptic[ps][thisState],ps) if post_synaptic[ps][thisState] <0 else ""
             dendrite_accumulate(post_synaptic, combined_weights, ps, nextState)
             post_synaptic[ps][nextState] = 0
     
