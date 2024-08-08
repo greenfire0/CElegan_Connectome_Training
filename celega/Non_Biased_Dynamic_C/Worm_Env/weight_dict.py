@@ -44,7 +44,7 @@ all_neuron_names = [
 
 
 dict={    'ADAL': {
-        'ADAR': 2,
+        'ADAR': 1,
         'ADFL': 1,
         'AIBL': 1,
         'AIBR': 2,

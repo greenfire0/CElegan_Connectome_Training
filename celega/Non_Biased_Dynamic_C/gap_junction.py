@@ -4,7 +4,6 @@ from util.write_read_txt import flatten_dict_values,read_excel
 # Read the Excel file
 
 
-# Find gap junction indices while skipping motor neurons
 def find_gap_junction_indices(data, connection_dict, motors):
     gap_junction_indices = []
     values_list = flatten_dict_values(connection_dict)
@@ -18,17 +17,16 @@ def find_gap_junction_indices(data, connection_dict, motors):
         
         # Check if the connection type is GapJunction
         if connection_type == 'GapJunction':
-            print("")
             # Find the index of this connection in the flattened list
-            for i, (post_synaptic, value) in enumerate(values_list):
-                print(origin)
-                print(origin in connection_dict[target])
-                if post_synaptic == target and (origin in connection_dict[post_synaptic]):
+            for i, (post_synaptic, value,orig) in enumerate(values_list):
+                if ((orig == origin and post_synaptic == target) or (orig == target and post_synaptic == origin)) and num_connections == value:
                     gap_junction_indices.append(i)
-                    print(gap_junction_indices)
-                    quit() if len(gap_junction_indices)>1 else ""
+                    if len(gap_junction_indices) > 20:
+                        print(gap_junction_indices)
+                        quit()
     
     return gap_junction_indices
+    
 
 # Example dictionary with motor neurons
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names

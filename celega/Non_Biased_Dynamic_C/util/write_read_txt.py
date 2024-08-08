@@ -72,5 +72,5 @@ def flatten_dict_values(d):
     flattened = []
     for key, subdict in d.items():
         for subkey, value in subdict.items():
-            flattened.append((subkey, value))
+            flattened.append((subkey, value,key))
     return flattened
