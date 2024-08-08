@@ -21,10 +21,12 @@ def find_gap_junction_indices(data, connection_dict, motors):
             print("")
             # Find the index of this connection in the flattened list
             for i, (post_synaptic, value) in enumerate(values_list):
-                if post_synaptic == target and connection_dict[origin][target] == value:
+                print(origin)
+                print(origin in connection_dict[target])
+                if post_synaptic == target and (origin in connection_dict[post_synaptic]):
                     gap_junction_indices.append(i)
-        print(gap_junction_indices)
-        quit()
+                    print(gap_junction_indices)
+                    quit() if len(gap_junction_indices)>1 else ""
     
     return gap_junction_indices
 
