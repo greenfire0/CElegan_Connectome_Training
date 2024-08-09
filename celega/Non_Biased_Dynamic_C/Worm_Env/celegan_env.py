@@ -92,9 +92,9 @@ class WormSimulationEnv(gym.Env):
                 food.append([food_x, food_y])
 
         elif pattern_type == 5:  # Triangle
-            top_vertex = (dimx / 2, dimy / 4)
-            left_vertex = (dimx / 4, dimy * 3 / 4)
-            right_vertex = (dimx * 3 / 4, dimy * 3 / 4)
+            top_vertex = (dimx / 2, dimy* 3/ 4)
+            left_vertex = (dimx / 4, dimy * 1 / 4)
+            right_vertex = (dimx * 3 / 4, dimy * 1 / 4)
             for i in range(num_food):
                 p = i / (num_food - 1)
                 if p <= 1/3:

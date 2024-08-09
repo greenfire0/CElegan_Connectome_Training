@@ -64,4 +64,4 @@ def get_all_neuron_names(combined_data):
         for to_neuron in connections.keys():
             neuron_names.add(to_neuron)
 
-    return neuron_names
+    return sorted(neuron_names)

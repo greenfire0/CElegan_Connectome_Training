@@ -12,11 +12,11 @@ from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron
 from util.movie import compile_images_to_video
 from util.findmotor_ind import find_motor_ind,get_indicies_to_change
 from util.read_from_xls import combine_neuron_data 
-population_size = 1
-generations = 5
+population_size = 64
+generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
-food_patterns = [5]
+food_patterns = [3] 
 
 #[0, 16383] for both
 #[1, 16382] for traingle
@@ -48,7 +48,6 @@ for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
 values_list=np.array(values_list)
 length = (len(values_list))
-# Print or save the combined results
 
 
 if clean_env:
