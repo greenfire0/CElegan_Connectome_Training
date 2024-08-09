@@ -31,11 +31,12 @@ class Genetic_Dyn_Algorithm:
         cumulative_rewards = []
         for a in prob_type:
             env.reset(a)
+            candidate.create_post_synaptic()
             for _ in range(self.total_episodes):
                 observation = env._get_observations()
                 for _ in range(self.training_interval):
-                    movement = candidate.move(observation[worm_num][0], env.worms[worm_num].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, _ = env.step(movement, worm_num, candidate)
+                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
+                    next_observation, reward, _ = env.step(movement, 0, candidate)
                     #env.render(worm_num)
                     observation = next_observation
                     cumulative_rewards.append(reward)
@@ -69,10 +70,11 @@ class Genetic_Dyn_Algorithm:
         return offspring
     
     @staticmethod
+    @ray.remote
     def evaluate_fitness_ray(candidate_weights,nur_name, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
-        
         sum_rewards = 0
         for a in prob_type:
+        
             candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
             env.reset(a)
             for _ in range(episodes):  # total_episodes
@@ -80,24 +82,27 @@ class Genetic_Dyn_Algorithm:
                 for _ in range(interval):  # training_interval
                     movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
                     next_observation, reward, _ = env.step(movement, 0, candidate)
-                    env.render(0)
                     observation = next_observation
                     sum_rewards+=reward
         return sum_rewards
     
     def run(self, env , generations=50, batch_size=32):
         last_best =0
-    
+        ray.init(
+            ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
+            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
+            num_cpus=16,                                # Number of CPU cores
+            )       
         try:
             for generation in tqdm(range(generations), desc="Generations"):
-                
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 for batch in population_batches:
-                    fitnesses.extend(([self.evaluate_fitness_ray(candidate.weight_matrix, all_neuron_names, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
+                    fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, env, self.food_patterns, mLeft, mRight, muscleList, muscles,self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
                 #print(fitnesses)
-                
                 best_index = np.argmax(fitnesses)
+                if generation<40:
+                    best_index=0
                 best_fitness = fitnesses[best_index]
                 best_candidate = self.population[best_index]
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
@@ -106,9 +111,10 @@ class Genetic_Dyn_Algorithm:
                 
                 # Generate offspring through crossover and mutation
                 offspring = self.crossover(self.population, fitnesses, self.population_size - len(self.population)-1)
-                offspring = self.mutate(offspring)                   
+                offspring = self.mutate(offspring)
                 self.population.extend(offspring)
-                self.population.append(best_candidate)
+                self.population.insert(0,best_candidate)
+                
 
                 if not np.array_equal(last_best, best_candidate.weight_matrix) or True:
                     #last_best = best_candidate.weight_matrix
@@ -119,4 +125,4 @@ class Genetic_Dyn_Algorithm:
             return best_candidate.weight_matrix
         
         finally:
-            pass
+            ray.shutdown()

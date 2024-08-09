@@ -12,7 +12,6 @@ def dendrite_accumulate(post_synaptic, combined_weights, neuron_name, next_state
         weight = combined_weights[neuron_name][neuron]
         post_synaptic[neuron][next_state] += weight
 
-
 @njit
 def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
     accumleft = 0
@@ -24,15 +23,12 @@ def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
         elif muscle in mRight:
             accumright += post_synaptic[muscle][next_state]
             post_synaptic[muscle][next_state] = 0
-    #print(accumleft)
     return accumleft, accumright
-
 
 @njit
 def run_connectome(post_synaptic, combined_weights, threshold, muscles, muscleList, mLeft, mRight, thisState, nextState):
     for ps in post_synaptic.keys():
-        if ps[:3] not in muscles and post_synaptic[ps][thisState] > threshold:
-            print(post_synaptic[ps][thisState],ps) if post_synaptic[ps][thisState] <0 else ""
+        if ps[:3] not in muscles and abs(post_synaptic[ps][thisState]) > threshold:
             dendrite_accumulate(post_synaptic, combined_weights, ps, nextState)
             post_synaptic[ps][nextState] = 0
     
@@ -50,7 +46,6 @@ class WormConnectome:
             key_type=types.unicode_type,
             value_type=types.DictType(types.unicode_type, types.float64)
         )
-        
         self.weight_matrix = weight_matrix.astype(np.float64)
         for neuron in dict:
             self.combined_weights[neuron] = typed.Dict.empty(
@@ -66,7 +61,6 @@ class WormConnectome:
                 self.combined_weights[pre_neuron][post_neuron] = weight_matrix[index]
                 index += 1
         
-        
         self.all_neuron_names = all_neuron_names
         self.postSynaptic = typed.Dict.empty(
             key_type=types.unicode_type,
@@ -81,7 +75,6 @@ class WormConnectome:
     def create_post_synaptic(self):
         for neuron in self.all_neuron_names:
             self.postSynaptic[neuron] = np.zeros(2)
-        
     
     def move(self, dist, sees_food, mLeft, mRight, muscleList, muscles):
         # Convert lists to numba.typed.List

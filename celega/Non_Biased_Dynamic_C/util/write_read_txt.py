@@ -72,5 +72,7 @@ def flatten_dict_values(d):
     flattened = []
     for key, subdict in d.items():
         for subkey, value in subdict.items():
+            if key == 'ASHL':
+                print((subkey, value))
             flattened.append((subkey, value,key))
     return flattened
