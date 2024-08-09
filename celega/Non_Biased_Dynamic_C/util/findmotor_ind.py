@@ -20,9 +20,9 @@ def find_motor_ind(dictionary, muscles):
     return frozen_indices
 
 
-def get_indicies_to_change(frozen):
+def get_indicies_to_change(frozen,length):
     import numpy as np
-    all_numbers = np.arange(3689)
+    all_numbers = np.arange(length)
 
     # Convert frozen_indices to a numpy array
     frozen_indices_np = np.array(frozen)

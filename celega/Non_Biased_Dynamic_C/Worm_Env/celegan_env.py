@@ -14,8 +14,7 @@ class WormSimulationEnv(gym.Env):
         self.foodradius = 20
         self.fig, self.ax = plt.subplots()
         self.range = 150
-        self.reset(0, 40) ##posibly remove this
-
+ 
 
 
     @staticmethod
@@ -31,7 +30,6 @@ class WormSimulationEnv(gym.Env):
         return reward
 
     @staticmethod
-    @njit
     def generate_food_pattern(pattern_type, num_food, dimx, dimy):
         food = []
         center_x = dimx / 2
