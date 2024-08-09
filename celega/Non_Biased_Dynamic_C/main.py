@@ -11,8 +11,7 @@ from util.dist_dict_calc import dist_calc
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
 from util.movie import compile_images_to_video
 from util.findmotor_ind import find_motor_ind,get_indicies_to_change
-# Set up logging to only display ERROR and CRITICAL messages
-## guided evolutionary nomadic search
+from util.read_from_xls import combine_neuron_data 
 population_size = 1
 generations = 5
 training_interval = 250
@@ -30,7 +29,7 @@ food_patterns = [5]
 ##start from a prexisting model and validate your code by recontruction of results
 
 clean_env = 0
-freeze_indicies= 1
+freeze_indicies= 0
 run_gen = 1
 graphing = 0
 testing_mode = 0
@@ -40,11 +39,16 @@ testing_mode = 0
 ##nomad algorithm
 frozen_indices = []
 values_list = []
+
+
+
+# Example usage
+
 for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
 values_list=np.array(values_list)
-
-
+length = (len(values_list))
+# Print or save the combined results
 
 
 if clean_env:
@@ -56,21 +60,20 @@ if freeze_indicies:
     assert (len(np.where(values_list[frozen_indices]<0)[0])) ==125 ##remove if changing connectome
 
 
-
 if run_gen:
-    indicies_to_change = (get_indicies_to_change(frozen_indices))
+    indicies_to_change = (get_indicies_to_change(frozen_indices,length))
 
 
     print("Running Genetic Algoritm")
     env = WormSimulationEnv()
-    ga = Genetic_Dyn_Algorithm(population_size, food_patterns, total_episodes, training_interval,values_list,indicies_to_change)
+    ga = Genetic_Dyn_Algorithm(population_size, food_patterns, total_episodes, training_interval,values_list,indicies_to_change,matrix_shape=length)
     best_weight_matrix = ga.run(env, generations)
     assert np.array_equal(np.array(best_weight_matrix)[frozen_indices],values_list[frozen_indices])
     print("Best weight matrix found:", best_weight_matrix)   
 if graphing:
     path = "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C"
     csv_name = "13:00:35_NOMAD_BOTH_853_100"
-    old_wm = np.array(values_list)
+    old_wm = np.array(values_list) 
     print("Graphing Results")
     dist_dict = dist_calc(dict)
     gen=0
