@@ -1,16 +1,20 @@
 import pandas as pd
 
 def process_sheet(df, how_do_i_do_this):
-    # Initialize an empty dictionary to hold the data
+
     data_dict = {}
     arr = ['Origin', 'Target'] 
     if how_do_i_do_this:
         arr = ['Neuron', 'Muscle']
-    
     # Iterate over each row in the DataFrame
     for _, row in df.iterrows():
         from_neuron = row[arr[0]] 
-        to_neuron = row[arr[1]]    
+        to_neuron = row[arr[1]]
+        if arr[0] == 'Origin':
+            type_con = row['Type']
+            
+        else:
+            type_con = 'Send'
         weight = row['Number of Connections']
         neuromodulator = row['Neurotransmitter']
 
@@ -23,10 +27,11 @@ def process_sheet(df, how_do_i_do_this):
             data_dict[from_neuron] = {}
 
         # Add or update the connection
+        
         if to_neuron in data_dict[from_neuron]:
-            data_dict[from_neuron][to_neuron] += weight
+            data_dict[from_neuron][to_neuron].append(weight)
         else:
-            data_dict[from_neuron][to_neuron] = weight
+            data_dict[from_neuron][to_neuron] = [weight]
 
     return data_dict
 
@@ -47,6 +52,8 @@ def combine_neuron_data(file_path):
         if neuron in combined_data:
             for target, weight in connections.items():
                 if target in combined_data[neuron]:
+                    print("gasdhjghasdjghjasdhjkl",neuron,target)
+
                     combined_data[neuron][target] += weight
                 else:
                     combined_data[neuron][target] = weight
