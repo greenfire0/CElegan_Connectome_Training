@@ -29,9 +29,9 @@ def process_sheet(df, how_do_i_do_this):
         # Add or update the connection
         
         if to_neuron in data_dict[from_neuron]:
-            data_dict[from_neuron][to_neuron].append(weight)
+            data_dict[from_neuron][to_neuron]+=(weight)
         else:
-            data_dict[from_neuron][to_neuron] = [weight]
+            data_dict[from_neuron][to_neuron] = weight
 
     return data_dict
 

@@ -12,6 +12,8 @@ from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron
 from util.movie import compile_images_to_video
 from util.findmotor_ind import find_motor_ind,get_indicies_to_change
 from util.read_from_xls import combine_neuron_data 
+from util.write_read_txt import flatten_dict_values,read_excel
+
 population_size = 64
 generations = 100
 training_interval = 250
