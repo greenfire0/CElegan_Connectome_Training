@@ -8,11 +8,13 @@ from graphing import graph_comparison,graph
 from util.write_read_txt import write_array_to_file, read_array_from_file, read_arrays_from_csv_pandas,delete_arrays_csv_if_exists
 import numpy as np 
 from util.dist_dict_calc import dist_calc
-from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
+from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names,data
 from util.movie import compile_images_to_video
 from util.findmotor_ind import find_motor_ind,get_indicies_to_change
 from util.read_from_xls import combine_neuron_data 
-population_size = 64
+from Worm_Env.gap_junction import find_gap_junction_indices
+from util.write_read_txt import flatten_dict_values
+population_size = 4
 generations = 100
 training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
@@ -29,7 +31,7 @@ food_patterns = [3]
 ##start from a prexisting model and validate your code by recontruction of results
 
 clean_env = 0
-freeze_indicies= 0
+freeze_indicies= 1
 run_gen = 1
 graphing = 0
 testing_mode = 0
@@ -46,7 +48,7 @@ values_list = []
 
 for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
-values_list=np.array(values_list)
+values_list=np.array(values_list,dtype=object)
 length = (len(values_list))
 
 
@@ -54,14 +56,14 @@ if clean_env:
     print("Clearning Environment ")
     delete_arrays_csv_if_exists()
 if freeze_indicies:
-    frozen_indices=find_motor_ind(dict,muscles)
-    print("Froze",len(frozen_indices),"indicies")
-    assert (len(np.where(values_list[frozen_indices]<0)[0])) ==125 ##remove if changing connectome
+    #frozen_indices=find_motor_ind(dict,muscles) #this for freezin motors
+    #print("Froze",len(frozen_indices),"indicies")
+    #assert (len(np.where(values_list[frozen_indices]<0)[0])) ==125 ##remove if changing connectome
+    frozen_indices = (find_gap_junction_indices(data, flatten_dict_values(dict), muscleList))
 
 
 if run_gen:
     indicies_to_change = (get_indicies_to_change(frozen_indices,length))
-
 
     print("Running Genetic Algoritm")
     env = WormSimulationEnv()

@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 def write_array_to_file(array, filename):
     try:
         with open(filename, 'w') as file:
@@ -20,7 +23,6 @@ def read_array_from_file(filename):
     
 
 def read_arrays_from_csv_pandas(filename: str): 
-    import pandas as pd
     df = (pd.read_csv(filename, header=None))
     print(f"{(df.shape[0])} Worms Loaded")
     arrays = df.values.tolist()  
@@ -45,7 +47,6 @@ def delete_arrays_csv_if_exists():
 
 def save_last_100_rows(input_file: str, output_file: str):
     # Read the CSV file
-    import pandas as pd
     df = read_arrays_from_csv_pandas(input_file)
     
     # Get the last 100 rows
@@ -63,7 +64,6 @@ if 0:
     save_last_100_rows(input_file, output_file)
 
 def read_excel(file_path):
-    import pandas as pd
     df = pd.read_excel(file_path, sheet_name='Connectome')
     return df.values.tolist()
 
@@ -72,6 +72,52 @@ def flatten_dict_values(d):
     flattened = []
     for key, subdict in d.items():
         for subkey, value in subdict.items():
-            
             flattened.append((subkey, value,key))
     return flattened
+
+def retreive_nums(d):
+    values_list=[]
+    #print(d)
+    for sub_dict in d:
+        values_list.append(sub_dict[1])
+    values_list=np.array(values_list,dtype=object)
+    return values_list
+
+def populate_dict_values(d, values_list):
+    index = 0
+    for key, subdict in d.items():
+        for subkey in subdict.keys():
+            subdict[subkey] = values_list[index]
+            index += 1
+    return d
+
+def convert_weight_matrix(weight_matrix):
+    """
+    Converts a list of lists where each sublist may have 1 or 2 elements into a NumPy array of float64.
+    
+    Parameters:
+        weight_matrix (list of lists): The input matrix with sequences of 1 or 2 elements.
+    
+    Returns:
+        np.ndarray: A NumPy array of float64 with all elements properly converted.
+    
+    Raises:
+        ValueError: If any sublist contains more than 1 element or if conversion to float fails.
+    """
+    # Initialize a list to hold the converted values
+    converted_values = []
+
+    # Iterate over each sublist in the weight_matrix
+    for sublist in weight_matrix:
+        if len(sublist) > 2:
+            raise ValueError(f"Each sublist should have at most 2 elements, but got: {sublist}")
+        
+        # Convert each element in the sublist to float
+        for item in sublist:
+            try:
+                converted_values.append(float(item))
+            except ValueError:
+                raise ValueError(f"Cannot convert item to float: {item}")
+
+    # Convert the list of values to a NumPy array of float64
+    return np.array(converted_values, dtype=np.float64)

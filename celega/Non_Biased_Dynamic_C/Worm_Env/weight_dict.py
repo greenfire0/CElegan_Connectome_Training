@@ -6,6 +6,8 @@ mRight = ['MDR07', 'MDR08', 'MDR09', 'MDR10', 'MDR11', 'MDR12', 'MDR13', 'MDR14'
 # Used to accumulate muscle weighted values in body muscles 07-23 = worm locomotion
 
 from util.read_from_xls import combine_neuron_data,get_all_neuron_names
+from util.write_read_txt import read_excel
+data = read_excel("CElegansNeuronTables.xlsx")
 file_path = 'CElegansNeuronTables.xlsx'
 dict = combine_neuron_data(file_path)
 
