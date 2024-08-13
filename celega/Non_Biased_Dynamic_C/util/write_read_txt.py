@@ -49,17 +49,20 @@ def save_last_100_rows(input_file: str, output_file: str):
     df = read_arrays_from_csv_pandas(input_file)
     
     # Get the last 100 rows
-    last_100_rows = df[len(df)-100:len(df)]
-    last_100_rows=(pd.DataFrame(last_100_rows))
-    # Save the last 100 rows to a new CSV file
-    last_100_rows.to_csv(output_file, index=False,header=False)
-    print(last_100_rows.head(5))
-    print(f"Saved the last 100 rows to {output_file}")
+    start = len(df)-len(df)%100
+    print(start)
+    while start>=0:
+        last_100_rows = df[start-100:start]
+        start-=100
+        last_100_rows=(pd.DataFrame(last_100_rows))
+        # Save the last 100 rows to a new CSV file
+        last_100_rows.to_csv(output_file+str(start)+".csv", index=False,header=False)
+        print(f"Saved the last 100 rows to {output_file}")
 
 
 if 0:
-    input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/14:53_genetic_tri_550.csv'    # Replace with your input file name
-    output_file = 'output5_genetic_tri.csv'  # Replace with your desired output file name
+    input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/Results/arrays.csv'    # Replace with your input file name
+    output_file = 'output3_genetic_tri'  # Replace with your desired output file name
     save_last_100_rows(input_file, output_file)
 
 def read_excel(file_path):
