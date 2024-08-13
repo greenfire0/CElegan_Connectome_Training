@@ -10,8 +10,7 @@ import csv
 
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,indicies=[],matrix_shape= 3683):
-        self.indicies = indicies
+    def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3683):
         self.population_size = population_size
         self.matrix_shape = matrix_shape
         self.total_episodes = total_episodes

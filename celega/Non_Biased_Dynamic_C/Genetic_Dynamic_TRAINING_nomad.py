@@ -5,7 +5,6 @@ from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron
 import PyNomad
 from tqdm import tqdm
 import csv
-import copy
 from util.write_read_txt import read_arrays_from_csv_pandas
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
@@ -34,7 +33,6 @@ class Genetic_Dyn_Algorithm:
         parents = np.argsort(fitnesses)[-num_parents:]
         return [self.population[i] for i in parents]
     
-    ###fix the corssover function so that for each theers a crossvoer
     def crossover(self, parents, fitnesses, num_offspring):
         offspring = []
         parent_fitnesses = np.array([fitnesses[i] for i in np.argsort(fitnesses)[-len(parents):]])
@@ -51,7 +49,7 @@ class Genetic_Dyn_Algorithm:
 
     def mutate(self, offspring, n=5):
         for child in offspring:
-                indices_to_mutate = np.random.choice(self.indicies, size=n, replace=False)
+                indices_to_mutate = np.random.choice(self.matrix_shape, size=n, replace=False)
                 new_values = np.random.uniform(low=-20, high=20, size=n)
                 child.weight_matrix[indices_to_mutate] = new_values
         return offspring
@@ -104,7 +102,6 @@ class Genetic_Dyn_Algorithm:
                 fitnesses = []
                 futures = []
                 record_ind = []
-                ff = []
                 for batch in population_batches:
                     for candidate in (batch):
                         ind = (np.where(candidate.weight_matrix != self.original_genome)[0])
@@ -147,7 +144,6 @@ class Genetic_Dyn_Algorithm:
                             ))
                 results = ray.get(futures)
                 # Process results
-                results.extend(ff)
                 fitnesses = []
                 xax = []
                 for a,result in enumerate(results):
@@ -203,7 +199,7 @@ class Genetic_Dyn_Algorithm:
             'DISPLAY_DEGREE 0', 
             'DISPLAY_STATS BBE BLK_SIZE OBJ', 
             'BB_MAX_BLOCK_SIZE 4',
-            'MAX_BB_EVAL 50'
+            'MAX_BB_EVAL 15'
         ]
         wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,ori)
         result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)

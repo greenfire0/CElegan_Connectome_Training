@@ -22,7 +22,7 @@ class Genetic_Dyn_Algorithm:
         self.population = []
 
     def initialize_population(self, genomes=None):
-        if (len(genomes)>400):
+        if (len(genomes)>400) and False:
             genomes = genomes[0:400]
         for g in (genomes):
 
@@ -46,14 +46,14 @@ class Genetic_Dyn_Algorithm:
                     sum_rewards+=reward
         return sum_rewards
 
-    def run(self, env , path='Results/Results_for_paper' , batch_size=10):
+    def run(self, env , path='Results' , batch_size=10):
         fitness_hold =[]
         ray.init(
             ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
             object_store_memory=14 * 1024 * 1024 * 1024,  # 20 GB in bytes
             num_cpus=16,                                # Number of CPU cores
             )       
-        folder_path = 'Results/Results_for_paper'  
+        folder_path = 'Results'  
         base_dir = os.path.dirname(__file__)  # Get the directory of the current script
         full_folder_path = os.path.join(base_dir, folder_path)
         for filename in os.listdir(full_folder_path):
@@ -67,18 +67,18 @@ class Genetic_Dyn_Algorithm:
             best_index = np.argmax(fitnesses)
             print(fitnesses[best_index])
         
-            if '25' in filename:
-                color = 'red'
-            elif '50' in filename:
-                 color = 'white'
-            elif '100' in filename:
-                color = 'white'
-            elif 'genetic' in filename:
-                color = 'blue'
-            else:
-                color = 'black'
+            # if '25' in filename:
+            #     color = 'red'
+            # elif '50' in filename:
+            #      color = 'white'
+            # elif '100' in filename:
+            #     color = 'white'
+            # elif 'genetic' in filename:
+            #     color = 'blue'
+            # else:
+            #     color = 'black'
 
-            plt.plot((fitnesses), label=filename, color=color)
+            plt.plot((fitnesses), label=filename)
             fitness_hold.extend(fitnesses)
                 
         plt.xlabel('Generation')
