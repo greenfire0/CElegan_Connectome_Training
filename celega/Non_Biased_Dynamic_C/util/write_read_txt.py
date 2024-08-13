@@ -62,7 +62,7 @@ def save_last_100_rows(input_file: str, output_file: str):
 
 if 0:
     input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/Results/arrays.csv'    # Replace with your input file name
-    output_file = 'output3_genetic_tri'  # Replace with your desired output file name
+    output_file = '15_sq_nomad'  # Replace with your desired output file name
     save_last_100_rows(input_file, output_file)
 
 def read_excel(file_path):
