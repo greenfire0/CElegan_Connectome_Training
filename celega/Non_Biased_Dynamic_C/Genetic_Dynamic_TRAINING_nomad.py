@@ -145,17 +145,15 @@ class Genetic_Dyn_Algorithm:
                 results = ray.get(futures)
                 # Process results
                 fitnesses = []
-                xax = []
                 for a,result in enumerate(results):
                     if isinstance(result, tuple):
-                        xax = result[0][0]
                         self.population[a].weight_matrix[result[0][0]] = np.copy(result[0][1])
-                        fitnesses.append(result[1])
+                        lasso_penalty = env.lasso_reg(self.population[a].weight_matrix,self.original_genome)
+                        fitnesses.append(np.max([(result[1]+lasso_penalty),0]))
                     else:
-                        fitnesses.append(result)
+                        lasso_penalty = env.lasso_reg(self.population[a].weight_matrix,self.original_genome)
+                        fitnesses.append(np.max([(result+lasso_penalty),0]))
 
-                # Evaluate fitness using NOMAD in parallel
-                
                 best_index = np.argmax(fitnesses)  
                 best_fitness = fitnesses[best_index]
                 best_candidate = self.population[best_index]
@@ -199,7 +197,7 @@ class Genetic_Dyn_Algorithm:
             'DISPLAY_DEGREE 0', 
             'DISPLAY_STATS BBE BLK_SIZE OBJ', 
             'BB_MAX_BLOCK_SIZE 4',
-            'MAX_BB_EVAL 15'
+            'MAX_BB_EVAL 25'
         ]
         wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,ori)
         result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)

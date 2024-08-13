@@ -28,6 +28,14 @@ class WormSimulationEnv(gym.Env):
             if distance_to_food < vision_radius:
                 reward += max(0.0, (vision_radius - distance_to_food) / vision_radius) / 30.0
         return reward
+    
+    @staticmethod
+    @njit
+    def lasso_reg(candidate_weights, original, lambda_=0.1):
+        num_differences = np.count_nonzero(candidate_weights != original)
+        penalty = -lambda_ * np.power(num_differences, 1.3)
+        
+        return penalty
 
     @staticmethod
     def generate_food_pattern(pattern_type, num_food, dimx, dimy):

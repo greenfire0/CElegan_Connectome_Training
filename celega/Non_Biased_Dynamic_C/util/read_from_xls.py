@@ -52,8 +52,6 @@ def combine_neuron_data(file_path):
         if neuron in combined_data:
             for target, weight in connections.items():
                 if target in combined_data[neuron]:
-                    print("gasdhjghasdjghjasdhjkl",neuron,target)
-
                     combined_data[neuron][target] += weight
                 else:
                     combined_data[neuron][target] = weight

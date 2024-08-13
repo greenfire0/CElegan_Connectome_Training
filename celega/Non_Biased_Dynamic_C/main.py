@@ -20,8 +20,7 @@ training_interval = 250
 total_episodes = 1  # Number of episodes per evaluation
 food_patterns = [3] 
 
-#[0, 16383] for both
-#[1, 16382] for traingle
+
 ##imagine you are explaining to a person when writing paper
 ##CHANGE IN SYNAPTIC STRENGTH ANALOG
 ##que te vaya bien
@@ -43,13 +42,13 @@ frozen_indices = []
 values_list = []
 
 
-
 # Example usage
 
 for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
 values_list=np.array(values_list)
 length = (len(values_list))
+
 
 
 if clean_env:
