@@ -1,3 +1,6 @@
+import pandas as pd
+
+
 def write_array_to_file(array, filename):
     try:
         with open(filename, 'w') as file:
@@ -20,7 +23,6 @@ def read_array_from_file(filename):
     
 
 def read_arrays_from_csv_pandas(filename: str): 
-    import pandas as pd
     df = (pd.read_csv(filename, header=None))
     print(f"{(df.shape[0])} Worms Loaded")
     arrays = df.values.tolist()  
@@ -39,11 +41,10 @@ def delete_arrays_csv_if_exists():
 
 def save_last_100_rows(input_file: str, output_file: str):
     # Read the CSV file
-    import pandas as pd
     df = read_arrays_from_csv_pandas(input_file)
-    start = len(df)-len(df)%100
+    start = (len(df)-len(df)%100)-1
     print(start)
-    while start>=0:
+    while start>=100:
         last_100_rows = df[start-100:start]
         start-=100
         last_100_rows=(pd.DataFrame(last_100_rows))
@@ -51,7 +52,6 @@ def save_last_100_rows(input_file: str, output_file: str):
         print(f"Saved the last 100 rows to {output_file}")
 
 def read_excel(file_path):
-    import pandas as pd
     df = pd.read_excel(file_path, sheet_name='Connectome')
     return df.values.tolist()
 
@@ -62,7 +62,10 @@ def flatten_dict_values(d):
             flattened.append((subkey, value,key))
     return flattened
 
-
+def read_last_array_from_csv(csv_file):
+    df = pd.read_csv(csv_file, header=None)
+    last_array = df.iloc[-1].to_numpy()
+    return last_array
 
 if 0:
     ##this is used for breakiung appart csv files
