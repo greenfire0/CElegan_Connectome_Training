@@ -30,3 +30,7 @@ Graphing: Generate and view graphs for individual worms, trained connectomes, an
 
 ## Contact
 Email: Mileschurchland@gmail.com
+
+
+
+This software is licensed under the MIT License for non-commercial use. 
