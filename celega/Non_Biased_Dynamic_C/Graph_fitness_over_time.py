@@ -91,7 +91,6 @@ class Genetic_Dyn_Algorithm:
             ax1.plot(fitnesses, label=f'Fitness {filename}', color=color)
             ax2.plot(differences, label=f'Differences {filename}', color=color)
         
-
         plt.tight_layout()
 
         # Show plot

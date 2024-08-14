@@ -3,25 +3,18 @@ from numba import njit, prange
 
 @njit
 def move(position, facing_dir, left_speed, right_speed):
-    wheel_base = 10.0  # distance between the two wheels
+    angular_velocity = (right_speed - left_speed) / 10.0
 
-    # Calculate the linear and angular velocities
-    angular_velocity = (right_speed - left_speed) / wheel_base
-
-    # Calculate the new speed based on the accumulated speeds
     new_speed = abs(left_speed) + abs(right_speed)
     
     linear_velocity = min(max(new_speed, 75), 150) / 7
 
-    # Update the facing direction
     facing_dir += angular_velocity
 
-    # Ensure facing direction is within the range -π to π
     facing_dir = (facing_dir + np.pi) % (2 * np.pi) - np.pi
     position[0] += linear_velocity * np.cos(facing_dir)
     position[1] += linear_velocity * np.sin(facing_dir)
 
-    # Ensure the position is within the specified bounds
     if position[0] < 0:
         position[0] = 0
     elif position[0] > 1600:
@@ -62,4 +55,3 @@ class Worm:
         self.position, self.facing_dir, self.sees_food = update(
             self.position, self.facing_dir, left_speed, right_speed, food_positions, self.range
         )
-

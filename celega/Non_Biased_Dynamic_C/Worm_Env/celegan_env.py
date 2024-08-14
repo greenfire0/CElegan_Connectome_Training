@@ -14,8 +14,6 @@ class WormSimulationEnv(gym.Env):
         self.foodradius = 20
         self.fig, self.ax = plt.subplots()
         self.range = 150
- 
-
 
     @staticmethod
     @njit
@@ -181,8 +179,6 @@ class WormSimulationEnv(gym.Env):
             ])
             observations.append(observation)
         return np.array(observations)
-
-
 
     def _check_done(self):
         return len(self.food) == 0

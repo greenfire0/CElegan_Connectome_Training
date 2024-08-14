@@ -6,6 +6,7 @@ import PyNomad
 from tqdm import tqdm
 import csv
 from util.write_read_txt import read_arrays_from_csv_pandas
+
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
         self.population_size = population_size
@@ -93,9 +94,7 @@ class Genetic_Dyn_Algorithm:
             object_store_memory=15 * 1024 * 1024 * 1024,
             num_cpus=16,
         )
-        #if self.testing_mode:
-            #while 1:
-                #print(self.evaluate_fitness(self.population[0],env,self.food_patterns))
+        
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
@@ -168,13 +167,11 @@ class Genetic_Dyn_Algorithm:
                 self.population.extend(offspring)
                 self.population.append(best_candidate)
                 
-                if (    best_fitness>last_best) or True:
-                    
-
+                #remove or true if you only want improvements
+                if True or ( best_fitness>last_best) :
                     last_best = best_fitness
                     with open('arrays.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
-                        
                         writer.writerow(best_candidate.weight_matrix.tolist())
 
             
