@@ -1,7 +1,7 @@
 import numpy as np
 import ray
 from Worm_Env.trained_connectome import WormConnectome
-from graphing import graph, graph_comparison
+from graphing import graph
 from Worm_Env.weight_dict import dict, muscles, muscleList, mLeft, mRight, all_neuron_names
 from matplotlib import pyplot as plt
 from tqdm import tqdm
@@ -45,8 +45,23 @@ class Genetic_Dyn_Algorithm:
         return sum_rewards
 
     def calculate_differences(self, candidate_weights):
-        return np.count_nonzero(candidate_weights != self.original_genome)
-
+        count  =np.count_nonzero(candidate_weights != self.original_genome)
+        assert count == self.calculate_differences2(candidate_weights)
+        return count
+    
+    def calculate_differences2(self, candidate_weights):
+        candidate_weights = np.array(candidate_weights)
+        # Check for shape consistency
+        if candidate_weights.shape != self.original_genome.shape:
+            raise ValueError("Shape of candidate_weights and original_genome must be the same.")
+        
+        # Use np.where to find indices where elements differ
+        differences = np.where(candidate_weights != self.original_genome)[0]
+        
+        # Count the number of differences
+        num_differences = len(differences)
+        
+        return num_differences
     def generate_random_color(self):
         return '#%06x' % random.randint(0, 0xFFFFFF)
 
@@ -75,7 +90,8 @@ class Genetic_Dyn_Algorithm:
             population_batches = [self.population[i:i + batch_size] for i in range(0, len(self.population), batch_size)]
             fitnesses = []
             differences = []
-            jitter = random.uniform(-jitter_strength, jitter_strength)
+            #jitter = random.uniform(-jitter_strength, jitter_strength)
+            jitter = 0
             ##ask jordi about jitter
             for batch in population_batches:
                 fitnesses.extend(ray.get([self.evaluate_fitness_ray.remote(candidate.weight_matrix, all_neuron_names, env, self.food_patterns, mLeft, mRight, muscleList, muscles, self.training_interval, self.total_episodes) for worm_num, candidate in enumerate(batch)]))
@@ -84,7 +100,7 @@ class Genetic_Dyn_Algorithm:
                 differences.extend(batch_differences)
             
             # Generate a random color for this fileself.generate_random_color()
-            color = "Blue"
+            color = self.generate_random_color() #"Blue"
             if 'mark' in filename:
                 color = "Red"
             # Plot fitness and differences on separate subplots
@@ -92,7 +108,8 @@ class Genetic_Dyn_Algorithm:
             ax2.plot(differences, label=f'Differences {filename}', color=color)
         
         plt.tight_layout()
-
+        ax1.legend()
+        ax2.legend()
         # Show plot
         plt.show()
         ray.shutdown()

@@ -4,6 +4,11 @@ import pandas as pd
 from util.multimode import custom_multimode
 from collections import defaultdict
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
+from util.dist_dict_calc import dist_calc
+import os
+from util.write_read_txt import read_arrays_from_csv_pandas,read_last_array_from_csv
+from util.movie import compile_images_to_video
+
 
 neuron_groups = {
     "Chemosensory Neurons": [
@@ -91,6 +96,65 @@ neuron_groups = {
         'MVR11', 'MVR12', 'MVR13', 'MVR14', 'MVR15', 'MVR16', 'MVR17', 'MVR18', 'MVR19',
         'MVR20', 'MVR21', 'MVR22', 'MVR23', 'MVR24', 'MVULVA']
 }
+
+
+
+def graph_results(base_path, csv_name, values_list):
+    old_wm = np.array(values_list)
+    print("Graphing Training of One Worm")
+
+    dist_dict = dist_calc(dict)
+    gen = 0
+    results_path = os.path.join(base_path, "Results", f"{csv_name}.csv")
+    images_path = os.path.join(base_path, "tmp_img")
+    video_name = "_".join(csv_name) + ".mp4"
+
+    for array in read_arrays_from_csv_pandas(results_path):
+        graph(np.array(array), dict, gen, old_wm, dist_dict)
+        gen += 1
+
+    compile_images_to_video(images_path, video_name, fps=10)
+
+def graph_trained_worms(base_path, values_list):
+    results_folder = os.path.join(base_path, "Results")
+    old_wm = np.array(values_list)
+    print("Graphing Trained Worms")
+    
+    dist_dict = dist_calc(dict)
+    gen = 0
+
+    for file_name in os.listdir(results_folder):
+        if file_name.endswith(".csv"):
+            csv_file = os.path.join(results_folder, file_name)
+            last_array = read_last_array_from_csv(csv_file)
+            graph(np.array(last_array), dict, gen, old_wm, dist_dict)
+            gen += 1
+
+    video_name = "Best_Worms" + ".mp4"
+    images_path = os.path.join(base_path, "tmp_img")
+    compile_images_to_video(images_path, video_name, fps=3)
+
+def graph_agg(base_path, values_list):
+    results_folder = os.path.join(base_path, "Results")
+    old_wm = np.array(values_list)
+    print("Graphing Aggeregate Results")
+
+    dist_dict = dist_calc(dict)
+    gen = 0
+    all_weights = []
+
+    for file_name in os.listdir(results_folder):
+        if file_name.endswith(".csv"):
+            csv_file = os.path.join(results_folder, file_name)
+            last_array = read_last_array_from_csv(csv_file)
+            all_weights.append(np.array(last_array))
+
+    if all_weights:
+        graph2(all_weights, dict, gen, old_wm, dist_dict)
+
+
+
+
 
 def graph(combined_weights, connections_dict, generation,old_wm,shortest_distances):
     assert type(combined_weights) == type(np.array([0])) ,  f"Expected type {type(np.array([0]))}, but got type {type(combined_weights)}"
@@ -450,269 +514,144 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
 
 
 
-def graph_comparison(combined_weights1, combined_weights2, connections_dict,generation):
-    # Create a list of neuron labels from connections_dict
-    neuron_labels = list(all_neuron_names)
+def graph2(combined_weights_list, connections_dict, generation, old_wm, shortest_distances):
+    assert isinstance(combined_weights_list, list) and all(isinstance(w, np.ndarray) for w in combined_weights_list), \
+        "Expected a list of numpy arrays for combined_weights_list"
 
-    # Calculate the size of the square weight matrix
-    matrix_size = len(neuron_labels)
-    
-    # Function to reshape combined_weights into a square matrix
-    def create_weight_matrix(combined_weights):
-        square_weight_matrix = np.zeros((len(connections_dict.keys()), matrix_size))
-        index = 0
-        for i, pre_neuron in enumerate(connections_dict.keys()):
-            connections = connections_dict[pre_neuron]
-            for j, post_neuron in enumerate(neuron_labels):
-                if post_neuron in connections:
-                    square_weight_matrix[i, j] = combined_weights[index]
-                    index += 1
-        return square_weight_matrix
-    
 
-    
-    # Plotting weight matrix differences
+    all_neuron_names = list(connections_dict.keys())  # Adjust this to the correct neuron names list
+
     plt.figure(figsize=(18, 15))
 
-    def plot_weight_matrix(ax, matrix_df, title):
-        c = ax.pcolormesh(matrix_df, cmap='magma', vmin=0, vmax=10)
+    # Transitions between negative and positive values
+    neg_to_pos_counts = []
+    pos_to_neg_counts = []
+
+    for comb in combined_weights_list:
+        neg_to_pos_indices = np.where((old_wm < 0) & (comb > 0))[0]
+        pos_to_neg_indices = np.where((old_wm > 0) & (comb < 0))[0]
+        neg_to_pos_counts.append(len(neg_to_pos_indices))
+        pos_to_neg_counts.append(len(pos_to_neg_indices))
+
+    # Plotting the transitions
+    plt.subplot(2, 2, 4)
+    labels = ['Negative to Positive', 'Positive to Negative']
+    counts = [sum(neg_to_pos_counts), sum(pos_to_neg_counts)]
+    plt.bar(labels, counts, color=['blue', 'red'])
+    plt.xlabel('Transition Type')
+    plt.ylabel('Count')
+    plt.title('Count of Transitions Between Negative and Positive Values')
+
+    # Cumulative gains plots
+    def cumulative_gains_plot(ax, shortest_distances, pos, title):
+        neuron_to_group = {}
+        for group, neurons in neuron_groups.items():
+            for neuron in neurons:
+                neuron_to_group[neuron] = group
+        group_sums_new = {group: 0 for group in neuron_groups.keys()}
+
+        for weights in combined_weights_list:
+            c = 0
+            for pre_neuron in connections_dict.keys():
+                if pre_neuron[:3] not in muscles:
+                    neuron_connections_old = connections_dict[pre_neuron]
+                    group = neuron_to_group.get(pre_neuron)
+                    for n, a in neuron_connections_old.items():
+                        vn = weights[c]
+                        vo = a
+                        c += 1
+                        group_sums_new[group] += (pos - 1 if vn < vo else (pos if vn > vo else 0))
+
+        group_diffs = {group: group_sums_new[group] for group in neuron_groups.keys()}
+        groups = list(neuron_groups.keys())
+        values = [group_diffs[group] for group in groups]
+
+        if pos:
+            ax.set_ylim([0, 100])
+        else:
+            ax.set_ylim([-100, 0])
+        ax.bar(groups, values, edgecolor='black', alpha=0.7)
+        ax.set_xlabel('Neuron Group')
+        ax.set_ylabel(title)
         ax.set_title(title)
-        ax.set_xlabel('Post Neurons')
-        ax.set_ylabel('Pre Neurons')
-        ax.set_ylim()
-        ax.invert_yaxis()
-        plt.colorbar(c, ax=ax, label='Absolute Weight Difference')
+        plt.xticks(rotation=90)
 
+    cumulative_gains_plot(plt.subplot(2, 2, 1), shortest_distances, 1, "Number of Increases")
+    cumulative_gains_plot(plt.subplot(2, 2, 2), shortest_distances, 0, "Number of Decreases")
 
+    # New subplot for the number of neuron connection changes by distance
+    plt.subplot(2, 2, 3)  # Unused subplot
 
+    # Initialize dictionaries for cumulative changes
+    loco_neuron_change_neg = defaultdict(lambda: 0)
+    loco_neuron_change_pos = defaultdict(lambda: 0)
+    modal_neuron_change_neg = defaultdict(lambda: 0)
+    modal_neuron_change_pos = defaultdict(lambda: 0)
 
+    # Determine neuron groups based on distances
+    neuron_to_group = shortest_distances
+    dist_groups = np.unique(list(neuron_to_group.values()))
+    group_sums_pos = {group: 0 for group in dist_groups}
+    group_sums_neg = {group: 0 for group in dist_groups}
 
+    # Process each genome's weights
+    for combined_weights in combined_weights_list:
+        c = 0
+        for pre_neuron in connections_dict.keys():
+            if pre_neuron[:3] not in muscles:
+                neuron_connections_old = connections_dict[pre_neuron]
+                group = neuron_to_group.get(pre_neuron)
+                for n, a in neuron_connections_old.items():
+                    vn = combined_weights[c]
+                    vo = a
+                    c += 1
 
-    def get_weight_sum_by_connections(combined_weights):
-        # Calculate total weight sum
-        tot = 0
-        for post_neuron in all_neuron_names:
-            pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-            if pre_neurons:
-                indices = [all_neuron_names.index(pre_neuron) for pre_neuron in pre_neurons]
-                weights = combined_weights[indices]
-                n = len(pre_neurons)
-                tot += (np.abs(np.sum(np.abs(weights))) * n)
-        
-        # Calculate average weight sums divided by the number of connections
-        post_neurons = []
-        avg_weight_sums = []
-        for post_neuron in all_neuron_names:
-            pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-            if pre_neurons:
-                indices = [all_neuron_names.index(pre_neuron) for pre_neuron in pre_neurons]
-                weights = combined_weights[indices]
-                n = len(pre_neurons)
-                weight_product = np.sum(np.abs(weights)) * n
-                post_neurons.append(post_neuron)
-                avg_weight_sums.append((weight_product / tot))
+                    # Calculate changes
+                    if vn < vo:
+                        change = -1
+                    elif vn > vo:
+                        change = 1
+                    else:
+                        change = 0
 
-        return avg_weight_sums,post_neurons
+                    if pre_neuron in neuron_groups['Locomotion-related Interneurons']:
+                        if change < 0:
+                            loco_neuron_change_neg[pre_neuron] += change
+                        else:
+                            loco_neuron_change_pos[pre_neuron] += change
+                    elif pre_neuron in neuron_groups['Multimodal Sensory Neurons']:
+                        if change < 0:
+                            modal_neuron_change_neg[pre_neuron] += change
+                        else:
+                            modal_neuron_change_pos[pre_neuron] += change
 
+                    if change < 0:
+                        group_sums_neg[group] += change
+                    else:
+                        group_sums_pos[group] += change
 
-    def plot_dif_avg_matrix(ax, dif_avg,post1, title):
-        ax.bar(post1, dif_avg, color='skyblue')
-        ax.set_xlabel('Post Neurons')
-        ax.set_ylabel('Normalized Weight Quotient')
-        plt.ylim([-0.005, 0.005])
-        ax.set_title(title)
+    # Calculate the differences for each group
+    groups = dist_groups
+    values_pos = [group_sums_pos[group] for group in groups]
+    values_neg = [group_sums_neg[group] for group in groups]
 
-    def get_avg_weight_by_connections(combined_weights):
+    # Plot the histogram with stacked bars
+    index = np.arange(len(groups))
+    bar_width = 0.6
 
-        tot = 0
-        for post_neuron in all_neuron_names:
-            pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-            if pre_neurons:
-                indices = [all_neuron_names.index(pre_neuron) for pre_neuron in pre_neurons]
-                weights = combined_weights[indices]
-                n = len(pre_neurons)
-                tot += (np.abs(np.sum(np.abs(weights)) / n))
-        
-        # Calculate average weight sums divided by the number of connections
-        post_neurons = []
-        avg_weight_sums = []
-        for post_neuron in all_neuron_names:
-            pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-            if pre_neurons:
-                indices = [all_neuron_names.index(pre_neuron) for pre_neuron in pre_neurons]
-                weights = combined_weights[indices]
-                n = len(pre_neurons)
-                weight_product = np.sum(np.abs(weights)) / n
-                post_neurons.append(post_neuron)
-                avg_weight_sums.append((weight_product / tot))
-        
-        return avg_weight_sums,post_neurons
+    # Plot positive changes
+    plt.bar(index, values_pos, bar_width, color='lightcoral', edgecolor='black', label='Positive Changes')
 
+    # Plot negative changes stacked on top of positive changes
+    plt.bar(index, values_neg, bar_width, bottom=0, color='lightblue', edgecolor='black', label='Negative Changes', alpha=0.6)
 
-    def plot_avg_weight_by_connections(ax, avg_weight_sums,post_neurons,title):
-        ax.bar(post_neurons, avg_weight_sums, color='skyblue')
-        ax.set_xlabel('Post Neurons')
-        ax.set_ylabel('Normalized Weight Quotient')
-        ax.set_ylim([-0.005, 0.005])
-        ax.set_title(title)
-        #ax.xticks(rotation=90)  # Rotate x-axis labels for better readability if needed
+    plt.xlabel('Distance from Motor Neuron')
+    plt.ylabel('Number of Changes')
+    plt.title('Number of Neuron Connection Changes by Distance from Motor Neurons')
+    plt.xticks(index, groups)
+    plt.legend()
 
-    def calculate_n_weight_sum(combined_weights):
-        n_values = []
-        weight_sum_values = []
-        for post_neuron in all_neuron_names:
-            pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-            if pre_neurons:
-                indices = [all_neuron_names.index(pre_neuron) for pre_neuron in pre_neurons]
-                weights = combined_weights[indices]
-                n = len(pre_neurons)
-                weight_sum = np.abs(np.sum(weights))
-                n_values.append(n)
-                weight_sum_values.append(weight_sum / n)
-        return n_values, weight_sum_values
-    
-
-    def plot_n_weight_sum_correlation(ax, n_values, weight_sum_values):
-
-        ax.scatter(n_values, weight_sum_values, color='purple')
-        ax.set_xlabel('Number of Connections (n)')
-        ax.set_ylabel('Weight Sum / Number of Connections')
-        ax.set_ylim([-5,5])
-        ax.set_title('Correlation between Weight Sum / n and Number of Connections')
-
-
-    def calculate_weight_percentage_by_pre_neurons(combined_weights):
-        weights_by_pre_neurons = {}
-
-        for post_neuron in all_neuron_names:
-            pre_neurons = [pre_neuron for pre_neuron, post_neurs in connections_dict.items() if post_neuron in post_neurs]
-            num_pre_neurons = len(pre_neurons)
-            if num_pre_neurons > 0:
-                indices = [all_neuron_names.index(pre_neuron) for pre_neuron in pre_neurons]
-                weights = combined_weights[indices]
-                if num_pre_neurons not in weights_by_pre_neurons:
-                    weights_by_pre_neurons[num_pre_neurons] = []
-                weights_by_pre_neurons[num_pre_neurons].extend(weights)
-
-        num_pre_neurons_array = np.array(list(weights_by_pre_neurons.keys()))
-
-        # Automatically determine bin edges using numpy's histogram function
-        num_bins = 10  # You can adjust the number of bins if needed
-        bin_edges = np.linspace(num_pre_neurons_array.min(), num_pre_neurons_array.max(), num_bins + 1)
-
-        # Initialize a dictionary to hold weights for each bin
-        weights_by_bin = {edge: [] for edge in bin_edges}
-
-        # Assign weights to the appropriate bins based on the number of pre-neurons
-        for num_pre_neurons, weights in weights_by_pre_neurons.items():
-            for i in range(len(bin_edges) - 1):
-                if bin_edges[i] <= num_pre_neurons < bin_edges[i + 1]:
-                    weights_by_bin[bin_edges[i]].extend(weights)
-                    break
-
-        # Calculate the percentage of weights greater than the 95th percentile for each bin
-        percentages = []
-        bin_labels = []
-
-        for i in range(len(bin_edges) - 1):
-            lower_edge = bin_edges[i]
-            upper_edge = bin_edges[i + 1]
-            weights = weights_by_bin[lower_edge]
-            if weights:
-                # Determine the 95th percentile value
-                percentile_95 = np.percentile(np.abs(weights), 95)
-                # Count weights greater than the 95th percentile value
-                count_above_95 = sum(np.abs(w) > percentile_95 for w in weights)
-                percentage = count_above_95 / len(weights)  # Percentage as a fraction (out of 1)
-            else:
-                percentage = 0
-            percentages.append(percentage)
-            bin_labels.append(f'{int(lower_edge)}-{int(upper_edge)}')
-
-        return bin_labels, percentages
-
-
-
-    def plot_weight_percentage_distribution(ax, bin_labels, percentages):
-        ax.bar(bin_labels, percentages, color='lightcoral', edgecolor='black')
-        ax.set_xlabel('Number of Pre-Neurons (Bin Ranges)')
-        ax.set_ylim([-0.01,0.01])
-        ax.set_ylabel('Percentage of Weights in 9%th Percentile')
-        ax.set_title('Percentage of Weights in 95%th Percentile by Number of Pre-Neurons')
-        ax.tick_params(axis='x', rotation=45)  # Rotate x-axis labels for better readability if needed
-
-    def plot_weight_distribution(ax, weight_matrix1, weight_matrix2, num_bins=30):
-        non_zero_weights1 = weight_matrix1[weight_matrix1 != 0]
-        non_zero_weights2 = weight_matrix2[weight_matrix2 != 0]
-
-        # Set x-axis limits
-        xlim = [-40, 40]
-
-        # Generate evenly spaced bins over the specified xlim range
-        bins = np.linspace(xlim[0], xlim[1], num_bins + 1)
-
-        # Calculate histogram data
-        hist1, _ = np.histogram(non_zero_weights1, bins=bins)
-        hist2, _ = np.histogram(non_zero_weights2, bins=bins)
-        
-        # Calculate the difference between the histograms
-        hist_diff = hist1 - hist2
-
-        # Plotting histogram difference using ax.bar
-        bin_centers = (bins[:-1] + bins[1:]) / 2
-        ax.bar(bin_centers, hist_diff, width=np.diff(bins), color='lightcoral', edgecolor='black')
-
-        ax.set_ylim([-150, 150])
-        ax.set_xlim(xlim)
-        
-        ax.set_xlabel('Weight')
-        ax.set_ylabel('Difference in Frequency')
-        ax.set_title('Difference in Weight Distribution (Non-zero)')
-    
-
-
-    weight_matrix1 = create_weight_matrix(combined_weights1)
-    weight_matrix2 = create_weight_matrix(combined_weights2)
-    difference_matrix = np.maximum(np.abs(weight_matrix1) - np.abs(weight_matrix2), 0)
-    difference_matrix_df = pd.DataFrame(difference_matrix, index=list(connections_dict.keys()), columns=neuron_labels)
-    max_weight_diff = np.max(np.abs(difference_matrix_df.values))
-    vmin = 0
-    vmax = max_weight_diff
-    ax1 = plt.subplot(3, 3, 1)
-    plot_weight_matrix(ax1, difference_matrix_df, 'Absolute Differences in Weight Matrices')
-
-    val1,post1 = get_weight_sum_by_connections(combined_weights1)
-    val2,_ = get_weight_sum_by_connections(combined_weights2)
-    dif_asum = np.array(val1)-np.array(val2)
-    ax2 = plt.subplot(3, 3, 2)
-    plot_dif_avg_matrix(ax2,dif_asum,post1,'Weight Sum * Number of Connections')
-
-    val12,post21 = get_avg_weight_by_connections(combined_weights1)
-    val22,_ = get_avg_weight_by_connections(combined_weights2)
-    
-    dif_avg = np.array(val12)-np.array(val22)
-    ax3 = plt.subplot(3, 3, 3)
-    plot_avg_weight_by_connections(ax3,dif_avg,post21,'Weight Sum / Number of Connections')
-
-    n_values, weight_sum_values1 = calculate_n_weight_sum(combined_weights1)
-    n_values, weight_sum_values2 = calculate_n_weight_sum(combined_weights2)
-    ax4 = plt.subplot(3, 3, 4)
-    # Plot the results using the provided ax
-    plot_n_weight_sum_correlation(ax4, n_values, np.array(weight_sum_values1)-np.array(weight_sum_values2))
-    bin, per1 = calculate_weight_percentage_by_pre_neurons(combined_weights1)
-    bin, per2 = calculate_weight_percentage_by_pre_neurons(combined_weights2)
-    ax5 = plt.subplot(3, 3, 5)
-    # Plot the results using the provided ax
-    plot_weight_percentage_distribution(ax5, bin, np.array(per1)-np.array(per2))
-
-    ax6 = plt.subplot(3, 3, 6)
-    plot_weight_distribution(ax6,combined_weights1,combined_weights2)
-
-
-
-    plt.tight_layout(h_pad=10)  # Adjust layout to prevent overlap
-    plt.show()
-    #filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img/weight_matrix_generation_{10000+generation}.png'
-    #plt.savefig(filename)
-    #plt.close()
-    del difference_matrix_df,weight_matrix1,weight_matrix2,val1,val12,val2,val22,per1,per2,bin
+    plt.tight_layout()
+    filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Aggregate_Results.png'
+    plt.savefig(filename)
+    plt.close()

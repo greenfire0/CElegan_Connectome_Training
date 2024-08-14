@@ -7,23 +7,15 @@ def calculate_image_hash(image_path):
     with Image.open(image_path) as img:
         return hashlib.md5(img.tobytes()).hexdigest()
 
-def remove_duplicate_images(image_folder):
-    unique_hashes = set()
-    unique_images = []
+def get_all_images(image_folder):
+    all_images = []
 
     for img in sorted(os.listdir(image_folder)):
         if img.endswith('.png'):
             img_path = os.path.join(image_folder, img)
-            img_hash = calculate_image_hash(img_path)
+            all_images.append(img_path)
 
-            if img_hash not in unique_hashes:
-                unique_hashes.add(img_hash)
-                unique_images.append(img_path)
-            else:
-                os.remove(img_path)
-                print(f"Removed duplicate image: {img_path}")
-
-    return unique_images
+    return all_images
 
 def delete_all_images(image_folder):
     for img in sorted(os.listdir(image_folder)):
@@ -34,7 +26,7 @@ def delete_all_images(image_folder):
 
 def compile_images_to_video(image_folder, output_video_path, fps=1):
     # Remove duplicate images and get a list of unique image file paths
-    unique_images = remove_duplicate_images(image_folder)
+    unique_images = get_all_images(image_folder)
 
     # Create a video clip from the unique image sequence
     clip = ImageSequenceClip(unique_images, fps=fps)
