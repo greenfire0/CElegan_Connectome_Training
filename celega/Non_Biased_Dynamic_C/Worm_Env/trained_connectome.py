@@ -11,7 +11,6 @@ def dendrite_accumulate(post_synaptic, combined_weights, neuron_name, next_state
     for neuron in combined_weights[neuron_name].keys():
         weight = combined_weights[neuron_name][neuron]
         post_synaptic[neuron][next_state] += weight
-
 @njit
 def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
     accumleft = 0
@@ -33,10 +32,8 @@ def run_connectome(post_synaptic, combined_weights, threshold, muscles, muscleLi
             post_synaptic[ps][nextState] = 0
     
     movement = motor_control(post_synaptic, mLeft, mRight, muscleList, nextState)
-    
     for ps in post_synaptic.keys():
         post_synaptic[ps][thisState] = post_synaptic[ps][nextState]
-    
     thisState, nextState = nextState, thisState
     return movement, thisState, nextState
 
@@ -100,5 +97,4 @@ class WormConnectome:
             self.thisState,
             self.nextState
         )
-        
         return movement

@@ -35,46 +35,37 @@ def delete_arrays_csv_if_exists():
         print(f"{filename} has been deleted.")
     else:
         print(f"{filename} does not exist.")
-    image_folder = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/tmp_img'
-    for img in sorted(os.listdir(image_folder)):
-        if img.endswith('.png'):
-            img_path = os.path.join(image_folder, img)
-            os.remove(img_path)
-            print(f"Deleted image: {img_path}")
 
 
 def save_last_100_rows(input_file: str, output_file: str):
     # Read the CSV file
     import pandas as pd
     df = read_arrays_from_csv_pandas(input_file)
-    
-    # Get the last 100 rows
     start = len(df)-len(df)%100
     print(start)
     while start>=0:
         last_100_rows = df[start-100:start]
         start-=100
         last_100_rows=(pd.DataFrame(last_100_rows))
-        # Save the last 100 rows to a new CSV file
         last_100_rows.to_csv(output_file+str(start)+".csv", index=False,header=False)
         print(f"Saved the last 100 rows to {output_file}")
-
-
-if 0:
-    input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/Results/arrays.csv'    # Replace with your input file name
-    output_file = '15_sq_nomad'  # Replace with your desired output file name
-    save_last_100_rows(input_file, output_file)
 
 def read_excel(file_path):
     import pandas as pd
     df = pd.read_excel(file_path, sheet_name='Connectome')
     return df.values.tolist()
 
-# Flatten the dictionary values into a list
 def flatten_dict_values(d):
     flattened = []
     for key, subdict in d.items():
         for subkey, value in subdict.items():
-            
             flattened.append((subkey, value,key))
     return flattened
+
+
+
+if 0:
+    ##this is used for breakiung appart csv files
+    input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/Results/arrays.csv'    # Replace with your input file name
+    output_file = '15_sq_nomad'  # Replace with your desired output file name
+    save_last_100_rows(input_file, output_file)

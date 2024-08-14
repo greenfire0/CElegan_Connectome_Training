@@ -4,7 +4,6 @@ def custom_multimode(data):
     """Returns the most common data points from discrete or nominal data."""
     if not data:
         return []
-
     # Count the occurrences of each item in data
     counts = collections.Counter(data)
     # Find the maximum count
