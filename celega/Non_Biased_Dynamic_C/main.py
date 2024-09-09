@@ -19,11 +19,9 @@ total_episodes = 1 ##unless environment changes this can just be 1
 food_patterns = [3] 
 path = "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C"
 
-#Live to Create, Create to Die
+#ENJOY :) 70RD
 #Miles Churchland August 13th 2024
 #Contact: Mileschurchland@gmail.com
-
-##delete the first one its corrupted
 
 
 clean_env = 0
