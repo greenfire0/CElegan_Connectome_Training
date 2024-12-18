@@ -1,5 +1,5 @@
 import pandas as pd
-
+import os 
 
 def write_array_to_file(array, filename):
     try:
@@ -41,12 +41,13 @@ def delete_arrays_csv_if_exists():
 
 def save_last_100_rows(input_file: str, output_file: str):
     # Read the CSV file
+    interval = 10
     df = read_arrays_from_csv_pandas(input_file)
-    start = (len(df)-len(df)%100)-1
+    start = (len(df)-len(df)%interval)
     print(start)
-    while start>=100:
-        last_100_rows = df[start-100:start]
-        start-=100
+    while start>=interval:
+        last_100_rows = df[start-interval:start]
+        start-=interval
         last_100_rows=(pd.DataFrame(last_100_rows))
         last_100_rows.to_csv(output_file+str(start)+".csv", index=False,header=False)
         print(f"Saved the last 100 rows to {output_file}")
@@ -68,7 +69,12 @@ def read_last_array_from_csv(csv_file):
     return last_array
 
 if 0:
+
     ##this is used for breakiung appart csv files
+    base_dir = os.path.dirname(__file__)  # Get the directory of the current script
+    parent_dir = os.path.abspath(os.path.join(base_dir, '..'))
+    full_folder_path = os.path.join(parent_dir)
     input_file = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/Results/arrays.csv'    # Replace with your input file name
-    output_file = '15_sq_nomad'  # Replace with your desired output file name
+    input_file = os.path.join(full_folder_path, "arrays.csv")
+    output_file = '250-tri-NO'  # Replace with your desired output file name
     save_last_100_rows(input_file, output_file)
