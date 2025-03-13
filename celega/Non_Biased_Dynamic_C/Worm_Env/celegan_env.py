@@ -29,6 +29,22 @@ class WormSimulationEnv(gym.Env):
     
     @staticmethod
     @njit
+    def calculate_rewards_new(worm_pos, food_positions, foodradius, vision_radius):
+        # Manually compute the Euclidean distances without using np.linalg.norm(axis=...)
+        diff = food_positions - worm_pos
+        distances = np.sqrt(np.sum(diff * diff, axis=1))
+        
+        # Fixed reward for eaten food
+        reward_food = 30 * np.sum(distances < foodradius)
+        
+        # Additional vision-based reward using vectorized computation
+        vision_mask = distances < vision_radius
+        vision_rewards = np.sum(np.maximum(0.0, (vision_radius - distances[vision_mask]) / vision_radius)) / 30.0
+        
+        return reward_food + vision_rewards
+
+    @staticmethod
+    @njit
     def calculate_rewards2(worm_pos, food_positions, foodradius, vision_radius):
         reward = 0.0
         for f in food_positions:
@@ -140,7 +156,7 @@ class WormSimulationEnv(gym.Env):
         
         worm_pos = self.worms[worm_num].position
         
-        rewards = WormSimulationEnv.calculate_rewards(worm_pos, self.food, self.foodradius, self.range)
+        rewards = WormSimulationEnv.calculate_rewards_new(worm_pos, self.food, self.foodradius, self.range)
         ##number of food - gotten
         self._check_eat_food(worm_pos)
         done = self._check_done()
@@ -148,9 +164,11 @@ class WormSimulationEnv(gym.Env):
         return observations, rewards, done
 
     def _check_eat_food(self, worm_pos):
-        to_remove = [i for i, food in enumerate(self.food) if np.linalg.norm(worm_pos - food) < self.foodradius]
-        self.food = np.delete(self.food, to_remove, axis=0)
-        del to_remove
+        # Compute distances for all food positions at once.
+        distances = np.linalg.norm(self.food - worm_pos, axis=1)
+        # Keep only food items that are not eaten.
+        self.food = self.food[distances >= self.foodradius]
+
 
     def render(self, worm_num=0, mode='human'):
         self.ax.clear()
