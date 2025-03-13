@@ -34,8 +34,7 @@ def run_connectome(post_synaptic, combined_weights, threshold, muscles, muscleLi
     movement = motor_control(post_synaptic, mLeft, mRight, muscleList, nextState)
     for ps in post_synaptic.keys():
         post_synaptic[ps][thisState] = post_synaptic[ps][nextState]
-    thisState, nextState = nextState, thisState
-    return movement, thisState, nextState
+    return movement, nextState, thisState
 
 class WormConnectome:
     def __init__(self, weight_matrix, all_neuron_names, threshold=30):

@@ -43,22 +43,22 @@ config = {
     "generations": 100,
     "training_interval": 250,
     "total_episodes": 1,  # Unless environment changes, this can be 1
-    "food_patterns":  [3],
+    "food_patterns":  [4],
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
     
     # Execution Flags
     "clean_env": 0,
     "freeze_indicies": 0,
-    "run_gen": 0,
+    "run_gen": 1,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
     "graphing_agg": 0,
-    "test_last_ten":1,
+    "test_last_ten":0,
     "testing_mode": 0,
     
     # Default GA Variant to run if run_gen = 1
-    "ga_variant": "pure_nomad"  
+    "ga_variant": "pos"  
     # Could be: 'ea', 'ea_nomad', 'graph', 'graph_old', 'pure_nomad', 'wpi', 'random_nomad', 'pos'
     # Adjust this as you like, or even select based on other config flags.
 }

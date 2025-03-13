@@ -12,7 +12,7 @@ import random
 import matplotlib.cm as cm  # Import for color mapping
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size, pattern=[5], total_episodes=10, training_interval=25, genome=None, matrix_shape=3689):
+    def __init__(self, population_size, pattern=[4], total_episodes=10, training_interval=25, genome=None, matrix_shape=3689):
         self.population_size = 1 #population_size
         print(pattern)
         self.matrix_shape = matrix_shape
@@ -54,7 +54,7 @@ class Genetic_Dyn_Algorithm:
     def generate_random_color(self):
         return '#%06x' % random.randint(0, 0xFFFFFF)
 
-    def run(self, env, gen, csv_files=["tri_evo5.csv", "15_tri_nomad.csv800.csv", "250-tri-NO_gen52-61.csv"], batch_size=10, jitter_strength=10):
+    def run(self, env, gen, csv_files=["arrays.csv,arrays.csv,arrays.csv"], batch_size=10, jitter_strength=10):
         """
         Generates a 2x2 grid of plots:
         - First row: Two plots from "tri_evo5.csv" (before and after training)
@@ -77,6 +77,8 @@ class Genetic_Dyn_Algorithm:
 
         # Define CSV files for each subplot
         # Ensure the list has exactly three CSV files as per user request
+        csv_files=["arrays.csv","arrays.csv","arrays.csv"]
+        print(csv_files,self.food_patterns)
         if len(csv_files) != 3:
             raise ValueError("Please provide exactly three CSV files.")
 
@@ -144,7 +146,7 @@ class Genetic_Dyn_Algorithm:
             ax.set_aspect('equal')
 
             # Plot food locations
-            env.reset(5)  # Assuming '5' corresponds to a specific food pattern for all plots
+            env.reset(4)  # Assuming '5' corresponds to a specific food pattern for all plots
             for f in env.food:
                 ax.plot(f[0], f[1], 'ro')  # Red 'ro' markers for food
 
