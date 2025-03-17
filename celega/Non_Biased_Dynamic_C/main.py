@@ -5,26 +5,17 @@ from Worm_Env.celegan_env import WormSimulationEnv
 
 # Genetic Algorithm Variants
 from Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm as GD_EA
-# ^ Evolutionary algorithm training (standard evolutionary approach)
-
 from Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_EA_Nomad
-# ^ Evolutionary with NOMAD (Nomad-based optimization integrated into evolutionary)
-
 from Graph_fitness_over_time import Genetic_Dyn_Algorithm as GD_Graph
-# ^ Graphing version: Outputs a single fitness-over-time graph
-
 from Graph_fitness_over_time_old import Genetic_Dyn_Algorithm as GD_Graph_Old
-# ^ Older graphing version: Outputs fitness-over-time and Euclidean distance from original connectome
-
 from Genetic_Dynamic_train_god import Genetic_Dyn_Algorithm as GD_PureNomad
-# ^ "Train God" - the best method, referred to as pure NOMAD approach
-
-
 from Random_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_RandomNomad
-# ^ Random Training NOMAD: NOMAD approach with 2 randomly selected mutations every 4 gens
 
+# Old "pos" approach
 from Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos
-# ^ Graph position over time variant (Tracks positional changes over generations)
+
+# New "path over gen" approach
+from Graph_path_over_gen import Genetic_Dyn_Algorithm as GD_PathGen
 
 from wpi import search_connection_impacts, graph_wsi, calc_simular
 from Worm_Env.weight_dict import dict
@@ -35,68 +26,70 @@ from util.findmotor_ind import find_motor_ind, get_indicies_to_change
 from util.read_from_xls import combine_neuron_data
 from util.write_read_txt import read_last_array_from_csv, read_arrays_from_csv_pandas, delete_arrays_csv_if_exists
 
+
 # =========================================
 # Configuration and Global Parameters
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 100,
+    "generations": 40,
     "training_interval": 250,
-    "total_episodes": 1,  # Unless environment changes, this can be 1
-    "food_patterns":  [4],
+    "total_episodes": 1,
+    "food_patterns": [5],
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
-    
+
     # Execution Flags
     "clean_env": 0,
     "freeze_indicies": 0,
-    "run_gen": 1,
+    "run_gen": 0,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
     "graphing_agg": 0,
-    "test_last_ten":0,
+    "test_last_ten": 0,
     "testing_mode": 0,
-    
-    # Default GA Variant to run if run_gen = 1
-    "ga_variant": "pos"  
-    # Could be: 'ea', 'ea_nomad', 'graph', 'graph_old', 'pure_nomad', 'wpi', 'random_nomad', 'pos'
-    # Adjust this as you like, or even select based on other config flags.
+    "graph_quartiles": 0,
+    "polygon_test":1,
+
+    # More descriptive name in ga_variant:
+    # "graph_positions_over_time", "graph_path_quartile_evolution",
+    # "graph_fitness_over_time", "graph_fitness_over_time_legacy",
+    # "pure_nomad_algorithm", "random_nomad_algorithm",
+    # "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"
+    "ga_variant": "pure_nomad_algorithm",
+
+    # Turn on quartile plotting from arrays.csv if desired
+
 }
 
-
+# Convert the big worm dictionary to a single flat array for your GA
 frozen_indices = []
 values_list = []
-
-
 for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
-values_list=np.array(values_list)
-length = (len(values_list))
+values_list = np.array(values_list)
+length = len(values_list)
 
 def select_ga_class(config):
     """
     Selects which Genetic_Dyn_Algorithm variant to use based on the config.
-    If worm_suffering_index is set, we choose GD_WPI, otherwise we use the 
-    default from 'ga_variant'.
+    Now the dictionary keys are more descriptive.
     """
-
     variant_map = {
-
-        "graph": GD_Graph,
-        "pos": GD_Pos,
-        "graph_old": GD_Graph_Old,
-
-        "pure_nomad": GD_PureNomad,
-        "random_nomad": GD_RandomNomad,
-        "ea": GD_EA,
-        "ea_nomad": GD_EA_Nomad,
-
+        "graph_positions_over_time":      GD_Pos,      # old "pos"
+        "graph_path_quartile_evolution":  GD_PathGen,  # new "path"
+        "graph_fitness_over_time":        GD_Graph,    # old "graph"
+        "graph_fitness_over_time_legacy": GD_Graph_Old,# old "graph_old"
+        "pure_nomad_algorithm":           GD_PureNomad,# old "pure_nomad"
+        "random_nomad_algorithm":         GD_RandomNomad,  # old "random_nomad"
+        "standard_evolutionary_algorithm":GD_EA,       # old "ea"
+        "nomad_evolutionary_algorithm":   GD_EA_Nomad, # old "ea_nomad"
     }
     return variant_map.get(config["ga_variant"], GD_PureNomad)
 
 
 def clean_environment():
-    """Cleans the environment by deleting arrays.CSV if it exist."""
+    """Cleans the environment by deleting arrays.csv if it exists."""
     print("Clearing Environment...")
     delete_arrays_csv_if_exists()
 
@@ -108,11 +101,11 @@ def run_genetic_algorithm(config):
 
     GA_Class = select_ga_class(config)
     ga = GA_Class(
-        config["population_size"],
-        config["food_patterns"],
-        config["total_episodes"],
-        config["training_interval"],
-        values_list,
+        population_size=config["population_size"],
+        pattern=config["food_patterns"],
+        total_episodes=config["total_episodes"],
+        training_interval=config["training_interval"],
+        genome=values_list,
         matrix_shape=length
     )
     best_weight_matrix = ga.run(env, config["generations"])
@@ -120,10 +113,7 @@ def run_genetic_algorithm(config):
 
 
 def calculate_worm_suffering_index(config):
-    """
-    Calculates and compares connection impacts on the worm's behavior under 
-    different food patterns, then calculates similarity.
-    """
+    """Calculates a 'worm suffering index' by searching for connection impacts, etc."""
     env = WormSimulationEnv()
     ci_3 = search_connection_impacts(
         original_genome=values_list,
@@ -146,15 +136,16 @@ def calculate_worm_suffering_index(config):
 
 
 def test_last_generations(config):
-    """Tests and prints the last generations of the genetic algorithm results."""
+    """Tests and prints the last generations from arrays.csv (if you store them)."""
     env = WormSimulationEnv()
     ga_instance = GD_Graph(
-    population_size=config["population_size"],
-    pattern=config["food_patterns"],
-    total_episodes=config["total_episodes"],
-    training_interval=config["training_interval"],
-    genome=values_list,
-    matrix_shape=length)
+        population_size=config["population_size"],
+        pattern=config["food_patterns"],
+        total_episodes=config["total_episodes"],
+        training_interval=config["training_interval"],
+        genome=values_list,
+        matrix_shape=length
+    )
     ga_instance.run_and_print_last_generations(env, '24hr')
 
 
@@ -173,6 +164,58 @@ def graph_aggregates(config):
     """Graphs aggregate results from multiple runs."""
     graph_agg(base_path=config["path"], values_list=values_list)
 
+
+# NEW: Function to graph quartiles from arrays.csv using Graph_path_over_gen
+def graph_quartiles(config):
+    """
+    Produces a 2x2 plot of:
+      - 0th generation
+      - 1/4 generation
+      - 3/4 generation
+      - final generation
+    by calling a method like 'run_single_csv_quartiles' on the GD_PathGen class.
+    """
+    print("Plotting quartiles from arrays.csv ...")
+    env = WormSimulationEnv()
+
+    # We specifically use the 'graph_path_quartile_evolution' class here
+    quartile_ga = GD_PathGen(
+        population_size=1,  # We only care about the 4 special connectomes
+        pattern=config["food_patterns"],
+        total_episodes=config["total_episodes"],
+        training_interval=config["training_interval"],
+        genome=values_list,
+        matrix_shape=length
+    )
+
+    # Ensure 'run_single_csv_quartiles' is defined in Graph_path_over_gen.Genetic_Dyn_Algorithm
+    quartile_ga.run_single_csv_quartiles(env, arrays_csv="arrays.csv")
+def polygon_test(config):
+    """
+    Runs the pure nomad algorithm with food patterns 6 to 10.
+    Each pattern runs for 40 generations before switching to the next.
+    """
+    print("Starting Polygon Test Experiment...")
+
+    env = WormSimulationEnv()
+    GA_Class = GD_PureNomad  # Always use Pure Nomad Algorithm
+
+    for food_pattern in range(6, 11):  # Iterate from 6 to 10 (inclusive)
+        print(f"Running with food pattern: {food_pattern}")
+
+        ga = GA_Class(
+            population_size=config["population_size"],
+            pattern=[food_pattern],  # Change food pattern dynamically
+            total_episodes=config["total_episodes"],
+            training_interval=config["training_interval"],
+            genome=values_list,
+            matrix_shape=length
+        )
+
+        best_weight_matrix = ga.run(env, config["generations"],batch_size=32,filename="array"+str(food_pattern))  # Run for 40 generations
+
+        print(f"Completed training for food pattern {food_pattern}")
+        print("Best weight matrix found:", best_weight_matrix)
 
 # =========================================
 # Main Execution Flow
@@ -207,9 +250,14 @@ def main(config):
     if config["graphing_agg"]:
         graph_aggregates(config)
 
+    # NEW: plot quartiles from arrays.csv if requested
+    if config.get("graph_quartiles", 0):
+        graph_quartiles(config)
+
+    if config.get("polygon_test", 0):
+        polygon_test(config)
     # Additional testing mode logic
     if config["testing_mode"]:
-        # Add any testing logic here
         pass
 
 
