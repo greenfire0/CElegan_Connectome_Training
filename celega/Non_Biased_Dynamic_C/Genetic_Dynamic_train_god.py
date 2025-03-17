@@ -61,7 +61,7 @@ class Genetic_Dyn_Algorithm:
     
 
 
-    def run(self, env, generations=50, batch_size=32):
+    def run(self, env, generations=50, batch_size=32,filename="arrays"):
         last_best = 0
         ray.init(
             ignore_reinit_error=True,
@@ -118,7 +118,7 @@ class Genetic_Dyn_Algorithm:
                 #remove or true if you only want improvements
                 if True or ( best_fitness>last_best) :
                     last_best = best_fitness
-                    with open('arrays.csv', 'a', newline='') as csvfile:
+                    with open((filename+'.csv'), 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
                         writer.writerow(best_weights.tolist())
 

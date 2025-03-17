@@ -141,6 +141,95 @@ class WormSimulationEnv(gym.Env):
                     x = right_vertex[0] + ratio * (top_vertex[0] - right_vertex[0])
                     y = right_vertex[1] + ratio * (top_vertex[1] - right_vertex[1])
                 food.append([x, y])
+        elif pattern_type == 6:  # Pentagon (5-sided Polygon)
+            num_sides = 5
+            radius = min(dimx, dimy) / 4
+            for i in range(num_food):
+                angle = (2 * np.pi * (i % num_sides)) / num_sides
+                interp = (i // num_sides) / (num_food // num_sides)
+
+                vertex_x = center_x + radius * np.cos(angle)
+                vertex_y = center_y + radius * np.sin(angle)
+
+                next_angle = (2 * np.pi * ((i % num_sides) + 1)) / num_sides
+                next_vertex_x = center_x + radius * np.cos(next_angle)
+                next_vertex_y = center_y + radius * np.sin(next_angle)
+
+                food_x = vertex_x + interp * (next_vertex_x - vertex_x)
+                food_y = vertex_y + interp * (next_vertex_y - vertex_y)
+                food.append([food_x, food_y])
+
+        elif pattern_type == 7:  # Hexagon (6-sided Polygon)
+            num_sides = 6
+            radius = min(dimx, dimy) / 4
+            for i in range(num_food):
+                angle = (2 * np.pi * (i % num_sides)) / num_sides
+                interp = (i // num_sides) / (num_food // num_sides)
+
+                vertex_x = center_x + radius * np.cos(angle)
+                vertex_y = center_y + radius * np.sin(angle)
+
+                next_angle = (2 * np.pi * ((i % num_sides) + 1)) / num_sides
+                next_vertex_x = center_x + radius * np.cos(next_angle)
+                next_vertex_y = center_y + radius * np.sin(next_angle)
+
+                food_x = vertex_x + interp * (next_vertex_x - vertex_x)
+                food_y = vertex_y + interp * (next_vertex_y - vertex_y)
+                food.append([food_x, food_y])
+
+        elif pattern_type == 8:  # Heptagon (7-sided Polygon)
+            num_sides = 7
+            radius = min(dimx, dimy) / 4
+            for i in range(num_food):
+                angle = (2 * np.pi * (i % num_sides)) / num_sides
+                interp = (i // num_sides) / (num_food // num_sides)
+
+                vertex_x = center_x + radius * np.cos(angle)
+                vertex_y = center_y + radius * np.sin(angle)
+
+                next_angle = (2 * np.pi * ((i % num_sides) + 1)) / num_sides
+                next_vertex_x = center_x + radius * np.cos(next_angle)
+                next_vertex_y = center_y + radius * np.sin(next_angle)
+
+                food_x = vertex_x + interp * (next_vertex_x - vertex_x)
+                food_y = vertex_y + interp * (next_vertex_y - vertex_y)
+                food.append([food_x, food_y])
+
+        elif pattern_type == 9:  # Octagon (8-sided Polygon)
+            num_sides = 8
+            radius = min(dimx, dimy) / 4
+            for i in range(num_food):
+                angle = (2 * np.pi * (i % num_sides)) / num_sides
+                interp = (i // num_sides) / (num_food // num_sides)
+
+                vertex_x = center_x + radius * np.cos(angle)
+                vertex_y = center_y + radius * np.sin(angle)
+
+                next_angle = (2 * np.pi * ((i % num_sides) + 1)) / num_sides
+                next_vertex_x = center_x + radius * np.cos(next_angle)
+                next_vertex_y = center_y + radius * np.sin(next_angle)
+
+                food_x = vertex_x + interp * (next_vertex_x - vertex_x)
+                food_y = vertex_y + interp * (next_vertex_y - vertex_y)
+                food.append([food_x, food_y])
+
+        elif pattern_type == 10:  # Nonagon (9-sided Polygon)
+            num_sides = 9
+            radius = min(dimx, dimy) / 4
+            for i in range(num_food):
+                angle = (2 * np.pi * (i % num_sides)) / num_sides
+                interp = (i // num_sides) / (num_food // num_sides)
+
+                vertex_x = center_x + radius * np.cos(angle)
+                vertex_y = center_y + radius * np.sin(angle)
+
+                next_angle = (2 * np.pi * ((i % num_sides) + 1)) / num_sides
+                next_vertex_x = center_x + radius * np.cos(next_angle)
+                next_vertex_y = center_y + radius * np.sin(next_angle)
+
+                food_x = vertex_x + interp * (next_vertex_x - vertex_x)
+                food_y = vertex_y + interp * (next_vertex_y - vertex_y)
+                food.append([food_x, food_y])
         return np.array(food)
 
     def reset(self, pattern_type, num_food=36):

@@ -28,9 +28,9 @@ def move(position, facing_dir, left_speed, right_speed):
     return position, facing_dir
 
 @njit
-def is_food_close(position, food, range):
-    distance_to_food = np.linalg.norm(position - food)
-    return distance_to_food <= range
+def is_food_close(position, food_positions, range):
+    distances = np.sqrt(np.sum((food_positions - position) ** 2, axis=1))
+    return np.any(distances <= range)
 
 @njit
 def update(position, facing_dir, left_speed, right_speed, food_positions, range):
