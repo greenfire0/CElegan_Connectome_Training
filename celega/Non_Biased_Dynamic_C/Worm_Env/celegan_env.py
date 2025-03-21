@@ -271,12 +271,7 @@ class WormSimulationEnv(gym.Env):
     def _get_observations(self):
         observations = []
         for worm in self.worms:
-            distance_to_left_wall = worm.position[0]
-            distance_to_right_wall = self.dimx - worm.position[0]
-            distance_to_top_wall = worm.position[1]
-            distance_to_bottom_wall = self.dimy - worm.position[1]
-
-            min_distance_to_wall = min(distance_to_left_wall, distance_to_right_wall, distance_to_top_wall, distance_to_bottom_wall)
+            min_distance_to_wall = min( worm.position[0], self.dimx - worm.position[0], worm.position[1], self.dimy - worm.position[1])
 
             observation = np.array([
                 min_distance_to_wall,
