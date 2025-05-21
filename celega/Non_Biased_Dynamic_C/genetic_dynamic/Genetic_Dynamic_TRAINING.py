@@ -5,6 +5,7 @@ from graphing import graph
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
 from tqdm import tqdm
 import csv
+from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3683):
@@ -16,30 +17,6 @@ class Genetic_Dyn_Algorithm:
         self.food_patterns = pattern
         self.population = self.initialize_population(genome)
 
-    def initialize_population(self, genome=None):
-        population = []
-        population.append(WormConnectome(weight_matrix=np.array(genome, dtype=float), all_neuron_names=all_neuron_names))
-        for _ in range(self.population_size-1):
-                population.append(WormConnectome(weight_matrix=np.random.uniform(low=-20, high=20, size=self.matrix_shape).astype(np.float32), all_neuron_names=all_neuron_names))
-        return population
-
-
-    def select_parents(self, fitnesses, num_parents):
-        parents = np.argsort(fitnesses)[-num_parents:]
-        return [self.population[i] for i in parents]
-
-    def crossover(self, parents, fitnesses, num_offspring):
-        offspring = []
-        parent_fitnesses = np.array([fitnesses[i] for i in np.argsort(fitnesses)[-len(parents):]])
-        fitness_probs = parent_fitnesses / np.sum(parent_fitnesses)
-        for _ in range(num_offspring):
-            parent1 = np.random.choice(parents, p=fitness_probs)
-            parent2 = np.random.choice(parents, p=fitness_probs)
-            crossover_prob = (fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)]))**1.2
-            prob_array = (np.random.rand(self.matrix_shape) < crossover_prob).astype(int)
-            final_array = np.where(prob_array, parent1.weight_matrix, parent2.weight_matrix)
-            offspring.append(WormConnectome(weight_matrix=final_array,all_neuron_names=all_neuron_names))
-        return offspring
 
     def mutate(self, offspring, n=5):
         for child in offspring:
