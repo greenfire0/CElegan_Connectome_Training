@@ -6,6 +6,8 @@ import PyNomad
 from tqdm import tqdm
 import csv
 from util.write_read_txt import read_arrays_from_csv_pandas
+from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness
+
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
@@ -20,12 +22,6 @@ class Genetic_Dyn_Algorithm:
         self.population = self.initialize_population(genome)
 
 
-    def initialize_population(self, genome=None):
-        population = []
-        for _ in range(self.population_size):
-            population.append(WormConnectome(weight_matrix=np.array(genome, dtype=np.float32), all_neuron_names=all_neuron_names))
-        return population
-
     def mutate(self, offspring, n=2):
         for child in offspring:
                 indices_to_mutate = np.random.choice(self.matrix_shape, size=n, replace=False)
@@ -33,20 +29,6 @@ class Genetic_Dyn_Algorithm:
                 child.weight_matrix[indices_to_mutate] = new_values
         return offspring
 
-    @staticmethod
-    def evaluate_fitness(candidate_weights,nur_name, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
-        sum_rewards = 0
-        for a in prob_type:
-            candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
-            env.reset(a)
-            for _ in range(episodes):  # total_episodes
-                observation = env._get_observations()
-                for _ in range(interval):  # training_interval
-                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, _ = env.step(movement, 0, candidate)
-                    observation = next_observation
-                    sum_rewards+=reward
-        return sum_rewards
     
     @staticmethod
     @ray.remote
