@@ -1,3 +1,5 @@
+from Worm_Env.trained_connectome import WormConnectome
+ 
  def initialize_population(self, genome=None):
         population = []
         for _ in range(self.population_size):
