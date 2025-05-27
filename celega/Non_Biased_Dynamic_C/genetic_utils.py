@@ -14,6 +14,14 @@ def crossover(self, parents, fitnesses, num_offspring):
         offspring = []
         parent_fitnesses = np.array([fitnesses[i] for i in np.argsort(fitnesses)[-len(parents):]])
         fitness_probs = parent_fitnesses / np.sum(parent_fitnesses)
+        for _ in range(num_offspring):
+            parent1 = np.random.choice(parents, p=fitness_probs)
+            parent2 = np.random.choice(parents, p=fitness_probs)
+            crossover_prob = (fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)]))**1.2
+            prob_array = (np.random.rand(self.matrix_shape) < crossover_prob).astype(int)
+            final_array = np.where(prob_array, parent1.weight_matrix, parent2.weight_matrix)
+            offspring.append(WormConnectome(weight_matrix=final_array,all_neuron_names=all_neuron_names))
+        return offspring
     pass 
 
  def evaluate_fitness(candidate_weights,nur_name, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
