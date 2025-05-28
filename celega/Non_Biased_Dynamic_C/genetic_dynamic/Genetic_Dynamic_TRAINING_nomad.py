@@ -8,7 +8,6 @@ import csv
 from util.write_read_txt import read_arrays_from_csv_pandas
 from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness
 
-
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
         self.population_size = population_size
