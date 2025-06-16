@@ -6,7 +6,7 @@ from Worm_Env.trained_connectome import WormConnectome
 from Worm_Env.weight_dict import muscles, muscleList, mLeft, mRight, all_neuron_names
 from util.write_read_txt import read_arrays_from_csv_pandas
 from matplotlib import pyplot as plt
-from Graph_path_over_gen import Genetic_Dyn_Algorithm
+from graphs.Graph_path_over_gen import Genetic_Dyn_Algorithm
 
 def evaluate_candidate(candidate_weights, env, food_pattern, training_interval, total_episodes):
     """

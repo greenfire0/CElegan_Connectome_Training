@@ -59,55 +59,7 @@ class WormSimulationEnv(gym.Env):
         center_x = dimx / 2
         center_y = dimy / 2
 
-        if pattern_type == 0:  # Random
-            while len(food) < num_food:
-                food_x = np.random.uniform(0, dimx)
-                food_y = np.random.uniform(0, dimy)
-                distance_from_center = np.sqrt((food_x - center_x) ** 2 + (food_y - center_y) ** 2)
-                if distance_from_center >= 400:
-                    food.append([food_x, food_y])
-            
-        elif pattern_type == 1:  # Grid
-            grid_size = int(np.sqrt(num_food))
-            spacing_x = dimx / (grid_size + 1)
-            spacing_y = dimy / (grid_size + 1)
-            for i in range(1, grid_size + 1):
-                for j in range(1, grid_size + 1):
-                    food.append([i * spacing_x, j * spacing_y])
-                    
-        elif pattern_type == 2:  # Clusters
-            cluster_centers = [
-                [dimx / 2, dimy / 4],
-                [dimx / 4, dimy / 2],
-                [dimx * 3 / 4, dimy / 2],
-                [dimx / 2, dimy * 3 / 4]
-            ]
-            for center in cluster_centers:
-                for _ in range(num_food // len(cluster_centers)):
-                    offset_x = np.random.uniform(-50, 50)
-                    offset_y = np.random.uniform(-50, 50)
-                    food.append([center[0] + offset_x, center[1] + offset_y])
-                    
-        elif pattern_type == 3:  # Square
-            side_length = min(dimx, dimy) / 2
-            for i in range(num_food):
-                side = i // (num_food // 4)
-                position = (i % (num_food // 4)) / (num_food // 4 - 1)
-                if side == 0:  # Top side
-                    food_x = center_x - side_length / 2 + position * side_length
-                    food_y = center_y - side_length / 2
-                elif side == 1:  # Right side
-                    food_x = center_x + side_length / 2
-                    food_y = center_y - side_length / 2 + position * side_length
-                elif side == 2:  # Bottom side
-                    food_x = center_x + side_length / 2 - position * side_length
-                    food_y = center_y + side_length / 2
-                else:  # Left side
-                    food_x = center_x - side_length / 2
-                    food_y = center_y + side_length / 2 - position * side_length
-                food.append([food_x, food_y])
-
-        elif pattern_type == 4:  # Circle
+        if pattern_type == 0:  # Circle
             radius = min(dimx, dimy) / 4
             for i in range(num_food):
                 angle = 2 * np.pi * i / num_food
@@ -115,7 +67,7 @@ class WormSimulationEnv(gym.Env):
                 food_y = center_y + radius * np.sin(angle)
                 food.append([food_x, food_y])
 
-        elif pattern_type == 5:  # Triangle
+        elif pattern_type == 3:  # Triangle
             top_vertex = (dimx / 2, dimy* 3/ 4)
             left_vertex = (dimx / 4, dimy * 1 / 4)
             right_vertex = (dimx * 3 / 4, dimy * 1 / 4)
@@ -134,7 +86,27 @@ class WormSimulationEnv(gym.Env):
                     x = right_vertex[0] + ratio * (top_vertex[0] - right_vertex[0])
                     y = right_vertex[1] + ratio * (top_vertex[1] - right_vertex[1])
                 food.append([x, y])
-        elif pattern_type == 6:  # Pentagon (5-sided Polygon)
+                    
+        if pattern_type == 4:  # Square
+            side_length = min(dimx, dimy) / 2
+            for i in range(num_food):
+                side = i // (num_food // 4)
+                position = (i % (num_food // 4)) / (num_food // 4 - 1)
+                if side == 0:  # Top side
+                    food_x = center_x - side_length / 2 + position * side_length
+                    food_y = center_y - side_length / 2
+                elif side == 1:  # Right side
+                    food_x = center_x + side_length / 2
+                    food_y = center_y - side_length / 2 + position * side_length
+                elif side == 2:  # Bottom side
+                    food_x = center_x + side_length / 2 - position * side_length
+                    food_y = center_y + side_length / 2
+                else:  # Left side
+                    food_x = center_x - side_length / 2
+                    food_y = center_y + side_length / 2 - position * side_length
+                food.append([food_x, food_y])
+
+        elif pattern_type == 5:  # Pentagon (5-sided Polygon)
             num_sides = 5
             radius = min(dimx, dimy) / 4
             for i in range(num_food):
@@ -152,7 +124,7 @@ class WormSimulationEnv(gym.Env):
                 food_y = vertex_y + interp * (next_vertex_y - vertex_y)
                 food.append([food_x, food_y])
 
-        elif pattern_type == 7:  # Hexagon (6-sided Polygon)
+        elif pattern_type == 6:  # Hexagon (6-sided Polygon)
             num_sides = 6
             radius = min(dimx, dimy) / 4
             for i in range(num_food):
@@ -170,7 +142,7 @@ class WormSimulationEnv(gym.Env):
                 food_y = vertex_y + interp * (next_vertex_y - vertex_y)
                 food.append([food_x, food_y])
 
-        elif pattern_type == 8:  # Heptagon (7-sided Polygon)
+        elif pattern_type == 7:  # Heptagon (7-sided Polygon)
             num_sides = 7
             radius = min(dimx, dimy) / 4
             for i in range(num_food):
@@ -188,7 +160,7 @@ class WormSimulationEnv(gym.Env):
                 food_y = vertex_y + interp * (next_vertex_y - vertex_y)
                 food.append([food_x, food_y])
 
-        elif pattern_type == 9:  # Octagon (8-sided Polygon)
+        elif pattern_type == 8:  # Octagon (8-sided Polygon)
             num_sides = 8
             radius = min(dimx, dimy) / 4
             for i in range(num_food):
@@ -206,7 +178,7 @@ class WormSimulationEnv(gym.Env):
                 food_y = vertex_y + interp * (next_vertex_y - vertex_y)
                 food.append([food_x, food_y])
 
-        elif pattern_type == 10:  # Nonagon (9-sided Polygon)
+        elif pattern_type == 9:  # Nonagon (9-sided Polygon)
             num_sides = 9
             radius = min(dimx, dimy) / 4
             for i in range(num_food):

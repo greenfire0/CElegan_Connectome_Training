@@ -10,6 +10,7 @@ from genetic_dynamic.Genetic_Dynamic_train_god import Genetic_Dyn_Algorithm as G
 from genetic_dynamic.Random_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_RandomNomad
 
 # Graphs
+from graphs.graph_ngon_performance import plot_ngon_performance
 from graphs.Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos
 from graphs.Graph_fitness_over_time import Genetic_Dyn_Algorithm as GD_Graph
 from graphs.Graph_path_over_gen import Genetic_Dyn_Algorithm as GD_PathGen
@@ -23,7 +24,9 @@ from util.movie import compile_images_to_video
 from util.findmotor_ind import find_motor_ind, get_indicies_to_change
 from util.read_from_xls import combine_neuron_data
 from util.write_read_txt import read_last_array_from_csv, read_arrays_from_csv_pandas, delete_arrays_csv_if_exists
-from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment,graph_quartiles,graph_aggregates,select_ga_class,calculate_worm_suffering_index,test_last_generations,graph_training_results,graph_trained_population
+from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment,\
+    graph_quartiles,graph_aggregates,select_ga_class,calculate_worm_suffering_index,\
+        test_last_generations,graph_training_results,graph_trained_population,graph_video_ngons
 os.environ["RAY_DEDUP_LOGS"] = "0"
 
 # =========================================
@@ -39,7 +42,7 @@ config = {
 
     # Execution Flags
     "clean_env": 0,
-    "freeze_indicies": 0,
+    "freeze_indicies": 0, ## this all needs documentation
     "run_gen": 0,
     "worm_suffering_index": 0,
     "graphing": 0,
@@ -48,7 +51,10 @@ config = {
     "test_last_ten": 0,
     "testing_mode": 0,
     "graph_quartiles": 0,
-    "polygon_test":1,
+    "polygon_test":0,
+    "graph_ngon_performance": 0,
+    "graph_video_ngons": 1,
+
 
     # More descriptive name in ga_variant:
     # "graph_positions_over_time", "graph_path_quartile_evolution",
@@ -76,34 +82,39 @@ def main(config):
 
     # Run genetic algorithm if requested
     if config["run_gen"]:
-        run_genetic_algorithm(config,values_list,length)
+        run_genetic_algorithm(config)
 
     # Compute worm suffering index if requested
     if config["worm_suffering_index"]:
-        calculate_worm_suffering_index(config,values_list,length)
+        calculate_worm_suffering_index(config)
 
     # Test the last ten generations if requested
     if config["test_last_ten"]:
-        test_last_generations(config,values_list,length)
+        test_last_generations(config)
 
     # Graph results if requested
     if config["graphing"]:
-        graph_training_results(config,values_list)
+        graph_training_results(config)
 
     # Graph best worms if requested
     if config["graph_best"]:
-        graph_trained_population(config,values_list)
+        graph_trained_population(config)
 
     # Graph aggregate data if requested
     if config["graphing_agg"]:
-        graph_aggregates(config,values_list)
+        graph_aggregates(config)
 
     # NEW: plot quartiles from arrays.csv if requested
     if config.get("graph_quartiles", 0):
-        graph_quartiles(config,values_list,length)
-
+        graph_quartiles(config)
+    if config.get("graph_ngon_performance", 0):
+        csv_files = [f"array{i}.csv" for i in range(3, 10)]
+        plot_ngon_performance(csv_files, training_interval=config["training_interval"],
+                              total_episodes=config["total_episodes"])
+    if config.get("graph_video_ngons", 0):
+        graph_video_ngons(config)
     if config.get("polygon_test", 0):
-        polygon_test(config,values_list,length)
+        polygon_test(config)
     # Additional testing mode logic
     if config["testing_mode"]:
         pass
