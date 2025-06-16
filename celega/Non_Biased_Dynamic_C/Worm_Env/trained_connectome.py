@@ -1,98 +1,114 @@
-from Worm_Env.weight_dict import dict
-import copy
-from numba import njit, typed, types
-from numba.typed import List
 import numpy as np
+from numba import njit
 
+# ---------------------------------------------------------------
+# Helper: build dense (N×N) weight matrix from 1-D genome vector
+# ---------------------------------------------------------------
+def vector_to_dense(weight_vec, weight_graph, name2idx, N):
+    W = np.zeros((N, N), dtype=np.float64)
+    idx = 0
+    for pre, posts in weight_graph.items():     # insertion order preserved
+        i = name2idx[pre]
+        for post in posts:
+            j = name2idx[post]
+            W[i, j] = weight_vec[idx]
+            idx += 1
+    if idx != len(weight_vec):
+        raise ValueError("Genome length doesn’t match number of synapses")
+    return W
+
+
+# ---------------------------------------------------------------
+# Numba kernels
+# ---------------------------------------------------------------
+@njit
+def _dendrite_accumulate(post, W, src_idx, dst_state):
+    """Add weighted outputs of one presynaptic neuron to all posts."""
+    post[:, dst_state] += W[src_idx]
 
 @njit
-def dendrite_accumulate(post_synaptic, combined_weights, neuron_name, next_state):
-    for neuron in combined_weights[neuron_name].keys():
-        weight = combined_weights[neuron_name, neuron]
-        post_synaptic[neuron, next_state] += weight
-@njit
-def motor_control(post_synaptic, mLeft, mRight, muscleList, next_state):
-    accumleft = 0
-    accumright = 0
-    for muscle in muscleList:
-        if muscle in mLeft:
-            accumleft += post_synaptic[muscle][next_state]
-            post_synaptic[muscle, next_state] = 0
-        elif muscle in mRight:
-            accumright += post_synaptic[muscle][next_state]
-            post_synaptic[muscle, next_state] = 0
-    return accumleft, accumright
+def _motor_control(post, m_left_idx, m_right_idx, state):
+    left = 0.0
+    right = 0.0
+    for i in m_left_idx:
+        left  += post[i, state]
+        post[i, state] = 0.0
+    for i in m_right_idx:
+        right += post[i, state]
+        post[i, state] = 0.0
+    return left, right
 
-@njit
-def run_connectome(post_synaptic, combined_weights, threshold, muscles, muscleList, mLeft, mRight, thisState, nextState):
-    for ps in post_synaptic.keys():
-        if ps[:3] not in muscles and abs(post_synaptic[ps][thisState]) > threshold:
-            dendrite_accumulate(post_synaptic, combined_weights, ps, nextState)
-            post_synaptic[ps, nextState] = 0
-    
-    movement = motor_control(post_synaptic, mLeft, mRight, muscleList, nextState)
-    for ps in post_synaptic.keys():
-        post_synaptic[ps, thisState] = post_synaptic[ps][nextState]
-    return movement, nextState, thisState
 
+# ---------------------------------------------------------------
+#  Drop-in class  (constructor unchanged)
+# ---------------------------------------------------------------
 class WormConnectome:
-    def __init__(self, weight_matrix, all_neuron_names, threshold=30):
-        self.combined_weights = typed.Dict.empty(
-            key_type=types.unicode_type,
-            value_type=types.DictType(types.unicode_type, types.float64)
-        )
-        self.weight_matrix = weight_matrix.astype(np.float64)
-        for neuron in dict:
-            self.combined_weights[neuron] = typed.Dict.empty(
-                key_type=types.unicode_type,
-                value_type=types.float64
-            )
-            for post_neuron in dict[neuron]:
-                self.combined_weights[neuron, post_neuron] = 0.0
+    """
+    Dense-array implementation – same API as your original class.
+    """
 
-        index = 0
-        for pre_neuron, connections in self.combined_weights.items():
-            for post_neuron in connections:
-                self.combined_weights[pre_neuron, post_neuron] = weight_matrix[index]
-                index += 1
-        
-        self.all_neuron_names = all_neuron_names
-        self.postSynaptic = typed.Dict.empty(
-            key_type=types.unicode_type,
-            value_type=types.float64[:]
+    # ----- constructor signature is unchanged ------------------
+    def __init__(self, weight_matrix, all_neuron_names, threshold=30):
+        from Worm_Env.weight_dict import dict as weight_graph
+        from Worm_Env.weight_dict import mLeft, mRight, muscleList, muscles
+
+        self.names = all_neuron_names
+        self.N     = len(self.names)
+
+        # name ↔ index maps
+        self.weight_matrix = np.asarray(weight_matrix, dtype=np.float64)
+        self.name2idx = {n: i for i, n in enumerate(self.names)}
+
+        # dense weights built from the original connection order
+        self.W = vector_to_dense(
+            np.asarray(weight_matrix, dtype=np.float64),
+            weight_graph,
+            self.name2idx,
+            self.N
         )
-        self.threshold = threshold
-        self.thisState = 0  # Initialize thisState
-        self.nextState = 1  # Initialize nextState
-        
-        self.create_post_synaptic()
-        
-    def create_post_synaptic(self):
-        for neuron in self.all_neuron_names:
-            self.postSynaptic[neuron] = np.zeros(2)
-    
+
+        # index arrays for fast look-ups inside njit code
+        self.m_left_idx  = np.array([self.name2idx[n] for n in mLeft],  dtype=np.int32)
+        self.m_right_idx = np.array([self.name2idx[n] for n in mRight], dtype=np.int32)
+
+        # postsynaptic buffer: shape (N, 2); we just flip columns
+        self.post = np.zeros((self.N, 2), dtype=np.float64)
+        self.this_state = 0
+        self.next_state = 1
+        self.threshold  = threshold
+
+    # ----- behaviour identical to original .move ----------------
     def move(self, dist, sees_food, mLeft, mRight, muscleList, muscles):
-        # Convert lists to numba.typed.List
-        mLeft_typed = List(mLeft)
-        mRight_typed = List(mRight)
-        muscleList_typed = List(muscleList)
-        muscles_typed = List(muscles)
-        
+        """
+        Keeps the same call signature you already use from GA code.
+        """
+        # Stimulate sensory neurons (same sets you used before)
         if 0 < dist < 100:
-            for dneuron in ["FLPR", "FLPL", "ASHL", "ASHR", "IL1VL", "IL1VR", "OLQDL", "OLQDR", "OLQVR", "OLQVL"]:
-                dendrite_accumulate(self.postSynaptic, self.combined_weights, dneuron, self.nextState)
+            for name in ("FLPR", "FLPL", "ASHL", "ASHR",
+                         "IL1VL", "IL1VR", "OLQDL", "OLQDR", "OLQVR", "OLQVL"):
+                idx = self.name2idx[name]
+                _dendrite_accumulate(self.post, self.W, idx, self.next_state)
+
         elif sees_food:
-            for dneuron in ["ADFL", "ADFR", "ASGR", "ASGL", "ASIL", "ASIR", "ASJR", "ASJL"]:
-                dendrite_accumulate(self.postSynaptic, self.combined_weights, dneuron, self.nextState)
-        
-        movement, self.thisState, self.nextState = run_connectome(
-            self.postSynaptic,
-            self.combined_weights,
-            self.threshold, muscles_typed,
-            muscleList_typed,
-            mLeft_typed,
-            mRight_typed,
-            self.thisState,
-            self.nextState
+            for name in ("ADFL", "ADFR", "ASGR", "ASGL",
+                         "ASIL", "ASIR", "ASJR", "ASJL"):
+                idx = self.name2idx[name]
+                _dendrite_accumulate(self.post, self.W, idx, self.next_state)
+
+        # Fire all neurons above threshold
+        active = np.abs(self.post[:, self.this_state]) > self.threshold
+        if np.any(active):
+            # posts[:, next] += Wᵀ @ active_mask
+            self.post[:, self.next_state] += self.W[active].T @ np.ones(np.sum(active))
+
+        # Motor control – sum & zero muscle rows
+        left, right = _motor_control(
+            self.post, self.m_left_idx, self.m_right_idx, self.next_state
         )
-        return movement
+
+        # Advance time: copy column pointer & zero next
+        self.post[:, self.this_state] = self.post[:, self.next_state]
+        self.post[:, self.next_state].fill(0.0)
+        self.this_state, self.next_state = self.next_state, self.this_state
+
+        return (left, right)

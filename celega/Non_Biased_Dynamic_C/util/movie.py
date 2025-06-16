@@ -1,6 +1,6 @@
 import os
 import hashlib
-from moviepy.editor import ImageSequenceClip
+from moviepy import ImageSequenceClip
 from PIL import Image
 
 def calculate_image_hash(image_path):
