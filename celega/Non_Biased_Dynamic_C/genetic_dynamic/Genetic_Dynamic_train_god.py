@@ -1,4 +1,5 @@
 import numpy as np
+from typing import List
 import ray
 from Worm_Env.trained_connectome import WormConnectome
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
@@ -11,19 +12,16 @@ from genetic_utils import initialize_population, select_parents, crossover, eval
 import copy
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
-        self.population_size = population_size
+    def __init__(self, population_size:int,pattern:list= [5],  total_episodes:int=0, training_interval:int=250, genome=None,matrix_shape:int= 3689,indicies=[]):
+        self.population_size:int = population_size
         self.indicies = indicies
-        self.matrix_shape = matrix_shape
-        self.total_episodes = total_episodes
-        self.training_interval = training_interval
-        self.original_genome = genome
-        self.food_patterns = pattern
+        self.matrix_shape:int = matrix_shape
+        self.total_episodes:int = total_episodes
+        self.training_interval:int = training_interval
+        self.original_genome:list = genome
+        self.food_patterns:list = pattern
         assert(len(genome) == matrix_shape)
-        self.population = self.initialize_population(genome)
-    
-    @staticmethod
-
+        self.population = initialize_population(self.population_size,genome)
 
     def run(self, env, generations=50, batch_size=32,filename="arrays"):
         last_best = 0
@@ -32,8 +30,6 @@ class Genetic_Dyn_Algorithm:
             object_store_memory=15 * 1024 * 1024 * 1024,
             num_cpus=16,
         )
-        import os
-        os.environ["RAY_DEDUP_LOGS"] = "0"
 
         try:
             for generation in tqdm(range(generations), desc="Generations"):
@@ -42,7 +38,7 @@ class Genetic_Dyn_Algorithm:
                 for batch in population_batches:
                     for candidate in (batch):
                             futures.append(self.evaluate_fitness_nomad.remote(
-                                self.evaluate_fitness,
+                                evaluate_fitness,
                                 self.original_genome,
                                 candidate.weight_matrix,
                                 all_neuron_names,
@@ -72,11 +68,8 @@ class Genetic_Dyn_Algorithm:
 
 
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
-                self.population = self.select_parents(fitnesses, self.population_size // 2 )
-                
-                # Generate offspring through crossover and mutation
-                offspring = self.crossover(self.population, fitnesses, self.population_size - len(self.population))
-                self.population.extend(offspring)
+                self.population = select_parents(self.population,fitnesses, self.population_size // 2 )
+                self.population.extend(crossover(self.population, fitnesses, self.population_size - len(self.population),self.matrix_shape))
                 self.population.append(WormConnectome(weight_matrix=best_weights, all_neuron_names=all_neuron_names))
                 
                 #remove or true if you only want improvements
