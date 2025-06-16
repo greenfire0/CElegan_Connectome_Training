@@ -16,6 +16,7 @@ from graphs.Graph_path_over_gen import Genetic_Dyn_Algorithm as GD_PathGen
 from graphs.wpi import search_connection_impacts, graph_wsi, calc_simular
 from graphs.graphing import graph, graph2, graph_results, graph_trained_worms, graph_agg
 from graphs.Graph_fitness_over_time_old import Genetic_Dyn_Algorithm as GD_Graph_Old
+from graphs.graph_video_ngons import Genetic_Dyn_Video
 
 from Worm_Env.weight_dict import dict
 from util.dist_dict_calc import dist_calc
@@ -175,3 +176,14 @@ def polygon_test(config:Dict,values_list:Dict,length:int):
 
         print(f"Completed training for food pattern {food_pattern}")
         print("Best weight matrix found:", best_weight_matrix)
+
+
+def graph_video_ngons(config):
+    env = WormSimulationEnv()
+    gd_video = Genetic_Dyn_Video(
+        population_size=1,
+        pattern=[3, 4, 5, 6, 7, 8],
+        total_episodes=config["total_episodes"],
+        training_interval=config["training_interval"],
+    )
+    gd_video.run_video_simulation(env, output_video=config.get("video_output", "food_collection_video.mp4"))

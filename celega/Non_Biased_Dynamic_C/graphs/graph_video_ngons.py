@@ -95,7 +95,7 @@ class Genetic_Dyn_Video:
         # For each food pattern, load the candidate from its own CSV file.
         candidates = []
         for pat in self.food_patterns:
-            filename = f"array{pat}.csv"
+            filename = rf"array{pat}.csv"
             all_genomes = read_arrays_from_csv_pandas(filename)
             if len(all_genomes) == 0:
                 raise ValueError(f"No genomes found in {filename}")
