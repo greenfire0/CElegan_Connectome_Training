@@ -1,20 +1,14 @@
 import pandas as pd
-
-def process_sheet(df, how_do_i_do_this):
-
+from typing import Dict, Union
+def process_sheet(df: pd.DataFrame, nur_muscle: bool) -> Dict[str, Dict[str, Union[int, float]]]:
     data_dict = {}
     arr = ['Origin', 'Target'] 
-    if how_do_i_do_this:
+    if nur_muscle:
         arr = ['Neuron', 'Muscle']
     # Iterate over each row in the DataFrame
     for _, row in df.iterrows():
         from_neuron = row[arr[0]] 
         to_neuron = row[arr[1]]
-        if arr[0] == 'Origin':
-            type_con = row['Type']
-            
-        else:
-            type_con = 'Send'
         weight = row['Number of Connections']
         neuromodulator = row['Neurotransmitter']
 
@@ -35,14 +29,14 @@ def process_sheet(df, how_do_i_do_this):
 
     return data_dict
 
-def combine_neuron_data(file_path):
+def combine_neuron_data(file_path:str):
     # Load the Excel file
     connectome_df = pd.read_excel(file_path, sheet_name='Connectome')
     neurons_to_muscle_df = pd.read_excel(file_path, sheet_name='NeuronsToMuscle')
 
     # Process both sheets
-    connectome_data = process_sheet(connectome_df, 0)
-    neurons_to_muscle_data = process_sheet(neurons_to_muscle_df, 1)
+    connectome_data = process_sheet(connectome_df, False)
+    neurons_to_muscle_data = process_sheet(neurons_to_muscle_df, True)
 
     # Combine the dictionaries
     combined_data = connectome_data.copy()

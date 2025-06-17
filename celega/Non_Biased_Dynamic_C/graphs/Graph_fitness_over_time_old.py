@@ -1,14 +1,11 @@
 import numpy as np
 import ray
 from Worm_Env.trained_connectome import WormConnectome
-from Worm_Env.weight_dict import dict, muscles, muscleList, mLeft, mRight, all_neuron_names
+from Worm_Env.weight_dict import muscles, muscleList, mLeft, mRight, all_neuron_names
 from matplotlib import pyplot as plt
-from tqdm import tqdm
-import csv
 import os
 from util.write_read_txt import read_arrays_from_csv_pandas
 import random
-import matplotlib.ticker as ticker
 
 
 class Genetic_Dyn_Algorithm:
@@ -156,7 +153,7 @@ class Genetic_Dyn_Algorithm:
 
         for color, distances_list in distances_dict.items():
             if distances_list:
-                avg_distance = np.mean(distances_list, axis=0)
+                #avg_distance = np.mean(distances_list, axis=0) not used 
                 if color == "blue":
                     model = "Of Nomad Assisted Search"
                 elif color == "green":

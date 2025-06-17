@@ -1,4 +1,3 @@
-import os
 import numpy as np
 from typing import Dict
 from Worm_Env.celegan_env import WormSimulationEnv
@@ -13,17 +12,12 @@ from genetic_dynamic.Random_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_Ra
 from graphs.Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos
 from graphs.Graph_fitness_over_time import Genetic_Dyn_Algorithm as GD_Graph
 from graphs.Graph_path_over_gen import Genetic_Dyn_Algorithm as GD_PathGen
-from graphs.wpi import search_connection_impacts, graph_wsi, calc_simular
-from graphs.graphing import graph, graph2, graph_results, graph_trained_worms, graph_agg
+from graphs.wpi import search_connection_impacts, calc_simular
+from graphs.graphing import graph_results, graph_trained_worms, graph_agg
 from graphs.Graph_fitness_over_time_old import Genetic_Dyn_Algorithm as GD_Graph_Old
 from graphs.graph_video_ngons import Genetic_Dyn_Video
-
-from Worm_Env.weight_dict import dict
-from util.dist_dict_calc import dist_calc
-from util.movie import compile_images_to_video
-from util.findmotor_ind import find_motor_ind, get_indicies_to_change
-from util.read_from_xls import combine_neuron_data
-from util.write_read_txt import read_last_array_from_csv, read_arrays_from_csv_pandas, delete_arrays_csv_if_exists
+import numpy.typing as npt
+from util.write_read_txt import delete_arrays_csv_if_exists
 
 
 
@@ -45,7 +39,7 @@ def select_ga_class(config:Dict):
     return variant_map.get(config["ga_variant"], GD_PureNomad)
 
 
-def calculate_worm_suffering_index(config:Dict,values_list:np.array,length:int):
+def calculate_worm_suffering_index(config:Dict,values_list:npt.NDArray[np.float64],length:int):
     """Calculates a 'worm suffering index' by searching for connection impacts, etc."""
     env = WormSimulationEnv()
     ci_3 = search_connection_impacts(
@@ -64,11 +58,11 @@ def calculate_worm_suffering_index(config:Dict,values_list:np.array,length:int):
         interval=config["training_interval"],
         episodes=config["total_episodes"]
     )
-    ci_diff = ci_3 - ci_5
+    #ci_diff = ci_3 - ci_5 was used in the past for something now not used
     calc_simular(ci_3, ci_5)
 
 
-def test_last_generations(config:Dict,values_list:np.array,length:int):
+def test_last_generations(config:Dict,values_list:npt.NDArray[np.float64],length:int):
     """Tests and prints the last generations from arrays.csv (if you store them)."""
     env = WormSimulationEnv()
     ga_instance = GD_Graph(
@@ -82,24 +76,24 @@ def test_last_generations(config:Dict,values_list:np.array,length:int):
     ga_instance.run_and_print_last_generations(env, '24hr')
 
 
-def graph_training_results(config:Dict,values_list:np.array):
+def graph_training_results(config:Dict,values_list:npt.NDArray[np.float64]):
     """Graphs results of a single worm's training."""
     csv_name = "5"
     graph_results(config["path"], csv_name, values_list)
 
 
-def graph_trained_population(config:Dict,values_list:Dict):
+def graph_trained_population(config:Dict,values_list:npt.NDArray[np.float64]):
     """Graphs the results of trained worms at the end of training."""
     graph_trained_worms(base_path=config["path"], values_list=values_list)
 
 
-def graph_aggregates(config:Dict,values_list:Dict):
+def graph_aggregates(config:Dict,values_list:npt.NDArray[np.float64]):
     """Graphs aggregate results from multiple runs."""
     graph_agg(base_path=config["path"], values_list=values_list)
 
 
 # NEW: Function to graph quartiles from arrays.csv using Graph_path_over_gen
-def graph_quartiles(config:Dict,values_list:Dict,length:int):
+def graph_quartiles(config:Dict,values_list:npt.NDArray[np.float64],length:int):
     """
     Produces a 2x2 plot of:
       - 0th generation
@@ -132,7 +126,7 @@ def clean_environment():
     delete_arrays_csv_if_exists()
 
 
-def run_genetic_algorithm(config:Dict,values_list:np.array,shape:int):
+def run_genetic_algorithm(config:Dict,values_list:npt.NDArray[np.float64],shape:int):
     """Runs the genetic algorithm to find the best weight matrix."""
     print("Running Genetic Algorithm...")
     env = WormSimulationEnv()
@@ -151,7 +145,7 @@ def run_genetic_algorithm(config:Dict,values_list:np.array,shape:int):
 
 
 
-def polygon_test(config:Dict,values_list:Dict,length:int):
+def polygon_test(config:Dict,values_list:npt.NDArray[np.float64],length:int):
     """
     Runs the pure nomad algorithm with food patterns 6 to 10.
     Each pattern runs for 40 generations before switching to the next.

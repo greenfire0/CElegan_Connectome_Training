@@ -1,6 +1,6 @@
 import os
 import numpy as np
-
+import numpy.typing as npt
 from Worm_Env.celegan_env import WormSimulationEnv
 
 # Genetic Algorithm Variants
@@ -17,7 +17,7 @@ from graphs.Graph_path_over_gen import Genetic_Dyn_Algorithm as GD_PathGen
 from graphs.wpi import search_connection_impacts, graph_wsi, calc_simular
 from graphs.graphing import graph, graph2, graph_results, graph_trained_worms, graph_agg
 from graphs.Graph_fitness_over_time_old import Genetic_Dyn_Algorithm as GD_Graph_Old
-
+   
 from Worm_Env.weight_dict import dict
 from util.dist_dict_calc import dist_calc
 from util.movie import compile_images_to_video
@@ -34,7 +34,7 @@ os.environ["RAY_DEDUP_LOGS"] = "0"
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 40,
+    "generations": 10,
     "training_interval": 250,
     "total_episodes": 1,
     "food_patterns": [5],
@@ -43,7 +43,7 @@ config = {
     # Execution Flags
     "clean_env": 0,
     "freeze_indicies": 0, ## this all needs documentation
-    "run_gen": 0,
+    "run_gen": 1,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
@@ -53,7 +53,7 @@ config = {
     "graph_quartiles": 0,
     "polygon_test":0,
     "graph_ngon_performance": 0,
-    "graph_video_ngons": 1,
+    "graph_video_ngons": 0,
 
 
     # More descriptive name in ga_variant:
@@ -67,12 +67,12 @@ config = {
 
 }
 
-# Convert the big worm dictionary to a single flat array for your GA
+
 frozen_indices = []
 values_list = []
 for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
-values_list = np.array(values_list)
+connectome_weights:npt.NDArray[np.float64] = np.array(values_list)
 length = len(values_list)
 
 def main(config):
@@ -82,39 +82,39 @@ def main(config):
 
     # Run genetic algorithm if requested
     if config["run_gen"]:
-        run_genetic_algorithm(config)
+        run_genetic_algorithm(config,connectome_weights,length)
 
     # Compute worm suffering index if requested
     if config["worm_suffering_index"]:
-        calculate_worm_suffering_index(config)
+        calculate_worm_suffering_index(config,connectome_weights,length)
 
     # Test the last ten generations if requested
     if config["test_last_ten"]:
-        test_last_generations(config)
+        test_last_generations(config,connectome_weights,length)
 
     # Graph results if requested
     if config["graphing"]:
-        graph_training_results(config)
+        graph_training_results(config,connectome_weights)
 
     # Graph best worms if requested
     if config["graph_best"]:
-        graph_trained_population(config)
+        graph_trained_population(config,connectome_weights)
 
     # Graph aggregate data if requested
     if config["graphing_agg"]:
-        graph_aggregates(config)
+        graph_aggregates(config,connectome_weights)
 
     # NEW: plot quartiles from arrays.csv if requested
     if config.get("graph_quartiles", 0):
-        graph_quartiles(config)
+        graph_quartiles(config,connectome_weights,length)
     if config.get("graph_ngon_performance", 0):
         csv_files = [f"array{i}.csv" for i in range(3, 10)]
         plot_ngon_performance(csv_files, training_interval=config["training_interval"],
                               total_episodes=config["total_episodes"])
     if config.get("graph_video_ngons", 0):
-        graph_video_ngons(config)
+        graph_video_ngons(config,)
     if config.get("polygon_test", 0):
-        polygon_test(config)
+        polygon_test(config,connectome_weights,length)
     # Additional testing mode logic
     if config["testing_mode"]:
         pass

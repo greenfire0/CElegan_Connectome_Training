@@ -1,14 +1,11 @@
 import numpy as np
 import ray
 from Worm_Env.trained_connectome import WormConnectome
-from Worm_Env.weight_dict import dict, muscles, muscleList, mLeft, mRight, all_neuron_names
+from Worm_Env.weight_dict import muscles, muscleList, mLeft, mRight, all_neuron_names
 from matplotlib import pyplot as plt
-from tqdm import tqdm
-import csv
 import os
 from util.write_read_txt import read_arrays_from_csv_pandas
 import random
-import matplotlib.ticker as ticker
 
 
 class Genetic_Dyn_Algorithm:
@@ -119,11 +116,11 @@ class Genetic_Dyn_Algorithm:
         for color, fitnesses_list in fitnesses_dict.items():
             if fitnesses_list:
                 avg_fitness = np.mean(fitnesses_list, axis=0)
-                model = (
-                    "Of Nomad Assisted Search" if color == "blue" 
-                    else "Of Evolutionary Algorithm" if color == "green" 
-                    else "Of Searches With Large Differences from the Original Connectome"
-                )
+                #model = (
+                #    "Of Nomad Assisted Search" if color == "blue" 
+                #    else "Of Evolutionary Algorithm" if color == "green" 
+                #    else "Of Searches With Large Differences from the Original Connectome"
+                #) not used anymore
                 ax1.plot(avg_fitness, color=color, alpha=1, linewidth=2)
         
         ax1.set_xscale('log')

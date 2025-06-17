@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import gym
 import numpy as np
-import math
 from numba import njit
 from Worm_Env.c_worm import Worm,is_food_close
 
