@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from util.multimode import custom_multimode
 from collections import defaultdict
-from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
+from Worm_Env.weight_dict import dict,muscles,all_neuron_names
 from util.dist_dict_calc import dist_calc
 import os
 from util.write_read_txt import read_arrays_from_csv_pandas,read_last_array_from_csv
@@ -157,7 +157,7 @@ def graph_agg(base_path, values_list):
 
 
 def graph(combined_weights, connections_dict, generation,old_wm,shortest_distances):
-    assert type(combined_weights) == type(np.array([0])) ,  f"Expected type {type(np.array([0]))}, but got type {type(combined_weights)}"
+    assert combined_weights.isinstance(type(np.array([0]))) ,  f"Expected type {type(np.array([0]))}, but got type {type(combined_weights)}"
     def plot_weight_distribution(ax, weight_matrix1, weight_matrix2, num_bins=30):
             non_zero_weights1 = weight_matrix1[weight_matrix1 != 0]
             non_zero_weights2 = weight_matrix2[weight_matrix2 != 0]
@@ -320,10 +320,9 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
         dist_groups = np.unique(list(neuron_to_group.values()))
         # Initialize dictionaries to store the sums
         group_sums_new = {group: 0 for group in dist_groups}
-        c = 0
         for pre_neuron in connections_dict.keys():
             if pre_neuron[:3] not in muscles:
-                neuron_connections_old = connections_dict[pre_neuron]
+                #neuron_connections_old = connections_dict[pre_neuron] used in the past put not used now
                 #sum_old = 0
                 #sum_new = 0
                 group = neuron_to_group.get(pre_neuron)
@@ -494,9 +493,10 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
         groups = list(neuron_groups.keys())
         values = [group_diffs[group] for group in groups]
 
-        # Plot the histogram
-        if pos: ax.set_ylim([0,10]) 
-        else: ax.set_ylim([-10,0])
+        if pos: 
+            ax.set_ylim([0,10]) 
+        else: 
+            ax.set_ylim([-10,0])
         ax.bar(groups, values, edgecolor='black', alpha=0.7)
         ax.set_xlabel('Neuron Group')
         ax.set_ylabel(t)
@@ -519,7 +519,7 @@ def graph2(combined_weights_list, connections_dict, generation, old_wm, shortest
         "Expected a list of numpy arrays for combined_weights_list"
 
 
-    all_neuron_names = list(connections_dict.keys())  # Adjust this to the correct neuron names list
+    #all_neuron_names = list(connections_dict.keys())
 
     plt.figure(figsize=(18, 15))
 
@@ -652,6 +652,6 @@ def graph2(combined_weights_list, connections_dict, generation, old_wm, shortest
     plt.legend()
 
     plt.tight_layout()
-    filename = f'/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Aggregate_Results.png'
+    filename = '/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Aggregate_Results.png'
     plt.savefig(filename)
     plt.close()

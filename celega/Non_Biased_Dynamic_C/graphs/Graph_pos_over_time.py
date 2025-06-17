@@ -3,9 +3,6 @@ import ray
 from Worm_Env.trained_connectome import WormConnectome
 from Worm_Env.weight_dict import  muscles, muscleList, mLeft, mRight, all_neuron_names
 from matplotlib import pyplot as plt
-from tqdm import tqdm
-import csv
-import os
 from util.write_read_txt import read_arrays_from_csv_pandas
 import random
 import matplotlib.cm as cm  # Import for color mapping

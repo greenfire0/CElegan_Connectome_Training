@@ -1,15 +1,12 @@
 import numpy as np
-from typing import List
 import ray
 from Worm_Env.trained_connectome import WormConnectome
-from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
+from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 import PyNomad
 from tqdm import tqdm
 import csv
-from util.write_read_txt import read_arrays_from_csv_pandas
 from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness
 
-import copy
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size:int,pattern:list= [5],  total_episodes:int=0, training_interval:int=250, genome=None,matrix_shape:int= 3689,indicies=[]):

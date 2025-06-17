@@ -1,5 +1,5 @@
 import numpy as np
-from numba import njit, prange
+from numba import njit
 
 @njit
 def move(position, facing_dir, left_speed, right_speed):

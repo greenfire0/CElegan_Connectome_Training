@@ -6,12 +6,10 @@ from matplotlib import pyplot as plt
 from tqdm import tqdm
 import os
 from util.write_read_txt import read_arrays_from_csv_pandas
-import random
 import matplotlib.cm as cm  # For color mapping
 import cv2
 import math
 from moviepy import ImageSequenceClip
-from PIL import Image
 
 from Worm_Env.celegan_env import WormSimulationEnv  # Your simulation environment
 

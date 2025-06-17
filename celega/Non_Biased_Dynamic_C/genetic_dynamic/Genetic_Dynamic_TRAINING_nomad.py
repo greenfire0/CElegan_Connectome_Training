@@ -1,12 +1,10 @@
 import numpy as np
 import ray
 from Worm_Env.trained_connectome import WormConnectome
-from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
+from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 import PyNomad
 from tqdm import tqdm
 import csv
-from util.write_read_txt import read_arrays_from_csv_pandas
-from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
@@ -23,14 +21,7 @@ class Genetic_Dyn_Algorithm:
     def give_random_worm(self):
         return WormConnectome(weight_matrix=np.random.uniform(low=-20, high=20, size=self.matrix_shape).astype(np.float32), all_neuron_names=all_neuron_names)
 
-        for _ in range(num_offspring):
-            parent1 = np.random.choice(parents, p=fitness_probs)
-            parent2 = np.random.choice(parents, p=fitness_probs)
-            crossover_prob = (fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)]))**1.2
-            prob_array = (np.random.rand(self.matrix_shape) < crossover_prob).astype(int)
-            final_array = np.where(prob_array, parent1.weight_matrix, parent2.weight_matrix)
-            offspring.append(WormConnectome(weight_matrix=final_array,all_neuron_names=all_neuron_names))
-        return offspring
+
 
     def mutate(self, offspring, n=5):
         for child in offspring:

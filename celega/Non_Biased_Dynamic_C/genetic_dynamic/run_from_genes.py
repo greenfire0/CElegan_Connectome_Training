@@ -1,11 +1,9 @@
 from Worm_Env.trained_connectome import WormConnectome
 from Worm_Env.celegan_env import WormSimulationEnv
-from util.write_read_txt import read_array_from_file
 import numpy as np
 import matplotlib
 from util.write_read_txt import read_arrays_from_csv_pandas
 matplotlib.use('TkAgg')  # TkAgg is a commonly used backend for interactive sessions
-import matplotlib.pyplot as plt
 from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
 
 

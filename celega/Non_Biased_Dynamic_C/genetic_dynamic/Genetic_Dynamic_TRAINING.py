@@ -1,11 +1,9 @@
 import numpy as np
 import ray
 from Worm_Env.trained_connectome import WormConnectome
-from graphs.graphing import graph
-from Worm_Env.weight_dict import dict,muscles,muscleList,mLeft,mRight,all_neuron_names
+from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 from tqdm import tqdm
 import csv
-from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3683):
