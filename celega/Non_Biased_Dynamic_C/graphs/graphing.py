@@ -305,7 +305,7 @@ def graph(combined_weights, connections_dict, generation,old_wm,shortest_distanc
         print("Mode connection distance from motor neuron")
         for pre_neuron in connections_dict.keys():
             if pre_neuron[:3] not in muscles:
-                neuron_connections_old = connections_dict[pre_neuron]
+                #neuron_connections_old = connections_dict[pre_neuron]
                 #sum_old = 0
                 #sum_new = 0
                 group = neuron_to_group.get(pre_neuron)     

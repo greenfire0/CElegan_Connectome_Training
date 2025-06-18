@@ -1,11 +1,10 @@
 import numpy as np
 import ray
-from Worm_Env.trained_connectome import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 import PyNomad
 from tqdm import tqdm
 import csv
-
+from genetic_utils import initialize_population, evaluate_fitness_ray,evaluate_fitness_static,mutate
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
@@ -17,33 +16,7 @@ class Genetic_Dyn_Algorithm:
         self.original_genome = genome
         self.food_patterns = pattern
         assert(len(genome) == matrix_shape)
-        self.population = self.initialize_population(genome)
-
-
-    def mutate(self, offspring, n=2):
-        for child in offspring:
-                indices_to_mutate = np.random.choice(self.matrix_shape, size=n, replace=False)
-                new_values = np.random.uniform(low=-20, high=20, size=n)
-                child.weight_matrix[indices_to_mutate] = new_values
-        return offspring
-
-    
-    @staticmethod
-    @ray.remote
-    def evaluate_fitness_ray_evo(candidate_weights,nur_name, env, prob_type, mLeft, mRight, muscleList, muscles,interval,episodes):
-        sum_rewards = 0
-        for a in prob_type:
-            candidate = WormConnectome(weight_matrix=candidate_weights,all_neuron_names=nur_name)
-            env.reset(a)
-            for _ in range(episodes):  # total_episodes
-                observation = env._get_observations()
-                for _ in range(interval):  # training_interval
-                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, _ = env.step(movement, 0, candidate)
-                    observation = next_observation
-                    sum_rewards+=reward
-        
-        return sum_rewards
+        self.population = initialize_population(self.population_size,genome)
 
     def run(self, env, generations=50, batch_size=32):
         last_best = 0
@@ -64,11 +37,10 @@ class Genetic_Dyn_Algorithm:
                         ind = (np.where(candidate.weight_matrix != self.original_genome)[0])
                         if (len(ind) < 50) and (len(ind) > 0) and not any(np.array_equal(ind, arr) for arr in record_ind):
                             record_ind.append(ind)
-                            #print(record_ind)
                             # Submit task to Ray and collect future
                             
                             futures.append(self.evaluate_fitness_nomad.remote(
-                                self.evaluate_fitness,
+                                evaluate_fitness_static,
                                 self.original_genome,
                                 candidate.weight_matrix,
                                 all_neuron_names,
@@ -86,10 +58,9 @@ class Genetic_Dyn_Algorithm:
                             
                         else:
                             # Submit task to Ray and collect future
-                            futures.append(self.evaluate_fitness_ray_evo.remote(
+                            futures.append(evaluate_fitness_ray.remote(
                                 candidate.weight_matrix,
                                 all_neuron_names,
-                                
                                 env,
                                 self.food_patterns,
                                 mLeft,
@@ -116,25 +87,21 @@ class Genetic_Dyn_Algorithm:
                 best_candidate = self.population[best_index]
 
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
-                # Select parents from the entire population
-                if True or ( best_fitness>last_best) :
-                    last_best = best_fitness
-                    with open('random_ind.csv', 'a', newline='') as csvfile:
+                if True:
+                    with open('50_random_NOMAD.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
                         writer.writerow(best_candidate.weight_matrix.tolist())
                 
                 if (generation//4) ==0:
-                    self.population = self.mutate(self.population)
+                    self.population = mutate(self.population,self.matrix_shape,n=2) # 2 mutations
                 
-                #remove or true if you only want improvements
-
 
             
             return best_candidate.weight_matrix
         
         finally:
             ray.shutdown()
-    ##prevent already searched shit from vbieng searchged
+
     @staticmethod
     @ray.remote
     def evaluate_fitness_nomad(func,ori, candidate_weights, nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind):
