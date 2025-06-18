@@ -2,7 +2,8 @@ import numpy as np
 import ray
 from Worm_Env.trained_connectome import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
-from genetic_utils import initialize_population_with_random_worms, select_parents, crossover, mutate,evaluate_fitness_ray
+from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
+,evaluate_fitness_ray,mutate
 from tqdm import tqdm
 import csv
 
