@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.typing as npt
 import ray
 from Worm_Env.connectome import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
@@ -9,7 +10,7 @@ import csv
 from util.snip import write_worm_to_csv
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3683):
+    def __init__(self,genome:npt.NDArray[np.float64], population_size,pattern= [5],  total_episodes=10, training_interval=25,matrix_shape= 3683):
         self.population_size = population_size
         self.matrix_shape = matrix_shape
         self.total_episodes = total_episodes
@@ -18,7 +19,7 @@ class Genetic_Dyn_Algorithm:
         self.food_patterns = pattern
         self.population = initialize_population_with_random_worms(self.population_size,self.matrix_shape,genome)
     
-    def run(self, env , generations=50, batch_size=32):
+    def run(self, env , generations=50, batch_size=32,filename:str = "Evolutionary_algorithm"):
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
@@ -42,7 +43,7 @@ class Genetic_Dyn_Algorithm:
                 offspring = mutate(offspring,self.matrix_shape)
                 self.population.extend(offspring)
                 self.population.insert(0,best_candidate)
-                write_worm_to_csv("evolutionary_algorithm",best_candidate)
+                write_worm_to_csv(filename,best_candidate)
                
             return best_candidate.weight_matrix
         

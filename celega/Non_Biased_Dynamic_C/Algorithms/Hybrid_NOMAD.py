@@ -6,11 +6,12 @@ import PyNomad
 from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
-,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper, evaluate_fitness_nomad
+,evaluate_fitness_ray,evaluate_fitness_static,mutate, evaluate_fitness_nomad
 from util.snip import write_worm_to_csv
+import numpy.typing as npt
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
+    def __init__(self,genome:npt.NDArray[np.float64], population_size,pattern= [5],  total_episodes=0, training_interval=250, matrix_shape= 3689,indicies=[]):
         self.population_size:int = population_size
         self.indicies:int = indicies
         self.matrix_shape:int = matrix_shape
@@ -22,7 +23,7 @@ class Genetic_Dyn_Algorithm:
         self.population = initialize_population_with_random_worms(self.population_size, self.matrix_shape, genome)
 
 
-    def run(self, env, generations=50, batch_size=32):
+    def run(self, env, generations=50, batch_size=32,filename:str = "Hybrid_nomad"):
         
         try:
             for generation in tqdm(range(generations), desc="Generations"):
@@ -96,7 +97,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_candidate)
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv('nomad_hybrid', best_candidate)
+                write_worm_to_csv(filename, best_candidate)
             return best_candidate.weight_matrix
         
         finally:
