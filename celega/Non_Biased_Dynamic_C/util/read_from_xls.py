@@ -15,13 +15,8 @@ def process_sheet(df: pd.DataFrame, nur_muscle: bool) -> Dict[str, Dict[str, Uni
         # Convert weight to negative if neuromodulator is GABA
         if neuromodulator == 'GABA':
             weight = -weight
-
-        # Initialize dictionary entry for the sending neuron if not already present
         if from_neuron not in data_dict:
             data_dict[from_neuron] = {}
-
-        # Add or update the connection
-        
         if to_neuron in data_dict[from_neuron]:
             data_dict[from_neuron][to_neuron]+=(weight)
         else:
@@ -37,11 +32,8 @@ def combine_neuron_data(file_path:str):
     # Process both sheets
     connectome_data = process_sheet(connectome_df, False)
     neurons_to_muscle_data = process_sheet(neurons_to_muscle_df, True)
-
-    # Combine the dictionaries
     combined_data = connectome_data.copy()
 
-    # Merge data from neurons_to_muscle_data into combined_data
     for neuron, connections in neurons_to_muscle_data.items():
         if neuron in combined_data:
             for target, weight in connections.items():
@@ -56,8 +48,6 @@ def combine_neuron_data(file_path:str):
 
 def get_all_neuron_names(combined_data):
     neuron_names = set()
-
-    # Iterate through the keys and values in the combined data
     for from_neuron, connections in combined_data.items():
         neuron_names.add(from_neuron)
         for to_neuron in connections.keys():

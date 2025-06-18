@@ -1,7 +1,9 @@
-from Worm_Env.trained_connectome import WormConnectome
+from Worm_Env.connectome import WormConnectome
 import numpy as np
 from Worm_Env.weight_dict import all_neuron_names
 import ray
+import PyNomad
+import numpy.typing as npt
 
 @staticmethod
 def initialize_population(population_size:int, genome):
@@ -82,6 +84,48 @@ def mutate(offspring,matrix_shape, n=5):
     return offspring
 
 
+
+@ray.remote
+def evaluate_fitness_nomad(func, candidate_weights:npt.NDArray[np.float64], nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,bounds:int,bb_eval,verify:bool=False):
+        if ind.size == 0:
+                raise ValueError("No difference between candidate weights and original weights")
+        x0 = np.array(candidate_weights[ind])
+        lower_bounds = (x0 - bounds).tolist()
+        upper_bounds = (x0 + bounds).tolist()
+        x0 = x0.tolist()
+        
+        params = [
+            'DISPLAY_DEGREE 0', 
+            'DISPLAY_STATS BBE BLK_SIZE OBJ', 
+            'BB_MAX_BLOCK_SIZE 4',
+            f'MAX_BB_EVAL {bb_eval}'
+        ]
+        wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,candidate_weights)
+        result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)
+        # Use NOMAD's minimize function with blackbox_block and pass additional args
+
+        if verify:
+            w_test = np.copy(candidate_weights)
+            w_test.setflags(write=True)        
+            w_test[ind] = np.copy(result['x_best'])
+            fitness_verify = func(
+                                        w_test,
+                                        all_neuron_names,
+                                        env,
+                                        prob_type,
+                                        mLeft,
+                                        mRight,
+                                        muscleList,
+                                        muscles,
+                                        interval,
+                                        episodes)
+            #print("fitness",-result['f_best'],"fitness",fitness_verify)
+            assert abs(fitness_verify+result['f_best'])<2,( w_test[ind]==result['x_best'], "\nResults\n",fitness_verify,result['f_best'])
+            del w_test,fitness_verify
+        del wrapper
+        return ([ind,result['x_best']],-result['f_best'])
+
+
 class BlackboxWrapper:
     def __init__(self, func, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,index,cand):
         self.env = env
@@ -116,3 +160,6 @@ class BlackboxWrapper:
             eval_point = eval_block.get_x(index)
             eval_state.append(self.blackbox(eval_point))
         return eval_state
+
+
+

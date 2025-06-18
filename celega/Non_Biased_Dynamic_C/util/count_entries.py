@@ -1,10 +1,14 @@
 # Import the weights dictionary
 # Function to count the number of connections
+from Worm_Env.weight_dict import dict,all_neuron_names
 def count_total_entries(weights_dict):
-    total_entries = 0
+    connections = 0
+    neurons= 0
     for inner_dict in weights_dict.values():
-        total_entries += len(inner_dict)
-    return total_entries
+        neurons+=1
+        connections += len(inner_dict)
+    print(len(all_neuron_names),connections)
+    return connections
 
 # Main function
 if __name__ == "__main__":

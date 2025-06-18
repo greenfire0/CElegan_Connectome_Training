@@ -1,6 +1,6 @@
 import numpy as np
 import ray
-from Worm_Env.trained_connectome import WormConnectome
+from Worm_Env.connectome import WormConnectome
 from Worm_Env.weight_dict import muscles, muscleList, mLeft, mRight, all_neuron_names
 from tqdm import tqdm
 import matplotlib.pyplot as plt

@@ -45,7 +45,7 @@ config = {
     # "graph_fitness_over_time", "graph_fitness_over_time_legacy",
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"
-    "ga_variant": "pure_nomad_algorithm",
+    "ga_variant": "random_nomad_algorithm",
 
     # Turn on quartile plotting from arrays.csv if desired
 

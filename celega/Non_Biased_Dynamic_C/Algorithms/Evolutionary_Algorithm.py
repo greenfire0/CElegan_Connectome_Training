@@ -1,6 +1,6 @@
 import numpy as np
 import ray
-from Worm_Env.trained_connectome import WormConnectome
+from Worm_Env.connectome import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
 ,evaluate_fitness_ray,mutate
@@ -42,7 +42,7 @@ class Genetic_Dyn_Algorithm:
                 offspring = mutate(offspring,self.matrix_shape)
                 self.population.extend(offspring)
                 self.population.insert(0,best_candidate)
-                write_worm_to_csv("evolutionary_algorithm.csv",best_candidate)
+                write_worm_to_csv("evolutionary_algorithm",best_candidate)
                
             return best_candidate.weight_matrix
         

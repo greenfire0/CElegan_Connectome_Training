@@ -5,7 +5,7 @@ import PyNomad
 from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population\
-,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper
+,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper, evaluate_fitness_nomad
 from util.snip import write_worm_to_csv
 
 class Genetic_Dyn_Algorithm:
@@ -34,9 +34,8 @@ class Genetic_Dyn_Algorithm:
                             record_ind.append(ind)
                             # Submit task to Ray and collect future
                             
-                            futures.append(self.evaluate_fitness_nomad.remote(
+                            futures.append(evaluate_fitness_nomad.remote(
                                 evaluate_fitness_static,
-                                self.original_genome,
                                 candidate.weight_matrix,
                                 all_neuron_names,
                                 env,
@@ -47,7 +46,10 @@ class Genetic_Dyn_Algorithm:
                                 muscles,
                                 self.training_interval,
                                 self.total_episodes,
-                                ind
+                                ind,                                
+                                bounds = 2,
+                                bb_eval = 25,
+                                verify = False # turn this on for debugging
                             ))
 
                             
@@ -82,7 +84,7 @@ class Genetic_Dyn_Algorithm:
                 best_candidate = self.population[best_index]
 
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
-                write_worm_to_csv('50_random_NOMAD.csv', best_candidate)
+                write_worm_to_csv('50_random_NOMAD', best_candidate)
 
                 if (generation//4) ==0:
                     self.population = mutate(self.population,self.matrix_shape,n=2) # 2 mutations
@@ -93,28 +95,3 @@ class Genetic_Dyn_Algorithm:
         
         finally:
             ray.shutdown()
-
-    @staticmethod
-    @ray.remote
-    def evaluate_fitness_nomad(func,ori, candidate_weights, nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind):
-        if ind.size == 0:
-                raise ValueError("No difference between candidate weights and original weights")
-        x0 = np.array(candidate_weights[ind])
-        lower_bounds = (x0 - 2).tolist()
-        upper_bounds = (x0 + 2).tolist()
-        x0 = x0.tolist()
-        
-        params = [
-            'DISPLAY_DEGREE 0', 
-            'DISPLAY_STATS BBE BLK_SIZE OBJ', 
-            'BB_MAX_BLOCK_SIZE 4',
-            'MAX_BB_EVAL 25'
-        ]
-        wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,ori)
-        result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)
-        # Use NOMAD's minimize function with blackbox_block and pass additional args
-        
-        # Reconstruct the full candidate weights with optimized values
-        #optimized_weights[ind] = result.x
-        return ([ind,result['x_best']],-result['f_best'])
-
