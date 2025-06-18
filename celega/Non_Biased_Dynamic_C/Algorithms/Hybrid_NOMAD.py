@@ -7,6 +7,7 @@ from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
 ,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper
+from util.snip import write_worm_to_csv
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
@@ -22,11 +23,6 @@ class Genetic_Dyn_Algorithm:
 
 
     def run(self, env, generations=50, batch_size=32):
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=15 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
         
         try:
             for generation in tqdm(range(generations), desc="Generations"):
@@ -98,12 +94,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_candidate)
                 
                 #remove or true if you only want improvements
-                if True:
-                    with open('nomad_hybrid.csv', 'a', newline='') as csvfile:
-                        writer = csv.writer(csvfile)
-                        writer.writerow(best_candidate.weight_matrix.tolist())
-
-            
+                write_worm_to_csv('nomad_hybrid.csv', best_candidate)
             return best_candidate.weight_matrix
         
         finally:

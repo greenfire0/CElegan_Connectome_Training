@@ -7,6 +7,7 @@ from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population, select_parents,\
 crossover, evaluate_fitness_ray,evaluate_fitness_static,BlackboxWrapper
+from util.snip import write_worm_to_csv
 
 
 class Genetic_Dyn_Algorithm:
@@ -21,13 +22,8 @@ class Genetic_Dyn_Algorithm:
         assert(len(genome) == matrix_shape)
         self.population = initialize_population(self.population_size,genome)
 
-    def run(self, env, generations=50, batch_size=32,filename="arrays"):
+    def run(self, env, generations=50, batch_size=32,_unused_="arrays"):
         last_best = 0
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=15 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
@@ -70,11 +66,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(WormConnectome(weight_matrix=best_weights, all_neuron_names=all_neuron_names))
                 
                 #remove or true if you only want improvements
-                if True or ( best_fitness>last_best) :
-                    last_best = best_fitness
-                    with open((filename+'.csv'), 'a', newline='') as csvfile:
-                        writer = csv.writer(csvfile)
-                        writer.writerow(best_weights.tolist())
+                write_worm_to_csv('Pure_NOMAD.csv', self.population[best_index])
 
             
             return best_weights

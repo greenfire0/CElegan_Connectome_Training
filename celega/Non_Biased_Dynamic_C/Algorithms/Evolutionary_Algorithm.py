@@ -6,6 +6,7 @@ from Algorithms.algo_utils import initialize_population_with_random_worms, selec
 ,evaluate_fitness_ray,mutate
 from tqdm import tqdm
 import csv
+from util.snip import write_worm_to_csv
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=10, training_interval=25, genome=None,matrix_shape= 3683):
@@ -16,17 +17,8 @@ class Genetic_Dyn_Algorithm:
         self.original_genome = genome
         self.food_patterns = pattern
         self.population = initialize_population_with_random_worms(self.population_size,self.matrix_shape,genome)
-
-
-    
-
     
     def run(self, env , generations=50, batch_size=32):
-        ray.init(
-            ignore_reinit_error=True,  # Allows reinitialization if Ray is already running
-            object_store_memory=15 * 1024 * 1024 * 1024,  # 20 GB in bytes
-            num_cpus=16,                                # Number of CPU cores
-            )       
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
@@ -50,11 +42,8 @@ class Genetic_Dyn_Algorithm:
                 offspring = mutate(offspring,self.matrix_shape)
                 self.population.extend(offspring)
                 self.population.insert(0,best_candidate)
-                
-                if True:
-                    with open('evolutionary_algorithm.csv', 'a', newline='') as csvfile:
-                        writer = csv.writer(csvfile)
-                        writer.writerow(best_candidate.weight_matrix.flatten().tolist()) 
+                write_worm_to_csv("evolutionary_algorithm.csv",best_candidate)
+               
             return best_candidate.weight_matrix
         
         finally:
