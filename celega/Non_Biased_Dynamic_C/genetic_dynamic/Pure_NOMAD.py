@@ -5,7 +5,7 @@ from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_name
 import PyNomad
 from tqdm import tqdm
 import csv
-from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness
+from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness_ray,evaluate_fitness_static
 
 
 class Genetic_Dyn_Algorithm:
@@ -27,7 +27,6 @@ class Genetic_Dyn_Algorithm:
             object_store_memory=15 * 1024 * 1024 * 1024,
             num_cpus=16,
         )
-
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
@@ -35,7 +34,7 @@ class Genetic_Dyn_Algorithm:
                 for batch in population_batches:
                     for candidate in (batch):
                             futures.append(self.evaluate_fitness_nomad.remote(
-                                evaluate_fitness,
+                                evaluate_fitness_static,
                                 self.original_genome,
                                 candidate.weight_matrix,
                                 all_neuron_names,

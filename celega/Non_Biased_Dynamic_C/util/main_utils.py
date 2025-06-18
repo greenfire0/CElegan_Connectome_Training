@@ -3,10 +3,10 @@ from typing import Dict
 from Worm_Env.celegan_env import WormSimulationEnv
 
 # Genetic Algorithm Variants
-from genetic_dynamic.Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm as GD_EA
-from genetic_dynamic.Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_EA_Nomad
-from genetic_dynamic.Genetic_Dynamic_train_god import Genetic_Dyn_Algorithm as GD_PureNomad
-from genetic_dynamic.Random_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_RandomNomad
+from genetic_dynamic.Evolutionary_Algorithm import Genetic_Dyn_Algorithm as GD_EA
+from genetic_dynamic.Hybrid_NOMAD import Genetic_Dyn_Algorithm as GD_EA_Nomad
+from genetic_dynamic.Pure_NOMAD import Genetic_Dyn_Algorithm as GD_PureNomad
+from genetic_dynamic.RandParam_50_NOMAD import Genetic_Dyn_Algorithm as GD_RandomNomad
 
 # Graphs
 from graphs.Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos

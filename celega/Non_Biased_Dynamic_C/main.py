@@ -1,31 +1,15 @@
 import os
 import numpy as np
 import numpy.typing as npt
-from Worm_Env.celegan_env import WormSimulationEnv
 
 # Genetic Algorithm Variants
-from genetic_dynamic.Genetic_Dynamic_TRAINING import Genetic_Dyn_Algorithm as GD_EA
-from genetic_dynamic.Genetic_Dynamic_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_EA_Nomad
-from genetic_dynamic.Genetic_Dynamic_train_god import Genetic_Dyn_Algorithm as GD_PureNomad
-from genetic_dynamic.Random_TRAINING_nomad import Genetic_Dyn_Algorithm as GD_RandomNomad
 
 # Graphs
 from graphs.graph_ngon_performance import plot_ngon_performance
-from graphs.Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos
-from graphs.Graph_fitness_over_time import Genetic_Dyn_Algorithm as GD_Graph
-from graphs.Graph_path_over_gen import Genetic_Dyn_Algorithm as GD_PathGen
-from graphs.wpi import search_connection_impacts, graph_wsi, calc_simular
-from graphs.graphing import graph, graph2, graph_results, graph_trained_worms, graph_agg
-from graphs.Graph_fitness_over_time_old import Genetic_Dyn_Algorithm as GD_Graph_Old
    
 from Worm_Env.weight_dict import dict
-from util.dist_dict_calc import dist_calc
-from util.movie import compile_images_to_video
-from util.findmotor_ind import find_motor_ind, get_indicies_to_change
-from util.read_from_xls import combine_neuron_data
-from util.write_read_txt import read_last_array_from_csv, read_arrays_from_csv_pandas, delete_arrays_csv_if_exists
 from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment,\
-    graph_quartiles,graph_aggregates,select_ga_class,calculate_worm_suffering_index,\
+    graph_quartiles,graph_aggregates,calculate_worm_suffering_index,\
         test_last_generations,graph_training_results,graph_trained_population,graph_video_ngons
 os.environ["RAY_DEDUP_LOGS"] = "0"
 
