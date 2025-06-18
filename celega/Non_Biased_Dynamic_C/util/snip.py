@@ -1,6 +1,6 @@
 import pandas as pd
 import os 
-from Worm_Env.trained_connectome import WormConnectome
+from Worm_Env.connectome import WormConnectome
 import csv
 
 def write_array_to_file(array, filename):
@@ -24,7 +24,7 @@ def read_array_from_file(filename):
         return []
     
 def write_worm_to_csv(filename:str,worm:WormConnectome):
-    with open('nomad_hybrid.csv', 'a', newline='') as csvfile:
+    with open(f'{filename}.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(worm.weight_matrix.tolist())
 def read_arrays_from_csv_pandas(filename: str): 

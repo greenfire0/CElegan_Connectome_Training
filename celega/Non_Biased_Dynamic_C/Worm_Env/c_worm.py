@@ -11,8 +11,6 @@ def move(position, facing_dir, left_speed, right_speed):
 
     return position, facing_dir
 
-
-
 @njit
 def is_food_close(position, food_positions, range):
     distances = np.sqrt(np.sum((food_positions - position) ** 2, axis=1))

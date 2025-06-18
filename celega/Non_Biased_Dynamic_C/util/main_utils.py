@@ -132,7 +132,7 @@ def run_genetic_algorithm(config:Dict,values_list:npt.NDArray[np.float64],shape:
     print("Running Genetic Algorithm...")
     env = WormSimulationEnv()
     num_cpus=multiprocessing.cpu_count()
-    print(f"using {num_cpus} cpus")
+    print(f"using {num_cpus} cpu's")
     ray.init(
             ignore_reinit_error=True,
             object_store_memory=15 * 1024 * 1024 * 1024,

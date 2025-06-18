@@ -1,4 +1,4 @@
-from Worm_Env.trained_connectome import WormConnectome
+from Worm_Env.connectome import WormConnectome
 from Worm_Env.celegan_env import WormSimulationEnv
 import numpy as np
 import matplotlib
@@ -16,7 +16,6 @@ class GeneticRUN:
     def initialize_population(self):
         population = []
         for a in [self.random_dna]:
-            print(a)
             population.append(WormConnectome(weight_matrix=np.array(a, dtype=np.float32), all_neuron_names=all_neuron_names))
         return population
 
@@ -42,18 +41,18 @@ class GeneticRUN:
                 random_reward = self.evaluate_fitness(candidate, env,pattern)
                 print(f"Random worm reward: {random_reward}")
 
+if __name__ == "__main__":
+    test_genome = np.array(read_arrays_from_csv_pandas("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/Results/50_nomad_sq.csv"))
+    test_genome = test_genome[len(test_genome)-1]
+    print(len(test_genome))
+    values_list = []
+    for sub_dict in dict.values():
+        values_list.extend(sub_dict.values())
+    print(len(np.where(test_genome != values_list))," Number of Differences from original genome")
+    test_genome=test_genome
+    assert len(test_genome) == 3682, "Worm file not read correctly, missing weights or incorrect file"
 
-test_genome = np.array(read_arrays_from_csv_pandas("/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C/Results/50_nomad_sq.csv"))
-test_genome = test_genome[len(test_genome)-1]
-print(len(test_genome))
-values_list = []
-for sub_dict in dict.values():
-    values_list.extend(sub_dict.values())
-print(len(np.where(test_genome != values_list))," Number of Differences from original genome")
-test_genome=test_genome
-assert len(test_genome) == 3682, "Worm file not read correctly, missing weights or incorrect file"
 
-
-training_interval = 250  # Train the agent every 250 steps
-env = WormSimulationEnv() ##make sure to manually change pattern
-GeneticRUN(test_genome, training_interval).run(env)
+    training_interval = 250  # Train the agent every 250 steps
+    env = WormSimulationEnv() ##make sure to manually change pattern
+    GeneticRUN(test_genome, training_interval).run(env)

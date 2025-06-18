@@ -1,23 +1,23 @@
 import numpy as np
 import ray
-from Worm_Env.trained_connectome import WormConnectome
+from Worm_Env.connectome import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 import PyNomad
 from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
-,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper
+,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper, evaluate_fitness_nomad
 from util.snip import write_worm_to_csv
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
-        self.population_size = population_size
-        self.indicies = indicies
-        self.matrix_shape = matrix_shape
-        self.total_episodes = total_episodes
-        self.training_interval = training_interval
+        self.population_size:int = population_size
+        self.indicies:int = indicies
+        self.matrix_shape:int = matrix_shape
+        self.total_episodes:int = total_episodes
+        self.training_interval:int = training_interval
         self.original_genome = genome
-        self.food_patterns = pattern
+        self.food_patterns:list = pattern
         assert(len(genome) == matrix_shape)
         self.population = initialize_population_with_random_worms(self.population_size, self.matrix_shape, genome)
 
@@ -38,20 +38,22 @@ class Genetic_Dyn_Algorithm:
                             #print(record_ind)
                             # Submit task to Ray and collect future
                             
-                            futures.append(self.evaluate_fitness_nomad.remote(
-                                evaluate_fitness_static,
-                                self.original_genome,
-                                candidate.weight_matrix,
-                                all_neuron_names,
-                                env,
-                                self.food_patterns,
-                                mLeft,
-                                mRight,
-                                muscleList,
-                                muscles,
-                                self.training_interval,
-                                self.total_episodes,
-                                ind
+                            futures.append(evaluate_fitness_nomad.remote(
+                                func=evaluate_fitness_static,
+                                candidate_weights=candidate.weight_matrix,
+                                nur_name= all_neuron_names,
+                                env=env,
+                                prob_type=self.food_patterns,
+                                mLeft=mLeft,
+                                mRight=mRight,
+                                muscleList=muscleList,
+                                muscles=muscles,
+                                interval=self.training_interval,
+                                episodes=self.total_episodes,
+                                ind = ind,
+                                bounds = 2,
+                                bb_eval = 25,
+                                verify = False # turn this on for debugging
                             ))
                         else:
                             # Submit task to Ray and collect future
@@ -94,48 +96,9 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_candidate)
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv('nomad_hybrid.csv', best_candidate)
+                write_worm_to_csv('nomad_hybrid', best_candidate)
             return best_candidate.weight_matrix
         
         finally:
             ray.shutdown()
-    ##prevent already searched shit from vbieng searchged
-    @staticmethod
-    @ray.remote
-    def evaluate_fitness_nomad(func,ori, candidate_weights, nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind):
-        if ind.size == 0:
-                raise ValueError("No difference between candidate weights and original weights")
-        x0 = np.array(candidate_weights[ind])
-        lower_bounds = (x0 - 2).tolist()
-        upper_bounds = (x0 + 2).tolist()
-        x0 = x0.tolist()
-        
-        params = [
-            'DISPLAY_DEGREE 0', 
-            'DISPLAY_STATS BBE BLK_SIZE OBJ', 
-            'BB_MAX_BLOCK_SIZE 4',
-            'MAX_BB_EVAL 25'
-        ]
-        wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,ori)
-        result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)
-        # Use NOMAD's minimize function with blackbox_block and pass additional args
-        w_test = np.copy(candidate_weights)
-        w_test.setflags(write=True)        
-        w_test[ind] = np.copy(result['x_best'])
-        fitness_verify = func(
-                                    w_test,
-                                    all_neuron_names,
-                                    env,
-                                    prob_type,
-                                    mLeft,
-                                    mRight,
-                                    muscleList,
-                                    muscles,
-                                    interval,
-                                    episodes)
-        #print("fitness",-result['f_best'],"fitness",fitness_verify)
-        assert abs(fitness_verify+result['f_best'])<2,( w_test[ind]==result['x_best'], "\nResults\n",fitness_verify,result['f_best'])
-        # Reconstruct the full candidate weights with optimized values
-        #optimized_weights[ind] = result.x
-        return ([ind,result['x_best']],-result['f_best'])
 
