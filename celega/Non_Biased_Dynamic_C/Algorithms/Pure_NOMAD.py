@@ -22,7 +22,7 @@ class Genetic_Dyn_Algorithm:
         assert(len(genome) == matrix_shape)
         self.population = initialize_population(self.population_size,genome)
 
-    def run(self, env, generations=50, batch_size=32,_unused_="arrays"):
+    def run(self, env, generations=50, batch_size=32,filename:str = "Pure_nomad"):
         last_best = 0
         try:
             for generation in tqdm(range(generations), desc="Generations"):
@@ -68,7 +68,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(WormConnectome(weight_matrix=best_weights, all_neuron_names=all_neuron_names))
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv('Pure_NOMAD', self.population[best_index])
+                write_worm_to_csv(filename, self.population[best_index])
 
             return best_weights
         finally:

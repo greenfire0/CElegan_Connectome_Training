@@ -1,13 +1,9 @@
 import os
 import numpy as np
 import numpy.typing as npt
-
-# Genetic Algorithm Variants
-
-# Graphs
-from graphs.graph_ngon_performance import plot_ngon_performance
-   
 from Worm_Env.weight_dict import dict
+
+from graphs.graph_ngon_performance import plot_ngon_performance
 from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment,\
     graph_quartiles,graph_aggregates,calculate_worm_suffering_index,\
         test_last_generations,graph_training_results,graph_trained_population,graph_video_ngons
@@ -23,8 +19,6 @@ config = {
     "total_episodes": 1,
     "food_patterns": [5],
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
-
-    # Execution Flags
     "clean_env": 0,
     "freeze_indicies": 0, ## this all needs documentation
     "run_gen": 1,
@@ -46,9 +40,6 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"
     "ga_variant": "random_nomad_algorithm",
-
-    # Turn on quartile plotting from arrays.csv if desired
-
 }
 
 

@@ -173,7 +173,8 @@ def polygon_test(config:Dict,values_list:npt.NDArray[np.float64],length:int):
             genome=values_list,
             matrix_shape=length
         )
-        best_weight_matrix = ga.run(env=env, generations=config["generations"],batch_size=32,filename="array"+str(food_pattern))  # Run for 40 generations
+        best_weight_matrix = ga.run(env=env, generations=config["generations"],batch_size=32,\
+                                    filename=str(config["ga_variant"])+str(food_pattern))  # Run for 40 generations
 
         print(f"Completed training for food pattern {food_pattern}")
         print("Best weight matrix found:", best_weight_matrix)

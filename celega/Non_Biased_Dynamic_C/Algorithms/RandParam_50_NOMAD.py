@@ -1,15 +1,16 @@
 import numpy as np
+import numpy.typing as npt
 import ray
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 import PyNomad
 from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population\
-,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper, evaluate_fitness_nomad
+,evaluate_fitness_ray,evaluate_fitness_static,mutate, evaluate_fitness_nomad
 from util.snip import write_worm_to_csv
 
 class Genetic_Dyn_Algorithm:
-    def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
+    def __init__(self,genome:npt.NDArray[np.float64], population_size,pattern= [5],  total_episodes=0, training_interval=250,matrix_shape= 3689,indicies=[]):
         self.population_size = population_size
         self.indicies = indicies
         self.matrix_shape = matrix_shape
@@ -20,7 +21,7 @@ class Genetic_Dyn_Algorithm:
         assert(len(genome) == matrix_shape)
         self.population = initialize_population(self.population_size,genome)
 
-    def run(self, env, generations=50, batch_size=32):
+    def run(self, env, generations=50, batch_size=32,filename:str = "Random_50_nomad"):
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
@@ -84,7 +85,7 @@ class Genetic_Dyn_Algorithm:
                 best_candidate = self.population[best_index]
 
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
-                write_worm_to_csv('50_random_NOMAD', best_candidate)
+                write_worm_to_csv(filename, best_candidate)
 
                 if (generation//4) ==0:
                     self.population = mutate(self.population,self.matrix_shape,n=2) # 2 mutations
