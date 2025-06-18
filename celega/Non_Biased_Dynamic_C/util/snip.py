@@ -1,5 +1,7 @@
 import pandas as pd
 import os 
+from Worm_Env.trained_connectome import WormConnectome
+import csv
 
 def write_array_to_file(array, filename):
     try:
@@ -21,7 +23,10 @@ def read_array_from_file(filename):
         print(f"An error occurred while reading from the file: {e}")
         return []
     
-
+def write_worm_to_csv(filename:str,worm:WormConnectome):
+    with open('nomad_hybrid.csv', 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(worm.weight_matrix.tolist())
 def read_arrays_from_csv_pandas(filename: str): 
     df = (pd.read_csv(filename, header=None))
     print(f"{(df.shape[0])} Worms Loaded")
@@ -69,7 +74,7 @@ def read_last_array_from_csv(csv_file):
     last_array = df.iloc[-1].to_numpy()
     return last_array
 
-if 1:
+if 0: ## not sure what this garabge is but it sux
 
     ##this is used for breakiung appart csv files
     base_dir = os.path.dirname(__file__)  # Get the directory of the current script

@@ -6,6 +6,8 @@ from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population\
 ,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper
+from util.snip import write_worm_to_csv
+
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
         self.population_size = population_size
@@ -19,13 +21,6 @@ class Genetic_Dyn_Algorithm:
         self.population = initialize_population(self.population_size,genome)
 
     def run(self, env, generations=50, batch_size=32):
-        last_best = 0
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=15 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
-        
         try:
             for generation in tqdm(range(generations), desc="Generations"):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
@@ -87,11 +82,8 @@ class Genetic_Dyn_Algorithm:
                 best_candidate = self.population[best_index]
 
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
-                if True:
-                    with open('50_random_NOMAD.csv', 'a', newline='') as csvfile:
-                        writer = csv.writer(csvfile)
-                        writer.writerow(best_candidate.weight_matrix.tolist())
-                
+                write_worm_to_csv('50_random_NOMAD.csv', best_candidate)
+
                 if (generation//4) ==0:
                     self.population = mutate(self.population,self.matrix_shape,n=2) # 2 mutations
                 

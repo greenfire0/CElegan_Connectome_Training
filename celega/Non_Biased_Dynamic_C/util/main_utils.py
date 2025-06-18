@@ -1,12 +1,13 @@
 import numpy as np
 from typing import Dict
 from Worm_Env.celegan_env import WormSimulationEnv
-
+import ray
+import multiprocessing
 # Genetic Algorithm Variants
-from genetic_dynamic.Evolutionary_Algorithm import Genetic_Dyn_Algorithm as GD_EA
-from genetic_dynamic.Hybrid_NOMAD import Genetic_Dyn_Algorithm as GD_EA_Nomad
-from genetic_dynamic.Pure_NOMAD import Genetic_Dyn_Algorithm as GD_PureNomad
-from genetic_dynamic.RandParam_50_NOMAD import Genetic_Dyn_Algorithm as GD_RandomNomad
+from Algorithms.Evolutionary_Algorithm import Genetic_Dyn_Algorithm as GD_EA
+from Algorithms.Hybrid_NOMAD import Genetic_Dyn_Algorithm as GD_EA_Nomad
+from Algorithms.Pure_NOMAD import Genetic_Dyn_Algorithm as GD_PureNomad
+from Algorithms.RandParam_50_NOMAD import Genetic_Dyn_Algorithm as GD_RandomNomad
 
 # Graphs
 from graphs.Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos
@@ -130,7 +131,13 @@ def run_genetic_algorithm(config:Dict,values_list:npt.NDArray[np.float64],shape:
     """Runs the genetic algorithm to find the best weight matrix."""
     print("Running Genetic Algorithm...")
     env = WormSimulationEnv()
-
+    num_cpus=multiprocessing.cpu_count()
+    print(f"using {num_cpus} cpus")
+    ray.init(
+            ignore_reinit_error=True,
+            object_store_memory=15 * 1024 * 1024 * 1024,
+            num_cpus=16,
+        )
     GA_Class = select_ga_class(config)
     ga = GA_Class(
         population_size=config["population_size"],
