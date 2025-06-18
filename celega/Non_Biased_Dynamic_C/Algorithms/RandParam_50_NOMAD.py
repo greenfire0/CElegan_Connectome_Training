@@ -4,8 +4,8 @@ from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_name
 import PyNomad
 from tqdm import tqdm
 import csv
-from genetic_utils import initialize_population, evaluate_fitness_ray,evaluate_fitness_static,mutate
-
+from Algorithms.algo_utils import initialize_population\
+,evaluate_fitness_ray,evaluate_fitness_static,mutate, BlackboxWrapper
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size,pattern= [5],  total_episodes=0, training_interval=250, genome=None,matrix_shape= 3689,indicies=[]):
         self.population_size = population_size
@@ -126,39 +126,3 @@ class Genetic_Dyn_Algorithm:
         #optimized_weights[ind] = result.x
         return ([ind,result['x_best']],-result['f_best'])
 
-class BlackboxWrapper:
-    def __init__(self, func, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,index,ori):
-        self.env = env
-        self.func = func
-        self.prob_type = prob_type
-        self.mLeft = mLeft
-        self.mRight = mRight
-        self.muscleList = muscleList
-        self.muscles = muscles
-        self.interval = interval
-        self.episodes = episodes
-        self.ind = index
-        self.old_worm = ori
-
-    def blackbox(self, eval_point):
-            
-            candidate_edit = []
-            candidate_weights = np.copy(self.old_worm).astype(np.float32)
-            candidate_weights.setflags(write=True)
-            for a in range(len(self.ind)):
-                candidate_edit.append(eval_point.get_coord(a))
-
-            candidate_weights[self.ind] = candidate_edit
-            eval_value = -1*self.func(
-                    candidate_weights, all_neuron_names, self.env, self.prob_type, 
-                    self.mLeft, self.mRight, self.muscleList, self.muscles, self.interval, self.episodes)
-            eval_point.setBBO(str(eval_value).encode('utf-8'))
-            del candidate_weights
-            return True
-
-    def blackbox_block(self, eval_block):
-        eval_state = []
-        for index in range(eval_block.size()):
-            eval_point = eval_block.get_x(index)
-            eval_state.append(self.blackbox(eval_point))
-        return eval_state

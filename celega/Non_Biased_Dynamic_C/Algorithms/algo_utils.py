@@ -80,3 +80,39 @@ def mutate(offspring,matrix_shape, n=5):
                 new_values = np.random.uniform(low=-20, high=20, size=n)
                 child.weight_matrix[indices_to_mutate] = new_values
     return offspring
+
+
+class BlackboxWrapper:
+    def __init__(self, func, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,index,cand):
+        self.env = env
+        self.func = func
+        self.prob_type = prob_type
+        self.mLeft = mLeft
+        self.mRight = mRight
+        self.muscleList = muscleList
+        self.muscles = muscles
+        self.interval = interval
+        self.episodes = episodes
+        self.ind = index
+        self.candidate = cand
+
+    def blackbox(self, eval_point):
+            
+            self.candidate_edit = []
+            self.candidate_weights = np.copy(self.candidate).astype(np.float64)
+            for a in range(len(self.ind)):
+                self.candidate_edit.append(eval_point.get_coord(a))
+            self.candidate_weights[self.ind] = self.candidate_edit
+            eval_value = -1*self.func(
+                    self.candidate_weights, all_neuron_names, self.env, self.prob_type, 
+                    self.mLeft, self.mRight, self.muscleList, self.muscles, self.interval, self.episodes)
+            eval_point.setBBO(str(eval_value).encode('utf-8'))
+            del self.candidate_weights
+            return True
+
+    def blackbox_block(self, eval_block):
+        eval_state = []
+        for index in range(eval_block.size()):
+            eval_point = eval_block.get_x(index)
+            eval_state.append(self.blackbox(eval_point))
+        return eval_state

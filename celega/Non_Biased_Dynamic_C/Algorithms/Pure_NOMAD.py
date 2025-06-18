@@ -5,7 +5,8 @@ from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_name
 import PyNomad
 from tqdm import tqdm
 import csv
-from genetic_utils import initialize_population, select_parents, crossover, evaluate_fitness_ray,evaluate_fitness_static
+from Algorithms.algo_utils import initialize_population, select_parents,\
+crossover, evaluate_fitness_ray,evaluate_fitness_static,BlackboxWrapper
 
 
 class Genetic_Dyn_Algorithm:
@@ -81,6 +82,7 @@ class Genetic_Dyn_Algorithm:
 
         finally:
             ray.shutdown()
+
     @staticmethod
     @ray.remote
     def evaluate_fitness_nomad(func,ori, candidate_weights, nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind):
@@ -97,7 +99,7 @@ class Genetic_Dyn_Algorithm:
             'BB_MAX_BLOCK_SIZE 4',
             'MAX_BB_EVAL 250'
         ]
-        wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,candidate_weights,ori)
+        wrapper = BlackboxWrapper(func,env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,candidate_weights)
         result = PyNomad.optimize(wrapper.blackbox_block, x0, lower_bounds, upper_bounds,params)
         # Use NOMAD's minimize function with blackbox_block and pass additional args
         w_test = np.copy(candidate_weights)
@@ -119,41 +121,3 @@ class Genetic_Dyn_Algorithm:
         del wrapper
         return ([ind,result['x_best']],-result['f_best'])
 
-class BlackboxWrapper:
-    def __init__(self, func, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,index,cand,ori):
-        self.env = env
-        self.func = func
-        self.prob_type = prob_type
-        self.mLeft = mLeft
-        self.mRight = mRight
-        self.muscleList = muscleList
-        self.muscles = muscles
-        self.interval = interval
-        self.episodes = episodes
-        self.ind = index
-        self.candidate = cand
-        self.ori = ori
-
-    def blackbox(self, eval_point):
-            
-            self.candidate_edit = []
-            self.candidate_weights = np.copy(self.candidate).astype(np.float64)
-            for a in range(len(self.ind)):
-                self.candidate_edit.append(eval_point.get_coord(a))
-           # print(self.candidate_weights[self.ind],self.candidate_edit)
-            #print(type(self.candidate_edit))
-            self.candidate_weights[self.ind] = self.candidate_edit
-            #print(self.ind,(np.where(self.candidate_weights != self.ori)[0]))
-            eval_value = -1*self.func(
-                    self.candidate_weights, all_neuron_names, self.env, self.prob_type, 
-                    self.mLeft, self.mRight, self.muscleList, self.muscles, self.interval, self.episodes)
-            eval_point.setBBO(str(eval_value).encode('utf-8'))
-            del self.candidate_weights
-            return True
-
-    def blackbox_block(self, eval_block):
-        eval_state = []
-        for index in range(eval_block.size()):
-            eval_point = eval_block.get_x(index)
-            eval_state.append(self.blackbox(eval_point))
-        return eval_state
