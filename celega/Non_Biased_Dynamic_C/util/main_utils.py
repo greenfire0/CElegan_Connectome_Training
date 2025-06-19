@@ -8,7 +8,8 @@ from Algorithms.Evolutionary_Algorithm import Genetic_Dyn_Algorithm as GD_EA
 from Algorithms.Hybrid_NOMAD import Genetic_Dyn_Algorithm as GD_EA_Nomad
 from Algorithms.Pure_NOMAD import Genetic_Dyn_Algorithm as GD_PureNomad
 from Algorithms.RandParam_50_NOMAD import Genetic_Dyn_Algorithm as GD_RandomNomad
-
+from Algorithms.EVO_NOMAD import Genetic_Dyn_Algorithm as GD_EVO
+from Algorithms.OaI_es import train_openai_es
 # Graphs
 from graphs.Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos
 from graphs.Graph_fitness_over_time import Genetic_Dyn_Algorithm as GD_Graph
@@ -28,6 +29,7 @@ def select_ga_class(config:Dict):
     Now the dictionary keys are more descriptive.
     """
     variant_map = {
+        "EVO_NOMAD":                      GD_EVO,
         "graph_positions_over_time":      GD_Pos,      # old "pos"
         "graph_path_quartile_evolution":  GD_PathGen,  # new "path"
         "graph_fitness_over_time":        GD_Graph,    # old "graph"
@@ -117,7 +119,7 @@ def graph_quartiles(config:Dict,values_list:npt.NDArray[np.float64],length:int):
     )
 
     # Ensure 'run_single_csv_quartiles' is defined in Graph_path_over_gen.Genetic_Dyn_Algorithm
-    quartile_ga.run_single_csv_quartiles(env, arrays_csv="arrays.csv")
+    quartile_ga.run_single_csv_quartiles(env, arrays_csv="ES_worms.csv")
 
 
 
@@ -189,3 +191,30 @@ def graph_video_ngons(config):
         training_interval=config["training_interval"],
     )
     gd_video.run_video_simulation(env, output_video=config.get("video_output", "food_collection_video.mp4"))
+
+
+def run_openai_es(config: Dict,
+                  genome: np.ndarray,
+                  genome_len: int):
+    """
+    Launch OpenAI-ES search seeded with the real connectome + random worms.
+    Writes every improvement to ES_worms.csv and saves the champion to best_es.npy.
+    """
+    # WormSimulationEnv currently takes only num_worms
+    env = WormSimulationEnv(num_worms=1)
+
+    best = train_openai_es(
+        env=env,
+        init_genome=genome,
+        generations=config["generations"],
+        pop_size=config["population_size"],
+        sigma=config.get("sigma", 0.1),
+        lr=config.get("lr", 0.02),
+        prob_type=config["food_patterns"],
+        interval=config["training_interval"],
+        episodes=config["total_episodes"],
+        csv_log="ES_worms",
+    )
+
+    np.save("best_es.npy", best)
+    print("OpenAI-ES finished → best genome in best_es.npy")
