@@ -2,10 +2,9 @@ import os
 import numpy as np
 import numpy.typing as npt
 from Worm_Env.weight_dict import dict
-
 from graphs.graph_ngon_performance import plot_ngon_performance
 from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment,\
-    graph_quartiles,graph_aggregates,calculate_worm_suffering_index,\
+    graph_quartiles,graph_aggregates,calculate_worm_suffering_index, run_openai_es,\
         test_last_generations,graph_training_results,graph_trained_population,graph_video_ngons
 os.environ["RAY_DEDUP_LOGS"] = "0"
 
@@ -14,21 +13,21 @@ os.environ["RAY_DEDUP_LOGS"] = "0"
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 10,
+    "generations": 0,
     "training_interval": 250,
     "total_episodes": 1,
     "food_patterns": [5],
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
     "clean_env": 0,
     "freeze_indicies": 0, ## this all needs documentation
-    "run_gen": 1,
+    "run_gen": 0,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
     "graphing_agg": 0,
     "test_last_ten": 0,
     "testing_mode": 0,
-    "graph_quartiles": 0,
+    "graph_quartiles": 1,
     "polygon_test":0,
     "graph_ngon_performance": 0,
     "graph_video_ngons": 0,
@@ -39,7 +38,8 @@ config = {
     # "graph_fitness_over_time", "graph_fitness_over_time_legacy",
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"
-    "ga_variant": "random_nomad_algorithm",
+    # EVO_NOMAD, OPENAI_ES
+    "ga_variant": "OPENAI_ES",
 }
 
 
@@ -50,6 +50,7 @@ for sub_dict in dict.values():
 connectome_weights:npt.NDArray[np.float64] = np.array(values_list)
 length = len(values_list)
 
+
 def main(config):
     # Clean environment if requested
     if config["clean_env"]:
@@ -57,7 +58,14 @@ def main(config):
 
     # Run genetic algorithm if requested
     if config["run_gen"]:
-        run_genetic_algorithm(config,connectome_weights,length)
+        if config.get("ga_variant") == "OPENAI_ES":
+            config.update({
+                "population_size": 512,
+                "generations": 200,
+            })
+            run_openai_es(config, connectome_weights, length)
+        else:
+            run_genetic_algorithm(config,connectome_weights,length)
 
     # Compute worm suffering index if requested
     if config["worm_suffering_index"]:

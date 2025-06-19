@@ -88,7 +88,7 @@ def mutate(offspring,matrix_shape, n=5):
 @ray.remote # type: ignore[arg-type]
 def evaluate_fitness_nomad(func, candidate_weights:npt.NDArray[np.float64], nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,bounds:int,bb_eval,verify:bool=False):
         if ind.size == 0:
-                raise ValueError("No difference between candidate weights and original weights")
+                raise ValueError(f"Please pass indicies,{ind}")
         x0 = np.array(candidate_weights[ind])
         lower_bounds = (x0 - bounds).tolist()
         upper_bounds = (x0 + bounds).tolist()

@@ -62,7 +62,7 @@ class Genetic_Dyn_Algorithm:
                     sum_rewards += reward
         return sum_rewards, trajectory
 
-    def run_single_csv_quartiles(self, env, arrays_csv="arrays.csv"):
+    def run_single_csv_quartiles(self, env, arrays_csv="Evo_nomad.csv"):
         """
         - Reads in `arrays.csv` (a single file).
         - Identifies four points in the evolutionary timeline:
