@@ -9,6 +9,8 @@ from Worm_Env.weight_dict import (muscles, muscleList,
                                   mLeft, mRight, all_neuron_names)
 from Algorithms.algo_utils import evaluate_fitness_static
 from util.snip import write_worm_to_csv
+import multiprocessing as mp
+mp.set_start_method("spawn", force=True)
 
 
 # --------------------------------------------------------------------- #
@@ -35,7 +37,6 @@ def train_openai_es(
         episodes: int = 0,
         csv_log: str = "ES_worms"):
 
-    ray.init(ignore_reinit_error=True, log_to_driver=False)
 
     # ---- schedules -------------------------------------------------------
     lr_schedule  = optax.exponential_decay(
@@ -91,7 +92,7 @@ def train_openai_es(
         best_theta  = pop_np[gen_best_idx].copy()
         write_worm_to_csv(csv_log,
                               WormConnectome(weight_matrix=best_theta,
-                                             all_neuron_names=all_neuron_names))
+                                             all_neuron_names=all_neuron_names),max_rows=generations)
 
         if g % 100 == 0:
             print(f"Gen {g:4d} | best so far: {best_reward:.3f}")

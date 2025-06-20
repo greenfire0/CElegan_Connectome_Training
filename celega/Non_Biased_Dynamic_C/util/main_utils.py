@@ -133,13 +133,7 @@ def run_genetic_algorithm(config:Dict,values_list:npt.NDArray[np.float64],shape:
     """Runs the genetic algorithm to find the best weight matrix."""
     print("Running Genetic Algorithm...")
     env = WormSimulationEnv()
-    num_cpus=multiprocessing.cpu_count()
-    print(f"using {num_cpus} cpu's")
-    ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=15 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
+
     GA_Class = select_ga_class(config)
     ga = GA_Class(
         population_size=config["population_size"],

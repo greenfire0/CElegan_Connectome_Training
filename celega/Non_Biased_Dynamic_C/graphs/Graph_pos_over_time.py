@@ -58,12 +58,7 @@ class Genetic_Dyn_Algorithm:
             - First column: "15_tri_nomad.csv800.csv" (NOMAD hybrid)
             - Second column: "250-tri-NO_gen52-61.csv" (pure NOMAD)
         """
-        # Initialize Ray
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
+
 
         # Create a figure with 2 rows and 2 columns
         fig, axs = plt.subplots(2, 2, figsize=(20, 16))  # Increased figure size for clarity

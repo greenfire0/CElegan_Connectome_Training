@@ -6,7 +6,7 @@ import PyNomad
 from tqdm import tqdm
 import csv
 from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
-,evaluate_fitness_ray,evaluate_fitness_static,mutate, evaluate_fitness_nomad
+,evaluate_fitness_ray,evaluate_fitness_static,mutate, evaluate_fitness_nomad, initialize_population
 from util.snip import write_worm_to_csv
 import numpy.typing as npt
 
@@ -76,7 +76,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_candidate)
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv(filename, best_candidate)
+                write_worm_to_csv(filename, self.population[best_index],max_rows=generations)
         
         finally:
             ray.shutdown()

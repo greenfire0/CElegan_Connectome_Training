@@ -76,12 +76,6 @@ class Genetic_Dyn_Algorithm:
             Bottom-left: 3rd Quartile
             Bottom-right: Final Generation
         """
-        # Initialize Ray
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
 
         # Load all genomes from the single CSV
         all_genomes = read_arrays_from_csv_pandas(arrays_csv)

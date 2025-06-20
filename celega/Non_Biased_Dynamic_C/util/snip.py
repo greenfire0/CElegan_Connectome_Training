@@ -2,6 +2,7 @@ import pandas as pd
 import os 
 from Worm_Env.connectome import WormConnectome
 import csv
+from pathlib import Path
 
 def write_array_to_file(array, filename):
     try:
@@ -23,10 +24,38 @@ def read_array_from_file(filename):
         print(f"An error occurred while reading from the file: {e}")
         return []
     
-def write_worm_to_csv(filename:str,worm:WormConnectome):
-    with open(f'{filename}.csv', 'a', newline='') as csvfile:
+def write_worm_to_csv(base_name: str, worm: "WormConnectome", max_rows: int = 100) -> None:
+    """
+    Appends the worm’s weight matrix to a CSV file.
+    If the target file already has `max_rows` rows, it rolls over to a new
+    file by appending “+1”, “+2”, … to the base name.
+
+    Parameters
+    ----------
+    base_name : str
+        The filename **without** extension (e.g. "worms").
+    worm : WormConnectome
+        Object holding .weight_matrix (NumPy array-like).
+    max_rows : int, optional
+        Maximum rows allowed per file before rollover, default = 100.
+    """
+    # Find the first file with < max_rows rows (or an empty new one).
+    idx = 0
+    while True:
+        fname = Path(f"{base_name}{f'{idx}' if idx else ''}.csv")
+        if not fname.exists():
+            break                       # fresh file – safe to use
+        with fname.open("r", newline="") as f:
+            rows = sum(1 for _ in f)
+        if rows < max_rows:
+            break                       # current file has space
+        idx += 1                        # otherwise try next suffix
+
+    # Append the worm matrix to the selected file.
+    with fname.open("a", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(worm.weight_matrix.tolist())
+
 def read_arrays_from_csv_pandas(filename: str): 
     df = (pd.read_csv(filename, header=None))
     print(f"{(df.shape[0])} Worms Loaded")

@@ -49,7 +49,6 @@ class WormSimulationEnv(gym.Env):
     def lasso_reg(candidate_weights, original, lambda_=0.1):
         num_differences = np.count_nonzero(candidate_weights != original)
         penalty = -lambda_ * np.power(num_differences, 1.3)
-        
         return penalty
 
     @staticmethod
