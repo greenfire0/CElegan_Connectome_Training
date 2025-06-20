@@ -1,5 +1,7 @@
 import os
+import ray
 import numpy as np
+import multiprocessing
 import numpy.typing as npt
 from Worm_Env.weight_dict import dict
 from graphs.graph_ngon_performance import plot_ngon_performance
@@ -13,21 +15,21 @@ os.environ["RAY_DEDUP_LOGS"] = "0"
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 0,
+    "generations": 10,
     "training_interval": 250,
     "total_episodes": 1,
     "food_patterns": [5],
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
     "clean_env": 0,
     "freeze_indicies": 0, ## this all needs documentation
-    "run_gen": 0,
+    "run_gen": 1,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
     "graphing_agg": 0,
     "test_last_ten": 0,
     "testing_mode": 0,
-    "graph_quartiles": 1,
+    "graph_quartiles": 0,
     "polygon_test":0,
     "graph_ngon_performance": 0,
     "graph_video_ngons": 0,
@@ -39,7 +41,8 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES
-    "ga_variant": "OPENAI_ES",
+    "ga_variant": "graph_fitness_over_time_legacy", ## evo nomad = bad
+    # OPENAI_ES, pure_nomad_algorithm, random_nomad_algorithm, standard_evolutionary_algorithm, nomad_evolutionary_algorithm
 }
 
 
@@ -49,6 +52,7 @@ for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
 connectome_weights:npt.NDArray[np.float64] = np.array(values_list)
 length = len(values_list)
+
 
 
 def main(config):
@@ -104,4 +108,23 @@ def main(config):
 
 
 if __name__ == "__main__":
-    main(config)
+    num_cpus=multiprocessing.cpu_count()
+    print(f"using {num_cpus} cpu's")
+    ray.init(
+            ignore_reinit_error=True,
+            object_store_memory=15 * 1024 * 1024 * 1024,
+            num_cpus=16,
+        )
+    algos = ["OPENAI_ES", "pure_nomad_algorithm", "random_nomad_algorithm", "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"]
+    for a in (algos):
+        for _ in range (10):
+
+            config.update({
+                    "ga_variant": a,
+                    "population_size": 64,
+                    "generations": 100,
+            })
+            if a == "pure_nomad_algorithm" or a== "random_nomad_algorithm":
+                config.update({"generations": 10})
+            print(config)
+            main(config)

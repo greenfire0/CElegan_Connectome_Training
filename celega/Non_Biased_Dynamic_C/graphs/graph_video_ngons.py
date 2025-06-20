@@ -83,12 +83,6 @@ class Genetic_Dyn_Video:
           - Arranges the captured frames into a 2×3 montage and saves them as PNG files.
           - Finally, compiles the images into a video using MoviePy.
         """
-        # Initialize Ray
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
 
         # For each food pattern, load the candidate from its own CSV file.
         candidates = []

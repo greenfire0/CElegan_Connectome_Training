@@ -6,8 +6,8 @@ from matplotlib import pyplot as plt
 import os
 from util.write_read_txt import read_arrays_from_csv_pandas
 import random
-
-
+from Algorithms.algo_utils import evaluate_fitness_ray
+from collections import defaultdict
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size, pattern=[5], total_episodes=10, training_interval=25, genome=None, matrix_shape=3689):
         self.population_size = population_size
@@ -27,21 +27,7 @@ class Genetic_Dyn_Algorithm:
         for g in genomes:
             self.population.append(WormConnectome(weight_matrix=np.array(g, dtype=float), all_neuron_names=all_neuron_names))
 
-    @staticmethod
-    @ray.remote
-    def evaluate_fitness_ray(candidate_weights, nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes):
-        sum_rewards = 0
-        for a in prob_type:
-            candidate = WormConnectome(weight_matrix=candidate_weights, all_neuron_names=nur_name)
-            env.reset(a)
-            for _ in range(episodes):  # total_episodes
-                observation = env._get_observations()
-                for _ in range(interval):  # training_interval
-                    movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
-                    next_observation, reward, _ = env.step(movement, 0, candidate)
-                    observation = next_observation
-                    sum_rewards += reward
-        return sum_rewards
+
 
     def calculate_euclidean_distance(self, candidate_weights):
         candidate_weights = np.array(candidate_weights, dtype=float)
@@ -50,130 +36,129 @@ class Genetic_Dyn_Algorithm:
         distance = np.linalg.norm(candidate_weights - self.original_genome)
         return distance
 
-    def generate_random_color(self):
-        return '#%06x' % random.randint(0, 0xFFFFFF)
 
-    def run(self, env, path='Results', batch_size=10, jitter_strength=10):
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=16,
+    def count_changes(self, candidate_weights, atol=1e-6):
+        """Element-wise count of weights that differ from the
+        original genome by more than atol."""
+        return np.count_nonzero(
+            np.abs(np.asarray(candidate_weights, float) - self.original_genome) > atol
         )
-        folder_path = 'Results_good_sq_nolasso'
+
+    def run(
+        self,
+        env,
+        batch_size: int = 10,
+        jitter_strength: float = 10.0,
+    ):
+        folder: str = "Results_good_sq_nolasso"
+        # ── plotting setup ──
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 20), sharex=True)
+        ax1.set_title("Fitness – Square Food Pattern")
+        ax1.set_ylabel("Food eaten")
+
+        ax2.set_title("Euclidean distance")
+        ax2.set_ylabel("L2 distance")
+
+        ax3.set_title("Number of weight changes")
+        ax3.set_ylabel("Changed synapses")
+        ax3.set_xlabel("Generation")
+
+        # dynamic metric storage
+        metrics = {
+            "fitness":  defaultdict(list),
+            "distance": defaultdict(list),
+            "changes":  defaultdict(list),
+        }
+
+        # colour → label mapping
+        label_map = {
+            "royalblue":  "Nomad-assisted",
+            "forestgreen": "Evolutionary",
+            "crimson":     "Large-diff search",
+            "darkorange":  "Random search",
+            "purple":      "NO variant",
+            "black":       "EVO_NOMAD hybrid",
+        }
+        colour_axes = {"fitness": ax1, "distance": ax2, "changes": ax3}
+
         base_dir = os.path.dirname(__file__)
-        print(base_dir)
-        full_folder_path = os.path.join(base_dir, folder_path)
+        print(base_dir,folder)
+        full_folder = os.path.join(base_dir, folder)
 
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 16), sharex=True)
-        
-        # Set font sizes
-        title_fontsize = 24
-        label_fontsize = 20
-        tick_fontsize = 20
-
-        ax1.set_title('Fitness on Square Food Pattern Over Generations', fontsize=title_fontsize)
-        ax1.set_ylabel('Number of Food Eaten', fontsize=label_fontsize)
-        ax2.set_ylabel('Euclidean Distance', fontsize=label_fontsize)
-        ax2.set_title('Euclidean Distance Over Generations', fontsize=title_fontsize)
-        ax2.set_xlabel('Generation', fontsize=label_fontsize)
-
-        # Adjust tick label sizes
-        ax1.tick_params(axis='both', which='major', labelsize=tick_fontsize)
-        ax2.tick_params(axis='both', which='major', labelsize=tick_fontsize)
-
-        fitnesses_dict = {'blue': [], 'green': [], 'red': [], 'cyan': [],"teal": []}
-        distances_dict = {'blue': [], 'green': [], 'red': [], 'cyan': [],"teal": []}
-
-        for filename in os.listdir(full_folder_path):
-            self.population = []
-            genomes = read_arrays_from_csv_pandas(os.path.join(full_folder_path, filename))
+        # ── gather metrics ──
+        for filename in os.listdir(full_folder):
+            self.population.clear()
+            genomes = read_arrays_from_csv_pandas(
+                os.path.join(full_folder, filename)
+            )
             self.initialize_population(genomes)
 
-            population_batches = [self.population[i:i + batch_size] for i in range(0, len(self.population), batch_size)]
-            fitnesses = []
-            distances = []
-            jitter = 0  # You might want to adjust or remove jitter based on your requirements
+            fitness, dist, changes = [], [], []
+            batches = [
+                self.population[i:i + batch_size]
+                for i in range(0, len(self.population), batch_size)
+            ]
 
-            for batch in population_batches:
-                # Evaluate fitness in parallel using Ray
-                fitnesses.extend(ray.get([
-                    self.evaluate_fitness_ray.remote(
-                        candidate.weight_matrix,
-                        all_neuron_names,
-                        env,
-                        self.food_patterns,
-                        mLeft,
-                        mRight,
-                        muscleList,
-                        muscles,
-                        self.training_interval,
-                        self.total_episodes
-                    ) for worm_num, candidate in enumerate(batch)
+            for batch in batches:
+                # fitness (parallel)
+                fitness.extend(ray.get([
+                    evaluate_fitness_ray.remote(
+                        c.weight_matrix, all_neuron_names, env,
+                        self.food_patterns, mLeft, mRight,
+                        muscleList, muscles,
+                        self.training_interval, self.total_episodes
+                    ) for c in batch
                 ]))
-                # Calculate Euclidean distances
-                batch_distances = [
-                    self.calculate_euclidean_distance(candidate.weight_matrix) + jitter for candidate in batch
-                ]
-                distances.extend(batch_distances)
+                # distance & changes
+                dist.extend([
+                    self.calculate_euclidean_distance(c.weight_matrix) + jitter_strength
+                    for c in batch
+                ])
+                changes.extend([self.count_changes(c.weight_matrix) for c in batch])
 
-            # Determine color based on filename or distance criteria
-            color = "blue"
-            if len(distances) > 90:
-                print(distances[90])
-            if "evo" in filename:
-                color = "green"
-            if len(distances) > 90 and distances[90] > 500:
-                color = "red"
-            if "random" in filename:
-                color = "cyan"
-            if "NO" in filename:
-                color = "teal"
+            # ── decide colour bucket ──
+            fname = filename.lower()
+            if "evo_nomad" in fname:
+                colour = "black"
+            elif "evo" in fname:
+                colour = "forestgreen"
+            elif "random" in fname:
+                colour = "darkorange"
+            elif "no" in fname:
+                colour = "purple"
+            elif len(dist) > 90 and dist[90] > 500:
+                colour = "crimson"
+            else:
+                colour = "royalblue"
 
-            fitnesses_dict[color].append(fitnesses)
-            distances_dict[color].append(distances)
+            # store
+            metrics["fitness"][colour].append(fitness)
+            metrics["distance"][colour].append(dist)
+            metrics["changes"][colour].append(changes)
 
-            ax1.plot(fitnesses, color=color, alpha=0.3)
-            ax2.plot(distances, color=color, alpha=0.3)
+        # ── helper to stack, trim & compute mean±sd ──
+        def mean_sd(runs):
+            min_len = min(map(len, runs))
+            stack = np.asarray([r[:min_len] for r in runs], float)
+            return stack.mean(0), stack.std(0)
 
-        # Plot average lines with full opacity
-        for color, fitnesses_list in fitnesses_dict.items():
-            if fitnesses_list:
-                avg_fitness = np.mean(fitnesses_list, axis=0)
-                if color == "blue":
-                    model = "Of Nomad Assisted Search"
-                elif color == "green":
-                    model = "Of Evolutionary Algorithm"
-                elif color == "red":
-                    model = "Of Searches With Large Differences from the Original Connectome"
-                elif color == "cyan":
-                    model = "Of Random Searches"
-                else:
-                    model = "Unknown Model"
-                ax1.plot(avg_fitness, color=color, alpha=1, linewidth=2, label=f'Average Performance {model}')
+        # ── draw curves + shaded bands ──
+        for metric in ("fitness", "distance", "changes"):
+            for colour, runs in metrics[metric].items():
+                if not runs:
+                    continue
+                mean, sd = mean_sd(runs)
+                x = np.arange(len(mean))
+                ax = colour_axes[metric]
+                ax.plot(x, mean, lw=2, color=colour,
+                        label=f"{label_map.get(colour,'unknown')} (mean)")
+                ax.fill_between(x, mean - sd, mean + sd,
+                                color=colour, alpha=0.15)
 
-        for color, distances_list in distances_dict.items():
-            if distances_list:
-                #avg_distance = np.mean(distances_list, axis=0) not used 
-                if color == "blue":
-                    model = "Of Nomad Assisted Search"
-                elif color == "green":
-                    model = "Of Evolutionary Algorithm"
-                elif color == "red":
-                    model = "Of Searches With Large Differences from the Original Connectome"
-                elif color == "cyan":
-                    model = "Of Random Searches"
-                else:
-                    model = "Unknown Model"
+        for a in (ax1, ax2, ax3):
+            a.set_xscale("log")
+        ax1.legend(fontsize=10, ncol=2)
 
-        # Create a combined legend for both subplots
-        ax1.set_xscale('log')
-        ax2.set_xscale('log')
-
-        #handles1, labels1 = ax1.get_legend_handles_labels()
-        #handles2, labels2 = ax2.get_legend_handles_labels()
-        #handles = handles1 + handles2
-        #labels = labels1 + labels2
-        #fig.legend(handles, labels, loc='upper right', fontsize=legend_fontsize)
-
+        plt.tight_layout()
         plt.savefig("fig7.svg")
         ray.shutdown()

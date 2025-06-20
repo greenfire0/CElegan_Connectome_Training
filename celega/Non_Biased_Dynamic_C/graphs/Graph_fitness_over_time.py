@@ -56,11 +56,6 @@ class Genetic_Dyn_Algorithm:
     
 
     def run(self, env, path='Results_good_tri_all', batch_size=10, jitter_strength=10):
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
         folder_path = 'Results_good_tri_all'
         base_dir = os.path.dirname(__file__)
         print(base_dir)
@@ -140,11 +135,7 @@ class Genetic_Dyn_Algorithm:
             path (str): Path to the folder containing the connectome data.
             batch_size (int): Size of each batch of population.
         """
-        ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=16,
-        )
+
         folder_path = path
         base_dir = os.path.dirname(__file__)
         print(base_dir)

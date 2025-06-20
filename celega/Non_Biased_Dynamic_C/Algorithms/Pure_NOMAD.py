@@ -68,7 +68,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(WormConnectome(weight_matrix=best_weights, all_neuron_names=all_neuron_names))
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv(filename, self.population[best_index])
+                write_worm_to_csv(filename, self.population[best_index],max_rows=generations)
 
             return best_weights
         finally:

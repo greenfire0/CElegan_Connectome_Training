@@ -34,8 +34,6 @@ def plot_ngon_performance(csv_files, training_interval, total_episodes=10):
     start_perf = []
     end_perf = []
 
-    # Initialize Ray
-    ray.init(ignore_reinit_error=True, num_cpus=4)
 
     for csv_file in csv_files:
         if not os.path.exists(csv_file):

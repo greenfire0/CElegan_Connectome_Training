@@ -85,7 +85,7 @@ class Genetic_Dyn_Algorithm:
                 best_candidate = self.population[best_index]
 
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
-                write_worm_to_csv(filename, best_candidate)
+                write_worm_to_csv(filename, best_candidate,max_rows=generations)
 
                 if (generation//4) ==0:
                     self.population = mutate(self.population,self.matrix_shape,n=2) # 2 mutations

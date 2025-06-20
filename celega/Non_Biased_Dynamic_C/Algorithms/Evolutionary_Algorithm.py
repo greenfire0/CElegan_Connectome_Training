@@ -43,7 +43,7 @@ class Genetic_Dyn_Algorithm:
                 offspring = mutate(offspring,self.matrix_shape)
                 self.population.extend(offspring)
                 self.population.insert(0,best_candidate)
-                write_worm_to_csv(filename,best_candidate)
+                write_worm_to_csv(filename, self.population[best_index],max_rows=generations)
                
             return best_candidate.weight_matrix
         

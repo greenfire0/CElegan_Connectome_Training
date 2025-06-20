@@ -96,7 +96,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_candidate)
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv(filename, best_candidate)
+                write_worm_to_csv(filename, best_candidate,max_rows=generations)
             return best_candidate.weight_matrix
         
         finally:
