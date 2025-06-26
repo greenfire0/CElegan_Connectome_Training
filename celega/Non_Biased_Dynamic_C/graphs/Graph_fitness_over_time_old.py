@@ -48,13 +48,13 @@ class Genetic_Dyn_Algorithm:
         self,
         env,
         batch_size: int = 10,
-        jitter_strength: float = 10.0,
+        jitter_strength: float = 0.0,
     ):
-        folder: str = "Results_good_sq_nolasso"
+        folder: str = "data_full_pentagon"
         # ── plotting setup ──
         fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 20), sharex=True)
-        ax1.set_title("Fitness – Square Food Pattern")
-        ax1.set_ylabel("Food eaten")
+        ax1.set_title("Fitness – Pentagon Food Pattern")
+        ax1.set_ylabel("Food targets consumed at End of Training")
 
         ax2.set_title("Euclidean distance")
         ax2.set_ylabel("L2 distance")
@@ -72,17 +72,16 @@ class Genetic_Dyn_Algorithm:
 
         # colour → label mapping
         label_map = {
-            "royalblue":  "Nomad-assisted",
-            "forestgreen": "Evolutionary",
+            "royalblue":  "OPENAI ES",
+            "forestgreen": "Evolutionary algorithm",
             "crimson":     "Large-diff search",
-            "darkorange":  "Random search",
-            "purple":      "NO variant",
-            "black":       "EVO_NOMAD hybrid",
+            "darkorange":  "Random 50 search",
+            "purple":      "Pure Nomad",
+            "black":       "NOMAD Hybrid",
         }
         colour_axes = {"fitness": ax1, "distance": ax2, "changes": ax3}
 
         base_dir = os.path.dirname(__file__)
-        print(base_dir,folder)
         full_folder = os.path.join(base_dir, folder)
 
         # ── gather metrics ──
@@ -110,21 +109,25 @@ class Genetic_Dyn_Algorithm:
                     ) for c in batch
                 ]))
                 # distance & changes
+                #d_batch = [self.calculate_euclidean_distance(c.weight_matrix)
+                #    for c in batch]
                 dist.extend([
                     self.calculate_euclidean_distance(c.weight_matrix) + jitter_strength
                     for c in batch
                 ])
                 changes.extend([self.count_changes(c.weight_matrix) for c in batch])
-
+                #print(f"{filename:25s}  "
+                #    f"L2 mean={np.mean(d_batch):7.3f}  std={np.std(d_batch):.3e}  "
+                #    f"Δw unique={len(set(changes))}")
             # ── decide colour bucket ──
             fname = filename.lower()
-            if "evo_nomad" in fname:
+            if "hybrid" in fname:
                 colour = "black"
-            elif "evo" in fname:
+            elif "evolutionary" in fname:
                 colour = "forestgreen"
             elif "random" in fname:
                 colour = "darkorange"
-            elif "no" in fname:
+            elif "pure" in fname:
                 colour = "purple"
             elif len(dist) > 90 and dist[90] > 500:
                 colour = "crimson"
@@ -135,7 +138,7 @@ class Genetic_Dyn_Algorithm:
             metrics["fitness"][colour].append(fitness)
             metrics["distance"][colour].append(dist)
             metrics["changes"][colour].append(changes)
-
+        print(len(metrics["changes"]["royalblue"]))
         # ── helper to stack, trim & compute mean±sd ──
         def mean_sd(runs):
             min_len = min(map(len, runs))
@@ -159,6 +162,7 @@ class Genetic_Dyn_Algorithm:
             a.set_xscale("log")
         ax1.legend(fontsize=10, ncol=2)
 
+        ax3.set_yscale("log")
         plt.tight_layout()
         plt.savefig("fig7.svg")
         ray.shutdown()
