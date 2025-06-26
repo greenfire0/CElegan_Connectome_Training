@@ -61,7 +61,7 @@ def train_openai_es(
     )
     params = es.default_params
 
-    key = jax.random.PRNGKey(0)
+    key = jax.random.PRNGKey(np.random.randint(0, 2**32-1))
     key, sub = jax.random.split(key)
     state = es.init(sub, solution, params)        # ESState dataclass
 

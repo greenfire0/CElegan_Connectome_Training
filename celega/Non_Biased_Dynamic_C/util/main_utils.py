@@ -210,5 +210,4 @@ def run_openai_es(config: Dict,
         csv_log="ES_worms",
     )
 
-    np.save("best_es.npy", best)
-    print("OpenAI-ES finished → best genome in best_es.npy")
+    print(f"OpenAI-ES finished → {best} genome in best_es.npy")

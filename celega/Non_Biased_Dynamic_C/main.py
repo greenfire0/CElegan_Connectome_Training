@@ -15,7 +15,7 @@ os.environ["RAY_DEDUP_LOGS"] = "0"
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 10,
+    "generations": 100, ### 1000 for evo 2046 mins,mabye run once more, nomad 2051, 15 gen, random = 1933 190 gen
     "training_interval": 250,
     "total_episodes": 1,
     "food_patterns": [5],
@@ -41,7 +41,7 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES
-    "ga_variant": "graph_fitness_over_time_legacy", ## evo nomad = bad
+    "ga_variant": "random_nomad_algorithm", ## evo nomad = bad
     # OPENAI_ES, pure_nomad_algorithm, random_nomad_algorithm, standard_evolutionary_algorithm, nomad_evolutionary_algorithm
 }
 
@@ -65,7 +65,7 @@ def main(config):
         if config.get("ga_variant") == "OPENAI_ES":
             config.update({
                 "population_size": 512,
-                "generations": 200,
+                "generations": 250,
             })
             run_openai_es(config, connectome_weights, length)
         else:
@@ -108,12 +108,18 @@ def main(config):
 
 
 if __name__ == "__main__":
+    for _ in range (10):
+            main(config)
+
+
+
+"""
     num_cpus=multiprocessing.cpu_count()
     print(f"using {num_cpus} cpu's")
     ray.init(
             ignore_reinit_error=True,
             object_store_memory=15 * 1024 * 1024 * 1024,
-            num_cpus=16,
+            num_cpus=num_cpus,
         )
     algos = ["OPENAI_ES", "pure_nomad_algorithm", "random_nomad_algorithm", "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"]
     for a in (algos):
@@ -127,4 +133,5 @@ if __name__ == "__main__":
             if a == "pure_nomad_algorithm" or a== "random_nomad_algorithm":
                 config.update({"generations": 10})
             print(config)
-            main(config)
+
+"""

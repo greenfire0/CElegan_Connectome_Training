@@ -1,185 +1,0 @@
-nohup: ignoring input
-2025-03-15 19:16:23,431	INFO worker.py:1841 -- Started a local Ray instance.
-Starting Polygon Test Experiment...
-Running with food pattern: 6
-Generations:   0%|          | 0/40 [00:00<?, ?it/s]Generations:   2%|▎         | 1/40 [31:45<20:38:52, 1905.95s/it]Generations:   5%|▌         | 2/40 [1:06:01<21:02:46, 1993.86s/it]Generations:   8%|▊         | 3/40 [1:40:35<20:52:15, 2030.69s/it]Generations:  10%|█         | 4/40 [2:14:57<20:25:51, 2043.09s/it]Generations:  12%|█▎        | 5/40 [2:49:43<20:00:41, 2058.32s/it]Generations:  15%|█▌        | 6/40 [3:24:51<19:36:01, 2075.34s/it]Generations:  18%|█▊        | 7/40 [4:00:12<19:09:32, 2090.07s/it]Generations:  20%|██        | 8/40 [4:35:25<18:38:36, 2097.40s/it]Generations:  22%|██▎       | 9/40 [5:10:02<18:00:25, 2091.14s/it]Generations:  25%|██▌       | 10/40 [5:44:41<17:23:42, 2087.43s/it]Generations:  28%|██▊       | 11/40 [6:19:18<16:47:20, 2084.14s/it]Generations:  30%|███       | 12/40 [6:54:22<16:15:23, 2090.13s/it]Generations:  32%|███▎      | 13/40 [7:29:43<15:44:50, 2099.63s/it]Generations:  35%|███▌      | 14/40 [8:05:00<15:12:06, 2104.85s/it]Generations:  38%|███▊      | 15/40 [8:40:04<14:36:50, 2104.43s/it]Generations:  40%|████      | 16/40 [9:15:05<14:01:24, 2103.53s/it]Generations:  42%|████▎     | 17/40 [9:50:16<13:27:12, 2105.77s/it]Generations:  45%|████▌     | 18/40 [10:25:36<12:53:42, 2110.12s/it]Generations:  48%|████▊     | 19/40 [11:00:34<12:17:12, 2106.31s/it]Generations:  50%|█████     | 20/40 [11:35:40<11:42:08, 2106.42s/it]Generations:  52%|█████▎    | 21/40 [12:10:55<11:07:47, 2108.82s/it]Generations:  55%|█████▌    | 22/40 [12:45:52<10:31:34, 2105.25s/it]Generations:  57%|█████▊    | 23/40 [13:20:43<9:55:20, 2101.21s/it] Generations:  60%|██████    | 24/40 [13:55:11<9:17:39, 2091.20s/it]Generations:  62%|██████▎   | 25/40 [14:30:05<8:42:59, 2091.99s/it]Generations:  65%|██████▌   | 26/40 [15:04:50<8:07:37, 2089.80s/it]Generations:  68%|██████▊   | 27/40 [15:39:58<7:33:59, 2095.33s/it]Generations:  70%|███████   | 28/40 [16:15:14<7:00:16, 2101.39s/it]Generations:  72%|███████▎  | 29/40 [16:50:31<6:26:07, 2106.15s/it]Generations:  75%|███████▌  | 30/40 [17:25:58<5:52:03, 2112.34s/it]Generations:  78%|███████▊  | 31/40 [18:00:39<5:15:28, 2103.16s/it]Generations:  80%|████████  | 32/40 [18:35:25<4:39:43, 2097.93s/it]Generations:  82%|████████▎ | 33/40 [19:10:46<4:05:32, 2104.70s/it]Generations:  85%|████████▌ | 34/40 [19:46:02<3:30:48, 2108.10s/it]Generations:  88%|████████▊ | 35/40 [20:20:51<2:55:13, 2102.62s/it]Generations:  90%|█████████ | 36/40 [20:55:56<2:20:13, 2103.35s/it]Generations:  92%|█████████▎| 37/40 [21:31:11<1:45:20, 2106.76s/it]Generations:  95%|█████████▌| 38/40 [22:06:35<1:10:23, 2111.93s/it]Generations:  98%|█████████▊| 39/40 [22:41:44<35:11, 2111.13s/it]  Generations: 100%|██████████| 40/40 [23:16:52<00:00, 2110.07s/it]Generations: 100%|██████████| 40/40 [23:16:52<00:00, 2095.31s/it]
-2025-03-16 18:33:38,295	INFO worker.py:1841 -- Started a local Ray instance.
-Generation 1 best fitness: 458.0059082365596
-Generation 2 best fitness: 550.6293452393403
-Generation 3 best fitness: 700.0778000613667
-Generation 4 best fitness: 700.0782860115432
-Generation 5 best fitness: 729.9200063578098
-Generation 6 best fitness: 730.2502178531125
-Generation 7 best fitness: 791.2757783406481
-Generation 8 best fitness: 822.8478296706455
-Generation 9 best fitness: 912.5656953768439
-Generation 10 best fitness: 912.5734745759561
-Generation 11 best fitness: 912.6207345510214
-Generation 12 best fitness: 912.6849758347319
-Generation 13 best fitness: 912.7649247600973
-Generation 14 best fitness: 912.796827777732
-Generation 15 best fitness: 939.317927586866
-Generation 16 best fitness: 939.317927586866
-Generation 17 best fitness: 942.6921774155476
-Generation 18 best fitness: 971.8208835881443
-Generation 19 best fitness: 971.8531487218947
-Generation 20 best fitness: 971.9409000222042
-Generation 21 best fitness: 971.9409000222042
-Generation 22 best fitness: 971.9597878050944
-Generation 23 best fitness: 972.587060085208
-Generation 24 best fitness: 972.587060085208
-Generation 25 best fitness: 972.587060085208
-Generation 26 best fitness: 972.587060085208
-Generation 27 best fitness: 972.587060085208
-Generation 28 best fitness: 1001.8261768117192
-Generation 29 best fitness: 1001.8261768117192
-Generation 30 best fitness: 1031.7240493207642
-Generation 31 best fitness: 1031.7240493207642
-Generation 32 best fitness: 1031.7240493207642
-Generation 33 best fitness: 1031.747542463408
-Generation 34 best fitness: 1031.747542463408
-Generation 35 best fitness: 1031.747542463408
-Generation 36 best fitness: 1031.768294830361
-Generation 37 best fitness: 1031.7772490546272
-Generation 38 best fitness: 1031.7772490546272
-Generation 39 best fitness: 1031.7772490546272
-Generation 40 best fitness: 1031.7772490546272
-Completed training for food pattern 6
-Best weight matrix found: [ 1.   1.   1.  ... -5.  -4.9  1. ]
-Running with food pattern: 7
-Generations:   0%|          | 0/40 [00:00<?, ?it/s]Generations:   2%|▎         | 1/40 [33:04<21:29:36, 1984.03s/it]Generations:   5%|▌         | 2/40 [1:07:42<21:31:53, 2039.82s/it]Generations:   8%|▊         | 3/40 [1:42:16<21:07:21, 2055.18s/it]Generations:  10%|█         | 4/40 [2:17:23<20:45:19, 2075.53s/it]Generations:  12%|█▎        | 5/40 [2:52:48<20:21:14, 2093.54s/it]Generations:  15%|█▌        | 6/40 [3:27:32<19:44:32, 2090.37s/it]Generations:  18%|█▊        | 7/40 [4:02:49<19:14:29, 2099.09s/it]Generations:  20%|██        | 8/40 [4:37:17<18:34:06, 2088.94s/it]Generations:  22%|██▎       | 9/40 [5:12:20<18:01:42, 2093.62s/it]Generations:  25%|██▌       | 10/40 [5:47:13<17:26:36, 2093.23s/it]Generations:  28%|██▊       | 11/40 [6:22:41<16:56:53, 2103.90s/it]Generations:  30%|███       | 12/40 [6:58:03<16:24:24, 2109.46s/it]Generations:  32%|███▎      | 13/40 [7:32:49<15:46:02, 2102.32s/it]Generations:  35%|███▌      | 14/40 [8:08:27<15:15:41, 2113.12s/it]Generations:  38%|███▊      | 15/40 [8:43:49<14:41:33, 2115.73s/it]Generations:  40%|████      | 16/40 [9:18:55<14:05:08, 2112.86s/it]Generations:  42%|████▎     | 17/40 [9:53:49<13:27:48, 2107.33s/it]Generations:  45%|████▌     | 18/40 [10:29:29<12:56:16, 2117.13s/it]Generations:  48%|████▊     | 19/40 [11:04:55<12:21:54, 2119.72s/it]Generations:  50%|█████     | 20/40 [11:40:32<11:48:18, 2124.94s/it]Generations:  52%|█████▎    | 21/40 [12:15:44<11:11:36, 2120.86s/it]Generations:  55%|█████▌    | 22/40 [12:51:32<10:38:44, 2129.13s/it]Generations:  57%|█████▊    | 23/40 [13:26:39<10:01:19, 2122.35s/it]Generations:  60%|██████    | 24/40 [14:01:36<9:23:59, 2114.98s/it] Generations:  62%|██████▎   | 25/40 [14:36:33<8:47:21, 2109.42s/it]Generations:  65%|██████▌   | 26/40 [15:11:51<8:12:50, 2112.17s/it]Generations:  68%|██████▊   | 27/40 [15:47:06<7:37:48, 2113.00s/it]Generations:  70%|███████   | 28/40 [16:22:39<7:03:46, 2118.90s/it]Generations:  72%|███████▎  | 29/40 [16:57:41<6:27:32, 2113.85s/it]Generations:  75%|███████▌  | 30/40 [17:32:15<5:50:17, 2101.79s/it]Generations:  78%|███████▊  | 31/40 [18:08:14<5:17:50, 2118.95s/it]Generations:  80%|████████  | 32/40 [18:43:31<4:42:28, 2118.53s/it]Generations:  82%|████████▎ | 33/40 [19:18:36<4:06:40, 2114.40s/it]Generations:  85%|████████▌ | 34/40 [19:53:39<3:31:05, 2110.86s/it]Generations:  88%|████████▊ | 35/40 [20:28:46<2:55:48, 2109.73s/it]Generations:  90%|█████████ | 36/40 [21:04:09<2:20:55, 2113.77s/it]Generations:  92%|█████████▎| 37/40 [21:39:20<1:45:39, 2113.01s/it]Generations:  95%|█████████▌| 38/40 [22:14:17<1:10:16, 2108.19s/it]Generations:  98%|█████████▊| 39/40 [22:49:39<35:12, 2112.22s/it]  Generations: 100%|██████████| 40/40 [23:25:12<00:00, 2118.56s/it]Generations: 100%|██████████| 40/40 [23:25:12<00:00, 2107.82s/it]
-2025-03-17 17:59:12,678	INFO worker.py:1841 -- Started a local Ray instance.
-Generation 1 best fitness: 427.85589033260277
-Generation 2 best fitness: 489.36691783370424
-Generation 3 best fitness: 732.125644317765
-Generation 4 best fitness: 821.8179592821763
-Generation 5 best fitness: 851.7497619449003
-Generation 6 best fitness: 881.5924148500214
-Generation 7 best fitness: 940.9687378764065
-Generation 8 best fitness: 941.0521269600588
-Generation 9 best fitness: 941.075663285901
-Generation 10 best fitness: 971.0844807661945
-Generation 11 best fitness: 971.0844807661945
-Generation 12 best fitness: 971.1363081404737
-Generation 13 best fitness: 1001.1415343086674
-Generation 14 best fitness: 1001.1415343086674
-Generation 15 best fitness: 1001.2153441105421
-Generation 16 best fitness: 1030.8913346592353
-Generation 17 best fitness: 1031.2443407395408
-Generation 18 best fitness: 1031.2443407395408
-Generation 19 best fitness: 1031.2443407395408
-Generation 20 best fitness: 1031.2443407395408
-Generation 21 best fitness: 1031.2446367817233
-Generation 22 best fitness: 1031.2446367817233
-Generation 23 best fitness: 1031.2471922596308
-Generation 24 best fitness: 1031.2673005435836
-Generation 25 best fitness: 1031.2677462594718
-Generation 26 best fitness: 1031.2862938485596
-Generation 27 best fitness: 1031.2862938485596
-Generation 28 best fitness: 1031.2954145162887
-Generation 29 best fitness: 1031.3176648230894
-Generation 30 best fitness: 1031.3176648230894
-Generation 31 best fitness: 1031.3176648230894
-Generation 32 best fitness: 1031.3371024851278
-Generation 33 best fitness: 1031.3553973042042
-Generation 34 best fitness: 1031.3553973042042
-Generation 35 best fitness: 1031.3553973042042
-Generation 36 best fitness: 1031.3553973042042
-Generation 37 best fitness: 1031.3553973042042
-Generation 38 best fitness: 1031.355428232973
-Generation 39 best fitness: 1031.3573266583576
-Generation 40 best fitness: 1031.3573565141842
-Completed training for food pattern 7
-Best weight matrix found: [ 1.   1.1  1.  ... -5.  -5.   1. ]
-Running with food pattern: 8
-Generations:   0%|          | 0/40 [00:00<?, ?it/s]Generations:   2%|▎         | 1/40 [33:18<21:39:20, 1999.00s/it]Generations:   5%|▌         | 2/40 [1:08:27<21:46:52, 2063.49s/it]Generations:   8%|▊         | 3/40 [1:43:33<21:24:27, 2082.92s/it]Generations:  10%|█         | 4/40 [2:18:21<20:50:53, 2084.82s/it]Generations:  12%|█▎        | 5/40 [2:53:49<20:25:20, 2100.59s/it]Generations:  15%|█▌        | 6/40 [3:29:34<19:58:47, 2115.52s/it]Generations:  18%|█▊        | 7/40 [4:04:50<19:23:42, 2115.85s/it]Generations:  20%|██        | 8/40 [4:40:19<18:50:38, 2119.95s/it]Generations:  22%|██▎       | 9/40 [5:15:28<18:13:27, 2116.38s/it]Generations:  25%|██▌       | 10/40 [5:50:50<17:39:07, 2118.24s/it]Generations:  28%|██▊       | 11/40 [6:25:04<16:54:21, 2098.68s/it]Generations:  30%|███       | 12/40 [6:59:54<16:18:04, 2095.87s/it]Generations:  32%|███▎      | 13/40 [7:35:17<15:46:53, 2104.19s/it]Generations:  35%|███▌      | 14/40 [8:10:41<15:14:20, 2110.02s/it]Generations:  38%|███▊      | 15/40 [8:45:31<14:36:39, 2103.98s/it]Generations:  40%|████      | 16/40 [9:20:29<14:00:56, 2102.35s/it]Generations:  42%|████▎     | 17/40 [9:55:24<13:25:01, 2100.06s/it]Generations:  45%|████▌     | 18/40 [10:30:01<12:47:29, 2093.17s/it]Generations:  48%|████▊     | 19/40 [11:05:30<12:16:24, 2104.03s/it]Generations:  50%|█████     | 20/40 [11:41:06<11:44:27, 2113.36s/it]Generations:  52%|█████▎    | 21/40 [12:16:37<11:10:57, 2118.83s/it]Generations:  55%|█████▌    | 22/40 [12:52:08<10:36:45, 2122.50s/it]Generations:  57%|█████▊    | 23/40 [13:27:23<10:00:43, 2120.23s/it]Generations:  60%|██████    | 24/40 [14:02:17<9:23:18, 2112.43s/it] Generations:  62%|██████▎   | 25/40 [14:37:41<8:48:55, 2115.73s/it]Generations:  65%|██████▌   | 26/40 [15:12:38<8:12:23, 2110.23s/it]Generations:  68%|██████▊   | 27/40 [15:48:14<7:38:54, 2118.01s/it]Generations:  70%|███████   | 28/40 [16:23:01<7:01:42, 2108.55s/it]Generations:  72%|███████▎  | 29/40 [16:57:52<6:25:37, 2103.36s/it]Generations:  75%|███████▌  | 30/40 [17:32:58<5:50:41, 2104.17s/it]Generations:  78%|███████▊  | 31/40 [18:07:46<5:14:53, 2099.28s/it]Generations:  80%|████████  | 32/40 [18:43:15<4:41:05, 2108.20s/it]Generations:  82%|████████▎ | 33/40 [19:18:25<4:06:01, 2108.73s/it]Generations:  85%|████████▌ | 34/40 [19:53:43<3:31:08, 2111.44s/it]Generations:  88%|████████▊ | 35/40 [20:28:56<2:55:59, 2111.98s/it]Generations:  90%|█████████ | 36/40 [21:04:25<2:21:08, 2117.13s/it]Generations:  92%|█████████▎| 37/40 [21:39:55<1:46:02, 2121.00s/it]Generations:  95%|█████████▌| 38/40 [22:15:02<1:10:33, 2116.80s/it]Generations:  98%|█████████▊| 39/40 [22:50:29<35:19, 2119.78s/it]  Generations: 100%|██████████| 40/40 [23:25:47<00:00, 2119.12s/it]Generations: 100%|██████████| 40/40 [23:25:47<00:00, 2108.68s/it]
-2025-03-18 17:25:24,836	INFO worker.py:1841 -- Started a local Ray instance.
-Generation 1 best fitness: 428.9698141946338
-Generation 2 best fitness: 579.5533316824905
-Generation 3 best fitness: 671.0431155856757
-Generation 4 best fitness: 671.0572443655002
-Generation 5 best fitness: 700.6175551046168
-Generation 6 best fitness: 851.0816761576764
-Generation 7 best fitness: 880.5039169605913
-Generation 8 best fitness: 910.7906547769651
-Generation 9 best fitness: 910.7906547769651
-Generation 10 best fitness: 940.6382495748355
-Generation 11 best fitness: 940.6382495748355
-Generation 12 best fitness: 940.7015032090904
-Generation 13 best fitness: 940.9724118635343
-Generation 14 best fitness: 1030.5991063951858
-Generation 15 best fitness: 1030.617842078403
-Generation 16 best fitness: 1030.617842078403
-Generation 17 best fitness: 1030.650753951457
-Generation 18 best fitness: 1030.7188938640506
-Generation 19 best fitness: 1030.7188938640506
-Generation 20 best fitness: 1030.7193709804276
-Generation 21 best fitness: 1030.74890474718
-Generation 22 best fitness: 1030.7607456043852
-Generation 23 best fitness: 1030.7663362161315
-Generation 24 best fitness: 1030.7810268299459
-Generation 25 best fitness: 1030.7938052578509
-Generation 26 best fitness: 1030.7938052578509
-Generation 27 best fitness: 1030.7938052578509
-Generation 28 best fitness: 1030.8132489112365
-Generation 29 best fitness: 1030.815594815053
-Generation 30 best fitness: 1030.8200196188332
-Generation 31 best fitness: 1030.8286598373732
-Generation 32 best fitness: 1030.8323329787881
-Generation 33 best fitness: 1030.8323329787881
-Generation 34 best fitness: 1030.8347760717788
-Generation 35 best fitness: 1030.841176059561
-Generation 36 best fitness: 1030.841176059561
-Generation 37 best fitness: 1030.8416334572087
-Generation 38 best fitness: 1030.8445313982706
-Generation 39 best fitness: 1030.8445313982706
-Generation 40 best fitness: 1030.8445313982706
-Completed training for food pattern 8
-Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
-Running with food pattern: 9
-Generations:   0%|          | 0/40 [00:00<?, ?it/s]Generations:   2%|▎         | 1/40 [32:53<21:22:36, 1973.24s/it]Generations:   5%|▌         | 2/40 [1:07:33<21:29:29, 2036.03s/it]Generations:   8%|▊         | 3/40 [1:42:28<21:12:06, 2062.88s/it]Generations:  10%|█         | 4/40 [2:17:11<20:42:29, 2070.81s/it]Generations:  12%|█▎        | 5/40 [2:52:12<20:14:26, 2081.90s/it]Generations:  15%|█▌        | 6/40 [3:27:16<19:43:55, 2089.27s/it]Generations:  18%|█▊        | 7/40 [4:02:35<19:14:32, 2099.17s/it]Generations:  20%|██        | 8/40 [4:37:04<18:34:24, 2089.51s/it]Generations:  22%|██▎       | 9/40 [5:11:40<17:57:26, 2085.38s/it]Generations:  25%|██▌       | 10/40 [5:46:53<17:26:49, 2093.66s/it]Generations:  28%|██▊       | 11/40 [6:21:29<16:49:22, 2088.37s/it]Generations:  30%|███       | 12/40 [6:56:08<16:13:11, 2085.42s/it]Generations:  32%|███▎      | 13/40 [7:30:55<15:38:44, 2086.08s/it]Generations:  35%|███▌      | 14/40 [8:05:32<15:02:47, 2083.37s/it]Generations:  38%|███▊      | 15/40 [8:40:02<14:26:24, 2079.38s/it]Generations:  40%|████      | 16/40 [9:14:43<13:51:56, 2079.85s/it]Generations:  42%|████▎     | 17/40 [9:49:39<13:19:08, 2084.71s/it]Generations:  45%|████▌     | 18/40 [10:24:32<12:45:18, 2087.21s/it]Generations:  48%|████▊     | 19/40 [10:59:08<12:09:17, 2083.70s/it]Generations:  50%|█████     | 20/40 [11:33:33<11:32:43, 2078.18s/it]Generations:  52%|█████▎    | 21/40 [12:08:32<11:00:02, 2084.36s/it]Generations:  55%|█████▌    | 22/40 [12:43:10<10:24:44, 2082.48s/it]Generations:  57%|█████▊    | 23/40 [13:17:44<9:49:18, 2079.89s/it] Generations:  60%|██████    | 24/40 [13:52:49<9:16:39, 2087.44s/it]Generations:  62%|██████▎   | 25/40 [14:27:52<8:43:00, 2092.05s/it]Generations:  65%|██████▌   | 26/40 [15:02:37<8:07:39, 2090.00s/it]Generations:  68%|██████▊   | 27/40 [15:37:20<7:32:24, 2088.02s/it]Generations:  70%|███████   | 28/40 [16:12:27<6:58:44, 2093.68s/it]Generations:  72%|███████▎  | 29/40 [16:47:19<6:23:43, 2093.02s/it]Generations:  75%|███████▌  | 30/40 [17:22:08<5:48:38, 2091.88s/it]Generations:  78%|███████▊  | 31/40 [17:57:01<5:13:49, 2092.19s/it]Generations:  80%|████████  | 32/40 [18:32:03<4:39:21, 2095.20s/it]Generations:  82%|████████▎ | 33/40 [19:06:40<4:03:47, 2089.60s/it]Generations:  85%|████████▌ | 34/40 [19:41:55<3:29:44, 2097.36s/it]Generations:  88%|████████▊ | 35/40 [20:16:15<2:53:50, 2086.20s/it]Generations:  90%|█████████ | 36/40 [20:51:31<2:19:40, 2095.15s/it]Generations:  92%|█████████▎| 37/40 [21:26:21<1:44:40, 2093.59s/it]Generations:  95%|█████████▌| 38/40 [22:01:15<1:09:47, 2093.68s/it]Generations:  98%|█████████▊| 39/40 [22:35:55<34:49, 2089.55s/it]  Generations: 100%|██████████| 40/40 [23:10:25<00:00, 2083.61s/it]Generations: 100%|██████████| 40/40 [23:10:25<00:00, 2085.63s/it]
-2025-03-19 16:36:16,936	INFO worker.py:1841 -- Started a local Ray instance.
-Generation 1 best fitness: 398.3058504196021
-Generation 2 best fitness: 486.01172530509825
-Generation 3 best fitness: 515.8749661475296
-Generation 4 best fitness: 546.8998286000858
-Generation 5 best fitness: 610.6927404631147
-Generation 6 best fitness: 729.3200510209175
-Generation 7 best fitness: 758.2444810118881
-Generation 8 best fitness: 788.138338623251
-Generation 9 best fitness: 788.1531943973645
-Generation 10 best fitness: 849.6512301218722
-Generation 11 best fitness: 849.6815723062416
-Generation 12 best fitness: 849.6815723062416
-Generation 13 best fitness: 939.2318828020711
-Generation 14 best fitness: 939.4288372081817
-Generation 15 best fitness: 939.4570380165467
-Generation 16 best fitness: 939.4570380165467
-Generation 17 best fitness: 939.4641122679179
-Generation 18 best fitness: 939.5931645634166
-Generation 19 best fitness: 939.5931645634166
-Generation 20 best fitness: 969.2628810845905
-Generation 21 best fitness: 999.0280023935248
-Generation 22 best fitness: 999.0642152382853
-Generation 23 best fitness: 999.1301227664503
-Generation 24 best fitness: 999.1668427444008
-Generation 25 best fitness: 999.1834538551303
-Generation 26 best fitness: 999.2112133166336
-Generation 27 best fitness: 1028.8079433410312
-Generation 28 best fitness: 1028.8079433410312
-Generation 29 best fitness: 1028.8079433410312
-Generation 30 best fitness: 1028.811154761286
-Generation 31 best fitness: 1028.8182838829189
-Generation 32 best fitness: 1028.9641029322834
-Generation 33 best fitness: 1028.976267574319
-Generation 34 best fitness: 1028.9828775144001
-Generation 35 best fitness: 1028.9995109048182
-Generation 36 best fitness: 1028.9995109048182
-Generation 37 best fitness: 1028.9995706116258
-Generation 38 best fitness: 1028.9995706116258
-Generation 39 best fitness: 1029.0010829242797
-Generation 40 best fitness: 1029.152441733688
-Completed training for food pattern 9
-Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
-Running with food pattern: 10
-Generations:   0%|          | 0/40 [00:00<?, ?it/s]Generations:   2%|▎         | 1/40 [31:38<20:33:51, 1898.23s/it]Generations:   5%|▌         | 2/40 [1:05:42<20:56:44, 1984.32s/it]Generations:   8%|▊         | 3/40 [1:39:45<20:40:02, 2010.89s/it]Generations:  10%|█         | 4/40 [2:14:39<20:26:13, 2043.71s/it]Generations:  12%|█▎        | 5/40 [2:49:16<19:59:16, 2055.90s/it]Generations:  15%|█▌        | 6/40 [3:24:03<19:30:56, 2066.37s/it]

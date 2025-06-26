@@ -38,11 +38,10 @@ class Genetic_Dyn_Algorithm:
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
                 self.population = select_parents(self.population,fitnesses, self.population_size // 2)
                 
-                # Generate offspring through crossover and mutation
                 offspring = crossover(self.population, fitnesses, self.population_size - len(self.population)-1,self.matrix_shape)
                 offspring = mutate(offspring,self.matrix_shape)
                 self.population.extend(offspring)
-                self.population.insert(0,best_candidate)
+                self.population.append(best_candidate)
                 write_worm_to_csv(filename, self.population[best_index],max_rows=generations)
                
             return best_candidate.weight_matrix

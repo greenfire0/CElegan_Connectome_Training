@@ -1,0 +1,1041 @@
+nohup: ignoring input
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 05:12:44,734	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<27:21, 16.58s/it]Generations:   2%|▏         | 2/100 [00:26<20:24, 12.49s/it]Generations:   3%|▎         | 3/100 [00:36<18:49, 11.65s/it]Generations:   4%|▍         | 4/100 [00:49<19:17, 12.05s/it]Generations:   5%|▌         | 5/100 [01:01<19:09, 12.10s/it]Generations:   6%|▌         | 6/100 [01:14<19:13, 12.27s/it]Generations:   7%|▋         | 7/100 [01:26<19:07, 12.34s/it]Generations:   8%|▊         | 8/100 [01:39<19:02, 12.42s/it]Generations:   9%|▉         | 9/100 [01:52<19:04, 12.58s/it]Generations:  10%|█         | 10/100 [02:04<18:50, 12.56s/it]Generations:  11%|█         | 11/100 [02:17<18:39, 12.58s/it]Generations:  12%|█▏        | 12/100 [02:29<18:25, 12.57s/it]Generations:  13%|█▎        | 13/100 [02:42<18:14, 12.58s/it]Generations:  14%|█▍        | 14/100 [02:55<18:08, 12.66s/it]Generations:  15%|█▌        | 15/100 [03:08<18:03, 12.75s/it]Generations:  16%|█▌        | 16/100 [03:21<17:52, 12.77s/it]Generations:  17%|█▋        | 17/100 [03:33<17:37, 12.75s/it]Generations:  18%|█▊        | 18/100 [03:46<17:27, 12.78s/it]Generations:  19%|█▉        | 19/100 [03:59<17:13, 12.75s/it]Generations:  20%|██        | 20/100 [04:12<17:05, 12.81s/it]Generations:  21%|██        | 21/100 [04:24<16:43, 12.71s/it]Generations:  22%|██▏       | 22/100 [04:37<16:32, 12.72s/it]Generations:  23%|██▎       | 23/100 [04:50<16:19, 12.73s/it]Generations:  24%|██▍       | 24/100 [05:02<16:04, 12.69s/it]Generations:  25%|██▌       | 25/100 [05:15<15:51, 12.69s/it]Generations:  26%|██▌       | 26/100 [05:28<15:42, 12.73s/it]Generations:  27%|██▋       | 27/100 [05:41<15:25, 12.68s/it]Generations:  28%|██▊       | 28/100 [05:53<15:10, 12.64s/it]Generations:  29%|██▉       | 29/100 [06:06<15:00, 12.69s/it]Generations:  30%|███       | 30/100 [06:19<14:51, 12.73s/it]Generations:  31%|███       | 31/100 [06:31<14:38, 12.72s/it]Generations:  32%|███▏      | 32/100 [06:45<14:32, 12.83s/it]Generations:  33%|███▎      | 33/100 [06:58<14:24, 12.91s/it]Generations:  34%|███▍      | 34/100 [07:10<14:08, 12.86s/it]Generations:  35%|███▌      | 35/100 [07:23<13:57, 12.88s/it]Generations:  36%|███▌      | 36/100 [07:36<13:34, 12.73s/it]Generations:  37%|███▋      | 37/100 [07:48<13:21, 12.72s/it]Generations:  38%|███▊      | 38/100 [08:01<13:04, 12.65s/it]Generations:  39%|███▉      | 39/100 [08:13<12:51, 12.64s/it]Generations:  40%|████      | 40/100 [08:26<12:39, 12.67s/it]Generations:  41%|████      | 41/100 [08:39<12:22, 12.59s/it]Generations:  42%|████▏     | 42/100 [08:51<12:14, 12.67s/it]Generations:  43%|████▎     | 43/100 [09:05<12:08, 12.79s/it]Generations:  44%|████▍     | 44/100 [09:17<11:51, 12.71s/it]Generations:  45%|████▌     | 45/100 [09:30<11:38, 12.71s/it]Generations:  46%|████▌     | 46/100 [09:42<11:24, 12.68s/it]Generations:  47%|████▋     | 47/100 [09:55<11:09, 12.64s/it]Generations:  48%|████▊     | 48/100 [10:07<10:52, 12.56s/it]Generations:  49%|████▉     | 49/100 [10:20<10:47, 12.71s/it]Generations:  50%|█████     | 50/100 [10:33<10:28, 12.57s/it]Generations:  51%|█████     | 51/100 [10:45<10:15, 12.56s/it]Generations:  52%|█████▏    | 52/100 [10:58<10:02, 12.54s/it]Generations:  53%|█████▎    | 53/100 [11:10<09:51, 12.59s/it]Generations:  54%|█████▍    | 54/100 [11:23<09:40, 12.62s/it]Generations:  55%|█████▌    | 55/100 [11:36<09:29, 12.65s/it]Generations:  56%|█████▌    | 56/100 [11:48<09:13, 12.57s/it]Generations:  57%|█████▋    | 57/100 [12:01<09:02, 12.61s/it]Generations:  58%|█████▊    | 58/100 [12:14<08:53, 12.70s/it]Generations:  59%|█████▉    | 59/100 [12:26<08:40, 12.70s/it]Generations:  60%|██████    | 60/100 [12:40<08:32, 12.81s/it]Generations:  61%|██████    | 61/100 [12:53<08:21, 12.87s/it]Generations:  62%|██████▏   | 62/100 [13:05<08:03, 12.72s/it]Generations:  63%|██████▎   | 63/100 [13:17<07:49, 12.68s/it]Generations:  64%|██████▍   | 64/100 [13:30<07:35, 12.66s/it]Generations:  65%|██████▌   | 65/100 [13:43<07:21, 12.63s/it]Generations:  66%|██████▌   | 66/100 [13:56<07:14, 12.78s/it]Generations:  67%|██████▋   | 67/100 [14:08<07:00, 12.76s/it]Generations:  68%|██████▊   | 68/100 [14:21<06:49, 12.79s/it]Generations:  69%|██████▉   | 69/100 [14:34<06:38, 12.85s/it]Generations:  70%|███████   | 70/100 [14:47<06:22, 12.76s/it]Generations:  71%|███████   | 71/100 [15:00<06:11, 12.80s/it]Generations:  72%|███████▏  | 72/100 [15:13<05:59, 12.84s/it]Generations:  73%|███████▎  | 73/100 [15:26<05:48, 12.89s/it]Generations:  74%|███████▍  | 74/100 [15:38<05:32, 12.79s/it]Generations:  75%|███████▌  | 75/100 [15:51<05:20, 12.82s/it]Generations:  76%|███████▌  | 76/100 [16:04<05:05, 12.75s/it]Generations:  77%|███████▋  | 77/100 [16:17<04:54, 12.79s/it]Generations:  78%|███████▊  | 78/100 [16:30<04:43, 12.87s/it]Generations:  79%|███████▉  | 79/100 [16:42<04:28, 12.77s/it]Generations:  80%|████████  | 80/100 [16:55<04:16, 12.83s/it]Generations:  81%|████████  | 81/100 [17:08<04:03, 12.84s/it]Generations:  82%|████████▏ | 82/100 [17:21<03:50, 12.81s/it]Generations:  83%|████████▎ | 83/100 [17:33<03:36, 12.75s/it]Generations:  84%|████████▍ | 84/100 [17:46<03:25, 12.82s/it]Generations:  85%|████████▌ | 85/100 [17:59<03:12, 12.87s/it]Generations:  86%|████████▌ | 86/100 [18:12<02:58, 12.72s/it]Generations:  87%|████████▋ | 87/100 [18:25<02:45, 12.74s/it]Generations:  88%|████████▊ | 88/100 [18:37<02:33, 12.78s/it]Generations:  89%|████████▉ | 89/100 [18:50<02:18, 12.62s/it]Generations:  90%|█████████ | 90/100 [19:02<02:06, 12.65s/it]Generations:  91%|█████████ | 91/100 [19:15<01:52, 12.51s/it]Generations:  92%|█████████▏| 92/100 [19:27<01:40, 12.55s/it]Generations:  93%|█████████▎| 93/100 [19:40<01:28, 12.61s/it]Generations:  94%|█████████▍| 94/100 [19:53<01:16, 12.73s/it]Generations:  95%|█████████▌| 95/100 [20:06<01:03, 12.76s/it]Generations:  96%|█████████▌| 96/100 [20:18<00:50, 12.67s/it]Generations:  97%|█████████▋| 97/100 [20:31<00:37, 12.66s/it]Generations:  98%|█████████▊| 98/100 [20:43<00:25, 12.61s/it]Generations:  99%|█████████▉| 99/100 [20:56<00:12, 12.67s/it]Generations: 100%|██████████| 100/100 [21:09<00:00, 12.74s/it]Generations: 100%|██████████| 100/100 [21:09<00:00, 12.70s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 308.0174178826236
+Generation 3 best fitness: 308.06764909521263
+Generation 4 best fitness: 336.4257584522088
+Generation 5 best fitness: 367.8856788634453
+Generation 6 best fitness: 370.5806617497722
+Generation 7 best fitness: 397.1569345768422
+Generation 8 best fitness: 398.6460863304885
+Generation 9 best fitness: 427.4566000835684
+Generation 10 best fitness: 427.4566000835684
+Generation 11 best fitness: 427.4566000835684
+Generation 12 best fitness: 427.4566000835684
+Generation 13 best fitness: 427.4566000835684
+Generation 14 best fitness: 427.4566000835684
+Generation 15 best fitness: 427.4566000835684
+Generation 16 best fitness: 427.4566000835684
+Generation 17 best fitness: 427.4566000835684
+Generation 18 best fitness: 427.4566000835684
+Generation 19 best fitness: 427.4566000835684
+Generation 20 best fitness: 427.4566000835684
+Generation 21 best fitness: 427.4566000835684
+Generation 22 best fitness: 427.4566000835684
+Generation 23 best fitness: 427.4566000835684
+Generation 24 best fitness: 427.4566000835684
+Generation 25 best fitness: 427.4566000835684
+Generation 26 best fitness: 427.4566000835684
+Generation 27 best fitness: 427.4566000835684
+Generation 28 best fitness: 427.4566000835684
+Generation 29 best fitness: 427.4566000835684
+Generation 30 best fitness: 427.4566000835684
+Generation 31 best fitness: 427.4566000835684
+Generation 32 best fitness: 427.4566000835684
+Generation 33 best fitness: 427.4566000835684
+Generation 34 best fitness: 427.4566000835684
+Generation 35 best fitness: 427.4566000835684
+Generation 36 best fitness: 427.4566000835684
+Generation 37 best fitness: 427.4566000835684
+Generation 38 best fitness: 427.4566000835684
+Generation 39 best fitness: 427.4566000835684
+Generation 40 best fitness: 427.4566000835684
+Generation 41 best fitness: 427.4566000835684
+Generation 42 best fitness: 427.4566000835684
+Generation 43 best fitness: 427.4566000835684
+Generation 44 best fitness: 427.4566000835684
+Generation 45 best fitness: 427.4566000835684
+Generation 46 best fitness: 427.4566000835684
+Generation 47 best fitness: 427.4566000835684
+Generation 48 best fitness: 427.4566000835684
+Generation 49 best fitness: 427.4566000835684
+Generation 50 best fitness: 427.4566000835684
+Generation 51 best fitness: 427.4566000835684
+Generation 52 best fitness: 427.4566000835684
+Generation 53 best fitness: 427.4566000835684
+Generation 54 best fitness: 427.4566000835684
+Generation 55 best fitness: 427.4566000835684
+Generation 56 best fitness: 427.4566000835684
+Generation 57 best fitness: 427.4566000835684
+Generation 58 best fitness: 427.4566000835684
+Generation 59 best fitness: 427.4566000835684
+Generation 60 best fitness: 427.4566000835684
+Generation 61 best fitness: 427.4566000835684
+Generation 62 best fitness: 427.4566000835684
+Generation 63 best fitness: 427.4566000835684
+Generation 64 best fitness: 427.4566000835684
+Generation 65 best fitness: 427.4566000835684
+Generation 66 best fitness: 427.4566000835684
+Generation 67 best fitness: 427.4566000835684
+Generation 68 best fitness: 427.4566000835684
+Generation 69 best fitness: 427.4566000835684
+Generation 70 best fitness: 427.4566000835684
+Generation 71 best fitness: 427.4566000835684
+Generation 72 best fitness: 427.4566000835684
+Generation 73 best fitness: 427.4566000835684
+Generation 74 best fitness: 427.4566000835684
+Generation 75 best fitness: 427.4566000835684
+Generation 76 best fitness: 427.4566000835684
+Generation 77 best fitness: 427.4566000835684
+Generation 78 best fitness: 427.4566000835684
+Generation 79 best fitness: 427.4566000835684
+Generation 80 best fitness: 427.4566000835684
+Generation 81 best fitness: 427.4566000835684
+Generation 82 best fitness: 427.4566000835684
+Generation 83 best fitness: 427.4566000835684
+Generation 84 best fitness: 427.4566000835684
+Generation 85 best fitness: 427.4566000835684
+Generation 86 best fitness: 427.4566000835684
+Generation 87 best fitness: 427.4566000835684
+Generation 88 best fitness: 427.4566000835684
+Generation 89 best fitness: 427.4566000835684
+Generation 90 best fitness: 427.4566000835684
+Generation 91 best fitness: 427.4566000835684
+Generation 92 best fitness: 427.4566000835684
+Generation 93 best fitness: 427.4566000835684
+Generation 94 best fitness: 427.4566000835684
+Generation 95 best fitness: 427.4566000835684
+Generation 96 best fitness: 427.4566000835684
+Generation 97 best fitness: 427.4566000835684
+Generation 98 best fitness: 427.4566000835684
+Generation 99 best fitness: 427.4566000835684
+Generation 100 best fitness: 427.4566000835684
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 05:33:55,931	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<27:47, 16.84s/it]Generations:   2%|▏         | 2/100 [00:26<20:52, 12.78s/it]Generations:   3%|▎         | 3/100 [00:37<18:50, 11.66s/it]Generations:   4%|▍         | 4/100 [00:49<19:04, 11.93s/it]Generations:   5%|▌         | 5/100 [01:02<19:19, 12.21s/it]Generations:   6%|▌         | 6/100 [01:14<19:26, 12.41s/it]Generations:   7%|▋         | 7/100 [01:27<19:30, 12.59s/it]Generations:   8%|▊         | 8/100 [01:40<19:20, 12.62s/it]Generations:   9%|▉         | 9/100 [01:53<19:11, 12.65s/it]Generations:  10%|█         | 10/100 [02:06<19:04, 12.72s/it]Generations:  11%|█         | 11/100 [02:18<18:49, 12.69s/it]Generations:  12%|█▏        | 12/100 [02:31<18:49, 12.83s/it]Generations:  13%|█▎        | 13/100 [02:44<18:41, 12.89s/it]Generations:  14%|█▍        | 14/100 [02:57<18:23, 12.83s/it]Generations:  15%|█▌        | 15/100 [03:10<18:06, 12.78s/it]Generations:  16%|█▌        | 16/100 [03:23<18:05, 12.92s/it]Generations:  17%|█▋        | 17/100 [03:36<17:56, 12.97s/it]Generations:  18%|█▊        | 18/100 [03:49<17:33, 12.85s/it]Generations:  19%|█▉        | 19/100 [04:02<17:21, 12.86s/it]Generations:  20%|██        | 20/100 [04:14<17:08, 12.86s/it]Generations:  21%|██        | 21/100 [04:27<16:53, 12.83s/it]Generations:  22%|██▏       | 22/100 [04:40<16:46, 12.91s/it]Generations:  23%|██▎       | 23/100 [04:53<16:32, 12.89s/it]Generations:  24%|██▍       | 24/100 [05:06<16:21, 12.92s/it]Generations:  25%|██▌       | 25/100 [05:19<16:10, 12.94s/it]Generations:  26%|██▌       | 26/100 [05:32<16:00, 12.98s/it]Generations:  27%|██▋       | 27/100 [05:45<15:51, 13.03s/it]Generations:  28%|██▊       | 28/100 [05:58<15:39, 13.05s/it]Generations:  29%|██▉       | 29/100 [06:11<15:17, 12.92s/it]Generations:  30%|███       | 30/100 [06:24<14:59, 12.85s/it]Generations:  31%|███       | 31/100 [06:36<14:41, 12.78s/it]Generations:  32%|███▏      | 32/100 [06:50<14:39, 12.93s/it]Generations:  33%|███▎      | 33/100 [07:02<14:23, 12.89s/it]Generations:  34%|███▍      | 34/100 [07:15<14:01, 12.75s/it]Generations:  35%|███▌      | 35/100 [07:27<13:44, 12.69s/it]Generations:  36%|███▌      | 36/100 [07:40<13:28, 12.63s/it]Generations:  37%|███▋      | 37/100 [07:53<13:19, 12.69s/it]Generations:  38%|███▊      | 38/100 [08:05<12:59, 12.57s/it]Generations:  39%|███▉      | 39/100 [08:18<12:58, 12.77s/it]Generations:  40%|████      | 40/100 [08:31<12:47, 12.79s/it]Generations:  41%|████      | 41/100 [08:44<12:36, 12.82s/it]Generations:  42%|████▏     | 42/100 [08:57<12:29, 12.92s/it]Generations:  43%|████▎     | 43/100 [09:10<12:16, 12.93s/it]Generations:  44%|████▍     | 44/100 [09:23<11:57, 12.82s/it]Generations:  45%|████▌     | 45/100 [09:36<11:48, 12.88s/it]Generations:  46%|████▌     | 46/100 [09:49<11:38, 12.93s/it]Generations:  47%|████▋     | 47/100 [10:01<11:21, 12.85s/it]Generations:  48%|████▊     | 48/100 [10:14<11:03, 12.76s/it]Generations:  49%|████▉     | 49/100 [10:27<10:52, 12.79s/it]Generations:  50%|█████     | 50/100 [10:40<10:40, 12.82s/it]Generations:  51%|█████     | 51/100 [10:52<10:27, 12.80s/it]Generations:  52%|█████▏    | 52/100 [11:05<10:10, 12.72s/it]Generations:  53%|█████▎    | 53/100 [11:18<09:57, 12.70s/it]Generations:  54%|█████▍    | 54/100 [11:30<09:44, 12.71s/it]Generations:  55%|█████▌    | 55/100 [11:44<09:37, 12.84s/it]Generations:  56%|█████▌    | 56/100 [11:57<09:28, 12.93s/it]Generations:  57%|█████▋    | 57/100 [12:10<09:16, 12.94s/it]Generations:  58%|█████▊    | 58/100 [12:22<08:56, 12.77s/it]Generations:  59%|█████▉    | 59/100 [12:35<08:41, 12.72s/it]Generations:  60%|██████    | 60/100 [12:48<08:31, 12.79s/it]Generations:  61%|██████    | 61/100 [13:00<08:15, 12.71s/it]Generations:  62%|██████▏   | 62/100 [13:13<08:03, 12.71s/it]Generations:  63%|██████▎   | 63/100 [13:25<07:47, 12.64s/it]Generations:  64%|██████▍   | 64/100 [13:38<07:35, 12.66s/it]Generations:  65%|██████▌   | 65/100 [13:50<07:19, 12.54s/it]Generations:  66%|██████▌   | 66/100 [14:03<07:06, 12.53s/it]Generations:  67%|██████▋   | 67/100 [14:16<06:59, 12.71s/it]Generations:  68%|██████▊   | 68/100 [14:29<06:47, 12.75s/it]Generations:  69%|██████▉   | 69/100 [14:41<06:32, 12.65s/it]Generations:  70%|███████   | 70/100 [14:54<06:23, 12.80s/it]Generations:  71%|███████   | 71/100 [15:07<06:11, 12.81s/it]Generations:  72%|███████▏  | 72/100 [15:20<06:00, 12.89s/it]Generations:  73%|███████▎  | 73/100 [15:33<05:45, 12.79s/it]Generations:  74%|███████▍  | 74/100 [15:45<05:32, 12.77s/it]Generations:  75%|███████▌  | 75/100 [15:59<05:21, 12.86s/it]Generations:  76%|███████▌  | 76/100 [16:12<05:09, 12.91s/it]Generations:  77%|███████▋  | 77/100 [16:25<04:58, 12.97s/it]Generations:  78%|███████▊  | 78/100 [16:38<04:45, 12.97s/it]Generations:  79%|███████▉  | 79/100 [16:50<04:31, 12.92s/it]Generations:  80%|████████  | 80/100 [17:03<04:17, 12.87s/it]Generations:  81%|████████  | 81/100 [17:16<04:05, 12.92s/it]Generations:  82%|████████▏ | 82/100 [17:29<03:51, 12.84s/it]Generations:  83%|████████▎ | 83/100 [17:42<03:39, 12.90s/it]Generations:  84%|████████▍ | 84/100 [17:55<03:26, 12.93s/it]Generations:  85%|████████▌ | 85/100 [18:07<03:12, 12.80s/it]Generations:  86%|████████▌ | 86/100 [18:20<02:59, 12.80s/it]Generations:  87%|████████▋ | 87/100 [18:33<02:48, 12.94s/it]Generations:  88%|████████▊ | 88/100 [18:46<02:34, 12.88s/it]Generations:  89%|████████▉ | 89/100 [18:59<02:21, 12.84s/it]Generations:  90%|█████████ | 90/100 [19:12<02:07, 12.75s/it]Generations:  91%|█████████ | 91/100 [19:24<01:54, 12.75s/it]Generations:  92%|█████████▏| 92/100 [19:37<01:42, 12.81s/it]Generations:  93%|█████████▎| 93/100 [19:50<01:29, 12.79s/it]Generations:  94%|█████████▍| 94/100 [20:03<01:16, 12.72s/it]Generations:  95%|█████████▌| 95/100 [20:15<01:03, 12.65s/it]Generations:  96%|█████████▌| 96/100 [20:28<00:50, 12.72s/it]Generations:  97%|█████████▋| 97/100 [20:41<00:38, 12.86s/it]Generations:  98%|█████████▊| 98/100 [20:54<00:25, 13.00s/it]Generations:  99%|█████████▉| 99/100 [21:07<00:12, 12.81s/it]Generations: 100%|██████████| 100/100 [21:20<00:00, 12.83s/it]Generations: 100%|██████████| 100/100 [21:20<00:00, 12.80s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 339.9041676482483
+Generation 3 best fitness: 399.5877071926041
+Generation 4 best fitness: 339.1721770265174
+Generation 5 best fitness: 339.7675915600619
+Generation 6 best fitness: 366.4019113184567
+Generation 7 best fitness: 457.4070015186271
+Generation 8 best fitness: 457.4070015186271
+Generation 9 best fitness: 457.4070015186271
+Generation 10 best fitness: 457.4070015186271
+Generation 11 best fitness: 457.4070015186271
+Generation 12 best fitness: 457.4070015186271
+Generation 13 best fitness: 457.4070015186271
+Generation 14 best fitness: 457.4070015186271
+Generation 15 best fitness: 457.4070015186271
+Generation 16 best fitness: 457.4070015186271
+Generation 17 best fitness: 457.4070015186271
+Generation 18 best fitness: 457.4070015186271
+Generation 19 best fitness: 457.4070015186271
+Generation 20 best fitness: 457.4070015186271
+Generation 21 best fitness: 457.4070015186271
+Generation 22 best fitness: 457.4070015186271
+Generation 23 best fitness: 457.4070015186271
+Generation 24 best fitness: 457.4070015186271
+Generation 25 best fitness: 457.4070015186271
+Generation 26 best fitness: 457.4070015186271
+Generation 27 best fitness: 457.4070015186271
+Generation 28 best fitness: 457.4070015186271
+Generation 29 best fitness: 457.4070015186271
+Generation 30 best fitness: 457.4070015186271
+Generation 31 best fitness: 457.4070015186271
+Generation 32 best fitness: 457.4070015186271
+Generation 33 best fitness: 457.4070015186271
+Generation 34 best fitness: 457.4070015186271
+Generation 35 best fitness: 457.4070015186271
+Generation 36 best fitness: 457.4070015186271
+Generation 37 best fitness: 457.4070015186271
+Generation 38 best fitness: 457.4070015186271
+Generation 39 best fitness: 457.4070015186271
+Generation 40 best fitness: 457.4070015186271
+Generation 41 best fitness: 457.4070015186271
+Generation 42 best fitness: 457.4070015186271
+Generation 43 best fitness: 457.4070015186271
+Generation 44 best fitness: 457.4070015186271
+Generation 45 best fitness: 457.4070015186271
+Generation 46 best fitness: 457.4070015186271
+Generation 47 best fitness: 457.4070015186271
+Generation 48 best fitness: 457.4070015186271
+Generation 49 best fitness: 457.4070015186271
+Generation 50 best fitness: 457.4070015186271
+Generation 51 best fitness: 457.4070015186271
+Generation 52 best fitness: 457.4070015186271
+Generation 53 best fitness: 457.4070015186271
+Generation 54 best fitness: 457.4070015186271
+Generation 55 best fitness: 457.4070015186271
+Generation 56 best fitness: 457.4070015186271
+Generation 57 best fitness: 457.4070015186271
+Generation 58 best fitness: 457.4070015186271
+Generation 59 best fitness: 457.4070015186271
+Generation 60 best fitness: 457.4070015186271
+Generation 61 best fitness: 457.4070015186271
+Generation 62 best fitness: 457.4070015186271
+Generation 63 best fitness: 457.4070015186271
+Generation 64 best fitness: 457.4070015186271
+Generation 65 best fitness: 457.4070015186271
+Generation 66 best fitness: 457.4070015186271
+Generation 67 best fitness: 457.4070015186271
+Generation 68 best fitness: 457.4070015186271
+Generation 69 best fitness: 457.4070015186271
+Generation 70 best fitness: 457.4070015186271
+Generation 71 best fitness: 457.4070015186271
+Generation 72 best fitness: 457.4070015186271
+Generation 73 best fitness: 457.4070015186271
+Generation 74 best fitness: 457.4070015186271
+Generation 75 best fitness: 457.4070015186271
+Generation 76 best fitness: 457.4070015186271
+Generation 77 best fitness: 457.4070015186271
+Generation 78 best fitness: 457.4070015186271
+Generation 79 best fitness: 457.4070015186271
+Generation 80 best fitness: 457.4070015186271
+Generation 81 best fitness: 457.4070015186271
+Generation 82 best fitness: 457.4070015186271
+Generation 83 best fitness: 457.4070015186271
+Generation 84 best fitness: 457.4070015186271
+Generation 85 best fitness: 457.4070015186271
+Generation 86 best fitness: 457.4070015186271
+Generation 87 best fitness: 457.4070015186271
+Generation 88 best fitness: 457.4070015186271
+Generation 89 best fitness: 457.4070015186271
+Generation 90 best fitness: 457.4070015186271
+Generation 91 best fitness: 457.4070015186271
+Generation 92 best fitness: 457.4070015186271
+Generation 93 best fitness: 457.4070015186271
+Generation 94 best fitness: 457.4070015186271
+Generation 95 best fitness: 457.4070015186271
+Generation 96 best fitness: 457.4070015186271
+Generation 97 best fitness: 457.4070015186271
+Generation 98 best fitness: 457.4070015186271
+Generation 99 best fitness: 457.4070015186271
+Generation 100 best fitness: 457.4070015186271
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 05:55:17,442	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<27:23, 16.60s/it]Generations:   2%|▏         | 2/100 [00:26<20:56, 12.82s/it]Generations:   3%|▎         | 3/100 [00:37<19:03, 11.79s/it]Generations:   4%|▍         | 4/100 [00:50<19:30, 12.19s/it]Generations:   5%|▌         | 5/100 [01:01<19:00, 12.01s/it]Generations:   6%|▌         | 6/100 [01:14<19:16, 12.30s/it]Generations:   7%|▋         | 7/100 [01:26<18:59, 12.26s/it]Generations:   8%|▊         | 8/100 [01:39<18:59, 12.39s/it]Generations:   9%|▉         | 9/100 [01:52<18:54, 12.47s/it]Generations:  10%|█         | 10/100 [02:04<18:48, 12.54s/it]Generations:  11%|█         | 11/100 [02:17<18:30, 12.48s/it]Generations:  12%|█▏        | 12/100 [02:29<18:17, 12.48s/it]Generations:  13%|█▎        | 13/100 [02:42<18:01, 12.43s/it]Generations:  14%|█▍        | 14/100 [02:54<17:46, 12.41s/it]Generations:  15%|█▌        | 15/100 [03:06<17:32, 12.39s/it]Generations:  16%|█▌        | 16/100 [03:19<17:32, 12.53s/it]Generations:  17%|█▋        | 17/100 [03:32<17:23, 12.57s/it]Generations:  18%|█▊        | 18/100 [03:44<16:58, 12.43s/it]Generations:  19%|█▉        | 19/100 [03:56<16:39, 12.33s/it]Generations:  20%|██        | 20/100 [04:08<16:31, 12.39s/it]Generations:  21%|██        | 21/100 [04:21<16:24, 12.46s/it]Generations:  22%|██▏       | 22/100 [04:33<16:05, 12.38s/it]Generations:  23%|██▎       | 23/100 [04:45<15:49, 12.33s/it]Generations:  24%|██▍       | 24/100 [04:58<15:46, 12.46s/it]Generations:  25%|██▌       | 25/100 [05:11<15:33, 12.45s/it]Generations:  26%|██▌       | 26/100 [05:23<15:19, 12.43s/it]Generations:  27%|██▋       | 27/100 [05:36<15:09, 12.45s/it]Generations:  28%|██▊       | 28/100 [05:48<14:53, 12.41s/it]Generations:  29%|██▉       | 29/100 [06:00<14:41, 12.42s/it]Generations:  30%|███       | 30/100 [06:13<14:36, 12.53s/it]Generations:  31%|███       | 31/100 [06:25<14:17, 12.43s/it]Generations:  32%|███▏      | 32/100 [06:38<14:02, 12.38s/it]Generations:  33%|███▎      | 33/100 [06:50<13:52, 12.43s/it]Generations:  34%|███▍      | 34/100 [07:02<13:31, 12.29s/it]Generations:  35%|███▌      | 35/100 [07:15<13:23, 12.36s/it]Generations:  36%|███▌      | 36/100 [07:27<13:12, 12.38s/it]Generations:  37%|███▋      | 37/100 [07:40<13:06, 12.48s/it]Generations:  38%|███▊      | 38/100 [07:52<12:48, 12.40s/it]Generations:  39%|███▉      | 39/100 [08:04<12:31, 12.32s/it]Generations:  40%|████      | 40/100 [08:17<12:21, 12.37s/it]Generations:  41%|████      | 41/100 [08:29<12:09, 12.36s/it]Generations:  42%|████▏     | 42/100 [08:41<12:00, 12.42s/it]Generations:  43%|████▎     | 43/100 [08:54<11:44, 12.37s/it]Generations:  44%|████▍     | 44/100 [09:06<11:27, 12.28s/it]Generations:  45%|████▌     | 45/100 [09:19<11:27, 12.50s/it]Generations:  46%|████▌     | 46/100 [09:31<11:16, 12.52s/it]Generations:  47%|████▋     | 47/100 [09:43<10:55, 12.37s/it]Generations:  48%|████▊     | 48/100 [09:56<10:43, 12.38s/it]Generations:  49%|████▉     | 49/100 [10:08<10:31, 12.39s/it]Generations:  50%|█████     | 50/100 [10:21<10:20, 12.42s/it]Generations:  51%|█████     | 51/100 [10:33<10:02, 12.30s/it]Generations:  52%|█████▏    | 52/100 [10:45<09:51, 12.31s/it]Generations:  53%|█████▎    | 53/100 [10:58<09:42, 12.39s/it]Generations:  54%|█████▍    | 54/100 [11:10<09:24, 12.28s/it]Generations:  55%|█████▌    | 55/100 [11:22<09:12, 12.28s/it]Generations:  56%|█████▌    | 56/100 [11:35<09:06, 12.43s/it]Generations:  57%|█████▋    | 57/100 [11:47<08:54, 12.43s/it]Generations:  58%|█████▊    | 58/100 [12:00<08:42, 12.45s/it]Generations:  59%|█████▉    | 59/100 [12:12<08:33, 12.52s/it]Generations:  60%|██████    | 60/100 [12:25<08:24, 12.61s/it]Generations:  61%|██████    | 61/100 [12:38<08:11, 12.61s/it]Generations:  62%|██████▏   | 62/100 [12:50<07:56, 12.53s/it]Generations:  63%|██████▎   | 63/100 [13:02<07:40, 12.44s/it]Generations:  64%|██████▍   | 64/100 [13:15<07:26, 12.39s/it]Generations:  65%|██████▌   | 65/100 [13:27<07:10, 12.30s/it]Generations:  66%|██████▌   | 66/100 [13:39<07:00, 12.37s/it]Generations:  67%|██████▋   | 67/100 [13:51<06:46, 12.31s/it]Generations:  68%|██████▊   | 68/100 [14:04<06:32, 12.28s/it]Generations:  69%|██████▉   | 69/100 [14:15<06:16, 12.14s/it]Generations:  70%|███████   | 70/100 [14:28<06:05, 12.19s/it]Generations:  71%|███████   | 71/100 [14:40<05:55, 12.26s/it]Generations:  72%|███████▏  | 72/100 [14:52<05:41, 12.21s/it]Generations:  73%|███████▎  | 73/100 [15:04<05:28, 12.15s/it]Generations:  74%|███████▍  | 74/100 [15:17<05:17, 12.22s/it]Generations:  75%|███████▌  | 75/100 [15:29<05:07, 12.30s/it]Generations:  76%|███████▌  | 76/100 [15:41<04:55, 12.30s/it]Generations:  77%|███████▋  | 77/100 [15:54<04:44, 12.37s/it]Generations:  78%|███████▊  | 78/100 [16:06<04:31, 12.33s/it]Generations:  79%|███████▉  | 79/100 [16:19<04:20, 12.41s/it]Generations:  80%|████████  | 80/100 [16:31<04:08, 12.41s/it]Generations:  81%|████████  | 81/100 [16:43<03:55, 12.37s/it]Generations:  82%|████████▏ | 82/100 [16:55<03:40, 12.24s/it]Generations:  83%|████████▎ | 83/100 [17:08<03:28, 12.27s/it]Generations:  84%|████████▍ | 84/100 [17:20<03:17, 12.32s/it]Generations:  85%|████████▌ | 85/100 [17:32<03:03, 12.26s/it]Generations:  86%|████████▌ | 86/100 [17:45<02:53, 12.36s/it]Generations:  87%|████████▋ | 87/100 [17:57<02:41, 12.42s/it]Generations:  88%|████████▊ | 88/100 [18:10<02:29, 12.48s/it]Generations:  89%|████████▉ | 89/100 [18:22<02:17, 12.46s/it]Generations:  90%|█████████ | 90/100 [18:35<02:03, 12.36s/it]Generations:  91%|█████████ | 91/100 [18:47<01:50, 12.28s/it]Generations:  92%|█████████▏| 92/100 [18:59<01:38, 12.25s/it]Generations:  93%|█████████▎| 93/100 [19:12<01:26, 12.42s/it]Generations:  94%|█████████▍| 94/100 [19:24<01:14, 12.45s/it]Generations:  95%|█████████▌| 95/100 [19:37<01:02, 12.50s/it]Generations:  96%|█████████▌| 96/100 [19:49<00:49, 12.47s/it]Generations:  97%|█████████▋| 97/100 [20:02<00:37, 12.43s/it]Generations:  98%|█████████▊| 98/100 [20:14<00:24, 12.45s/it]Generations:  99%|█████████▉| 99/100 [20:26<00:12, 12.30s/it]Generations: 100%|██████████| 100/100 [20:40<00:00, 12.83s/it]Generations: 100%|██████████| 100/100 [20:40<00:00, 12.41s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 278.19087568200905
+Generation 3 best fitness: 338.06808373921797
+Generation 4 best fitness: 366.9403571278789
+Generation 5 best fitness: 399.9416347322414
+Generation 6 best fitness: 429.9866420047206
+Generation 7 best fitness: 431.3641938799558
+Generation 8 best fitness: 491.0706379435367
+Generation 9 best fitness: 491.0706379435367
+Generation 10 best fitness: 491.0706379435367
+Generation 11 best fitness: 491.0706379435367
+Generation 12 best fitness: 491.0706379435367
+Generation 13 best fitness: 491.0706379435367
+Generation 14 best fitness: 491.0706379435367
+Generation 15 best fitness: 491.0706379435367
+Generation 16 best fitness: 491.0706379435367
+Generation 17 best fitness: 491.0706379435367
+Generation 18 best fitness: 491.0706379435367
+Generation 19 best fitness: 491.0706379435367
+Generation 20 best fitness: 491.0706379435367
+Generation 21 best fitness: 491.0706379435367
+Generation 22 best fitness: 491.0706379435367
+Generation 23 best fitness: 491.0706379435367
+Generation 24 best fitness: 491.0706379435367
+Generation 25 best fitness: 491.0706379435367
+Generation 26 best fitness: 491.0706379435367
+Generation 27 best fitness: 491.0706379435367
+Generation 28 best fitness: 491.0706379435367
+Generation 29 best fitness: 491.0706379435367
+Generation 30 best fitness: 491.0706379435367
+Generation 31 best fitness: 491.0706379435367
+Generation 32 best fitness: 491.0706379435367
+Generation 33 best fitness: 491.0706379435367
+Generation 34 best fitness: 491.0706379435367
+Generation 35 best fitness: 491.0706379435367
+Generation 36 best fitness: 491.0706379435367
+Generation 37 best fitness: 491.0706379435367
+Generation 38 best fitness: 491.0706379435367
+Generation 39 best fitness: 491.0706379435367
+Generation 40 best fitness: 491.0706379435367
+Generation 41 best fitness: 491.0706379435367
+Generation 42 best fitness: 491.0706379435367
+Generation 43 best fitness: 491.0706379435367
+Generation 44 best fitness: 491.0706379435367
+Generation 45 best fitness: 491.0706379435367
+Generation 46 best fitness: 491.0706379435367
+Generation 47 best fitness: 491.0706379435367
+Generation 48 best fitness: 491.0706379435367
+Generation 49 best fitness: 491.0706379435367
+Generation 50 best fitness: 491.0706379435367
+Generation 51 best fitness: 491.0706379435367
+Generation 52 best fitness: 491.0706379435367
+Generation 53 best fitness: 491.0706379435367
+Generation 54 best fitness: 491.0706379435367
+Generation 55 best fitness: 491.0706379435367
+Generation 56 best fitness: 491.0706379435367
+Generation 57 best fitness: 491.0706379435367
+Generation 58 best fitness: 491.0706379435367
+Generation 59 best fitness: 491.0706379435367
+Generation 60 best fitness: 491.0706379435367
+Generation 61 best fitness: 491.0706379435367
+Generation 62 best fitness: 491.0706379435367
+Generation 63 best fitness: 491.0706379435367
+Generation 64 best fitness: 491.0706379435367
+Generation 65 best fitness: 491.0706379435367
+Generation 66 best fitness: 491.0706379435367
+Generation 67 best fitness: 491.0706379435367
+Generation 68 best fitness: 491.0706379435367
+Generation 69 best fitness: 491.0706379435367
+Generation 70 best fitness: 491.0706379435367
+Generation 71 best fitness: 491.0706379435367
+Generation 72 best fitness: 491.0706379435367
+Generation 73 best fitness: 491.0706379435367
+Generation 74 best fitness: 491.0706379435367
+Generation 75 best fitness: 491.0706379435367
+Generation 76 best fitness: 491.0706379435367
+Generation 77 best fitness: 491.0706379435367
+Generation 78 best fitness: 491.0706379435367
+Generation 79 best fitness: 491.0706379435367
+Generation 80 best fitness: 491.0706379435367
+Generation 81 best fitness: 491.0706379435367
+Generation 82 best fitness: 491.0706379435367
+Generation 83 best fitness: 491.0706379435367
+Generation 84 best fitness: 491.0706379435367
+Generation 85 best fitness: 491.0706379435367
+Generation 86 best fitness: 491.0706379435367
+Generation 87 best fitness: 491.0706379435367
+Generation 88 best fitness: 491.0706379435367
+Generation 89 best fitness: 491.0706379435367
+Generation 90 best fitness: 491.0706379435367
+Generation 91 best fitness: 491.0706379435367
+Generation 92 best fitness: 491.0706379435367
+Generation 93 best fitness: 491.0706379435367
+Generation 94 best fitness: 491.0706379435367
+Generation 95 best fitness: 491.0706379435367
+Generation 96 best fitness: 491.0706379435367
+Generation 97 best fitness: 491.0706379435367
+Generation 98 best fitness: 491.0706379435367
+Generation 99 best fitness: 491.0706379435367
+Generation 100 best fitness: 491.0706379435367
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 06:15:59,776	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<27:07, 16.44s/it]Generations:   2%|▏         | 2/100 [00:26<20:42, 12.68s/it]Generations:   3%|▎         | 3/100 [00:37<18:59, 11.75s/it]Generations:   4%|▍         | 4/100 [00:50<19:35, 12.24s/it]Generations:   5%|▌         | 5/100 [01:02<19:19, 12.21s/it]Generations:   6%|▌         | 6/100 [01:14<19:08, 12.22s/it]Generations:   7%|▋         | 7/100 [01:27<19:18, 12.45s/it]Generations:   8%|▊         | 8/100 [01:40<19:13, 12.54s/it]Generations:   9%|▉         | 9/100 [01:53<19:10, 12.64s/it]Generations:  10%|█         | 10/100 [02:05<19:04, 12.71s/it]Generations:  11%|█         | 11/100 [02:18<18:48, 12.68s/it]Generations:  12%|█▏        | 12/100 [02:31<18:47, 12.81s/it]Generations:  13%|█▎        | 13/100 [02:44<18:42, 12.90s/it]Generations:  14%|█▍        | 14/100 [02:57<18:24, 12.84s/it]Generations:  15%|█▌        | 15/100 [03:10<18:11, 12.84s/it]Generations:  16%|█▌        | 16/100 [03:23<18:09, 12.97s/it]Generations:  17%|█▋        | 17/100 [03:36<17:48, 12.87s/it]Generations:  18%|█▊        | 18/100 [03:48<17:23, 12.73s/it]Generations:  19%|█▉        | 19/100 [04:01<17:11, 12.73s/it]Generations:  20%|██        | 20/100 [04:14<17:08, 12.86s/it]Generations:  21%|██        | 21/100 [04:27<16:59, 12.91s/it]Generations:  22%|██▏       | 22/100 [04:40<16:49, 12.94s/it]Generations:  23%|██▎       | 23/100 [04:52<16:23, 12.77s/it]Generations:  24%|██▍       | 24/100 [05:05<16:15, 12.84s/it]Generations:  25%|██▌       | 25/100 [05:18<15:57, 12.76s/it]Generations:  26%|██▌       | 26/100 [05:31<15:45, 12.78s/it]Generations:  27%|██▋       | 27/100 [05:43<15:21, 12.62s/it]Generations:  28%|██▊       | 28/100 [05:56<15:15, 12.72s/it]Generations:  29%|██▉       | 29/100 [06:09<15:02, 12.72s/it]Generations:  30%|███       | 30/100 [06:22<14:55, 12.79s/it]Generations:  31%|███       | 31/100 [06:34<14:42, 12.78s/it]Generations:  32%|███▏      | 32/100 [06:47<14:29, 12.78s/it]Generations:  33%|███▎      | 33/100 [07:00<14:23, 12.88s/it]Generations:  34%|███▍      | 34/100 [07:13<14:13, 12.93s/it]Generations:  35%|███▌      | 35/100 [07:26<14:00, 12.93s/it]Generations:  36%|███▌      | 36/100 [07:39<13:40, 12.81s/it]Generations:  37%|███▋      | 37/100 [07:51<13:22, 12.74s/it]Generations:  38%|███▊      | 38/100 [08:04<13:10, 12.75s/it]Generations:  39%|███▉      | 39/100 [08:17<12:58, 12.76s/it]Generations:  40%|████      | 40/100 [08:30<12:44, 12.74s/it]Generations:  41%|████      | 41/100 [08:43<12:34, 12.79s/it]Generations:  42%|████▏     | 42/100 [08:55<12:21, 12.79s/it]Generations:  43%|████▎     | 43/100 [09:08<12:08, 12.77s/it]Generations:  44%|████▍     | 44/100 [09:21<11:56, 12.79s/it]Generations:  45%|████▌     | 45/100 [09:34<11:45, 12.83s/it]Generations:  46%|████▌     | 46/100 [09:47<11:33, 12.85s/it]Generations:  47%|████▋     | 47/100 [10:00<11:21, 12.86s/it]Generations:  48%|████▊     | 48/100 [10:12<11:05, 12.80s/it]Generations:  49%|████▉     | 49/100 [10:25<10:54, 12.84s/it]Generations:  50%|█████     | 50/100 [10:38<10:42, 12.84s/it]Generations:  51%|█████     | 51/100 [10:51<10:29, 12.85s/it]Generations:  52%|█████▏    | 52/100 [11:04<10:19, 12.92s/it]Generations:  53%|█████▎    | 53/100 [11:17<10:03, 12.84s/it]Generations:  54%|█████▍    | 54/100 [11:30<09:51, 12.87s/it]Generations:  55%|█████▌    | 55/100 [11:42<09:36, 12.81s/it]Generations:  56%|█████▌    | 56/100 [11:55<09:28, 12.91s/it]Generations:  57%|█████▋    | 57/100 [12:08<09:12, 12.85s/it]Generations:  58%|█████▊    | 58/100 [12:21<09:04, 12.96s/it]Generations:  59%|█████▉    | 59/100 [12:35<08:54, 13.04s/it]Generations:  60%|██████    | 60/100 [12:47<08:40, 13.01s/it]Generations:  61%|██████    | 61/100 [13:00<08:26, 12.98s/it]Generations:  62%|██████▏   | 62/100 [13:13<08:11, 12.93s/it]Generations:  63%|██████▎   | 63/100 [13:26<07:53, 12.79s/it]Generations:  64%|██████▍   | 64/100 [13:39<07:40, 12.80s/it]Generations:  65%|██████▌   | 65/100 [13:52<07:30, 12.87s/it]Generations:  66%|██████▌   | 66/100 [14:04<07:16, 12.84s/it]Generations:  67%|██████▋   | 67/100 [14:17<07:02, 12.80s/it]Generations:  68%|██████▊   | 68/100 [14:30<06:51, 12.86s/it]Generations:  69%|██████▉   | 69/100 [14:43<06:37, 12.82s/it]Generations:  70%|███████   | 70/100 [14:55<06:22, 12.75s/it]Generations:  71%|███████   | 71/100 [15:08<06:07, 12.68s/it]Generations:  72%|███████▏  | 72/100 [15:21<05:56, 12.73s/it]Generations:  73%|███████▎  | 73/100 [15:34<05:46, 12.85s/it]Generations:  74%|███████▍  | 74/100 [15:46<05:32, 12.79s/it]Generations:  75%|███████▌  | 75/100 [16:00<05:23, 12.96s/it]Generations:  76%|███████▌  | 76/100 [16:13<05:11, 12.97s/it]Generations:  77%|███████▋  | 77/100 [16:26<04:59, 13.03s/it]Generations:  78%|███████▊  | 78/100 [16:39<04:46, 13.03s/it]Generations:  79%|███████▉  | 79/100 [16:52<04:34, 13.06s/it]Generations:  80%|████████  | 80/100 [17:05<04:16, 12.84s/it]Generations:  81%|████████  | 81/100 [17:18<04:05, 12.90s/it]Generations:  82%|████████▏ | 82/100 [17:30<03:51, 12.88s/it]Generations:  83%|████████▎ | 83/100 [17:43<03:39, 12.91s/it]Generations:  84%|████████▍ | 84/100 [17:56<03:25, 12.84s/it]Generations:  85%|████████▌ | 85/100 [18:08<03:10, 12.68s/it]Generations:  86%|████████▌ | 86/100 [18:21<02:58, 12.77s/it]Generations:  87%|████████▋ | 87/100 [18:34<02:45, 12.72s/it]Generations:  88%|████████▊ | 88/100 [18:47<02:34, 12.86s/it]Generations:  89%|████████▉ | 89/100 [19:00<02:20, 12.82s/it]Generations:  90%|█████████ | 90/100 [19:12<02:07, 12.74s/it]Generations:  91%|█████████ | 91/100 [19:25<01:53, 12.62s/it]Generations:  92%|█████████▏| 92/100 [19:37<01:41, 12.64s/it]Generations:  93%|█████████▎| 93/100 [19:50<01:28, 12.69s/it]Generations:  94%|█████████▍| 94/100 [20:03<01:15, 12.57s/it]Generations:  95%|█████████▌| 95/100 [20:15<01:03, 12.67s/it]Generations:  96%|█████████▌| 96/100 [20:28<00:50, 12.73s/it]Generations:  97%|█████████▋| 97/100 [20:41<00:38, 12.74s/it]Generations:  98%|█████████▊| 98/100 [20:54<00:25, 12.80s/it]Generations:  99%|█████████▉| 99/100 [21:07<00:12, 12.78s/it]Generations: 100%|██████████| 100/100 [21:20<00:00, 12.81s/it]Generations: 100%|██████████| 100/100 [21:20<00:00, 12.80s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 340.26680809603783
+Generation 3 best fitness: 519.557343172102
+Generation 4 best fitness: 519.557343172102
+Generation 5 best fitness: 338.36610860255684
+Generation 6 best fitness: 338.6684473078993
+Generation 7 best fitness: 368.30975974407994
+Generation 8 best fitness: 368.30975974407994
+Generation 9 best fitness: 397.4248658829757
+Generation 10 best fitness: 397.4248658829757
+Generation 11 best fitness: 397.4248658829757
+Generation 12 best fitness: 397.4248658829757
+Generation 13 best fitness: 397.4248658829757
+Generation 14 best fitness: 397.4248658829757
+Generation 15 best fitness: 397.4248658829757
+Generation 16 best fitness: 397.4248658829757
+Generation 17 best fitness: 397.4248658829757
+Generation 18 best fitness: 397.4248658829757
+Generation 19 best fitness: 397.4248658829757
+Generation 20 best fitness: 397.4248658829757
+Generation 21 best fitness: 397.4248658829757
+Generation 22 best fitness: 397.4248658829757
+Generation 23 best fitness: 397.4248658829757
+Generation 24 best fitness: 397.4248658829757
+Generation 25 best fitness: 397.4248658829757
+Generation 26 best fitness: 397.4248658829757
+Generation 27 best fitness: 397.4248658829757
+Generation 28 best fitness: 397.4248658829757
+Generation 29 best fitness: 397.4248658829757
+Generation 30 best fitness: 397.4248658829757
+Generation 31 best fitness: 397.4248658829757
+Generation 32 best fitness: 397.4248658829757
+Generation 33 best fitness: 397.4248658829757
+Generation 34 best fitness: 397.4248658829757
+Generation 35 best fitness: 397.4248658829757
+Generation 36 best fitness: 397.4248658829757
+Generation 37 best fitness: 397.4248658829757
+Generation 38 best fitness: 397.4248658829757
+Generation 39 best fitness: 397.4248658829757
+Generation 40 best fitness: 397.4248658829757
+Generation 41 best fitness: 397.4248658829757
+Generation 42 best fitness: 397.4248658829757
+Generation 43 best fitness: 397.4248658829757
+Generation 44 best fitness: 397.4248658829757
+Generation 45 best fitness: 397.4248658829757
+Generation 46 best fitness: 397.4248658829757
+Generation 47 best fitness: 397.4248658829757
+Generation 48 best fitness: 397.4248658829757
+Generation 49 best fitness: 397.4248658829757
+Generation 50 best fitness: 397.4248658829757
+Generation 51 best fitness: 397.4248658829757
+Generation 52 best fitness: 397.4248658829757
+Generation 53 best fitness: 397.4248658829757
+Generation 54 best fitness: 397.4248658829757
+Generation 55 best fitness: 397.4248658829757
+Generation 56 best fitness: 397.4248658829757
+Generation 57 best fitness: 397.4248658829757
+Generation 58 best fitness: 397.4248658829757
+Generation 59 best fitness: 397.4248658829757
+Generation 60 best fitness: 397.4248658829757
+Generation 61 best fitness: 397.4248658829757
+Generation 62 best fitness: 397.4248658829757
+Generation 63 best fitness: 397.4248658829757
+Generation 64 best fitness: 397.4248658829757
+Generation 65 best fitness: 397.4248658829757
+Generation 66 best fitness: 397.4248658829757
+Generation 67 best fitness: 397.4248658829757
+Generation 68 best fitness: 397.4248658829757
+Generation 69 best fitness: 397.4248658829757
+Generation 70 best fitness: 397.4248658829757
+Generation 71 best fitness: 397.4248658829757
+Generation 72 best fitness: 397.4248658829757
+Generation 73 best fitness: 397.4248658829757
+Generation 74 best fitness: 397.4248658829757
+Generation 75 best fitness: 397.4248658829757
+Generation 76 best fitness: 397.4248658829757
+Generation 77 best fitness: 397.4248658829757
+Generation 78 best fitness: 397.4248658829757
+Generation 79 best fitness: 397.4248658829757
+Generation 80 best fitness: 397.4248658829757
+Generation 81 best fitness: 397.4248658829757
+Generation 82 best fitness: 397.4248658829757
+Generation 83 best fitness: 397.4248658829757
+Generation 84 best fitness: 397.4248658829757
+Generation 85 best fitness: 397.4248658829757
+Generation 86 best fitness: 397.4248658829757
+Generation 87 best fitness: 397.4248658829757
+Generation 88 best fitness: 397.4248658829757
+Generation 89 best fitness: 397.4248658829757
+Generation 90 best fitness: 397.4248658829757
+Generation 91 best fitness: 397.4248658829757
+Generation 92 best fitness: 397.4248658829757
+Generation 93 best fitness: 397.4248658829757
+Generation 94 best fitness: 397.4248658829757
+Generation 95 best fitness: 397.4248658829757
+Generation 96 best fitness: 397.4248658829757
+Generation 97 best fitness: 397.4248658829757
+Generation 98 best fitness: 397.4248658829757
+Generation 99 best fitness: 397.4248658829757
+Generation 100 best fitness: 397.4248658829757
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 06:37:21,577	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<27:24, 16.61s/it]Generations:   2%|▏         | 2/100 [00:26<20:38, 12.64s/it]Generations:   3%|▎         | 3/100 [00:36<18:46, 11.61s/it]Generations:   4%|▍         | 4/100 [00:49<18:57, 11.85s/it]Generations:   5%|▌         | 5/100 [01:01<18:50, 11.90s/it]Generations:   6%|▌         | 6/100 [01:13<18:55, 12.08s/it]Generations:   7%|▋         | 7/100 [01:26<19:03, 12.30s/it]Generations:   8%|▊         | 8/100 [01:38<18:42, 12.20s/it]Generations:   9%|▉         | 9/100 [01:50<18:33, 12.23s/it]Generations:  10%|█         | 10/100 [02:03<18:34, 12.39s/it]Generations:  11%|█         | 11/100 [02:15<18:21, 12.37s/it]Generations:  12%|█▏        | 12/100 [02:28<18:11, 12.41s/it]Generations:  13%|█▎        | 13/100 [02:40<18:01, 12.43s/it]Generations:  14%|█▍        | 14/100 [02:53<17:52, 12.47s/it]Generations:  15%|█▌        | 15/100 [03:05<17:38, 12.46s/it]Generations:  16%|█▌        | 16/100 [03:18<17:40, 12.62s/it]Generations:  17%|█▋        | 17/100 [03:31<17:33, 12.70s/it]Generations:  18%|█▊        | 18/100 [03:44<17:17, 12.66s/it]Generations:  19%|█▉        | 19/100 [03:56<17:07, 12.68s/it]Generations:  20%|██        | 20/100 [04:09<16:53, 12.67s/it]Generations:  21%|██        | 21/100 [04:22<16:50, 12.80s/it]Generations:  22%|██▏       | 22/100 [04:34<16:27, 12.66s/it]Generations:  23%|██▎       | 23/100 [04:47<16:15, 12.67s/it]Generations:  24%|██▍       | 24/100 [05:00<16:03, 12.67s/it]Generations:  25%|██▌       | 25/100 [05:12<15:42, 12.57s/it]Generations:  26%|██▌       | 26/100 [05:25<15:28, 12.54s/it]Generations:  27%|██▋       | 27/100 [05:37<15:12, 12.51s/it]Generations:  28%|██▊       | 28/100 [05:50<15:08, 12.61s/it]Generations:  29%|██▉       | 29/100 [06:02<14:55, 12.61s/it]Generations:  30%|███       | 30/100 [06:15<14:38, 12.55s/it]Generations:  31%|███       | 31/100 [06:27<14:19, 12.45s/it]Generations:  32%|███▏      | 32/100 [06:40<14:10, 12.51s/it]Generations:  33%|███▎      | 33/100 [06:52<13:57, 12.51s/it]Generations:  34%|███▍      | 34/100 [07:06<14:03, 12.78s/it]Generations:  35%|███▌      | 35/100 [07:18<13:47, 12.73s/it]Generations:  36%|███▌      | 36/100 [07:31<13:30, 12.66s/it]Generations:  37%|███▋      | 37/100 [07:43<13:10, 12.54s/it]Generations:  38%|███▊      | 38/100 [07:55<12:47, 12.39s/it]Generations:  39%|███▉      | 39/100 [08:08<12:39, 12.44s/it]Generations:  40%|████      | 40/100 [08:20<12:23, 12.39s/it]Generations:  41%|████      | 41/100 [08:33<12:18, 12.52s/it]Generations:  42%|████▏     | 42/100 [08:45<12:09, 12.57s/it]Generations:  43%|████▎     | 43/100 [08:58<11:52, 12.51s/it]Generations:  44%|████▍     | 44/100 [09:10<11:38, 12.48s/it]Generations:  45%|████▌     | 45/100 [09:23<11:27, 12.50s/it]Generations:  46%|████▌     | 46/100 [09:35<11:18, 12.57s/it]Generations:  47%|████▋     | 47/100 [09:48<11:06, 12.57s/it]Generations:  48%|████▊     | 48/100 [10:01<10:53, 12.58s/it]Generations:  49%|████▉     | 49/100 [10:13<10:45, 12.66s/it]Generations:  50%|█████     | 50/100 [10:26<10:32, 12.64s/it]Generations:  51%|█████     | 51/100 [10:39<10:17, 12.61s/it]Generations:  52%|█████▏    | 52/100 [10:51<10:03, 12.57s/it]Generations:  53%|█████▎    | 53/100 [11:03<09:45, 12.45s/it]Generations:  54%|█████▍    | 54/100 [11:16<09:34, 12.50s/it]Generations:  55%|█████▌    | 55/100 [11:28<09:23, 12.52s/it]Generations:  56%|█████▌    | 56/100 [11:41<09:12, 12.56s/it]Generations:  57%|█████▋    | 57/100 [11:54<09:04, 12.66s/it]Generations:  58%|█████▊    | 58/100 [12:06<08:50, 12.62s/it]Generations:  59%|█████▉    | 59/100 [12:19<08:34, 12.56s/it]Generations:  60%|██████    | 60/100 [12:32<08:23, 12.59s/it]Generations:  61%|██████    | 61/100 [12:44<08:13, 12.66s/it]Generations:  62%|██████▏   | 62/100 [12:57<08:05, 12.79s/it]Generations:  63%|██████▎   | 63/100 [13:11<07:57, 12.90s/it]Generations:  64%|██████▍   | 64/100 [13:23<07:40, 12.80s/it]Generations:  65%|██████▌   | 65/100 [13:35<07:22, 12.65s/it]Generations:  66%|██████▌   | 66/100 [13:48<07:09, 12.64s/it]Generations:  67%|██████▋   | 67/100 [14:01<06:55, 12.60s/it]Generations:  68%|██████▊   | 68/100 [14:13<06:41, 12.56s/it]Generations:  69%|██████▉   | 69/100 [14:26<06:29, 12.55s/it]Generations:  70%|███████   | 70/100 [14:38<06:13, 12.47s/it]Generations:  71%|███████   | 71/100 [14:50<06:01, 12.47s/it]Generations:  72%|███████▏  | 72/100 [15:03<05:50, 12.53s/it]Generations:  73%|███████▎  | 73/100 [15:16<05:38, 12.54s/it]Generations:  74%|███████▍  | 74/100 [15:28<05:27, 12.59s/it]Generations:  75%|███████▌  | 75/100 [15:41<05:15, 12.61s/it]Generations:  76%|███████▌  | 76/100 [15:54<05:03, 12.63s/it]Generations:  77%|███████▋  | 77/100 [16:06<04:50, 12.61s/it]Generations:  78%|███████▊  | 78/100 [16:19<04:40, 12.75s/it]Generations:  79%|███████▉  | 79/100 [16:33<04:31, 12.93s/it]Generations:  80%|████████  | 80/100 [16:45<04:16, 12.83s/it]Generations:  81%|████████  | 81/100 [16:58<04:01, 12.73s/it]Generations:  82%|████████▏ | 82/100 [17:10<03:45, 12.55s/it]Generations:  83%|████████▎ | 83/100 [17:22<03:32, 12.50s/it]Generations:  84%|████████▍ | 84/100 [17:35<03:21, 12.61s/it]Generations:  85%|████████▌ | 85/100 [17:47<03:07, 12.51s/it]Generations:  86%|████████▌ | 86/100 [18:00<02:55, 12.52s/it]Generations:  87%|████████▋ | 87/100 [18:13<02:43, 12.56s/it]Generations:  88%|████████▊ | 88/100 [18:25<02:30, 12.52s/it]Generations:  89%|████████▉ | 89/100 [18:37<02:17, 12.52s/it]Generations:  90%|█████████ | 90/100 [18:50<02:06, 12.62s/it]Generations:  91%|█████████ | 91/100 [19:03<01:53, 12.66s/it]Generations:  92%|█████████▏| 92/100 [19:15<01:40, 12.55s/it]Generations:  93%|█████████▎| 93/100 [19:28<01:28, 12.58s/it]Generations:  94%|█████████▍| 94/100 [19:41<01:15, 12.58s/it]Generations:  95%|█████████▌| 95/100 [19:53<01:02, 12.52s/it]Generations:  96%|█████████▌| 96/100 [20:06<00:50, 12.56s/it]Generations:  97%|█████████▋| 97/100 [20:18<00:37, 12.61s/it]Generations:  98%|█████████▊| 98/100 [20:31<00:25, 12.56s/it]Generations:  99%|█████████▉| 99/100 [20:44<00:12, 12.61s/it]Generations: 100%|██████████| 100/100 [20:56<00:00, 12.70s/it]Generations: 100%|██████████| 100/100 [20:56<00:00, 12.57s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 366.2240773622521
+Generation 3 best fitness: 337.38604404749697
+Generation 4 best fitness: 338.9338832263786
+Generation 5 best fitness: 428.88699957467554
+Generation 6 best fitness: 428.88699957467554
+Generation 7 best fitness: 428.88699957467554
+Generation 8 best fitness: 428.88699957467554
+Generation 9 best fitness: 428.88699957467554
+Generation 10 best fitness: 428.88699957467554
+Generation 11 best fitness: 428.88699957467554
+Generation 12 best fitness: 428.88699957467554
+Generation 13 best fitness: 428.88699957467554
+Generation 14 best fitness: 428.88699957467554
+Generation 15 best fitness: 428.88699957467554
+Generation 16 best fitness: 428.88699957467554
+Generation 17 best fitness: 428.88699957467554
+Generation 18 best fitness: 428.88699957467554
+Generation 19 best fitness: 428.88699957467554
+Generation 20 best fitness: 428.88699957467554
+Generation 21 best fitness: 428.88699957467554
+Generation 22 best fitness: 428.88699957467554
+Generation 23 best fitness: 428.88699957467554
+Generation 24 best fitness: 428.88699957467554
+Generation 25 best fitness: 428.88699957467554
+Generation 26 best fitness: 428.88699957467554
+Generation 27 best fitness: 428.88699957467554
+Generation 28 best fitness: 428.88699957467554
+Generation 29 best fitness: 428.88699957467554
+Generation 30 best fitness: 428.88699957467554
+Generation 31 best fitness: 428.88699957467554
+Generation 32 best fitness: 428.88699957467554
+Generation 33 best fitness: 428.88699957467554
+Generation 34 best fitness: 428.88699957467554
+Generation 35 best fitness: 428.88699957467554
+Generation 36 best fitness: 428.88699957467554
+Generation 37 best fitness: 428.88699957467554
+Generation 38 best fitness: 428.88699957467554
+Generation 39 best fitness: 428.88699957467554
+Generation 40 best fitness: 428.88699957467554
+Generation 41 best fitness: 428.88699957467554
+Generation 42 best fitness: 428.88699957467554
+Generation 43 best fitness: 428.88699957467554
+Generation 44 best fitness: 428.88699957467554
+Generation 45 best fitness: 428.88699957467554
+Generation 46 best fitness: 428.88699957467554
+Generation 47 best fitness: 428.88699957467554
+Generation 48 best fitness: 428.88699957467554
+Generation 49 best fitness: 428.88699957467554
+Generation 50 best fitness: 428.88699957467554
+Generation 51 best fitness: 428.88699957467554
+Generation 52 best fitness: 428.88699957467554
+Generation 53 best fitness: 428.88699957467554
+Generation 54 best fitness: 428.88699957467554
+Generation 55 best fitness: 428.88699957467554
+Generation 56 best fitness: 428.88699957467554
+Generation 57 best fitness: 428.88699957467554
+Generation 58 best fitness: 428.88699957467554
+Generation 59 best fitness: 428.88699957467554
+Generation 60 best fitness: 428.88699957467554
+Generation 61 best fitness: 428.88699957467554
+Generation 62 best fitness: 428.88699957467554
+Generation 63 best fitness: 428.88699957467554
+Generation 64 best fitness: 428.88699957467554
+Generation 65 best fitness: 428.88699957467554
+Generation 66 best fitness: 428.88699957467554
+Generation 67 best fitness: 428.88699957467554
+Generation 68 best fitness: 428.88699957467554
+Generation 69 best fitness: 428.88699957467554
+Generation 70 best fitness: 428.88699957467554
+Generation 71 best fitness: 428.88699957467554
+Generation 72 best fitness: 428.88699957467554
+Generation 73 best fitness: 428.88699957467554
+Generation 74 best fitness: 428.88699957467554
+Generation 75 best fitness: 428.88699957467554
+Generation 76 best fitness: 428.88699957467554
+Generation 77 best fitness: 428.88699957467554
+Generation 78 best fitness: 428.88699957467554
+Generation 79 best fitness: 428.88699957467554
+Generation 80 best fitness: 428.88699957467554
+Generation 81 best fitness: 428.88699957467554
+Generation 82 best fitness: 428.88699957467554
+Generation 83 best fitness: 428.88699957467554
+Generation 84 best fitness: 428.88699957467554
+Generation 85 best fitness: 428.88699957467554
+Generation 86 best fitness: 428.88699957467554
+Generation 87 best fitness: 428.88699957467554
+Generation 88 best fitness: 428.88699957467554
+Generation 89 best fitness: 428.88699957467554
+Generation 90 best fitness: 428.88699957467554
+Generation 91 best fitness: 428.88699957467554
+Generation 92 best fitness: 428.88699957467554
+Generation 93 best fitness: 428.88699957467554
+Generation 94 best fitness: 428.88699957467554
+Generation 95 best fitness: 428.88699957467554
+Generation 96 best fitness: 428.88699957467554
+Generation 97 best fitness: 428.88699957467554
+Generation 98 best fitness: 428.88699957467554
+Generation 99 best fitness: 428.88699957467554
+Generation 100 best fitness: 428.88699957467554
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 06:58:20,126	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<27:35, 16.72s/it]Generations:   2%|▏         | 2/100 [00:27<21:12, 12.98s/it]Generations:   3%|▎         | 3/100 [00:37<19:08, 11.84s/it]Generations:   4%|▍         | 4/100 [00:50<19:27, 12.16s/it]Generations:   5%|▌         | 5/100 [01:02<19:20, 12.21s/it]Generations:   6%|▌         | 6/100 [01:15<19:37, 12.53s/it]Generations:   7%|▋         | 7/100 [01:28<19:26, 12.54s/it]Generations:   8%|▊         | 8/100 [01:41<19:26, 12.68s/it]Generations:   9%|▉         | 9/100 [01:54<19:28, 12.84s/it]Generations:  10%|█         | 10/100 [02:07<19:21, 12.90s/it]Generations:  11%|█         | 11/100 [02:20<19:12, 12.95s/it]Generations:  12%|█▏        | 12/100 [02:33<19:04, 13.01s/it]Generations:  13%|█▎        | 13/100 [02:46<18:55, 13.06s/it]Generations:  14%|█▍        | 14/100 [02:59<18:42, 13.05s/it]Generations:  15%|█▌        | 15/100 [03:12<18:25, 13.00s/it]Generations:  16%|█▌        | 16/100 [03:26<18:27, 13.18s/it]Generations:  17%|█▋        | 17/100 [03:39<18:05, 13.07s/it]Generations:  18%|█▊        | 18/100 [03:52<17:54, 13.10s/it]Generations:  19%|█▉        | 19/100 [04:05<17:40, 13.09s/it]Generations:  20%|██        | 20/100 [04:18<17:20, 13.01s/it]Generations:  21%|██        | 21/100 [04:31<17:13, 13.08s/it]Generations:  22%|██▏       | 22/100 [04:44<16:58, 13.05s/it]Generations:  23%|██▎       | 23/100 [04:57<16:51, 13.14s/it]Generations:  24%|██▍       | 24/100 [05:10<16:39, 13.16s/it]Generations:  25%|██▌       | 25/100 [05:24<16:24, 13.13s/it]Generations:  26%|██▌       | 26/100 [05:36<16:03, 13.02s/it]Generations:  27%|██▋       | 27/100 [05:50<15:54, 13.08s/it]Generations:  28%|██▊       | 28/100 [06:03<15:44, 13.11s/it]Generations:  29%|██▉       | 29/100 [06:16<15:30, 13.10s/it]Generations:  30%|███       | 30/100 [06:29<15:14, 13.07s/it]Generations:  31%|███       | 31/100 [06:42<15:02, 13.09s/it]Generations:  32%|███▏      | 32/100 [06:55<14:57, 13.20s/it]Generations:  33%|███▎      | 33/100 [07:09<14:45, 13.21s/it]Generations:  34%|███▍      | 34/100 [07:22<14:34, 13.25s/it]Generations:  35%|███▌      | 35/100 [07:35<14:14, 13.15s/it]Generations:  36%|███▌      | 36/100 [07:48<13:59, 13.11s/it]Generations:  37%|███▋      | 37/100 [08:01<13:41, 13.04s/it]Generations:  38%|███▊      | 38/100 [08:14<13:25, 12.99s/it]Generations:  39%|███▉      | 39/100 [08:27<13:14, 13.03s/it]Generations:  40%|████      | 40/100 [08:40<13:04, 13.08s/it]Generations:  41%|████      | 41/100 [08:53<12:55, 13.15s/it]Generations:  42%|████▏     | 42/100 [09:06<12:42, 13.14s/it]Generations:  43%|████▎     | 43/100 [09:20<12:31, 13.18s/it]Generations:  44%|████▍     | 44/100 [09:33<12:18, 13.18s/it]Generations:  45%|████▌     | 45/100 [09:46<12:09, 13.26s/it]Generations:  46%|████▌     | 46/100 [09:59<11:53, 13.22s/it]Generations:  47%|████▋     | 47/100 [10:12<11:33, 13.09s/it]Generations:  48%|████▊     | 48/100 [10:26<11:25, 13.18s/it]Generations:  49%|████▉     | 49/100 [10:39<11:12, 13.20s/it]Generations:  50%|█████     | 50/100 [10:52<11:00, 13.20s/it]Generations:  51%|█████     | 51/100 [11:05<10:46, 13.20s/it]Generations:  52%|█████▏    | 52/100 [11:18<10:27, 13.07s/it]Generations:  53%|█████▎    | 53/100 [11:32<10:20, 13.20s/it]Generations:  54%|█████▍    | 54/100 [11:44<10:04, 13.13s/it]Generations:  55%|█████▌    | 55/100 [11:58<09:54, 13.21s/it]Generations:  56%|█████▌    | 56/100 [12:11<09:39, 13.17s/it]Generations:  57%|█████▋    | 57/100 [12:24<09:24, 13.12s/it]Generations:  58%|█████▊    | 58/100 [12:37<09:13, 13.19s/it]Generations:  59%|█████▉    | 59/100 [12:51<09:02, 13.23s/it]Generations:  60%|██████    | 60/100 [13:04<08:52, 13.32s/it]Generations:  61%|██████    | 61/100 [13:17<08:36, 13.25s/it]Generations:  62%|██████▏   | 62/100 [13:30<08:19, 13.15s/it]Generations:  63%|██████▎   | 63/100 [13:43<08:08, 13.20s/it]Generations:  64%|██████▍   | 64/100 [13:57<07:56, 13.23s/it]Generations:  65%|██████▌   | 65/100 [14:10<07:39, 13.13s/it]Generations:  66%|██████▌   | 66/100 [14:23<07:28, 13.19s/it]Generations:  67%|██████▋   | 67/100 [14:37<07:18, 13.28s/it]Generations:  68%|██████▊   | 68/100 [14:50<07:02, 13.21s/it]Generations:  69%|██████▉   | 69/100 [15:03<06:48, 13.18s/it]Generations:  70%|███████   | 70/100 [15:16<06:32, 13.10s/it]Generations:  71%|███████   | 71/100 [15:29<06:19, 13.09s/it]Generations:  72%|███████▏  | 72/100 [15:42<06:07, 13.11s/it]Generations:  73%|███████▎  | 73/100 [15:55<05:52, 13.06s/it]Generations:  74%|███████▍  | 74/100 [16:08<05:41, 13.12s/it]Generations:  75%|███████▌  | 75/100 [16:21<05:29, 13.19s/it]Generations:  76%|███████▌  | 76/100 [16:35<05:16, 13.17s/it]Generations:  77%|███████▋  | 77/100 [16:48<05:04, 13.26s/it]Generations:  78%|███████▊  | 78/100 [17:01<04:49, 13.18s/it]Generations:  79%|███████▉  | 79/100 [17:14<04:37, 13.22s/it]Generations:  80%|████████  | 80/100 [17:27<04:24, 13.21s/it]Generations:  81%|████████  | 81/100 [17:40<04:08, 13.06s/it]Generations:  82%|████████▏ | 82/100 [17:54<03:57, 13.17s/it]Generations:  83%|████████▎ | 83/100 [18:07<03:44, 13.19s/it]Generations:  84%|████████▍ | 84/100 [18:20<03:29, 13.11s/it]Generations:  85%|████████▌ | 85/100 [18:33<03:16, 13.08s/it]Generations:  86%|████████▌ | 86/100 [18:46<03:03, 13.07s/it]Generations:  87%|████████▋ | 87/100 [18:59<02:50, 13.11s/it]Generations:  88%|████████▊ | 88/100 [19:12<02:37, 13.09s/it]Generations:  89%|████████▉ | 89/100 [19:25<02:23, 13.08s/it]Generations:  90%|█████████ | 90/100 [19:38<02:10, 13.06s/it]Generations:  91%|█████████ | 91/100 [19:51<01:58, 13.12s/it]Generations:  92%|█████████▏| 92/100 [20:04<01:44, 13.10s/it]Generations:  93%|█████████▎| 93/100 [20:18<01:32, 13.21s/it]Generations:  94%|█████████▍| 94/100 [20:31<01:18, 13.15s/it]Generations:  95%|█████████▌| 95/100 [20:44<01:05, 13.12s/it]Generations:  96%|█████████▌| 96/100 [20:57<00:52, 13.12s/it]Generations:  97%|█████████▋| 97/100 [21:10<00:39, 13.20s/it]Generations:  98%|█████████▊| 98/100 [21:24<00:26, 13.19s/it]Generations:  99%|█████████▉| 99/100 [21:37<00:13, 13.26s/it]Generations: 100%|██████████| 100/100 [21:50<00:00, 13.26s/it]Generations: 100%|██████████| 100/100 [21:50<00:00, 13.11s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 338.84033221929553
+Generation 3 best fitness: 310.1778927958383
+Generation 4 best fitness: 368.0769160410152
+Generation 5 best fitness: 370.5609120407642
+Generation 6 best fitness: 399.99123237898453
+Generation 7 best fitness: 399.99123237898453
+Generation 8 best fitness: 399.99123237898453
+Generation 9 best fitness: 399.99123237898453
+Generation 10 best fitness: 399.99123237898453
+Generation 11 best fitness: 399.99123237898453
+Generation 12 best fitness: 399.99123237898453
+Generation 13 best fitness: 399.99123237898453
+Generation 14 best fitness: 399.99123237898453
+Generation 15 best fitness: 399.99123237898453
+Generation 16 best fitness: 399.99123237898453
+Generation 17 best fitness: 399.99123237898453
+Generation 18 best fitness: 399.99123237898453
+Generation 19 best fitness: 399.99123237898453
+Generation 20 best fitness: 399.99123237898453
+Generation 21 best fitness: 399.99123237898453
+Generation 22 best fitness: 399.99123237898453
+Generation 23 best fitness: 399.99123237898453
+Generation 24 best fitness: 399.99123237898453
+Generation 25 best fitness: 399.99123237898453
+Generation 26 best fitness: 399.99123237898453
+Generation 27 best fitness: 399.99123237898453
+Generation 28 best fitness: 399.99123237898453
+Generation 29 best fitness: 399.99123237898453
+Generation 30 best fitness: 399.99123237898453
+Generation 31 best fitness: 399.99123237898453
+Generation 32 best fitness: 399.99123237898453
+Generation 33 best fitness: 399.99123237898453
+Generation 34 best fitness: 399.99123237898453
+Generation 35 best fitness: 399.99123237898453
+Generation 36 best fitness: 399.99123237898453
+Generation 37 best fitness: 399.99123237898453
+Generation 38 best fitness: 399.99123237898453
+Generation 39 best fitness: 399.99123237898453
+Generation 40 best fitness: 399.99123237898453
+Generation 41 best fitness: 399.99123237898453
+Generation 42 best fitness: 399.99123237898453
+Generation 43 best fitness: 399.99123237898453
+Generation 44 best fitness: 399.99123237898453
+Generation 45 best fitness: 399.99123237898453
+Generation 46 best fitness: 399.99123237898453
+Generation 47 best fitness: 399.99123237898453
+Generation 48 best fitness: 399.99123237898453
+Generation 49 best fitness: 399.99123237898453
+Generation 50 best fitness: 399.99123237898453
+Generation 51 best fitness: 399.99123237898453
+Generation 52 best fitness: 399.99123237898453
+Generation 53 best fitness: 399.99123237898453
+Generation 54 best fitness: 399.99123237898453
+Generation 55 best fitness: 399.99123237898453
+Generation 56 best fitness: 399.99123237898453
+Generation 57 best fitness: 399.99123237898453
+Generation 58 best fitness: 399.99123237898453
+Generation 59 best fitness: 399.99123237898453
+Generation 60 best fitness: 399.99123237898453
+Generation 61 best fitness: 399.99123237898453
+Generation 62 best fitness: 399.99123237898453
+Generation 63 best fitness: 399.99123237898453
+Generation 64 best fitness: 399.99123237898453
+Generation 65 best fitness: 399.99123237898453
+Generation 66 best fitness: 399.99123237898453
+Generation 67 best fitness: 399.99123237898453
+Generation 68 best fitness: 399.99123237898453
+Generation 69 best fitness: 399.99123237898453
+Generation 70 best fitness: 399.99123237898453
+Generation 71 best fitness: 399.99123237898453
+Generation 72 best fitness: 399.99123237898453
+Generation 73 best fitness: 399.99123237898453
+Generation 74 best fitness: 399.99123237898453
+Generation 75 best fitness: 399.99123237898453
+Generation 76 best fitness: 399.99123237898453
+Generation 77 best fitness: 399.99123237898453
+Generation 78 best fitness: 399.99123237898453
+Generation 79 best fitness: 399.99123237898453
+Generation 80 best fitness: 399.99123237898453
+Generation 81 best fitness: 399.99123237898453
+Generation 82 best fitness: 399.99123237898453
+Generation 83 best fitness: 399.99123237898453
+Generation 84 best fitness: 399.99123237898453
+Generation 85 best fitness: 399.99123237898453
+Generation 86 best fitness: 399.99123237898453
+Generation 87 best fitness: 399.99123237898453
+Generation 88 best fitness: 399.99123237898453
+Generation 89 best fitness: 399.99123237898453
+Generation 90 best fitness: 399.99123237898453
+Generation 91 best fitness: 399.99123237898453
+Generation 92 best fitness: 399.99123237898453
+Generation 93 best fitness: 399.99123237898453
+Generation 94 best fitness: 399.99123237898453
+Generation 95 best fitness: 399.99123237898453
+Generation 96 best fitness: 399.99123237898453
+Generation 97 best fitness: 399.99123237898453
+Generation 98 best fitness: 399.99123237898453
+Generation 99 best fitness: 399.99123237898453
+Generation 100 best fitness: 399.99123237898453
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 07:20:12,521	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<27:02, 16.39s/it]Generations:   2%|▏         | 2/100 [00:25<20:07, 12.33s/it]Generations:   3%|▎         | 3/100 [00:36<18:28, 11.43s/it]Generations:   4%|▍         | 4/100 [00:48<19:03, 11.91s/it]Generations:   5%|▌         | 5/100 [01:00<18:47, 11.87s/it]Generations:   6%|▌         | 6/100 [01:13<19:09, 12.23s/it]Generations:   7%|▋         | 7/100 [01:26<19:27, 12.56s/it]Generations:   8%|▊         | 8/100 [01:39<19:29, 12.71s/it]Generations:   9%|▉         | 9/100 [01:52<19:23, 12.78s/it]Generations:  10%|█         | 10/100 [02:05<19:07, 12.75s/it]Generations:  11%|█         | 11/100 [02:18<19:01, 12.82s/it]Generations:  12%|█▏        | 12/100 [02:31<18:55, 12.90s/it]Generations:  13%|█▎        | 13/100 [02:44<18:31, 12.77s/it]Generations:  14%|█▍        | 14/100 [02:57<18:24, 12.84s/it]Generations:  15%|█▌        | 15/100 [03:09<18:14, 12.87s/it]Generations:  16%|█▌        | 16/100 [03:22<17:58, 12.84s/it]Generations:  17%|█▋        | 17/100 [03:35<17:37, 12.74s/it]Generations:  18%|█▊        | 18/100 [03:47<17:19, 12.67s/it]Generations:  19%|█▉        | 19/100 [04:00<17:18, 12.82s/it]Generations:  20%|██        | 20/100 [04:13<16:59, 12.75s/it]Generations:  21%|██        | 21/100 [04:26<16:49, 12.78s/it]Generations:  22%|██▏       | 22/100 [04:39<16:44, 12.88s/it]Generations:  23%|██▎       | 23/100 [04:52<16:29, 12.85s/it]Generations:  24%|██▍       | 24/100 [05:05<16:24, 12.95s/it]Generations:  25%|██▌       | 25/100 [05:18<16:15, 13.01s/it]Generations:  26%|██▌       | 26/100 [05:31<15:56, 12.93s/it]Generations:  27%|██▋       | 27/100 [05:44<15:43, 12.92s/it]Generations:  28%|██▊       | 28/100 [05:56<15:26, 12.87s/it]Generations:  29%|██▉       | 29/100 [06:10<15:21, 12.99s/it]Generations:  30%|███       | 30/100 [06:23<15:08, 12.98s/it]Generations:  31%|███       | 31/100 [06:35<14:47, 12.87s/it]Generations:  32%|███▏      | 32/100 [06:48<14:39, 12.93s/it]Generations:  33%|███▎      | 33/100 [07:01<14:24, 12.91s/it]Generations:  34%|███▍      | 34/100 [07:14<14:17, 12.99s/it]Generations:  35%|███▌      | 35/100 [07:27<14:00, 12.93s/it]Generations:  36%|███▌      | 36/100 [07:40<13:42, 12.85s/it]Generations:  37%|███▋      | 37/100 [07:53<13:29, 12.85s/it]Generations:  38%|███▊      | 38/100 [08:06<13:15, 12.83s/it]Generations:  39%|███▉      | 39/100 [08:18<12:55, 12.72s/it]Generations:  40%|████      | 40/100 [08:31<12:40, 12.68s/it]Generations:  41%|████      | 41/100 [08:43<12:25, 12.64s/it]Generations:  42%|████▏     | 42/100 [08:56<12:16, 12.70s/it]Generations:  43%|████▎     | 43/100 [09:09<12:02, 12.68s/it]Generations:  44%|████▍     | 44/100 [09:22<11:54, 12.77s/it]Generations:  45%|████▌     | 45/100 [09:35<11:46, 12.84s/it]Generations:  46%|████▌     | 46/100 [09:47<11:27, 12.73s/it]Generations:  47%|████▋     | 47/100 [10:00<11:17, 12.78s/it]Generations:  48%|████▊     | 48/100 [10:13<11:03, 12.76s/it]Generations:  49%|████▉     | 49/100 [10:25<10:49, 12.73s/it]Generations:  50%|█████     | 50/100 [10:38<10:35, 12.70s/it]Generations:  51%|█████     | 51/100 [10:50<10:19, 12.64s/it]Generations:  52%|█████▏    | 52/100 [11:03<10:06, 12.63s/it]Generations:  53%|█████▎    | 53/100 [11:16<09:54, 12.65s/it]Generations:  54%|█████▍    | 54/100 [11:28<09:41, 12.64s/it]Generations:  55%|█████▌    | 55/100 [11:41<09:27, 12.62s/it]Generations:  56%|█████▌    | 56/100 [11:54<09:16, 12.64s/it]Generations:  57%|█████▋    | 57/100 [12:06<09:05, 12.68s/it]Generations:  58%|█████▊    | 58/100 [12:19<08:52, 12.69s/it]Generations:  59%|█████▉    | 59/100 [12:32<08:38, 12.65s/it]Generations:  60%|██████    | 60/100 [12:45<08:30, 12.75s/it]Generations:  61%|██████    | 61/100 [12:58<08:19, 12.82s/it]Generations:  62%|██████▏   | 62/100 [13:10<08:06, 12.80s/it]Generations:  63%|██████▎   | 63/100 [13:23<07:52, 12.77s/it]Generations:  64%|██████▍   | 64/100 [13:35<07:35, 12.66s/it]Generations:  65%|██████▌   | 65/100 [13:48<07:23, 12.68s/it]Generations:  66%|██████▌   | 66/100 [14:01<07:16, 12.84s/it]Generations:  67%|██████▋   | 67/100 [14:14<07:01, 12.79s/it]Generations:  68%|██████▊   | 68/100 [14:27<06:49, 12.79s/it]Generations:  69%|██████▉   | 69/100 [14:39<06:34, 12.72s/it]Generations:  70%|███████   | 70/100 [14:52<06:22, 12.74s/it]Generations:  71%|███████   | 71/100 [15:05<06:09, 12.76s/it]Generations:  72%|███████▏  | 72/100 [15:18<05:57, 12.75s/it]Generations:  73%|███████▎  | 73/100 [15:31<05:45, 12.79s/it]Generations:  74%|███████▍  | 74/100 [15:43<05:32, 12.78s/it]Generations:  75%|███████▌  | 75/100 [15:56<05:18, 12.76s/it]Generations:  76%|███████▌  | 76/100 [16:09<05:09, 12.88s/it]Generations:  77%|███████▋  | 77/100 [16:22<04:57, 12.95s/it]Generations:  78%|███████▊  | 78/100 [16:35<04:43, 12.90s/it]Generations:  79%|███████▉  | 79/100 [16:48<04:30, 12.89s/it]Generations:  80%|████████  | 80/100 [17:01<04:16, 12.80s/it]Generations:  81%|████████  | 81/100 [17:13<04:02, 12.78s/it]Generations:  82%|████████▏ | 82/100 [17:26<03:50, 12.78s/it]Generations:  83%|████████▎ | 83/100 [17:39<03:36, 12.73s/it]Generations:  84%|████████▍ | 84/100 [17:52<03:24, 12.76s/it]Generations:  85%|████████▌ | 85/100 [18:04<03:10, 12.69s/it]Generations:  86%|████████▌ | 86/100 [18:17<02:57, 12.69s/it]Generations:  87%|████████▋ | 87/100 [18:29<02:44, 12.69s/it]Generations:  88%|████████▊ | 88/100 [18:42<02:32, 12.68s/it]Generations:  89%|████████▉ | 89/100 [18:55<02:19, 12.66s/it]Generations:  90%|█████████ | 90/100 [19:07<02:05, 12.59s/it]Generations:  91%|█████████ | 91/100 [19:20<01:53, 12.61s/it]Generations:  92%|█████████▏| 92/100 [19:32<01:40, 12.56s/it]Generations:  93%|█████████▎| 93/100 [19:45<01:28, 12.65s/it]Generations:  94%|█████████▍| 94/100 [19:58<01:16, 12.69s/it]Generations:  95%|█████████▌| 95/100 [20:11<01:03, 12.77s/it]Generations:  96%|█████████▌| 96/100 [20:24<00:51, 12.78s/it]Generations:  97%|█████████▋| 97/100 [20:36<00:38, 12.73s/it]Generations:  98%|█████████▊| 98/100 [20:49<00:25, 12.76s/it]Generations:  99%|█████████▉| 99/100 [21:03<00:13, 13.00s/it]Generations: 100%|██████████| 100/100 [21:16<00:00, 13.11s/it]Generations: 100%|██████████| 100/100 [21:16<00:00, 12.77s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 337.4308534469811
+Generation 3 best fitness: 703.6900179429043
+Generation 4 best fitness: 373.33388330795333
+Generation 5 best fitness: 459.7848288586282
+Generation 6 best fitness: 580.5073255921998
+Generation 7 best fitness: 759.8711800439455
+Generation 8 best fitness: 759.8711800439455
+Generation 9 best fitness: 759.8711800439455
+Generation 10 best fitness: 759.8711800439455
+Generation 11 best fitness: 759.8711800439455
+Generation 12 best fitness: 759.8711800439455
+Generation 13 best fitness: 759.8711800439455
+Generation 14 best fitness: 759.8711800439455
+Generation 15 best fitness: 759.8711800439455
+Generation 16 best fitness: 759.8711800439455
+Generation 17 best fitness: 759.8711800439455
+Generation 18 best fitness: 759.8711800439455
+Generation 19 best fitness: 759.8711800439455
+Generation 20 best fitness: 759.8711800439455
+Generation 21 best fitness: 759.8711800439455
+Generation 22 best fitness: 759.8711800439455
+Generation 23 best fitness: 759.8711800439455
+Generation 24 best fitness: 759.8711800439455
+Generation 25 best fitness: 759.8711800439455
+Generation 26 best fitness: 759.8711800439455
+Generation 27 best fitness: 759.8711800439455
+Generation 28 best fitness: 759.8711800439455
+Generation 29 best fitness: 759.8711800439455
+Generation 30 best fitness: 759.8711800439455
+Generation 31 best fitness: 759.8711800439455
+Generation 32 best fitness: 759.8711800439455
+Generation 33 best fitness: 759.8711800439455
+Generation 34 best fitness: 759.8711800439455
+Generation 35 best fitness: 759.8711800439455
+Generation 36 best fitness: 759.8711800439455
+Generation 37 best fitness: 759.8711800439455
+Generation 38 best fitness: 759.8711800439455
+Generation 39 best fitness: 759.8711800439455
+Generation 40 best fitness: 759.8711800439455
+Generation 41 best fitness: 759.8711800439455
+Generation 42 best fitness: 759.8711800439455
+Generation 43 best fitness: 759.8711800439455
+Generation 44 best fitness: 759.8711800439455
+Generation 45 best fitness: 759.8711800439455
+Generation 46 best fitness: 759.8711800439455
+Generation 47 best fitness: 759.8711800439455
+Generation 48 best fitness: 759.8711800439455
+Generation 49 best fitness: 759.8711800439455
+Generation 50 best fitness: 759.8711800439455
+Generation 51 best fitness: 759.8711800439455
+Generation 52 best fitness: 759.8711800439455
+Generation 53 best fitness: 759.8711800439455
+Generation 54 best fitness: 759.8711800439455
+Generation 55 best fitness: 759.8711800439455
+Generation 56 best fitness: 759.8711800439455
+Generation 57 best fitness: 759.8711800439455
+Generation 58 best fitness: 759.8711800439455
+Generation 59 best fitness: 759.8711800439455
+Generation 60 best fitness: 759.8711800439455
+Generation 61 best fitness: 759.8711800439455
+Generation 62 best fitness: 759.8711800439455
+Generation 63 best fitness: 759.8711800439455
+Generation 64 best fitness: 759.8711800439455
+Generation 65 best fitness: 759.8711800439455
+Generation 66 best fitness: 759.8711800439455
+Generation 67 best fitness: 759.8711800439455
+Generation 68 best fitness: 759.8711800439455
+Generation 69 best fitness: 759.8711800439455
+Generation 70 best fitness: 759.8711800439455
+Generation 71 best fitness: 759.8711800439455
+Generation 72 best fitness: 759.8711800439455
+Generation 73 best fitness: 759.8711800439455
+Generation 74 best fitness: 759.8711800439455
+Generation 75 best fitness: 759.8711800439455
+Generation 76 best fitness: 759.8711800439455
+Generation 77 best fitness: 759.8711800439455
+Generation 78 best fitness: 759.8711800439455
+Generation 79 best fitness: 759.8711800439455
+Generation 80 best fitness: 759.8711800439455
+Generation 81 best fitness: 759.8711800439455
+Generation 82 best fitness: 759.8711800439455
+Generation 83 best fitness: 759.8711800439455
+Generation 84 best fitness: 759.8711800439455
+Generation 85 best fitness: 759.8711800439455
+Generation 86 best fitness: 759.8711800439455
+Generation 87 best fitness: 759.8711800439455
+Generation 88 best fitness: 759.8711800439455
+Generation 89 best fitness: 759.8711800439455
+Generation 90 best fitness: 759.8711800439455
+Generation 91 best fitness: 759.8711800439455
+Generation 92 best fitness: 759.8711800439455
+Generation 93 best fitness: 759.8711800439455
+Generation 94 best fitness: 759.8711800439455
+Generation 95 best fitness: 759.8711800439455
+Generation 96 best fitness: 759.8711800439455
+Generation 97 best fitness: 759.8711800439455
+Generation 98 best fitness: 759.8711800439455
+Generation 99 best fitness: 759.8711800439455
+Generation 100 best fitness: 759.8711800439455
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 07:41:30,726	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<26:46, 16.23s/it]Generations:   2%|▏         | 2/100 [00:26<20:33, 12.59s/it]Generations:   3%|▎         | 3/100 [00:37<19:00, 11.76s/it]Generations:   4%|▍         | 4/100 [00:49<19:13, 12.02s/it]Generations:   5%|▌         | 5/100 [01:01<19:09, 12.10s/it]Generations:   6%|▌         | 6/100 [01:14<19:12, 12.26s/it]Generations:   7%|▋         | 7/100 [01:27<19:35, 12.64s/it]Generations:   8%|▊         | 8/100 [01:40<19:36, 12.78s/it]Generations:   9%|▉         | 9/100 [01:53<19:31, 12.87s/it]Generations:  10%|█         | 10/100 [02:07<19:26, 12.96s/it]Generations:  11%|█         | 11/100 [02:19<19:11, 12.94s/it]Generations:  12%|█▏        | 12/100 [02:32<18:51, 12.86s/it]Generations:  13%|█▎        | 13/100 [02:45<18:50, 13.00s/it]Generations:  14%|█▍        | 14/100 [02:58<18:39, 13.02s/it]Generations:  15%|█▌        | 15/100 [03:11<18:25, 13.00s/it]Generations:  16%|█▌        | 16/100 [03:24<18:11, 12.99s/it]Generations:  17%|█▋        | 17/100 [03:38<18:02, 13.04s/it]Generations:  18%|█▊        | 18/100 [03:51<17:51, 13.06s/it]Generations:  19%|█▉        | 19/100 [04:04<17:39, 13.08s/it]Generations:  20%|██        | 20/100 [04:17<17:21, 13.02s/it]Generations:  21%|██        | 21/100 [04:30<17:04, 12.97s/it]Generations:  22%|██▏       | 22/100 [04:42<16:43, 12.86s/it]Generations:  23%|██▎       | 23/100 [04:55<16:23, 12.77s/it]Generations:  24%|██▍       | 24/100 [05:08<16:12, 12.80s/it]Generations:  25%|██▌       | 25/100 [05:21<16:05, 12.87s/it]Generations:  26%|██▌       | 26/100 [05:34<15:58, 12.95s/it]Generations:  27%|██▋       | 27/100 [05:47<15:42, 12.91s/it]Generations:  28%|██▊       | 28/100 [05:59<15:21, 12.80s/it]Generations:  29%|██▉       | 29/100 [06:12<15:16, 12.90s/it]Generations:  30%|███       | 30/100 [06:26<15:10, 13.01s/it]Generations:  31%|███       | 31/100 [06:39<15:12, 13.22s/it]Generations:  32%|███▏      | 32/100 [06:52<14:58, 13.21s/it]Generations:  33%|███▎      | 33/100 [07:06<14:43, 13.18s/it]Generations:  34%|███▍      | 34/100 [07:19<14:30, 13.18s/it]Generations:  35%|███▌      | 35/100 [07:32<14:13, 13.12s/it]Generations:  36%|███▌      | 36/100 [07:44<13:51, 13.00s/it]Generations:  37%|███▋      | 37/100 [07:57<13:29, 12.85s/it]Generations:  38%|███▊      | 38/100 [08:10<13:21, 12.93s/it]Generations:  39%|███▉      | 39/100 [08:23<13:07, 12.92s/it]Generations:  40%|████      | 40/100 [08:36<12:52, 12.88s/it]Generations:  41%|████      | 41/100 [08:51<13:14, 13.47s/it]Generations:  42%|████▏     | 42/100 [09:04<12:54, 13.35s/it]Generations:  43%|████▎     | 43/100 [09:17<12:36, 13.26s/it]Generations:  44%|████▍     | 44/100 [09:29<12:15, 13.13s/it]Generations:  45%|████▌     | 45/100 [09:43<12:01, 13.12s/it]Generations:  46%|████▌     | 46/100 [09:56<11:51, 13.17s/it]Generations:  47%|████▋     | 47/100 [10:09<11:34, 13.11s/it]Generations:  48%|████▊     | 48/100 [10:22<11:19, 13.07s/it]Generations:  49%|████▉     | 49/100 [10:35<11:03, 13.02s/it]Generations:  50%|█████     | 50/100 [10:47<10:46, 12.93s/it]Generations:  51%|█████     | 51/100 [11:00<10:33, 12.93s/it]Generations:  52%|█████▏    | 52/100 [11:13<10:23, 12.98s/it]Generations:  53%|█████▎    | 53/100 [11:26<10:03, 12.83s/it]Generations:  54%|█████▍    | 54/100 [11:39<09:50, 12.84s/it]Generations:  55%|█████▌    | 55/100 [11:52<09:37, 12.83s/it]Generations:  56%|█████▌    | 56/100 [12:04<09:24, 12.82s/it]Generations:  57%|█████▋    | 57/100 [12:17<09:10, 12.81s/it]Generations:  58%|█████▊    | 58/100 [12:30<08:57, 12.79s/it]Generations:  59%|█████▉    | 59/100 [12:43<08:44, 12.80s/it]Generations:  60%|██████    | 60/100 [12:56<08:38, 12.97s/it]Generations:  61%|██████    | 61/100 [13:09<08:23, 12.91s/it]Generations:  62%|██████▏   | 62/100 [13:22<08:08, 12.86s/it]Generations:  63%|██████▎   | 63/100 [13:35<07:59, 12.96s/it]Generations:  64%|██████▍   | 64/100 [13:48<07:47, 12.99s/it]Generations:  65%|██████▌   | 65/100 [14:01<07:32, 12.94s/it]Generations:  66%|██████▌   | 66/100 [14:14<07:18, 12.91s/it]Generations:  67%|██████▋   | 67/100 [14:26<07:04, 12.87s/it]Generations:  68%|██████▊   | 68/100 [14:39<06:52, 12.91s/it]Generations:  69%|██████▉   | 69/100 [14:52<06:38, 12.86s/it]Generations:  70%|███████   | 70/100 [15:05<06:26, 12.90s/it]Generations:  71%|███████   | 71/100 [15:18<06:17, 13.03s/it]Generations:  72%|███████▏  | 72/100 [15:31<06:03, 12.99s/it]Generations:  73%|███████▎  | 73/100 [15:45<05:53, 13.08s/it]Generations:  74%|███████▍  | 74/100 [15:58<05:42, 13.16s/it]Generations:  75%|███████▌  | 75/100 [16:11<05:29, 13.18s/it]Generations:  76%|███████▌  | 76/100 [16:24<05:11, 13.00s/it]Generations:  77%|███████▋  | 77/100 [16:36<04:57, 12.93s/it]Generations:  78%|███████▊  | 78/100 [16:50<04:49, 13.15s/it]Generations:  79%|███████▉  | 79/100 [17:04<04:38, 13.25s/it]Generations:  80%|████████  | 80/100 [17:17<04:23, 13.19s/it]Generations:  81%|████████  | 81/100 [17:30<04:10, 13.16s/it]Generations:  82%|████████▏ | 82/100 [17:43<03:57, 13.18s/it]Generations:  83%|████████▎ | 83/100 [17:56<03:42, 13.06s/it]Generations:  84%|████████▍ | 84/100 [18:08<03:27, 12.94s/it]Generations:  85%|████████▌ | 85/100 [18:21<03:12, 12.81s/it]Generations:  86%|████████▌ | 86/100 [18:34<03:00, 12.88s/it]Generations:  87%|████████▋ | 87/100 [18:47<02:47, 12.90s/it]Generations:  88%|████████▊ | 88/100 [19:00<02:34, 12.89s/it]Generations:  89%|████████▉ | 89/100 [19:13<02:22, 12.95s/it]Generations:  90%|█████████ | 90/100 [19:26<02:10, 13.02s/it]Generations:  91%|█████████ | 91/100 [19:39<01:56, 12.96s/it]Generations:  92%|█████████▏| 92/100 [19:54<01:48, 13.56s/it]Generations:  93%|█████████▎| 93/100 [20:06<01:32, 13.26s/it]Generations:  94%|█████████▍| 94/100 [20:19<01:19, 13.18s/it]Generations:  95%|█████████▌| 95/100 [20:32<01:05, 13.13s/it]Generations:  96%|█████████▌| 96/100 [20:45<00:52, 13.07s/it]Generations:  97%|█████████▋| 97/100 [20:58<00:39, 13.01s/it]Generations:  98%|█████████▊| 98/100 [21:11<00:25, 12.83s/it]Generations:  99%|█████████▉| 99/100 [21:24<00:12, 12.84s/it]Generations: 100%|██████████| 100/100 [21:36<00:00, 12.88s/it]Generations: 100%|██████████| 100/100 [21:36<00:00, 12.97s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 306.55516756647773
+Generation 3 best fitness: 369.05126644224515
+Generation 4 best fitness: 369.4708535922447
+Generation 5 best fitness: 429.11494835367904
+Generation 6 best fitness: 429.11494835367904
+Generation 7 best fitness: 429.11494835367904
+Generation 8 best fitness: 429.11494835367904
+Generation 9 best fitness: 429.11494835367904
+Generation 10 best fitness: 429.11494835367904
+Generation 11 best fitness: 429.11494835367904
+Generation 12 best fitness: 429.11494835367904
+Generation 13 best fitness: 429.11494835367904
+Generation 14 best fitness: 429.11494835367904
+Generation 15 best fitness: 429.11494835367904
+Generation 16 best fitness: 429.11494835367904
+Generation 17 best fitness: 429.11494835367904
+Generation 18 best fitness: 429.11494835367904
+Generation 19 best fitness: 429.11494835367904
+Generation 20 best fitness: 429.11494835367904
+Generation 21 best fitness: 429.11494835367904
+Generation 22 best fitness: 429.11494835367904
+Generation 23 best fitness: 429.11494835367904
+Generation 24 best fitness: 429.11494835367904
+Generation 25 best fitness: 429.11494835367904
+Generation 26 best fitness: 429.11494835367904
+Generation 27 best fitness: 429.11494835367904
+Generation 28 best fitness: 429.11494835367904
+Generation 29 best fitness: 429.11494835367904
+Generation 30 best fitness: 429.11494835367904
+Generation 31 best fitness: 429.11494835367904
+Generation 32 best fitness: 429.11494835367904
+Generation 33 best fitness: 429.11494835367904
+Generation 34 best fitness: 429.11494835367904
+Generation 35 best fitness: 429.11494835367904
+Generation 36 best fitness: 429.11494835367904
+Generation 37 best fitness: 429.11494835367904
+Generation 38 best fitness: 429.11494835367904
+Generation 39 best fitness: 429.11494835367904
+Generation 40 best fitness: 429.11494835367904
+Generation 41 best fitness: 429.11494835367904
+Generation 42 best fitness: 429.11494835367904
+Generation 43 best fitness: 429.11494835367904
+Generation 44 best fitness: 429.11494835367904
+Generation 45 best fitness: 429.11494835367904
+Generation 46 best fitness: 429.11494835367904
+Generation 47 best fitness: 429.11494835367904
+Generation 48 best fitness: 429.11494835367904
+Generation 49 best fitness: 429.11494835367904
+Generation 50 best fitness: 429.11494835367904
+Generation 51 best fitness: 429.11494835367904
+Generation 52 best fitness: 429.11494835367904
+Generation 53 best fitness: 429.11494835367904
+Generation 54 best fitness: 429.11494835367904
+Generation 55 best fitness: 429.11494835367904
+Generation 56 best fitness: 429.11494835367904
+Generation 57 best fitness: 429.11494835367904
+Generation 58 best fitness: 429.11494835367904
+Generation 59 best fitness: 429.11494835367904
+Generation 60 best fitness: 429.11494835367904
+Generation 61 best fitness: 429.11494835367904
+Generation 62 best fitness: 429.11494835367904
+Generation 63 best fitness: 429.11494835367904
+Generation 64 best fitness: 429.11494835367904
+Generation 65 best fitness: 429.11494835367904
+Generation 66 best fitness: 429.11494835367904
+Generation 67 best fitness: 429.11494835367904
+Generation 68 best fitness: 429.11494835367904
+Generation 69 best fitness: 429.11494835367904
+Generation 70 best fitness: 429.11494835367904
+Generation 71 best fitness: 429.11494835367904
+Generation 72 best fitness: 429.11494835367904
+Generation 73 best fitness: 429.11494835367904
+Generation 74 best fitness: 429.11494835367904
+Generation 75 best fitness: 429.11494835367904
+Generation 76 best fitness: 429.11494835367904
+Generation 77 best fitness: 429.11494835367904
+Generation 78 best fitness: 429.11494835367904
+Generation 79 best fitness: 429.11494835367904
+Generation 80 best fitness: 429.11494835367904
+Generation 81 best fitness: 429.11494835367904
+Generation 82 best fitness: 429.11494835367904
+Generation 83 best fitness: 429.11494835367904
+Generation 84 best fitness: 429.11494835367904
+Generation 85 best fitness: 429.11494835367904
+Generation 86 best fitness: 429.11494835367904
+Generation 87 best fitness: 429.11494835367904
+Generation 88 best fitness: 429.11494835367904
+Generation 89 best fitness: 429.11494835367904
+Generation 90 best fitness: 429.11494835367904
+Generation 91 best fitness: 429.11494835367904
+Generation 92 best fitness: 429.11494835367904
+Generation 93 best fitness: 429.11494835367904
+Generation 94 best fitness: 429.11494835367904
+Generation 95 best fitness: 429.11494835367904
+Generation 96 best fitness: 429.11494835367904
+Generation 97 best fitness: 429.11494835367904
+Generation 98 best fitness: 429.11494835367904
+Generation 99 best fitness: 429.11494835367904
+Generation 100 best fitness: 429.11494835367904
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 08:03:09,433	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:16<26:59, 16.36s/it]Generations:   2%|▏         | 2/100 [00:26<20:24, 12.50s/it]Generations:   3%|▎         | 3/100 [00:36<18:44, 11.59s/it]Generations:   4%|▍         | 4/100 [00:49<19:18, 12.07s/it]Generations:   5%|▌         | 5/100 [01:01<19:01, 12.02s/it]Generations:   6%|▌         | 6/100 [01:13<19:04, 12.18s/it]Generations:   7%|▋         | 7/100 [01:26<19:19, 12.47s/it]Generations:   8%|▊         | 8/100 [01:39<19:18, 12.59s/it]Generations:   9%|▉         | 9/100 [01:52<18:57, 12.50s/it]Generations:  10%|█         | 10/100 [02:04<18:45, 12.50s/it]Generations:  11%|█         | 11/100 [02:16<18:25, 12.42s/it]Generations:  12%|█▏        | 12/100 [02:29<18:08, 12.37s/it]Generations:  13%|█▎        | 13/100 [02:41<17:59, 12.41s/it]Generations:  14%|█▍        | 14/100 [02:54<17:57, 12.53s/it]Generations:  15%|█▌        | 15/100 [03:06<17:45, 12.54s/it]Generations:  16%|█▌        | 16/100 [03:19<17:39, 12.61s/it]Generations:  17%|█▋        | 17/100 [03:32<17:18, 12.51s/it]Generations:  18%|█▊        | 18/100 [03:44<17:02, 12.47s/it]Generations:  19%|█▉        | 19/100 [03:56<16:48, 12.45s/it]Generations:  20%|██        | 20/100 [04:08<16:25, 12.32s/it]Generations:  21%|██        | 21/100 [04:21<16:20, 12.41s/it]Generations:  22%|██▏       | 22/100 [04:33<16:06, 12.39s/it]Generations:  23%|██▎       | 23/100 [04:46<15:50, 12.34s/it]Generations:  24%|██▍       | 24/100 [04:58<15:42, 12.40s/it]Generations:  25%|██▌       | 25/100 [05:11<15:35, 12.47s/it]Generations:  26%|██▌       | 26/100 [05:23<15:17, 12.40s/it]Generations:  27%|██▋       | 27/100 [05:35<15:05, 12.40s/it]Generations:  28%|██▊       | 28/100 [05:47<14:44, 12.28s/it]Generations:  29%|██▉       | 29/100 [05:59<14:26, 12.20s/it]Generations:  30%|███       | 30/100 [06:11<14:11, 12.16s/it]Generations:  31%|███       | 31/100 [06:24<14:08, 12.30s/it]Generations:  32%|███▏      | 32/100 [06:37<14:00, 12.37s/it]Generations:  33%|███▎      | 33/100 [06:49<13:52, 12.42s/it]Generations:  34%|███▍      | 34/100 [07:02<13:40, 12.43s/it]Generations:  35%|███▌      | 35/100 [07:14<13:22, 12.35s/it]Generations:  36%|███▌      | 36/100 [07:26<13:09, 12.34s/it]Generations:  37%|███▋      | 37/100 [07:38<13:00, 12.38s/it]Generations:  38%|███▊      | 38/100 [07:51<12:45, 12.34s/it]Generations:  39%|███▉      | 39/100 [08:03<12:35, 12.39s/it]Generations:  40%|████      | 40/100 [08:15<12:18, 12.30s/it]Generations:  41%|████      | 41/100 [08:28<12:06, 12.31s/it]Generations:  42%|████▏     | 42/100 [08:40<11:55, 12.33s/it]Generations:  43%|████▎     | 43/100 [08:52<11:40, 12.29s/it]Generations:  44%|████▍     | 44/100 [09:05<11:30, 12.33s/it]Generations:  45%|████▌     | 45/100 [09:17<11:18, 12.34s/it]Generations:  46%|████▌     | 46/100 [09:29<11:08, 12.37s/it]Generations:  47%|████▋     | 47/100 [09:42<10:53, 12.32s/it]Generations:  48%|████▊     | 48/100 [09:54<10:39, 12.31s/it]Generations:  49%|████▉     | 49/100 [10:06<10:24, 12.24s/it]Generations:  50%|█████     | 50/100 [10:19<10:16, 12.34s/it]Generations:  51%|█████     | 51/100 [10:31<10:05, 12.35s/it]Generations:  52%|█████▏    | 52/100 [10:43<09:48, 12.26s/it]Generations:  53%|█████▎    | 53/100 [10:55<09:34, 12.22s/it]Generations:  54%|█████▍    | 54/100 [11:08<09:24, 12.26s/it]Generations:  55%|█████▌    | 55/100 [11:20<09:11, 12.26s/it]Generations:  56%|█████▌    | 56/100 [11:32<08:56, 12.18s/it]Generations:  57%|█████▋    | 57/100 [11:44<08:47, 12.27s/it]Generations:  58%|█████▊    | 58/100 [11:57<08:35, 12.27s/it]Generations:  59%|█████▉    | 59/100 [12:09<08:26, 12.35s/it]Generations:  60%|██████    | 60/100 [12:22<08:16, 12.40s/it]Generations:  61%|██████    | 61/100 [12:34<08:02, 12.37s/it]Generations:  62%|██████▏   | 62/100 [12:46<07:48, 12.34s/it]Generations:  63%|██████▎   | 63/100 [12:58<07:35, 12.30s/it]Generations:  64%|██████▍   | 64/100 [13:11<07:23, 12.31s/it]Generations:  65%|██████▌   | 65/100 [13:23<07:14, 12.41s/it]Generations:  66%|██████▌   | 66/100 [13:36<07:04, 12.47s/it]Generations:  67%|██████▋   | 67/100 [13:49<06:54, 12.55s/it]Generations:  68%|██████▊   | 68/100 [14:01<06:36, 12.40s/it]Generations:  69%|██████▉   | 69/100 [14:13<06:24, 12.39s/it]Generations:  70%|███████   | 70/100 [14:26<06:15, 12.51s/it]Generations:  71%|███████   | 71/100 [14:38<05:58, 12.37s/it]Generations:  72%|███████▏  | 72/100 [14:50<05:45, 12.35s/it]Generations:  73%|███████▎  | 73/100 [15:03<05:35, 12.42s/it]Generations:  74%|███████▍  | 74/100 [15:15<05:21, 12.36s/it]Generations:  75%|███████▌  | 75/100 [15:27<05:07, 12.29s/it]Generations:  76%|███████▌  | 76/100 [15:40<04:55, 12.33s/it]Generations:  77%|███████▋  | 77/100 [15:52<04:43, 12.32s/it]Generations:  78%|███████▊  | 78/100 [16:04<04:32, 12.37s/it]Generations:  79%|███████▉  | 79/100 [16:17<04:21, 12.44s/it]Generations:  80%|████████  | 80/100 [16:29<04:08, 12.41s/it]Generations:  81%|████████  | 81/100 [16:42<03:55, 12.39s/it]Generations:  82%|████████▏ | 82/100 [16:54<03:43, 12.40s/it]Generations:  83%|████████▎ | 83/100 [17:06<03:29, 12.34s/it]Generations:  84%|████████▍ | 84/100 [17:19<03:17, 12.35s/it]Generations:  85%|████████▌ | 85/100 [17:31<03:05, 12.35s/it]Generations:  86%|████████▌ | 86/100 [17:44<02:53, 12.42s/it]Generations:  87%|████████▋ | 87/100 [17:56<02:40, 12.33s/it]Generations:  88%|████████▊ | 88/100 [18:08<02:26, 12.23s/it]Generations:  89%|████████▉ | 89/100 [18:20<02:15, 12.31s/it]Generations:  90%|█████████ | 90/100 [18:32<02:03, 12.31s/it]Generations:  91%|█████████ | 91/100 [18:45<01:50, 12.32s/it]Generations:  92%|█████████▏| 92/100 [18:57<01:38, 12.28s/it]Generations:  93%|█████████▎| 93/100 [19:10<01:26, 12.36s/it]Generations:  94%|█████████▍| 94/100 [19:22<01:14, 12.35s/it]Generations:  95%|█████████▌| 95/100 [19:34<01:01, 12.33s/it]Generations:  96%|█████████▌| 96/100 [19:47<00:49, 12.39s/it]Generations:  97%|█████████▋| 97/100 [19:59<00:37, 12.36s/it]Generations:  98%|█████████▊| 98/100 [20:12<00:24, 12.43s/it]Generations:  99%|█████████▉| 99/100 [20:24<00:12, 12.56s/it]Generations: 100%|██████████| 100/100 [20:37<00:00, 12.43s/it]Generations: 100%|██████████| 100/100 [20:37<00:00, 12.37s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 339.5577420919956
+Generation 3 best fitness: 310.09664111536534
+Generation 4 best fitness: 427.2425425814937
+Generation 5 best fitness: 339.41041998274324
+Generation 6 best fitness: 429.192516811981
+Generation 7 best fitness: 429.192516811981
+Generation 8 best fitness: 429.192516811981
+Generation 9 best fitness: 459.41856507815277
+Generation 10 best fitness: 459.41856507815277
+Generation 11 best fitness: 459.41856507815277
+Generation 12 best fitness: 459.41856507815277
+Generation 13 best fitness: 490.46092225367323
+Generation 14 best fitness: 490.46092225367323
+Generation 15 best fitness: 490.46092225367323
+Generation 16 best fitness: 490.46092225367323
+Generation 17 best fitness: 490.46092225367323
+Generation 18 best fitness: 490.46092225367323
+Generation 19 best fitness: 490.46092225367323
+Generation 20 best fitness: 490.46092225367323
+Generation 21 best fitness: 490.46092225367323
+Generation 22 best fitness: 490.46092225367323
+Generation 23 best fitness: 490.46092225367323
+Generation 24 best fitness: 490.46092225367323
+Generation 25 best fitness: 490.46092225367323
+Generation 26 best fitness: 490.46092225367323
+Generation 27 best fitness: 490.46092225367323
+Generation 28 best fitness: 490.46092225367323
+Generation 29 best fitness: 490.46092225367323
+Generation 30 best fitness: 490.46092225367323
+Generation 31 best fitness: 490.46092225367323
+Generation 32 best fitness: 490.46092225367323
+Generation 33 best fitness: 490.46092225367323
+Generation 34 best fitness: 490.46092225367323
+Generation 35 best fitness: 490.46092225367323
+Generation 36 best fitness: 490.46092225367323
+Generation 37 best fitness: 490.46092225367323
+Generation 38 best fitness: 490.46092225367323
+Generation 39 best fitness: 490.46092225367323
+Generation 40 best fitness: 490.46092225367323
+Generation 41 best fitness: 490.46092225367323
+Generation 42 best fitness: 490.46092225367323
+Generation 43 best fitness: 490.46092225367323
+Generation 44 best fitness: 490.46092225367323
+Generation 45 best fitness: 490.46092225367323
+Generation 46 best fitness: 490.46092225367323
+Generation 47 best fitness: 490.46092225367323
+Generation 48 best fitness: 490.46092225367323
+Generation 49 best fitness: 490.46092225367323
+Generation 50 best fitness: 490.46092225367323
+Generation 51 best fitness: 490.46092225367323
+Generation 52 best fitness: 490.46092225367323
+Generation 53 best fitness: 490.46092225367323
+Generation 54 best fitness: 490.46092225367323
+Generation 55 best fitness: 490.46092225367323
+Generation 56 best fitness: 490.46092225367323
+Generation 57 best fitness: 490.46092225367323
+Generation 58 best fitness: 490.46092225367323
+Generation 59 best fitness: 490.46092225367323
+Generation 60 best fitness: 490.46092225367323
+Generation 61 best fitness: 490.46092225367323
+Generation 62 best fitness: 490.46092225367323
+Generation 63 best fitness: 490.46092225367323
+Generation 64 best fitness: 490.46092225367323
+Generation 65 best fitness: 490.46092225367323
+Generation 66 best fitness: 490.46092225367323
+Generation 67 best fitness: 490.46092225367323
+Generation 68 best fitness: 490.46092225367323
+Generation 69 best fitness: 490.46092225367323
+Generation 70 best fitness: 490.46092225367323
+Generation 71 best fitness: 490.46092225367323
+Generation 72 best fitness: 490.46092225367323
+Generation 73 best fitness: 490.46092225367323
+Generation 74 best fitness: 490.46092225367323
+Generation 75 best fitness: 490.46092225367323
+Generation 76 best fitness: 490.46092225367323
+Generation 77 best fitness: 490.46092225367323
+Generation 78 best fitness: 490.46092225367323
+Generation 79 best fitness: 490.46092225367323
+Generation 80 best fitness: 490.46092225367323
+Generation 81 best fitness: 490.46092225367323
+Generation 82 best fitness: 490.46092225367323
+Generation 83 best fitness: 490.46092225367323
+Generation 84 best fitness: 490.46092225367323
+Generation 85 best fitness: 490.46092225367323
+Generation 86 best fitness: 490.46092225367323
+Generation 87 best fitness: 490.46092225367323
+Generation 88 best fitness: 490.46092225367323
+Generation 89 best fitness: 490.46092225367323
+Generation 90 best fitness: 490.46092225367323
+Generation 91 best fitness: 490.46092225367323
+Generation 92 best fitness: 490.46092225367323
+Generation 93 best fitness: 490.46092225367323
+Generation 94 best fitness: 490.46092225367323
+Generation 95 best fitness: 490.46092225367323
+Generation 96 best fitness: 490.46092225367323
+Generation 97 best fitness: 490.46092225367323
+Generation 98 best fitness: 490.46092225367323
+Generation 99 best fitness: 490.46092225367323
+Generation 100 best fitness: 490.46092225367323
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
+Running Genetic Algorithm...
+Generations:   0%|          | 0/100 [00:00<?, ?it/s]2025-06-25 08:23:48,202	INFO worker.py:1888 -- Started a local Ray instance.
+Generations:   1%|          | 1/100 [00:17<28:10, 17.07s/it]Generations:   2%|▏         | 2/100 [00:26<20:42, 12.67s/it]Generations:   3%|▎         | 3/100 [00:37<18:57, 11.73s/it]Generations:   4%|▍         | 4/100 [00:49<19:12, 12.01s/it]Generations:   5%|▌         | 5/100 [01:01<19:07, 12.07s/it]Generations:   6%|▌         | 6/100 [01:14<18:57, 12.10s/it]Generations:   7%|▋         | 7/100 [01:26<19:02, 12.29s/it]Generations:   8%|▊         | 8/100 [01:39<18:55, 12.34s/it]Generations:   9%|▉         | 9/100 [01:51<18:54, 12.47s/it]Generations:  10%|█         | 10/100 [02:04<18:53, 12.59s/it]Generations:  11%|█         | 11/100 [02:17<18:39, 12.57s/it]Generations:  12%|█▏        | 12/100 [02:29<18:21, 12.52s/it]Generations:  13%|█▎        | 13/100 [02:42<18:23, 12.68s/it]Generations:  14%|█▍        | 14/100 [02:55<18:12, 12.70s/it]Generations:  15%|█▌        | 15/100 [03:08<18:02, 12.73s/it]Generations:  16%|█▌        | 16/100 [03:21<17:48, 12.73s/it]Generations:  17%|█▋        | 17/100 [03:34<17:42, 12.80s/it]Generations:  18%|█▊        | 18/100 [03:46<17:24, 12.74s/it]Generations:  19%|█▉        | 19/100 [03:59<17:22, 12.87s/it]Generations:  20%|██        | 20/100 [04:12<16:59, 12.75s/it]Generations:  21%|██        | 21/100 [04:25<16:47, 12.75s/it]Generations:  22%|██▏       | 22/100 [04:37<16:30, 12.70s/it]Generations:  23%|██▎       | 23/100 [04:50<16:29, 12.85s/it]Generations:  24%|██▍       | 24/100 [05:03<16:21, 12.92s/it]Generations:  25%|██▌       | 25/100 [05:16<16:12, 12.97s/it]Generations:  26%|██▌       | 26/100 [05:29<15:54, 12.90s/it]Generations:  27%|██▋       | 27/100 [05:42<15:40, 12.89s/it]Generations:  28%|██▊       | 28/100 [05:55<15:23, 12.82s/it]Generations:  29%|██▉       | 29/100 [06:08<15:09, 12.81s/it]Generations:  30%|███       | 30/100 [06:20<14:56, 12.80s/it]Generations:  31%|███       | 31/100 [06:33<14:36, 12.71s/it]Generations:  32%|███▏      | 32/100 [06:46<14:27, 12.75s/it]Generations:  33%|███▎      | 33/100 [06:58<14:11, 12.71s/it]Generations:  34%|███▍      | 34/100 [07:11<13:55, 12.66s/it]Generations:  35%|███▌      | 35/100 [07:24<13:46, 12.72s/it]Generations:  36%|███▌      | 36/100 [07:36<13:31, 12.68s/it]Generations:  37%|███▋      | 37/100 [07:49<13:20, 12.71s/it]Generations:  38%|███▊      | 38/100 [08:02<13:04, 12.65s/it]Generations:  39%|███▉      | 39/100 [08:14<12:55, 12.71s/it]Generations:  40%|████      | 40/100 [08:27<12:42, 12.71s/it]Generations:  41%|████      | 41/100 [08:40<12:29, 12.70s/it]Generations:  42%|████▏     | 42/100 [08:53<12:20, 12.77s/it]Generations:  43%|████▎     | 43/100 [09:06<12:09, 12.80s/it]Generations:  44%|████▍     | 44/100 [09:19<12:05, 12.95s/it]Generations:  45%|████▌     | 45/100 [09:32<11:53, 12.98s/it]Generations:  46%|████▌     | 46/100 [09:45<11:40, 12.98s/it]Generations:  47%|████▋     | 47/100 [09:58<11:23, 12.90s/it]Generations:  48%|████▊     | 48/100 [10:10<11:02, 12.74s/it]Generations:  49%|████▉     | 49/100 [10:23<10:50, 12.76s/it]Generations:  50%|█████     | 50/100 [10:36<10:37, 12.75s/it]Generations:  51%|█████     | 51/100 [10:48<10:22, 12.71s/it]Generations:  52%|█████▏    | 52/100 [11:01<10:12, 12.77s/it]Generations:  53%|█████▎    | 53/100 [11:14<10:02, 12.82s/it]Generations:  54%|█████▍    | 54/100 [11:27<09:45, 12.73s/it]Generations:  55%|█████▌    | 55/100 [11:39<09:30, 12.68s/it]Generations:  56%|█████▌    | 56/100 [11:51<09:14, 12.61s/it]Generations:  57%|█████▋    | 57/100 [12:04<09:06, 12.71s/it]Generations:  58%|█████▊    | 58/100 [12:17<08:50, 12.64s/it]Generations:  59%|█████▉    | 59/100 [12:30<08:37, 12.63s/it]Generations:  60%|██████    | 60/100 [12:42<08:28, 12.71s/it]Generations:  61%|██████    | 61/100 [12:55<08:18, 12.79s/it]Generations:  62%|██████▏   | 62/100 [13:08<08:07, 12.83s/it]Generations:  63%|██████▎   | 63/100 [13:21<07:54, 12.82s/it]Generations:  64%|██████▍   | 64/100 [13:34<07:40, 12.80s/it]Generations:  65%|██████▌   | 65/100 [13:47<07:28, 12.81s/it]Generations:  66%|██████▌   | 66/100 [13:59<07:14, 12.77s/it]Generations:  67%|██████▋   | 67/100 [14:12<07:00, 12.75s/it]Generations:  68%|██████▊   | 68/100 [14:25<06:49, 12.80s/it]Generations:  69%|██████▉   | 69/100 [14:38<06:35, 12.77s/it]Generations:  70%|███████   | 70/100 [14:51<06:23, 12.79s/it]Generations:  71%|███████   | 71/100 [15:03<06:09, 12.74s/it]Generations:  72%|███████▏  | 72/100 [15:16<05:59, 12.84s/it]Generations:  73%|███████▎  | 73/100 [15:29<05:46, 12.85s/it]Generations:  74%|███████▍  | 74/100 [15:42<05:36, 12.94s/it]Generations:  75%|███████▌  | 75/100 [15:55<05:19, 12.78s/it]Generations:  76%|███████▌  | 76/100 [16:07<05:06, 12.76s/it]Generations:  77%|███████▋  | 77/100 [16:21<04:57, 12.93s/it]Generations:  78%|███████▊  | 78/100 [16:34<04:44, 12.95s/it]Generations:  79%|███████▉  | 79/100 [16:46<04:30, 12.90s/it]Generations:  80%|████████  | 80/100 [16:59<04:17, 12.89s/it]Generations:  81%|████████  | 81/100 [17:12<04:03, 12.80s/it]Generations:  82%|████████▏ | 82/100 [17:25<03:50, 12.80s/it]Generations:  83%|████████▎ | 83/100 [17:37<03:36, 12.72s/it]Generations:  84%|████████▍ | 84/100 [17:50<03:22, 12.66s/it]Generations:  85%|████████▌ | 85/100 [18:02<03:09, 12.64s/it]Generations:  86%|████████▌ | 86/100 [18:15<02:58, 12.78s/it]Generations:  87%|████████▋ | 87/100 [18:28<02:46, 12.78s/it]Generations:  88%|████████▊ | 88/100 [18:41<02:32, 12.69s/it]Generations:  89%|████████▉ | 89/100 [18:53<02:19, 12.70s/it]Generations:  90%|█████████ | 90/100 [19:06<02:07, 12.75s/it]Generations:  91%|█████████ | 91/100 [19:19<01:54, 12.72s/it]Generations:  92%|█████████▏| 92/100 [19:31<01:40, 12.61s/it]Generations:  93%|█████████▎| 93/100 [19:44<01:28, 12.64s/it]Generations:  94%|█████████▍| 94/100 [19:57<01:16, 12.69s/it]Generations:  95%|█████████▌| 95/100 [20:10<01:03, 12.77s/it]Generations:  96%|█████████▌| 96/100 [20:22<00:50, 12.56s/it]Generations:  97%|█████████▋| 97/100 [20:35<00:37, 12.60s/it]Generations:  98%|█████████▊| 98/100 [20:48<00:25, 12.73s/it]Generations:  99%|█████████▉| 99/100 [21:01<00:12, 12.88s/it]Generations: 100%|██████████| 100/100 [21:13<00:00, 12.77s/it]Generations: 100%|██████████| 100/100 [21:13<00:00, 12.74s/it]
+Generation 1 best fitness: 155.16819227739185
+Generation 2 best fitness: 308.25976279261744
+Generation 3 best fitness: 277.16732401107856
+Generation 4 best fitness: 371.0905014798869
+Generation 5 best fitness: 366.4625713113519
+Generation 6 best fitness: 366.4625713113519
+Generation 7 best fitness: 396.8449624500887
+Generation 8 best fitness: 396.8449624500887
+Generation 9 best fitness: 396.8449624500887
+Generation 10 best fitness: 396.8449624500887
+Generation 11 best fitness: 396.8449624500887
+Generation 12 best fitness: 396.8449624500887
+Generation 13 best fitness: 396.8449624500887
+Generation 14 best fitness: 396.8449624500887
+Generation 15 best fitness: 396.8449624500887
+Generation 16 best fitness: 396.8449624500887
+Generation 17 best fitness: 396.8449624500887
+Generation 18 best fitness: 396.8449624500887
+Generation 19 best fitness: 396.8449624500887
+Generation 20 best fitness: 396.8449624500887
+Generation 21 best fitness: 396.8449624500887
+Generation 22 best fitness: 396.8449624500887
+Generation 23 best fitness: 396.8449624500887
+Generation 24 best fitness: 396.8449624500887
+Generation 25 best fitness: 396.8449624500887
+Generation 26 best fitness: 396.8449624500887
+Generation 27 best fitness: 396.8449624500887
+Generation 28 best fitness: 396.8449624500887
+Generation 29 best fitness: 396.8449624500887
+Generation 30 best fitness: 396.8449624500887
+Generation 31 best fitness: 396.8449624500887
+Generation 32 best fitness: 396.8449624500887
+Generation 33 best fitness: 396.8449624500887
+Generation 34 best fitness: 396.8449624500887
+Generation 35 best fitness: 396.8449624500887
+Generation 36 best fitness: 396.8449624500887
+Generation 37 best fitness: 396.8449624500887
+Generation 38 best fitness: 396.8449624500887
+Generation 39 best fitness: 396.8449624500887
+Generation 40 best fitness: 396.8449624500887
+Generation 41 best fitness: 396.8449624500887
+Generation 42 best fitness: 396.8449624500887
+Generation 43 best fitness: 396.8449624500887
+Generation 44 best fitness: 396.8449624500887
+Generation 45 best fitness: 396.8449624500887
+Generation 46 best fitness: 396.8449624500887
+Generation 47 best fitness: 396.8449624500887
+Generation 48 best fitness: 396.8449624500887
+Generation 49 best fitness: 396.8449624500887
+Generation 50 best fitness: 396.8449624500887
+Generation 51 best fitness: 396.8449624500887
+Generation 52 best fitness: 396.8449624500887
+Generation 53 best fitness: 396.8449624500887
+Generation 54 best fitness: 396.8449624500887
+Generation 55 best fitness: 396.8449624500887
+Generation 56 best fitness: 396.8449624500887
+Generation 57 best fitness: 396.8449624500887
+Generation 58 best fitness: 396.8449624500887
+Generation 59 best fitness: 396.8449624500887
+Generation 60 best fitness: 396.8449624500887
+Generation 61 best fitness: 396.8449624500887
+Generation 62 best fitness: 396.8449624500887
+Generation 63 best fitness: 396.8449624500887
+Generation 64 best fitness: 396.8449624500887
+Generation 65 best fitness: 396.8449624500887
+Generation 66 best fitness: 396.8449624500887
+Generation 67 best fitness: 396.8449624500887
+Generation 68 best fitness: 396.8449624500887
+Generation 69 best fitness: 396.8449624500887
+Generation 70 best fitness: 396.8449624500887
+Generation 71 best fitness: 396.8449624500887
+Generation 72 best fitness: 396.8449624500887
+Generation 73 best fitness: 396.8449624500887
+Generation 74 best fitness: 396.8449624500887
+Generation 75 best fitness: 396.8449624500887
+Generation 76 best fitness: 396.8449624500887
+Generation 77 best fitness: 396.8449624500887
+Generation 78 best fitness: 396.8449624500887
+Generation 79 best fitness: 396.8449624500887
+Generation 80 best fitness: 396.8449624500887
+Generation 81 best fitness: 396.8449624500887
+Generation 82 best fitness: 396.8449624500887
+Generation 83 best fitness: 396.8449624500887
+Generation 84 best fitness: 396.8449624500887
+Generation 85 best fitness: 396.8449624500887
+Generation 86 best fitness: 396.8449624500887
+Generation 87 best fitness: 396.8449624500887
+Generation 88 best fitness: 396.8449624500887
+Generation 89 best fitness: 396.8449624500887
+Generation 90 best fitness: 396.8449624500887
+Generation 91 best fitness: 396.8449624500887
+Generation 92 best fitness: 396.8449624500887
+Generation 93 best fitness: 396.8449624500887
+Generation 94 best fitness: 396.8449624500887
+Generation 95 best fitness: 396.8449624500887
+Generation 96 best fitness: 396.8449624500887
+Generation 97 best fitness: 396.8449624500887
+Generation 98 best fitness: 396.8449624500887
+Generation 99 best fitness: 396.8449624500887
+Generation 100 best fitness: 396.8449624500887
+Best weight matrix found: [ 1.  1.  1. ... -5. -5.  1.]
