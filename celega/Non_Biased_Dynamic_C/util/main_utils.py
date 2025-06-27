@@ -10,6 +10,7 @@ from Algorithms.Pure_NOMAD import Genetic_Dyn_Algorithm as GD_PureNomad
 from Algorithms.RandParam_50_NOMAD import Genetic_Dyn_Algorithm as GD_RandomNomad
 from Algorithms.EVO_NOMAD import Genetic_Dyn_Algorithm as GD_EVO
 from Algorithms.OaI_es import train_openai_es
+from Algorithms.CMA_ES import train_cma_es
 # Graphs
 from graphs.Graph_pos_over_time import Genetic_Dyn_Algorithm as GD_Pos
 from graphs.Graph_fitness_over_time import Genetic_Dyn_Algorithm as GD_Graph
@@ -210,4 +211,27 @@ def run_openai_es(config: Dict,
         csv_log="ES_worms",
     )
 
-    print(f"OpenAI-ES finished → {best} genome in best_es.npy")
+    print(f"OpenAI-ES finished → {best}")
+
+def run_cma_es(config: Dict,
+                  genome: np.ndarray,
+                  genome_len: int):
+    """
+    Launch OpenAI-ES search seeded with the real connectome + random worms.
+    Writes every improvement to ES_worms.csv and saves the champion to best_es.npy.
+    """
+    # WormSimulationEnv currently takes only num_worms
+    env = WormSimulationEnv(num_worms=1)
+
+    best = train_cma_es(
+        env=env,
+        init_genome=genome,
+        generations=config["generations"],
+        pop_size=config["population_size"],
+        prob_type=config["food_patterns"],
+        interval=config["training_interval"],
+        episodes=config["total_episodes"],
+        csv_log="CMAES_worms",
+    )
+
+    print(f"OpenAI-ES finished → {best}")

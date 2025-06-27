@@ -7,6 +7,7 @@ from Worm_Env.weight_dict import dict
 from graphs.graph_ngon_performance import plot_ngon_performance
 from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment,\
     graph_quartiles,graph_aggregates,calculate_worm_suffering_index, run_openai_es,\
+        run_cma_es,\
         test_last_generations,graph_training_results,graph_trained_population,graph_video_ngons
 os.environ["RAY_DEDUP_LOGS"] = "0"
 
@@ -40,9 +41,8 @@ config = {
     # "graph_fitness_over_time", "graph_fitness_over_time_legacy",
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "standard_evolutionary_algorithm", "nomad_evolutionary_algorithm"
-    # EVO_NOMAD, OPENAI_ES
-    "ga_variant": "random_nomad_algorithm", ## evo nomad = bad
-    # OPENAI_ES, pure_nomad_algorithm, random_nomad_algorithm, standard_evolutionary_algorithm, nomad_evolutionary_algorithm
+    # EVO_NOMAD, OPENAI_ES, CMA_ES
+    "ga_variant": "graph_positions_over_time", ## evo nomad = bad
 }
 
 
@@ -68,6 +68,12 @@ def main(config):
                 "generations": 250,
             })
             run_openai_es(config, connectome_weights, length)
+        elif config.get("ga_variant") == "CMA_ES":
+            config.update({
+                "population_size": None,
+                "generations": 180,
+            })
+            run_cma_es(config, connectome_weights, length)
         else:
             run_genetic_algorithm(config,connectome_weights,length)
 
@@ -108,7 +114,6 @@ def main(config):
 
 
 if __name__ == "__main__":
-    for _ in range (10):
             main(config)
 
 
