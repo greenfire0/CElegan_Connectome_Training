@@ -78,6 +78,7 @@ class Genetic_Dyn_Algorithm:
             "darkorange":  "Random 50 search",
             "purple":      "Pure Nomad",
             "black":       "NOMAD Hybrid",
+            "red":  "CMA-ES"
         }
         colour_axes = {"fitness": ax1, "distance": ax2, "changes": ax3}
 
@@ -123,6 +124,8 @@ class Genetic_Dyn_Algorithm:
             fname = filename.lower()
             if "hybrid" in fname:
                 colour = "black"
+            elif "cmaes" in fname:
+                colour = "red"
             elif "evolutionary" in fname:
                 colour = "forestgreen"
             elif "random" in fname:
@@ -163,6 +166,8 @@ class Genetic_Dyn_Algorithm:
         ax1.legend(fontsize=10, ncol=2)
 
         ax3.set_yscale("log")
+        ax2.set_yscale("log")
+
         plt.tight_layout()
         plt.savefig("fig7.svg")
         ray.shutdown()
