@@ -60,17 +60,16 @@ class Genetic_Dyn_Algorithm:
                 best_index = np.argmax(fitnesses)
                 best_fitness = fitnesses[best_index]
                 best_weights = np.copy(self.population[best_index].weight_matrix)
-
+                best_worm = WormConnectome(weight_matrix=best_weights, all_neuron_names=all_neuron_names)
 
                 print(f"Generation {generation + 1} best fitness: {best_fitness}")
                 self.population = select_parents(self.population,fitnesses, self.population_size // 2 )
                 self.population.extend(crossover(self.population, fitnesses, self.population_size - len(self.population),self.matrix_shape))
-                self.population.append(WormConnectome(weight_matrix=best_weights, all_neuron_names=all_neuron_names))
+                self.population.append(best_worm)
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv(filename, self.population[best_index],max_rows=generations)
+                write_worm_to_csv(filename, best_worm,max_rows=generations)
 
             return best_weights
         finally:
             ray.shutdown()
-

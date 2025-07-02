@@ -165,3 +165,107 @@ class Genetic_Dyn_Video:
 
 
      # ────────────────────────────────────────────────────────────────
+
+    # ────────────────────────────────────────────────────────────────
+    # ────────────────────────────────────────────────────────────────
+    def run_image_simulation(self, out_img="ngon_trajectories.svg"):
+        """
+        Simulate each n-gon once and save a figure in the “polygon_fig” style
+        (big title, horizontal colour-bar, food-eaten boxes).
+        """
+        # ── load candidates & envs ──────────────────────────────────
+        candidates, envs, food_pts = [], [], []
+        for pat in self.food_patterns:
+            arr = read_arrays_from_csv_pandas(os.path.join("24hr", f"array{pat}.csv"))
+            if not arr:
+                raise FileNotFoundError(f"array{pat}.csv is empty")
+            candidates.append(WormConnectome(np.asarray(arr[-1], float), all_neuron_names))
+
+            e = WormSimulationEnv();  e.reset(pat, num_food=36)
+            envs.append(e);  food_pts.append(e.food.copy())
+
+        # ── simulate & collect trajectories ────────────────────────
+        steps        = self.total_episodes * self.training_interval
+        trajectories = [[] for _ in envs]
+        food_eaten   = [0] * len(envs)
+
+        for _ in tqdm(range(steps), desc="Simulating"):
+            for i, (env, cand) in enumerate(zip(envs, candidates)):
+                obs = env._get_observations()
+                trajectories[i].append(obs[0][1:3])                       # x,y
+                mv = cand.move(obs[0][0], env.worms[0].sees_food,
+                               mLeft, mRight, muscleList, muscles)
+                _, r, _ = env.step(mv, 0, cand)
+                food_eaten[i] += r
+
+        # ── plot figure ─────────────────────────────────────────────
+        import matplotlib.pyplot as plt, matplotlib.cm as cm
+        n      = len(self.food_patterns)
+        ncol   = min(3, n);  nrow = int(np.ceil(n / ncol))
+        fig, axes = plt.subplots(nrow, ncol,
+                                 figsize=(6.5*ncol, 5*nrow),
+                                 squeeze=False)
+        axes = axes.flatten()
+
+        cmap  = cm.get_cmap("viridis")
+        max_t = max(len(t) for t in trajectories)
+        norm  = plt.Normalize(0, max_t-1)
+
+        for idx, (ax, traj, foods, eaten) in enumerate(
+                zip(axes, trajectories, food_pts, food_eaten)):
+
+            ax.set_xlim(0, 1600);  ax.set_ylim(0, 1200);  ax.set_aspect("equal")
+
+            # axis labels only on left & bottom edges
+            if idx % ncol == 0:
+                ax.set_ylabel("Y Position", fontsize=20)
+                ax.tick_params(axis='y', labelsize=26)
+
+            else:
+                ax.tick_params(axis='y', left=False, labelleft=False,labelsize=26)
+
+            if idx // ncol == nrow-1:
+                ax.set_xlabel("X Position", fontsize=20)
+                ax.tick_params(axis='x', labelsize=26)
+
+                
+            else:
+                ax.tick_params(axis='x', bottom=False, labelbottom=False,labelsize=26)
+
+            # food dots
+            for x, y in foods:
+                ax.plot(x, y, 'ro', ms=4)
+
+            # coloured trajectory
+            traj = np.asarray(traj)
+            for i in range(1, len(traj)):
+                ax.plot(traj[i-1:i+1,0], traj[i-1:i+1,1],
+                        color=cmap(norm(i)), lw=3)
+
+            # food-eaten textbox
+            ax.text(0.03, 0.12, f"Food Sources Eaten: {eaten:.0f}",
+                    transform=ax.transAxes,
+                    va='top', ha='left', fontsize=24,
+                    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.7))
+
+        # hide unused panes
+        for extra in axes[n:]:
+            extra.axis("off")
+
+        # global figure title
+        fig.suptitle("Worm Movement After Training on Polygonal Food Patterns",
+                     fontsize=26, y=0.98)
+
+        sm = cm.ScalarMappable(norm=norm, cmap=cmap)
+        sm.set_array([])
+
+        # left, bottom, width, height in figure coordinates
+        cax = fig.add_axes([0.15, 0.915, 0.70, 0.025])
+        cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
+        cbar.set_label("Time step", fontsize=18)
+        cbar.ax.tick_params(labelsize=18)
+
+        plt.tight_layout(rect=[0,0.05,1,0.92])
+        plt.savefig(out_img, dpi=300)
+        plt.close(fig)
+        print(f"Saved {out_img}")

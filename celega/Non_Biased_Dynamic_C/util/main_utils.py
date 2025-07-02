@@ -187,6 +187,16 @@ def graph_video_ngons(config):
     )
     gd_video.run_video_simulation(env, output_video=config.get("video_output", "food_collection_video.mp4"))
 
+def graph_image_ngons(config):
+    env = WormSimulationEnv()
+    sim = Genetic_Dyn_Video(
+        population_size=1,
+        pattern=[3, 4, 5, 6, 7, 8],
+        total_episodes=config["total_episodes"],
+        training_interval=config["training_interval"],
+    )
+    sim.run_image_simulation()
+
 
 def run_openai_es(config: Dict,
                   genome: np.ndarray,
