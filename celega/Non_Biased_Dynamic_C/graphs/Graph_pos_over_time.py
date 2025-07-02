@@ -9,7 +9,7 @@ import random
 import matplotlib.cm as cm  # Import for color mapping
 import os
 from Worm_Env.weight_dict import dict as dict2
-
+from matplotlib.cm import ScalarMappable          #  ADD THIS
 
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size, pattern=[4], total_episodes=10, training_interval=25, genome=None, matrix_shape=3689):
@@ -129,23 +129,24 @@ class Genetic_Dyn_Algorithm:
                 break
 
             ax = axs[idx]
-            ax.set_title(titles[idx], fontsize=14, pad=10)
+            ax.set_title(titles[idx], fontsize=24)
 
             # only left-most column shows Y-ticks
             if idx % 3 == 0:
-                ax.set_ylabel("Y Position")
+                ax.set_ylabel("Y Position",fontsize=22)
+                ax.tick_params(axis="y", labelsize=22)
             else:
                 ax.set_yticks([])
 
             # only bottom row shows X-ticks
             if idx // 3 == 1:
-                ax.set_xlabel("X Position")
+                ax.set_xlabel("X Position",fontsize=22)
+                ax.tick_params(axis="x", labelsize=22)
             else:
                 ax.set_xticks([])
 
             ax.set_xlim(0, 1600)
             ax.set_ylim(0, 1200)
-            ax.set_aspect("equal")
 
             # food pattern
             env.reset(self.food_patterns[0])
@@ -165,19 +166,33 @@ class Genetic_Dyn_Algorithm:
 
             # fitness box
             ax.text(
-                0.03, 0.95, f"Food Eaten: {fitness:.1f}",
+                0.03, 0.12, f"Food Sources Eaten: {fitness:.1f}",
                 transform=ax.transAxes,
-                fontsize=10,
+                fontsize=22,
                 va="top", ha="left",
                 bbox=dict(facecolor="wheat", alpha=0.5, boxstyle="round,pad=0.2"),
             )
+        sm = ScalarMappable(
+            cmap=cm.viridis,
+            norm=plt.Normalize(vmin=0, vmax=250)   # <-- new
+        )        
+        sm.set_array([])
 
-        # ── 5) tidy up & save ─────────────────────────────────────── #
-        fig.tight_layout(rect=[0, 0, 1, 0.96])
+        # reserve 10 % of the figure’s height at the top:
+        fig.tight_layout(rect=[0, 0, 1, 0.90])
+        # make the rows sit a bit closer together
+        # overall title
         fig.suptitle(
             "Worm Movement Trajectories Before and After Training",
-            fontsize=20, y=0.985,
+            fontsize=28, y=0.96                     # y just below the top edge
         )
+
+        # add an axes for the colour-bar (left, bottom, width, height)
+        cbar_ax = fig.add_axes([0.20, 0.92, 0.60, 0.02])
+        cbar = fig.colorbar(sm, cax=cbar_ax, orientation="horizontal")
+        cbar.ax.tick_params(labelsize=14, length=0)
+
+        # ── 5) save/show ────────────────────────────────────────────── #
         fig.savefig("fig_pos_over_time.svg")
         plt.show()
         ray.shutdown()

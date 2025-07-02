@@ -30,6 +30,12 @@ def evaluate_candidate(candidate_weights, env, food_pattern, training_interval, 
     return result[0]  # The fitness value (food eaten)
 
 def plot_ngon_performance(csv_files, training_interval, total_episodes=10):
+    TITLE_FSIZE   = 24   # subplot titles
+    LABEL_FSIZE   = 22   # axis labels
+    TICK_FSIZE    = 22   # tick labels
+    SUPTITLE_FSIZE = 28  # big title
+
+    
     ngon_list = []
     start_perf = []
     end_perf = []
@@ -40,7 +46,7 @@ def plot_ngon_performance(csv_files, training_interval, total_episodes=10):
             print(f"File {csv_file} not found, skipping.")
             continue
         
-        genomes = read_arrays_from_csv_pandas(csv_file)
+        genomes = read_arrays_from_csv_pandas(os.path.join("24hr",csv_file))
         if len(genomes) == 0:
             print(f"No genomes in {csv_file}, skipping.")
             continue
@@ -76,20 +82,22 @@ def plot_ngon_performance(csv_files, training_interval, total_episodes=10):
     sorted_start = [start_perf[i] for i in sorted_indices]
     sorted_end = [end_perf[i] for i in sorted_indices]
 
-    # Create a figure with two subplots (one for start and one for end performance)
     fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
+    # top bar-chart
     axs[0].bar(sorted_ngon, sorted_start)
-    axs[0].set_title("Performance at Start of Training")
-    axs[0].set_ylabel("Fitness (Food Eaten)")
+    axs[0].set_title("Performance at Start of Training", fontsize=TITLE_FSIZE)
+    axs[0].set_ylabel("Fitness (Food Eaten)", fontsize=LABEL_FSIZE)
+    axs[0].tick_params(axis="both", labelsize=TICK_FSIZE)
 
+    # bottom bar-chart
     axs[1].bar(sorted_ngon, sorted_end)
-    axs[1].set_title("Performance at End of Training")
-    axs[1].set_xlabel("Ngon (Food Pattern)")
-    axs[1].set_ylabel("Fitness (Food Eaten)")
+    axs[1].set_title("Performance at End of Training", fontsize=TITLE_FSIZE)
+    axs[1].set_xlabel("Ngon (Food Pattern)", fontsize=LABEL_FSIZE)
+    axs[1].set_ylabel("Fitness (Food Eaten)", fontsize=LABEL_FSIZE)
+    axs[1].tick_params(axis="both", labelsize=TICK_FSIZE)
 
-    plt.suptitle("Ngon Performance Comparison", fontsize=16)
-    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.suptitle("Ngon Performance Comparison", fontsize=SUPTITLE_FSIZE, y=0.97)
+    plt.tight_layout(rect=[0, 0, 1, 0.92])   # leave space for the suptitle
     plt.savefig("ngon_performance_barcharts.png")
     ray.shutdown()
-

@@ -31,7 +31,7 @@ def select_parents(population, fitnesses, num_parents):
 @staticmethod
 def crossover(parents, fitnesses, num_offspring,matrix_shape):
     offspring = []
-    parent_fitnesses = np.array([fitnesses[i] for i in np.argsort(fitnesses)[-len(parents):]])
+    parent_fitnesses = np.array([fitnesses[i] for i in np.argsort(fitnesses)[-len(parents):]]) ### this might be able to be removed
     fitness_probs = parent_fitnesses / np.sum(parent_fitnesses)
     for _ in range(num_offspring):
         parent1 = np.random.choice(parents, p=fitness_probs)
