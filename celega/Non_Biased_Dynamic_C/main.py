@@ -25,7 +25,7 @@ config = {
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
     "clean_env": 0,
     "freeze_indicies": 0, ## this all needs documentation
-    "run_gen": 0,
+    "run_gen": 1,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
@@ -35,7 +35,7 @@ config = {
     "graph_quartiles": 0,
     "polygon_test":0,
     "graph_ngon_performance": 0,
-    "graph_video_ngons": 1,
+    "graph_video_ngons": 0,
 
 
     # More descriptive name in ga_variant:
@@ -44,7 +44,7 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "graph_fitness_over_time_legacy", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES, CMA_ES
-    "ga_variant": "graph_positions_over_time", ## evo nomad = bad 
+    "ga_variant": "pure_nomad_algorithm", ## evo nomad = bad 
     
     ##change order before graphing bigger text
 }

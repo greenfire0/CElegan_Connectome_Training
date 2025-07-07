@@ -208,7 +208,7 @@ class WormSimulationEnv(gym.Env):
         
         worm_pos = self.worms[worm_num].position
         
-        rewards = WormSimulationEnv.calculate_rewards2(worm_pos, self.food, self.foodradius, self.range)
+        rewards = WormSimulationEnv.calculate_rewards_new(worm_pos, self.food, self.foodradius, self.range)
         self._check_eat_food(worm_pos)
         done = self._check_done()
 

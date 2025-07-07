@@ -4,6 +4,7 @@ from Worm_Env.weight_dict import all_neuron_names
 import ray
 import PyNomad
 import numpy.typing as npt
+import time
 
 @staticmethod
 def initialize_population(population_size:int, genome):
@@ -87,6 +88,8 @@ def mutate(offspring,matrix_shape, n=5):
 
 @ray.remote # type: ignore[arg-type]
 def evaluate_fitness_nomad(func, candidate_weights:npt.NDArray[np.float64], nur_name, env, prob_type, mLeft, mRight, muscleList, muscles, interval, episodes,ind,bounds:int,bb_eval,verify:bool=False):
+        wall_start = time.perf_counter() 
+        cpu_start  = time.process_time()
         if ind.size == 0:
                 raise ValueError(f"Please pass indicies,{ind}")
         x0 = np.array(candidate_weights[ind])
@@ -122,8 +125,14 @@ def evaluate_fitness_nomad(func, candidate_weights:npt.NDArray[np.float64], nur_
             #print("fitness",-result['f_best'],"fitness",fitness_verify)
             assert abs(fitness_verify+result['f_best'])<2,( w_test[ind]==result['x_best'], "\nResults\n",fitness_verify,result['f_best'])
             del w_test,fitness_verify
+        
+        cpu_total  = time.process_time() - cpu_start
+        wall_total = time.perf_counter() - wall_start
+        cpu_fit    = wrapper.time                # only fitness calls
+        cpu_nomad  = max(cpu_total - cpu_fit, 0) # PyNomad + copy + misc
         del wrapper
-        return ([ind,result['x_best']],-result['f_best'])
+        return ([ind,result['x_best']],-result['f_best'],cpu_fit,wall_total,cpu_nomad)
+
 
 
 class BlackboxWrapper:
@@ -139,6 +148,7 @@ class BlackboxWrapper:
         self.episodes = episodes
         self.ind = index
         self.candidate = cand
+        self.time =0.0
 
     def blackbox(self, eval_point):
             
@@ -147,9 +157,11 @@ class BlackboxWrapper:
             for a in range(len(self.ind)):
                 self.candidate_edit.append(eval_point.get_coord(a))
             self.candidate_weights[self.ind] = self.candidate_edit
+            tic = time.process_time()
             eval_value = -1*self.func(
                     self.candidate_weights, all_neuron_names, self.env, self.prob_type, 
                     self.mLeft, self.mRight, self.muscleList, self.muscles, self.interval, self.episodes)
+            self.time += time.process_time() - tic
             eval_point.setBBO(str(eval_value).encode('utf-8'))
             del self.candidate_weights
             return True

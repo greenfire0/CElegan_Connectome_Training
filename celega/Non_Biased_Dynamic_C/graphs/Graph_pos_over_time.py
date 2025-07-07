@@ -184,7 +184,7 @@ class Genetic_Dyn_Algorithm:
         # overall title
         fig.suptitle(
             "Worm Movement Trajectories Before and After Training",
-            fontsize=28, y=0.96                     # y just below the top edge
+            fontsize=28, y=0.98                     # y just below the top edge
         )
 
         # add an axes for the colour-bar (left, bottom, width, height)
