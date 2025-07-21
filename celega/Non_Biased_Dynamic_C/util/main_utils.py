@@ -157,7 +157,7 @@ def polygon_test(config:Dict,values_list:npt.NDArray[np.float64],length:int):
     print("Starting Polygon Test Experiment...")
 
     env = WormSimulationEnv()
-    GA_Class = GD_PureNomad 
+    GA_Class = GD_EA_Nomad 
 
     for food_pattern in range(6, 11):  # Iterate from 6 to 10 (inclusive)
         print(f"Running with food pattern: {food_pattern}")

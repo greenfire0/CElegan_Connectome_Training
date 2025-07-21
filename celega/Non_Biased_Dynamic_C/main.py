@@ -42,9 +42,9 @@ config = {
     # "graph_positions_over_time", "graph_path_quartile_evolution",
     # "graph_fitness_over_time", "graph_fitness_over_time_legacy",
     # "pure_nomad_algorithm", "random_nomad_algorithm",
-    # "graph_fitness_over_time_legacy", "nomad_evolutionary_algorithm"
+    # "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES, CMA_ES
-    "ga_variant": "pure_nomad_algorithm", ## evo nomad = bad 
+    "ga_variant": "graph_fitness_over_time_legacy", ## evo nomad = bad 
     
     ##change order before graphing bigger text
 }

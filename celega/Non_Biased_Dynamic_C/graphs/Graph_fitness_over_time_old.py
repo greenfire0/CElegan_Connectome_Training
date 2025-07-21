@@ -1,13 +1,45 @@
+
+import os
+import random
+from collections import defaultdict
+from itertools import combinations
+
 import numpy as np
 import ray
-from Worm_Env.connectome import WormConnectome
-from Worm_Env.weight_dict import muscles, muscleList, mLeft, mRight, all_neuron_names
+import pandas as pd
 from matplotlib import pyplot as plt
-import os
-from util.write_read_txt import read_arrays_from_csv_pandas
-import random
+from scipy.stats import kruskal
+import scikit_posthocs as sp
+from statsmodels.stats.multitest import multipletests
+import pingouin as pg
+
+from Worm_Env.connectome import WormConnectome
+from Worm_Env.weight_dict import (
+    muscles,
+    muscleList,
+    mLeft,
+    mRight,
+    all_neuron_names,
+)
 from Algorithms.algo_utils import evaluate_fitness_ray
-from collections import defaultdict
+from util.write_read_txt import read_arrays_from_csv_pandas
+def cliffs_delta_np(x, y):
+    """
+    Cliff's delta (δ) for two independent samples.
+    Returns a float in [‑1, 1]:  0 = no effect,
+    |δ|<0.147 negligible, 0.147‑0.33 small, 0.33‑0.474 medium, ≥0.474 large.
+    """
+    x = np.asarray(x, float).ravel()
+    y = np.asarray(y, float).ravel()
+    n_x, n_y = x.size, y.size
+
+    # pairwise differences via broadcasting
+    diff = np.subtract.outer(x, y)
+    n_greater = np.sum(diff > 0)
+    n_less    = np.sum(diff < 0)
+
+    return (n_greater - n_less) / (n_x * n_y)
+
 class Genetic_Dyn_Algorithm:
     def __init__(self, population_size, pattern=[5], total_episodes=10, training_interval=25, genome=None, matrix_shape=3689):
         self.population_size = population_size
@@ -251,6 +283,35 @@ class Genetic_Dyn_Algorithm:
                 f"  (min {v['dist_min']:.1f}, max {v['dist_max']:.1f}) | "
                 f"changes = {v['change_mean']:.1f} ± {v['change_std']:.1f}"
                 f"  (min {v['change_min']:.0f}, max {v['change_max']:.0f}, n={v['n']})")
+        records: list[dict] = []
+        for colour, runs in metrics["fitness"].items():
+            if not runs:
+                continue
+            label = LABEL[colour]
+            for seed_idx, run in enumerate(runs):
+                records.append(
+                    {"method": label, "seed": seed_idx, "fitness": float(run[-1])}
+                )
+        df = pd.DataFrame(records)
 
+        # Global Kruskal–Wallis test (non‑parametric ANOVA)
+        stat, p_global = kruskal(*[g["fitness"].values for _, g in df.groupby("method")])
+        print(f"\nKruskal–Wallis H = {stat:.3f}, p = {p_global:.3e}")
+
+        # Pairwise Dunn post‑hoc with Holm correction
+        pvals_mat = sp.posthoc_dunn(df, val_col="fitness", group_col="method", p_adjust=None)
+        pair_raw = [(a, b, pvals_mat.loc[a, b]) for a, b in combinations(pvals_mat.columns, 2)]
+        _, p_adj, _, _ = multipletests([p for *_, p in pair_raw], method="holm")
+
+        print("\nPairwise comparisons (Holm‑adjusted p, Cliff's δ):")
+        for (a, b, p_raw), p_corr in zip(pair_raw, p_adj):
+            d = cliffs_delta_np(
+            df[df.method == a]['fitness'].values,
+            df[df.method == b]['fitness'].values,)
+            print(f"{a:15s} vs {b:15s}: p_adj = {p_corr:.3e}, δ = {d:.3f}")
+
+        # Optionally save table for LaTeX import
+        df.to_csv("final_fitness_by_seed.csv", index=False)
 
         ray.shutdown()
+
