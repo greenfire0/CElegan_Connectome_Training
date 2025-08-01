@@ -18,14 +18,14 @@ os.environ["DISABLE_TQDM"] = "1"
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 190, ### 21 min for es worm
-    "training_interval": 10000,
+    "generations": 20, ### 21 min for es worm
+    "training_interval": 250,
     "total_episodes": 1,
     "food_patterns": [5],
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
     "clean_env": 0,
     "freeze_indicies": 0, ## this all needs documentation
-    "run_gen": 1,
+    "run_gen": 0,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
@@ -44,7 +44,7 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "graph_fitness_over_time_legacy", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES, CMA_ES
-    "ga_variant": "graph_positions_over_time", ## evo nomad = bad 
+    "ga_variant": "pure_nomad_algorithm", ## evo nomad = bad 
     
     ##change order before graphing bigger text
 }
@@ -57,6 +57,8 @@ for sub_dict in dict.values():
 connectome_weights:npt.NDArray[np.float64] = np.array(values_list)
 length = len(values_list)
 
+from graphs.graph_video import GeneticDynVideo
+GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
 
 
 def main(config):

@@ -208,7 +208,7 @@ class WormSimulationEnv(gym.Env):
         
         worm_pos = self.worms[worm_num].position
         
-        rewards = WormSimulationEnv.calculate_rewards2(worm_pos, self.food, self.foodradius, self.range)
+        rewards = WormSimulationEnv.calculate_rewards_new(worm_pos, self.food, self.foodradius, self.range)
         self._check_eat_food(worm_pos)
         done = self._check_done()
 
@@ -221,22 +221,30 @@ class WormSimulationEnv(gym.Env):
         self.food = self.food[distances >= self.foodradius]
 
 
-    def render(self, worm_num=0, mode='human'):
+    def render(self, worm_num=0, mode="human"):
         self.ax.clear()
         worm = self.worms[worm_num]
-        self.ax.plot(worm.position[0], worm.position[1], 'ro')
-        self.ax.plot([worm.position[0], worm.position[0] + 100 * np.cos(worm.facing_dir)],
-                     [worm.position[1], worm.position[1] + 100 * np.sin(worm.facing_dir)], 'b-')
 
-        for f in self.food:
-            if is_food_close(worm.position,f,self.range):
-                self.ax.plot(f[0], f[1], 'yo')
-            else:    
-                self.ax.plot(f[0], f[1], 'bo')
+        # worm body + heading
+        self.ax.plot(*worm.position, "ro")
+        self.ax.plot(
+            [worm.position[0], worm.position[0] + 100 * np.cos(worm.facing_dir)],
+            [worm.position[1], worm.position[1] + 100 * np.sin(worm.facing_dir)],
+            "b-",
+        )
+
+        # vectorised proximity check (no Numba)
+        if self.food.size:
+            dists = np.linalg.norm(self.food - worm.position, axis=1)
+            close = dists < self.range
+            self.ax.plot(*self.food[~close].T, "bo")
+            self.ax.plot(*self.food[close].T,  "yo")
 
         self.ax.set_xlim(0, self.dimx)
         self.ax.set_ylim(0, self.dimy)
-        plt.pause(0.01)
+        self.ax.set_aspect("equal", adjustable="box")
+        plt.pause(0.001)     # small delay is enough
+
 
     def _get_observations(self):
         observations = []
