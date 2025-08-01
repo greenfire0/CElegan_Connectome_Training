@@ -164,108 +164,118 @@ class Genetic_Dyn_Video:
         plt.close('all')
 
 
-     # ────────────────────────────────────────────────────────────────
-
-    # ────────────────────────────────────────────────────────────────
-    # ────────────────────────────────────────────────────────────────
-    def run_image_simulation(self, out_img="ngon_trajectories.svg"):
+    def run_image_simulation(
+            self,
+            out_img: str = "nomad_vs_hybrid_trajectories.svg") -> None:
         """
-        Simulate each n-gon once and save a figure in the “polygon_fig” style
-        (big title, horizontal colour-bar, food-eaten boxes).
+        4 × 3 figure:
+        rows 0–1 → PURE NOMAD
+        rows 2–3 → NOMAD HYBRID
+        Each panel shows the worm trajectory and “FOOD EATEN”.
         """
-        # ── load candidates & envs ──────────────────────────────────
-        candidates, envs, food_pts = [], [], []
-        for pat in self.food_patterns:
-            arr = read_arrays_from_csv_pandas(os.path.join("24hr", f"array{pat}.csv"))
-            if not arr:
-                raise FileNotFoundError(f"array{pat}.csv is empty")
-            candidates.append(WormConnectome(np.asarray(arr[-1], float), all_neuron_names))
+        # ── imports ───────────────────────────────────────────────
+        import os, numpy as np
+        import matplotlib.pyplot as plt
+        from matplotlib import cm
+        from matplotlib.colors import Normalize
+        from tqdm import tqdm
 
-            e = WormSimulationEnv();  e.reset(pat, num_food=36)
-            envs.append(e);  food_pts.append(e.food.copy())
+        csv_sets = [("array",     "PURE NOMAD"),
+                    ("EVO_NOMAD", "NOMAD HYBRID")]
 
-        # ── simulate & collect trajectories ────────────────────────
-        steps        = self.total_episodes * self.training_interval
-        trajectories = [[] for _ in envs]
-        food_eaten   = [0] * len(envs)
+        # ── 1. load data ──────────────────────────────────────────
+        cands, envs, food_pts = [], [], []
+        for csv_prefix, _ in csv_sets:
+            for pat in self.food_patterns:                       # expects 3 patterns
+                csv = os.path.join("24hr", f"{csv_prefix}{pat}.csv")
+                arr = read_arrays_from_csv_pandas(csv)
+                if not arr:
+                    raise FileNotFoundError(f"{csv} missing / empty")
+                cands.append(WormConnectome(np.asarray(arr[-1], float),
+                                            all_neuron_names))
+                env = WormSimulationEnv();  env.reset(pat, num_food=36)
+                envs.append(env);  food_pts.append(env.food.copy())
 
-        for _ in tqdm(range(steps), desc="Simulating"):
-            for i, (env, cand) in enumerate(zip(envs, candidates)):
+        # ── 2. simulate ──────────────────────────────────────────
+        n_steps      = self.total_episodes * self.training_interval
+        trajectories = [[] for _ in envs];  food_eaten = [0] * len(envs)
+
+        for _ in tqdm(range(n_steps), desc="Simulating"):
+            for i, (env, cand) in enumerate(zip(envs, cands)):
                 obs = env._get_observations()
-                trajectories[i].append(obs[0][1:3])                       # x,y
+                trajectories[i].append(obs[0][1:3])
                 mv = cand.move(obs[0][0], env.worms[0].sees_food,
-                               mLeft, mRight, muscleList, muscles)
+                            mLeft, mRight, muscleList, muscles)
                 _, r, _ = env.step(mv, 0, cand)
                 food_eaten[i] += r
 
-        # ── plot figure ─────────────────────────────────────────────
-        import matplotlib.pyplot as plt, matplotlib.cm as cm
-        n      = len(self.food_patterns)
-        ncol   = min(3, n);  nrow = int(np.ceil(n / ncol))
-        fig, axes = plt.subplots(nrow, ncol,
-                                 figsize=(6.5*ncol, 5*nrow),
-                                 squeeze=False)
+        # ── 3. plot ──────────────────────────────────────────────
+        fig, axes = plt.subplots(4, 3, figsize=(17, 20), squeeze=False)
+        fig.subplots_adjust(wspace=0.00)                      # tighter columns
         axes = axes.flatten()
 
-        cmap  = cm.get_cmap("viridis")
-        max_t = max(len(t) for t in trajectories)
-        norm  = plt.Normalize(0, max_t-1)
+        cmap = cm.get_cmap("viridis")
+        norm = Normalize(0, max(len(t) for t in trajectories) - 1)
 
         for idx, (ax, traj, foods, eaten) in enumerate(
                 zip(axes, trajectories, food_pts, food_eaten)):
 
             ax.set_xlim(0, 1600);  ax.set_ylim(0, 1200);  ax.set_aspect("equal")
+            row, col = divmod(idx, 3)
 
-            # axis labels only on left & bottom edges
-            if idx % ncol == 0:
-                ax.set_ylabel("Y Position", fontsize=20)
-                ax.tick_params(axis='y', labelsize=26)
-
+            # axis labels & ticks
+            if col == 0:
+                ax.set_ylabel("Y POSITION", fontsize=28)
+                ax.tick_params(axis="y", labelsize=24)
             else:
-                ax.tick_params(axis='y', left=False, labelleft=False,labelsize=26)
-
-            if idx // ncol == nrow-1:
-                ax.set_xlabel("X Position", fontsize=20)
-                ax.tick_params(axis='x', labelsize=26)
-
-                
+                ax.set_yticks([])
+            if row == 3:
+                ax.set_xlabel("X POSITION", fontsize=28)
+                ax.tick_params(axis="x", labelsize=24)
             else:
-                ax.tick_params(axis='x', bottom=False, labelbottom=False,labelsize=26)
+                ax.set_xticks([])
 
             # food dots
-            for x, y in foods:
-                ax.plot(x, y, 'ro', ms=4)
+            x_f, y_f = foods.T
+            ax.plot(x_f, y_f, "ro", ms=7)
 
-            # coloured trajectory
+            # trajectory
             traj = np.asarray(traj)
-            for i in range(1, len(traj)):
-                ax.plot(traj[i-1:i+1,0], traj[i-1:i+1,1],
-                        color=cmap(norm(i)), lw=3)
+            for j in range(1, len(traj)):
+                ax.plot(traj[j-1:j+1, 0], traj[j-1:j+1, 1],
+                        lw=3.2, color=cmap(norm(j)))
 
-            # food-eaten textbox
-            ax.text(0.03, 0.12, f"Food Sources Eaten: {eaten:.0f}",
-                    transform=ax.transAxes,
-                    va='top', ha='left', fontsize=24,
-                    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.7))
+            # food‑eaten box
+            ax.text(0.03, 0.06, f"FOOD EATEN: {int(eaten)}",
+                    transform=ax.transAxes, fontsize=26,
+                    bbox=dict(boxstyle="round",
+                            facecolor="wheat",
+                            alpha=0.85))
 
-        # hide unused panes
-        for extra in axes[n:]:
-            extra.axis("off")
+        # ── 4. colour‑bar & title (fixed positions) ───────────────
+        sm = cm.ScalarMappable(norm=norm, cmap=cmap);  sm.set_array([])
+        cbar_ax = fig.add_axes([0.30, 0.945, 0.70, 0.02])
+        cbar = fig.colorbar(sm, cax=cbar_ax, orientation="horizontal")
+        cbar.ax.tick_params(labelsize=24)
 
-        # global figure title
-        fig.suptitle("Worm Movement After Training on Polygonal Food Patterns",
-                     fontsize=26, y=0.98)
+        fig.text(0.65, 0.992, "TIME",
+                ha="center", va="top", fontsize=38, weight="bold")
+        # ── 5. pack axes tightly, then add row labels dynamically ─
+        plt.tight_layout(rect=[0, 0, 1.21, 0.93])        # no fixed bottom margin
 
-        sm = cm.ScalarMappable(norm=norm, cmap=cmap)
-        sm.set_array([])
+        # mid‑heights for the two row pairs, after tight‑layout
+        top_mid = 0.5 * (axes[0].get_position().y1 + axes[3].get_position().y0)
+        bot_mid = 0.5 * (axes[6].get_position().y1 + axes[9].get_position().y0)
 
-        # left, bottom, width, height in figure coordinates
-        cax = fig.add_axes([0.15, 0.915, 0.70, 0.025])
-        cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
-        cbar.set_label("Time step", fontsize=18)
-        cbar.ax.tick_params(labelsize=18)
+        label_kw = dict(transform=fig.transFigure,
+                        fontsize=30, rotation=90,
+                        ha="left", va="center", weight="bold")
 
-        plt.tight_layout(rect=[0,0.05,1,0.92])
-        plt.savefig(out_img, dpi=300)
+        fig.text(0.002, top_mid, "EA-NOMAD",   **label_kw)
+        fig.text(0.002, bot_mid, "rEA-NOMAD", **label_kw)
+
+        # ── 6. save (crop all excess) ─────────────────────────────
+        fig.savefig(out_img, dpi=300,
+                    bbox_inches="tight", pad_inches=0.03)
         plt.close(fig)
-        print(f"Saved {out_img}")
+        print(f"Saved → {out_img}")

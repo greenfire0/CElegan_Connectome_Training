@@ -5,7 +5,7 @@ from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_name
 import PyNomad
 from tqdm import tqdm
 import csv
-from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
+from Algorithms.algo_utils import initialize_population, select_parents, crossover\
 ,evaluate_fitness_ray,evaluate_fitness_static,mutate, evaluate_fitness_nomad
 from util.snip import write_worm_to_csv
 import numpy.typing as npt
@@ -20,13 +20,13 @@ class Genetic_Dyn_Algorithm:
         self.original_genome = genome
         self.food_patterns:list = pattern
         assert(len(genome) == matrix_shape)
-        self.population = initialize_population_with_random_worms(self.population_size, self.matrix_shape, genome)
+        self.population = initialize_population(self.population_size, genome)
 
 
     def run(self, env, generations=50, batch_size=32,filename:str = "Hybrid_nomad"):
         
         try:
-            for generation in tqdm(range(generations), desc="Generations"):
+            for generation in range(generations):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 futures = []
@@ -85,7 +85,7 @@ class Genetic_Dyn_Algorithm:
                 best_index = np.argmax(fitnesses)  
                 best_fitness = fitnesses[best_index]
                 best_candidate = WormConnectome(weight_matrix=np.copy(self.population[best_index].weight_matrix), all_neuron_names=all_neuron_names)
-                print(f"Generation {generation + 1} best fitness: {best_fitness}")
+                #print(f"Generation {generation + 1} best fitness: {best_fitness}")
                 # Select parents from the entire population
                 self.population = select_parents(self.population,fitnesses, self.population_size // 2)
                 

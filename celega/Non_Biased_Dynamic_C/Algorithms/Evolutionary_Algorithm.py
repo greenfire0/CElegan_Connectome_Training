@@ -3,7 +3,7 @@ import numpy.typing as npt
 import ray
 from Worm_Env.connectome import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
-from Algorithms.algo_utils import initialize_population_with_random_worms, select_parents, crossover\
+from Algorithms.algo_utils import  initialize_population, select_parents, crossover\
 ,evaluate_fitness_ray,mutate
 from tqdm import tqdm
 import csv
@@ -17,11 +17,11 @@ class Genetic_Dyn_Algorithm:
         self.training_interval = training_interval
         self.original_genome = genome
         self.food_patterns = pattern
-        self.population = initialize_population_with_random_worms(self.population_size,self.matrix_shape,genome)
+        self.population = initialize_population(self.population_size,genome)
     
     def run(self, env , generations=50, batch_size=32,filename:str = "Evolutionary_algorithm"):
         try:
-            for generation in tqdm(range(generations), desc="Generations"):
+            for generation in range(generations):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 for batch in population_batches:
@@ -38,7 +38,7 @@ class Genetic_Dyn_Algorithm:
                 best_worm = WormConnectome(weight_matrix=best_weights, all_neuron_names=all_neuron_names)
 
 
-                print(f"Generation {generation + 1} best fitness: {best_fitness}")
+                #print(f"Generation {generation + 1} best fitness: {best_fitness}")
                 self.population = select_parents(self.population,fitnesses, self.population_size // 2)
                 offspring = crossover(self.population, fitnesses, self.population_size - len(self.population)-1,self.matrix_shape)
                 offspring = mutate(offspring,self.matrix_shape)
