@@ -68,9 +68,9 @@ class GeneticDynVideo:
         viewer = ConnectomeViewer(
             worm,
             layout="kamada_groups",   # or "groups" / "kamada_kawai"
-            spread=0.3,               # global zoom-out factor (default 1.6)
+            spread=0.2,               # global zoom-out factor (default 1.6)
             pulse_size=3.0,           # how much bigger a spiking node gets
-            group_gap=1,            # horizontal gap (only for grouped layouts)
+            group_gap=1.5,            # horizontal gap (only for grouped layouts)
             color_mode="energy"
         )
 
