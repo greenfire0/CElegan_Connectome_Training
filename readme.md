@@ -1,4 +1,4 @@
-# Caenorhabditis Elegans Connectome Training
+# C. Elegans Connectome Training
 
 ## Overview
 
