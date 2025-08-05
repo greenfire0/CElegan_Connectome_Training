@@ -28,10 +28,10 @@ def _fit_worker(weights, env, prob_type, interval, episodes):
 def train_openai_es(
         env,
         init_genome: np.ndarray,
-        generations: int = 300,
-        pop_size: int = 512,          # ↑ bigger population
+        generations: int = 600,
+        pop_size: int = 256,          # ↑ bigger population
         sigma: float = 0.20,          # ↑ wider exploration radius
-        lr: float   = 0.05,           # ↑ larger initial LR (will decay)
+        lr: float   = 0.08,           # ↑ larger initial LR (will decay)
         prob_type: list[int] = [5],
         interval: int = 250,
         episodes: int = 0,
@@ -42,12 +42,12 @@ def train_openai_es(
     lr_schedule  = optax.exponential_decay(
         init_value=lr,
         transition_steps=200,         # start decaying after 200 gens
-        decay_rate=0.3,
+        decay_rate=0.25,
     )
     std_schedule = optax.exponential_decay(
         init_value=sigma,
-        transition_steps=150,         # decay σ slightly sooner
-        decay_rate=0.3,
+        transition_steps=50,         # decay σ slightly sooner
+        decay_rate=0.25,
     )
 
     # ---- build optimiser -------------------------------------------------

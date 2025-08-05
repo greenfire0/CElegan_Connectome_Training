@@ -10,6 +10,7 @@ from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment
     graph_quartiles,graph_aggregates,calculate_worm_suffering_index, run_openai_es,\
         run_cma_es,graph_image_ngons,\
         test_last_generations,graph_training_results,graph_trained_population,graph_video_ngons
+
 os.environ["RAY_DEDUP_LOGS"] = "0"
 os.environ["DISABLE_TQDM"] = "1"
 
@@ -44,7 +45,7 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "graph_fitness_over_time_legacy", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES, CMA_ES
-    "ga_variant": "pure_nomad_algorithm", ## evo nomad = bad 
+    "ga_variant": "graph_positions_over_time", ## evo nomad = bad 
     
     ##change order before graphing bigger text
 }
@@ -57,9 +58,10 @@ for sub_dict in dict.values():
 connectome_weights:npt.NDArray[np.float64] = np.array(values_list)
 length = len(values_list)
 
-from graphs.graph_video import GeneticDynVideo
-GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
-
+#from graphs.graph_video import GeneticDynVideo
+#GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
+from graphs.fig5 import run
+run()
 
 def main(config):
     # Clean environment if requested
@@ -126,25 +128,15 @@ if __name__ == "__main__":
             num_cpus=10,
     )
     main(config)
-
-
-
-
-    """
+    quit()
+    exit()
     num_cpus=multiprocessing.cpu_count()
-    print(f"using {num_cpus} cpu's")
-    ray.init(
-            ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=8,
-        )
-    algos = ["nomad_evolutionary_algorithm"]
+    #print(f"using {num_cpus} cpu's")
+
+    #algos = ["nomad_evolutionary_algorithm","pure_nomad_algorithm","random_nomad_algorithm","OPENAI_ES","standard_evolutionary_algorithm"]
+    algos = [""]
     for a in (algos):
-        if a == "pure_nomad_algorithm":  
-            b = 20
-        else: 
-            b= 30
-        for _ in range (b):
+        for _ in range (30):
 
             config.update({
                     "ga_variant": a,
@@ -162,8 +154,8 @@ if __name__ == "__main__":
                 config.update({"generations": 190})
             if a == "CMA_ES":
                 config.update({"generations": 190})
-            t0 = time.perf_counter()                  
+            t0 = time.perf_counter()      
+            print(config)            
             main(config)
             dt = time.perf_counter() - t0             
             print(f"[{config['ga_variant']}] {config['generations']} gens finished in {dt/60:.1f} min ({dt:.1f} s)")
-            """

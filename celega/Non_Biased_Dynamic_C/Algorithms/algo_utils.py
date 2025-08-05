@@ -37,7 +37,7 @@ def crossover(parents, fitnesses, num_offspring,matrix_shape):
     for _ in range(num_offspring):
         parent1 = np.random.choice(parents, p=fitness_probs)
         parent2 = np.random.choice(parents, p=fitness_probs)
-        crossover_prob = (fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)]))**1.2
+        crossover_prob = (fitness_probs[parents.index(parent1)] / (fitness_probs[parents.index(parent1)] + fitness_probs[parents.index(parent2)]))
         prob_array = (np.random.rand(matrix_shape) < crossover_prob).astype(int)
         final_array = np.where(prob_array, parent1.weight_matrix, parent2.weight_matrix)
         offspring.append(WormConnectome(weight_matrix=final_array,all_neuron_names=all_neuron_names))

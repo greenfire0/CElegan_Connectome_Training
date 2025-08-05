@@ -27,8 +27,6 @@ class Genetic_Dyn_Algorithm:
     def initialize_population(self, genomes=None):
         if genomes is None:
             raise ValueError("Genomes must be provided to initialize the population.")
-        if len(genomes) > 400:
-            genomes = genomes[:400]  # Limiting to first 400 genomes if necessary
         for g in genomes:
             self.population.append(
                 WormConnectome(weight_matrix=np.array(g, dtype=float), all_neuron_names=all_neuron_names)
@@ -50,7 +48,7 @@ class Genetic_Dyn_Algorithm:
     #  Main routine
     # ─────────────────────────────────────────────────────────────────────────────
     def run(self, env, batch_size: int = 10, jitter_strength: float = 0.0):
-        folder: str = "data_full_pentagon"
+        folder: str = "data_new_pentagon"
 
         # ── plotting setup ──
         fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 20), sharex=True)
@@ -71,15 +69,15 @@ class Genetic_Dyn_Algorithm:
 
         # ── colour ↔ label mapping ──
         label_map = {
-            "royalblue": "OPENAI ES",
+            "royalblue": "OPENAI-ES",
             "gold": "Evolutionary",
             "crimson": "Large-diff search",
             "darkorange": "Rand. Mutation NOMAD",
-            "purple": "EA-NOMAD",
-            "black": "rEA-NOMAD",
+            "purple": "rE-NOMAD",
+            "black": "mE-NOMAD",
             #"red": "CMA-ES",
             "forestgreen": "Evolutionary",       # NEW – evolutionary subset
-            "teal": "rEA-NOMAD",        # NEW – hybrid subset
+            "teal": "mE-NOMAD",        # NEW – hybrid subset
         }
         colour_axes = {"fitness": ax1, "distance": ax2, "changes": ax3}
 
@@ -133,9 +131,9 @@ class Genetic_Dyn_Algorithm:
             colour = (
                 # --- specific subsets (test first) --------------------------------
                 "forestgreen"
-                if "evolutionary" in fname and fname.endswith("_oginit.csv")
+                if "evolutionary" in fname 
                 else "black"
-                if ("hybrid" in fname or "nomad" in fname) and fname.endswith("_oginit.csv")
+                if ("hybrid" in fname or "nomad" in fname) 
                 else  # --- original buckets ---------------------------------------
                 "teal"
                 if "hybrid" in fname
@@ -193,13 +191,13 @@ class Genetic_Dyn_Algorithm:
         ax1.set_ylim([0, 36])
 
         legend_order = [
-            "EA-NOMAD",
+            "mE-NOMAD",
             # "rEA-NOMAD",                    # ⬅️  removed
             # "Evolutionary",                # ⬅️  removed
                       # NEW
-            "rEA-NOMAD",            # NEW
+            "rE-NOMAD",            # NEW
             "Evolutionary",  
-            "OPENAI ES",
+            "OPENAI-ES",
             "Large-diff search",
             "Rand. Mutation NOMAD",
             #"CMA-ES",
@@ -220,7 +218,7 @@ class Genetic_Dyn_Algorithm:
 
         # ── Compute summary tables for the paper ──
         LABEL = {
-            "royalblue": "OpenAI-ES",
+            "royalblue": "OPENAI-ES",
             #"forestgreen": "Evolutionary",
             "crimson": "Large-∆ Search",
             "darkorange": "Random-50 Search",

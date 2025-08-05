@@ -6,7 +6,7 @@ import multiprocessing
 # Genetic Algorithm Variants
 from Algorithms.Evolutionary_Algorithm import Genetic_Dyn_Algorithm as GD_EA
 from Algorithms.Hybrid_NOMAD import Genetic_Dyn_Algorithm as GD_EA_Nomad
-from Algorithms.PNOMAD_Time_Analysis import Genetic_Dyn_Algorithm as GD_PureNomad
+from Algorithms.Pure_NOMAD import Genetic_Dyn_Algorithm as GD_PureNomad
 from Algorithms.RandParam_50_NOMAD import Genetic_Dyn_Algorithm as GD_RandomNomad
 from Algorithms.EVO_NOMAD import Genetic_Dyn_Algorithm as GD_EVO
 from Algorithms.OaI_es import train_openai_es

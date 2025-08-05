@@ -73,7 +73,7 @@ class Genetic_Dyn_Algorithm:
             "Random_50_nomad.csv",
 
             "Hybrid_nomad.csv",
-            "Pure_nomad.csv",
+            "Pure_nomad2.csv",
         ],
         batch_size=10,
         jitter_strength=10,
@@ -93,7 +93,7 @@ class Genetic_Dyn_Algorithm:
         axs = axs.flatten()        # easier indexing
 
         # ── 1) build population (your original logic) ─────────────── #
-        self.initialize_population(csv_list=csv_files, folder="data_full_pentagon")
+        self.initialize_population(csv_list=csv_files, folder="data_new_pentagon")
 
         # ── 2) run fitness evaluations in parallel ────────────────── #
         results = ray.get([
@@ -118,8 +118,8 @@ class Genetic_Dyn_Algorithm:
             "Evolutionary Algorithm",
             "OPENAI_ES Algorithm",
             "Random NOMAD",
-            "Hybrid NOMAD",
-            "Pure NOMAD",
+            "mE-NOMAD",
+            "rE-NOMAD",
             
         ]
 
@@ -179,16 +179,12 @@ class Genetic_Dyn_Algorithm:
         sm.set_array([])
 
         # reserve 10 % of the figure’s height at the top:
-        fig.tight_layout(rect=[0, 0, 1, 0.90])
+        fig.tight_layout(rect=[0, 0, 1, 0.95])
         # make the rows sit a bit closer together
         # overall title
-        fig.suptitle(
-            "Worm Movement Trajectories Before and After Training",
-            fontsize=28, y=0.98                     # y just below the top edge
-        )
 
         # add an axes for the colour-bar (left, bottom, width, height)
-        cbar_ax = fig.add_axes([0.20, 0.92, 0.60, 0.02])
+        cbar_ax = fig.add_axes([0.20, 0.97, 0.60, 0.02])
         cbar = fig.colorbar(sm, cax=cbar_ax, orientation="horizontal")
         cbar.ax.tick_params(labelsize=14, length=0)
 

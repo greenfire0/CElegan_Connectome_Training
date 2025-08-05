@@ -271,8 +271,8 @@ class Genetic_Dyn_Video:
                         fontsize=30, rotation=90,
                         ha="left", va="center", weight="bold")
 
-        fig.text(0.002, top_mid, "EA-NOMAD",   **label_kw)
-        fig.text(0.002, bot_mid, "rEA-NOMAD", **label_kw)
+        fig.text(0.002, top_mid, "rE-NOMAD",   **label_kw)
+        fig.text(0.002, bot_mid, "mE-NOMAD", **label_kw)
 
         # ── 6. save (crop all excess) ─────────────────────────────
         fig.savefig(out_img, dpi=300,
