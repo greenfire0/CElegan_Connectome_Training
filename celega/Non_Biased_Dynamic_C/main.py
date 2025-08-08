@@ -19,14 +19,14 @@ os.environ["DISABLE_TQDM"] = "1"
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 20, ### 21 min for es worm
+    "generations": 190*2, ### 21 min for es worm
     "training_interval": 250,
     "total_episodes": 1,
     "food_patterns": [5],
     "path": "/home/miles2/Escritorio/C.-Elegan-bias-Exploration/celega/Non_Biased_Dynamic_C",
     "clean_env": 0,
     "freeze_indicies": 0, ## this all needs documentation
-    "run_gen": 0,
+    "run_gen": 1,
     "worm_suffering_index": 0,
     "graphing": 0,
     "graph_best": 0,
@@ -45,7 +45,7 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "graph_fitness_over_time_legacy", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES, CMA_ES
-    "ga_variant": "graph_positions_over_time", ## evo nomad = bad 
+    "ga_variant": "graph_fitness_over_time_legacy", ## evo nomad = bad 
     
     ##change order before graphing bigger text
 }
@@ -60,8 +60,8 @@ length = len(values_list)
 
 #from graphs.graph_video import GeneticDynVideo
 #GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
-from graphs.fig5 import run
-run()
+#from graphs.fig5 import run
+#run()
 
 def main(config):
     # Clean environment if requested
@@ -133,8 +133,7 @@ if __name__ == "__main__":
     num_cpus=multiprocessing.cpu_count()
     #print(f"using {num_cpus} cpu's")
 
-    #algos = ["nomad_evolutionary_algorithm","pure_nomad_algorithm","random_nomad_algorithm","OPENAI_ES","standard_evolutionary_algorithm"]
-    algos = [""]
+    algos = ["OPENAI_ES"]
     for a in (algos):
         for _ in range (30):
 
@@ -155,7 +154,6 @@ if __name__ == "__main__":
             if a == "CMA_ES":
                 config.update({"generations": 190})
             t0 = time.perf_counter()      
-            print(config)            
             main(config)
             dt = time.perf_counter() - t0             
             print(f"[{config['ga_variant']}] {config['generations']} gens finished in {dt/60:.1f} min ({dt:.1f} s)")

@@ -1,0 +1,5 @@
+nohup: ignoring input
+Traceback (most recent call last):
+  File "/home/z/CElegan_Connectome_Training/celega/Non_Biased_Dynamic_C/main.py", line 2, in <module>
+    import ray
+ModuleNotFoundError: No module named 'ray'

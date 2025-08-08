@@ -51,13 +51,13 @@ class GeneticDynVideo:
         os.makedirs(tmp_dir, exist_ok=True)
 
     # ---- helpers --------------------------------------------------
-    def _orig_genome(self, csv="Pure_nomad_leaky.csv"):
+    def _orig_genome(self, csv="Pure_nomad15.csv"): ## Hybrid_nomad29.csv
         base_dir = os.path.dirname(__file__)
-        full_path = os.path.join(base_dir, csv)
+        full_path = os.path.join(os.path.join(base_dir,"data_new_pentagon"),csv)
         rows = read_arrays_from_csv_pandas(full_path)
         if not rows:
             raise FileNotFoundError(f"{csv} is empty.")
-        return np.asarray(rows[-1], dtype=float)
+        return np.asarray(rows[0], dtype=float)
 
     @staticmethod
     def _all_names():

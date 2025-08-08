@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 import ray
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 from Algorithms.algo_utils import  initialize_population, select_parents, crossover\
 ,evaluate_fitness_ray,mutate

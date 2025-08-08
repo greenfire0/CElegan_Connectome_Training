@@ -1,33 +1,38 @@
-# connectome_graph.py — 2025-08-05 ("muscles change colour but never fire")
-# ========================================================================
-# Drop-in ConnectomeViewer
-#   • MD{L/R}* + MV{L/R}* muscles kept, but:
-#        – shown in ONE single vertical column (x = +5·group_gap)
-#        – colour follows V-magnitude, yet they never “fire” or pulse
-#   • All other neurons behave normally (flash + pulse on spike)
-#   • Updated column positions so that the left and right column pairs are
-#     perfectly centered about the x‑axis. Each pair is spaced by one
-#     group_gap, with their mid‑points located symmetrically at ±3.25·gap.
-# ========================================================================
+# connectome_graph.py — 2025‑08‑06 (muscle voltages drive colour, no prints)
+# =====================================================================
+# ConnectomeViewer now colours MD*/MV* muscles by the **pre‑clear**
+# membrane potentials captured in `wc.V_vis` (set inside WormConnectome).
+# No console output; muscles still never flash.
+# ---------------------------------------------------------------------
 
 from __future__ import annotations
 from typing import Dict, Optional, Sequence
-from Worm_Env.weight_dict import muscleList, mLeft, mRight, all_neuron_names
-import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
+
 import matplotlib.cm as cm
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
+
+from Worm_Env.weight_dict import mLeft, mRight, muscleList
 
 __all__ = ["ConnectomeViewer"]
 
 
 class ConnectomeViewer:
+    """Lightweight live viewer for *C. elegans* connectome simulations.
+
+    Only MDL/MDR/MVL/MVR muscles are drawn.  If the associated
+    `WormConnectome` sets `self.V_vis` to a snapshot taken *before*
+    `_motor_sum_and_clear()` zeros the muscles, their colours will follow
+    the true |V| even though they never emit spike flashes.
+    """
+
     _ALLOWED_MUSCLE_PREFIX: Sequence[str] = ("MDL", "MDR", "MVL", "MVR")
 
-    # ----------------------------------------------------------
+    # ------------------------------------------------------------------
     # construction
-    # ----------------------------------------------------------
+    # ------------------------------------------------------------------
     def __init__(
         self,
         wc,
@@ -39,14 +44,12 @@ class ConnectomeViewer:
         threshold: Optional[float] = None,
         max_edges: int = 6_000,
         node_size: int = 40,
-        color_mode: str = "binary",      # 'binary' | 'heat' | 'energy'
+        color_mode: str = "binary",  # 'binary' | 'heat' | 'energy'
         colormap: str = "plasma",
         vmax: Optional[float] = None,
         inact_color: str = "#d3d3d3",
         act_color: str = "#ff5555",
-        debug: bool = False,
     ):
-        self.debug = bool(debug)
         self.wc = wc
         self.node_size = node_size
         self.spread = spread
@@ -56,7 +59,7 @@ class ConnectomeViewer:
         self.inact_col = inact_color
         self.act_col = act_color
 
-        # thresholds ------------------------------------------------
+        # -------------------------------- threshold map ----------------
         if threshold is not None:
             self.thr_map = np.full(wc.N, threshold, float)
         elif hasattr(wc, "_thr_map"):
@@ -67,7 +70,7 @@ class ConnectomeViewer:
             self.thr_map = np.full(wc.N, 30.0, float)
         thr_med = float(np.median(self.thr_map))
 
-        # colour scales --------------------------------------------
+        # -------------------------------- colour scales ----------------
         if color_mode == "heat":
             vmax = 2.0 * thr_med if vmax is None else float(vmax)
             self.norm = mcolors.Normalize(0.0, vmax)
@@ -77,7 +80,7 @@ class ConnectomeViewer:
             self.norm = mcolors.Normalize(0.0, vmax)
             self.cmap = cm.get_cmap("Blues_r")
 
-        # state buffer mode ----------------------------------------
+        # -------------------------------- detect state mode ------------
         if all(hasattr(wc, a) for a in ("post", "curcol")):
             self._state_mode = "double"
         elif all(hasattr(wc, a) for a in ("post", "t0")):
@@ -85,60 +88,58 @@ class ConnectomeViewer:
         else:
             self._state_mode = "single"
 
-        # allowed muscle list (for layout only) --------------------
-        _MUSCLE_WHITELIST = set(muscleList)
-        self._muscle_nodes = [n for n in wc.names if n in _MUSCLE_WHITELIST]
+        # -------------------------------- choose nodes -----------------
+        _MWHITELIST = set(muscleList)
+        self._muscle_nodes = [n for n in wc.names if n in _MWHITELIST]
 
-        # build graph + layout -------------------------------------
         self.G = self._build_graph(max_edges)
-        self.name_to_idx = {n: i for i, n in enumerate(wc.names)}
+        self.name2idx = {n: i for i, n in enumerate(wc.names)}
         self.node_order = list(self.G.nodes())
-        self.node_indices = np.array([self.name_to_idx[n] for n in self.node_order], int)
-        self.muscle_mask_draw = np.array([
-            n in self._muscle_nodes for n in self.node_order
-        ], bool)
+        self.node_indices = np.array([self.name2idx[n] for n in self.node_order])
+        self.muscle_mask_draw = np.array([n in self._muscle_nodes for n in self.node_order])
 
         self.pos = {n: p * self.spread for n, p in self._compute_layout(layout).items()}
 
-        # draw ------------------------------------------------------
+        # -------------------------------- initial draw -----------------
         self.fig, self.ax = plt.subplots(figsize=(8, 8))
-        init_col = self.inact_col if color_mode == "binary" else self.cmap(self.norm(0.0))
-        self._draw_graph(init_col)
+        baseline = self.inact_col if color_mode == "binary" else self.cmap(self.norm(0.0))
+        self._draw_graph(baseline)
         self.ax.set_axis_off()
         self.fig.tight_layout()
         plt.show(block=False)
 
-    # ----------------------------------------------------------
+    # ------------------------------------------------------------------
     # public API
-    # ----------------------------------------------------------
+    # ------------------------------------------------------------------
     def step(self):
-        # potentials
-        if self._state_mode == "double":
-            V = self.wc.post[:, self.wc.curcol]
-        elif self._state_mode == "double_t0":
-            V = self.wc.post[:, self.wc.t0]
-        else:
-            V = self.wc.V
-        V_draw = V[self.node_indices]
+        """Redraw node colours & sizes for the current timestep."""
+        # -------- select voltage vector --------------------------------
+        if hasattr(self.wc, "V_vis"):
+            V_draw = self.wc.V_vis[self.node_indices]
+        else:  # fallback (muscle voltages will be 0)
+            if self._state_mode == "double":
+                V_draw = self.wc.post[:, self.wc.curcol][self.node_indices]
+            elif self._state_mode == "double_t0":
+                V_draw = self.wc.post[:, self.wc.t0][self.node_indices]
+            else:
+                V_draw = self.wc.V[self.node_indices]
 
-        # spikes (muscles forcibly “not spiking”)
+        # -------- spike mask -------------------------------------------
         spk = getattr(
             self.wc,
             "spiked_vis",
-            getattr(self.wc, "spiked", np.zeros_like(V, bool)),
+            getattr(self.wc, "spiked", np.zeros_like(self.wc.V, bool)),
         )[self.node_indices]
-        spk[self.muscle_mask_draw] = False  # muscles never fire
+        spk[self.muscle_mask_draw] = False  # muscles never flash
 
-        # colours --------------------------------------------------
+        # -------- colour logic -----------------------------------------
         if self.color_mode == "binary":
             active = spk | (np.abs(V_draw) > self.thr_map[self.node_indices])
             active[self.muscle_mask_draw] = False
             colors = np.where(active, self.act_col, self.inact_col)
-
         elif self.color_mode == "heat":
             colors = self.cmap(self.norm(np.abs(V_draw)))
             colors[spk] = mcolors.to_rgba(self.act_col)
-
         else:  # 'energy'
             blues = self.cmap(self.norm(np.abs(V_draw)))
             active = spk | (np.abs(V_draw) > self.thr_map[self.node_indices])
@@ -146,35 +147,30 @@ class ConnectomeViewer:
 
         self.node_coll.set_color(colors)
 
-        # sizes (muscles never pulse) ------------------------------
+        # -------- pulse size -------------------------------------------
         sizes = np.where(spk, self.node_size * self.pulse_size, self.node_size)
         self.node_coll.set_sizes(sizes)
 
         self.fig.canvas.draw_idle()
 
-    update = step  # alias
+    update = step  # alias for animation loops
 
-    # ----------------------------------------------------------
-    # helpers
-    # ----------------------------------------------------------
+    # ------------------------------------------------------------------
+    # helper functions
+    # ------------------------------------------------------------------
     def _evenly_space(self, nodes, x, dy, y_shift=0.0):
-        n = len(nodes)
-        if not n:
+        if not nodes:
             return {}
-        y0 = -(n - 1) / 3.0 * dy + y_shift      # ← add y_shift here
-        return {node: np.array([x, y0 + k * dy], float)
-                for k, node in enumerate(sorted(nodes))}
+        y0 = -(len(nodes) - 1) / 3.0 * dy + y_shift
+        return {n: np.array([x, y0 + k * dy]) for k, n in enumerate(sorted(nodes))}
 
     def _is_allowed_muscle(self, name):
         return name in self._muscle_nodes
 
-    # ---------------- graph builder ---------------------------
+    # ---------------- graph construction ------------------------------
     def _build_graph(self, max_edges):
-        keep = []
-        for i, n in enumerate(self.wc.names):
-            if self.wc.muscle_mask[i] and not self._is_allowed_muscle(n):
-                continue
-            keep.append(n)
+        keep = [n for i, n in enumerate(self.wc.names)
+                if not (self.wc.muscle_mask[i] and not self._is_allowed_muscle(n))]
         keep_set = set(keep)
 
         G = nx.DiGraph()
@@ -182,7 +178,7 @@ class ConnectomeViewer:
 
         if hasattr(self.wc, "_edge_w") and hasattr(self.wc, "_edge_ptr"):
             idx = np.argsort(np.abs(self.wc._edge_w))[::-1][:max_edges]
-            for (_, i, j), w in zip(np.asarray(self.wc._edge_ptr)[idx], self.wc._edge_w[idx]):
+            for (_, i, j), w in zip(self.wc._edge_ptr[idx], self.wc._edge_w[idx]):
                 s, d = self.wc.names[i], self.wc.names[j]
                 if s in keep_set and d in keep_set:
                     G.add_edge(s, d, weight=w)
@@ -196,21 +192,15 @@ class ConnectomeViewer:
         return G
 
     def _draw_graph(self, init_color):
-        # draw edges first
         nx.draw_networkx_edges(self.G, self.pos, ax=self.ax, arrows=False, alpha=0.25, width=0.3)
-
-        # draw nodes
         self.node_coll = nx.draw_networkx_nodes(
             self.G, self.pos, node_size=self.node_size, node_color=[init_color], ax=self.ax
         )
 
-    # ---------------- layout dispatcher ----------------------
+    # ---------------- layout dispatch -------------------------------
     def _compute_layout(self, layout):
-        if layout == "kamada_groups":
-            return self._compute_kamada_group_layout()
-        return self._safe_standard_layout(layout)
+        return self._compute_kamada_group_layout() if layout == "kamada_groups" else self._safe_standard_layout(layout)
 
-    # safe wrappers -------------------------------------------
     def _safe_standard_layout(self, name):
         if name != "kamada_kawai":
             return self._standard_layout(name)
@@ -219,9 +209,7 @@ class ConnectomeViewer:
         except Exception:
             return self._standard_layout("spring")
         r = np.linalg.norm(np.vstack(list(pos.values())), axis=1)
-        if np.std(r) < 1e-2:
-            return self._standard_layout("spring")
-        return pos
+        return pos if np.std(r) >= 1e-2 else self._standard_layout("spring")
 
     def _standard_layout(self, name):
         if name == "spring":

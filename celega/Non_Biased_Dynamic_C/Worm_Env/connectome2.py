@@ -67,10 +67,12 @@ def _motor_sum_and_clear(V, left_idx, right_idx):
 @njit
 def _lif_step(V, W, sensory_idx, threshold, leak,
               muscle_mask, left_idx, right_idx, spiked_prev):
+    
     _update_potential(V, W, sensory_idx, spiked_prev, leak)
+    V_snapshot = V.copy() 
     spiked = _compute_spikes(V, threshold, muscle_mask)
     left, right = _motor_sum_and_clear(V, left_idx, right_idx)
-    return left, right, spiked
+    return left, right, spiked, V_snapshot
 
 # ------------------------------------------------------------
 # 3. Drop-in class
@@ -109,7 +111,7 @@ class WormConnectome:
         # LIF state -------------------------------------------------
         self.V      = np.zeros(self.N, dtype=np.float64)   # membrane potentials
         self.spiked = np.zeros(self.N, dtype=np.bool_)     # spikes from previous step
-        self.leak   = np.exp(-1.0 / tau_ms)                # dt = 1 ms
+        self.leak   = 0.98#np.exp(-1.0 / tau_ms)                # dt = 1 ms
         # -----------------------------------------------------------
 
         # sensory neuron indices
@@ -136,13 +138,13 @@ class WormConnectome:
 
         # ── 2) build a DISPLAY-ONLY mask that can include *both* sets ─
         self._sens_mask = np.zeros(self.N, dtype=np.bool_)
-        if 0 < dist < 100:                 # head touches something
+        if 0 <= dist < 100:                 # head touches something
             self._sens_mask[self.touch_idx] = True
         if sees_food:                      # chemosensors detect food
             self._sens_mask[self.food_idx] = True
 
         # ── 3) run the original LIF step (UNCHANGED) ─────────────────
-        left, right, spk = _lif_step(
+        left, right, spk, V_saved = _lif_step(
             self.V, self.W, sensory_idx, self.threshold, self.leak,
             self.muscle_mask, self.left_idx, self.right_idx,
             self.spiked
@@ -151,5 +153,5 @@ class WormConnectome:
 
         # ── 4) what the viewer should consider a “spike” ─────────────
         self.spiked_vis = spk | self._sens_mask
-
+        self.V_vis = V_saved
         return left, right

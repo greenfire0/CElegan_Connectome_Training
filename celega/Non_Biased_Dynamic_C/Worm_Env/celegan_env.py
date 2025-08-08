@@ -28,7 +28,7 @@ class WormSimulationEnv(gym.Env):
     
     @staticmethod
     @njit
-    def calculate_rewards_new(worm_pos, food_positions, foodradius, vision_radius):
+    def calculate_rewards_new(worm_pos, food_positions, foodradius, vision_radius): ## the /30 might need to be removed
         diff = food_positions - worm_pos
         distances = np.sqrt(np.sum(diff * diff, axis=1))
         reward_food = 30 * np.sum(distances < foodradius)
@@ -250,7 +250,6 @@ class WormSimulationEnv(gym.Env):
         observations = []
         for worm in self.worms:
             min_distance_to_wall = min( worm.position[0], self.dimx - worm.position[0], worm.position[1], self.dimy - worm.position[1])
-
             observation = np.array([
                 min_distance_to_wall,
                 worm.position[0],

@@ -1,4 +1,4 @@
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 import numpy as np
 from Worm_Env.weight_dict import all_neuron_names
 import ray

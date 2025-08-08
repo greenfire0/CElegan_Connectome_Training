@@ -18,7 +18,7 @@ from evosax.algorithms import CMA_ES
 from tqdm import tqdm
 
 from Algorithms.algo_utils import evaluate_fitness_static
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 from Worm_Env.weight_dict import (
     all_neuron_names,
     mLeft,

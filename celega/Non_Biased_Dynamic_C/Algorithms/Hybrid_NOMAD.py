@@ -1,6 +1,6 @@
 import numpy as np
 import ray
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 import PyNomad
 from tqdm import tqdm
@@ -85,7 +85,7 @@ class Genetic_Dyn_Algorithm:
                 best_index = np.argmax(fitnesses)  
                 best_fitness = fitnesses[best_index]
                 best_candidate = WormConnectome(weight_matrix=np.copy(self.population[best_index].weight_matrix), all_neuron_names=all_neuron_names)
-                #print(f"Generation {generation + 1} best fitness: {best_fitness}")
+                print(f"Generation {generation + 1} best fitness: {best_fitness}")
                 # Select parents from the entire population
                 self.population = select_parents(self.population,fitnesses, self.population_size // 2)
                 

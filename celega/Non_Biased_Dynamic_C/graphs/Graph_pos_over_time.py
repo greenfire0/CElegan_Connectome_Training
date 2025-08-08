@@ -1,6 +1,6 @@
 import numpy as np
 import ray
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 from Worm_Env.weight_dict import  muscles, muscleList, mLeft, mRight, all_neuron_names
 from Algorithms.algo_utils import evaluate_fitness_ray
 from matplotlib import pyplot as plt
@@ -28,8 +28,8 @@ class Genetic_Dyn_Algorithm:
         values_list = []
         for sub_dict in dict2.values():
             values_list.extend(sub_dict.values())
- 
-        self.population.append(WormConnectome(np.array(values_list,  dtype=float), all_neuron_names))
+        arr = read_arrays_from_csv_pandas(os.path.join(full_folder, "Evolutionary_algorithm.csv"))
+        self.population.append(WormConnectome(np.array(arr[0],  dtype=float), all_neuron_names))
         for csv_path in csv_list:
                 arr = read_arrays_from_csv_pandas(os.path.join(full_folder, csv_path))
                     # after/best (last row)
@@ -52,7 +52,6 @@ class Genetic_Dyn_Algorithm:
                 observation = env._get_observations()
                 for _ in range(interval):  # training_interval
                     movement = candidate.move(observation[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
-
                     next_observation, reward, _ = env.step(movement, 0, candidate)
                     trajectory.append([observation[0][1],observation[0][2]])  # Capture worm's position
                     observation = next_observation
@@ -68,12 +67,11 @@ class Genetic_Dyn_Algorithm:
         env,
         gen,
         csv_files=[
-            "Evolutionary_algorithm.csv",
+            "Evolutionary_algorithm2.csv",
             "ES_worms.csv",
             "Random_50_nomad.csv",
-
-            "Hybrid_nomad.csv",
-            "Pure_nomad2.csv",
+            "Hybrid_nomad2.csv",
+            "Pure_nomad15.csv",
         ],
         batch_size=10,
         jitter_strength=10,
@@ -118,8 +116,8 @@ class Genetic_Dyn_Algorithm:
             "Evolutionary Algorithm",
             "OPENAI_ES Algorithm",
             "Random NOMAD",
-            "mE-NOMAD",
-            "rE-NOMAD",
+            "mENOMAD",
+            "rENOMAD",
             
         ]
 
@@ -189,6 +187,6 @@ class Genetic_Dyn_Algorithm:
         cbar.ax.tick_params(labelsize=14, length=0)
 
         # ── 5) save/show ────────────────────────────────────────────── #
-        fig.savefig("fig_pos_over_time.svg")
+        fig.savefig("fig_pos_over_time.svg",dpi=300)
         plt.show()
         ray.shutdown()

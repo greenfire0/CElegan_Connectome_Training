@@ -1,6 +1,6 @@
 import numpy as np
 import ray
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 from Worm_Env.weight_dict import muscles, muscleList, mLeft, mRight, all_neuron_names
 from matplotlib import pyplot as plt
 from util.write_read_txt import read_arrays_from_csv_pandas

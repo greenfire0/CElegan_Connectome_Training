@@ -23,7 +23,7 @@ class Genetic_Dyn_Algorithm:
 
     def run(self, env, generations=50, batch_size=32,filename:str = "Random_50_nomad"):
         try:
-            for generation in tqdm(range(generations), desc="Generations"):
+            for generation in range(generations):
                 population_batches = [self.population[i:i+batch_size] for i in range(0, len(self.population), batch_size)]
                 fitnesses = []
                 futures = []
@@ -84,7 +84,6 @@ class Genetic_Dyn_Algorithm:
                 best_fitness = fitnesses[best_index]
                 best_candidate = self.population[best_index]
 
-                print(f"Generation {generation + 1} best fitness: {best_fitness}")
                 write_worm_to_csv(filename, best_candidate,max_rows=generations)
 
                 if (generation//4) ==0:

@@ -1,6 +1,6 @@
 import pandas as pd
 import os 
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 import csv
 from pathlib import Path
 
