@@ -1,0 +1,177 @@
+nohup: ignoring input
+2025-08-11 07:51:47,786	INFO worker.py:1888 -- Started a local Ray instance.
+[33m(raylet)[0m [2025-08-11 07:55:47,691 E 3624417 3624417] (raylet) node_manager.cc:3287: 2 Workers (tasks / actors) killed due to memory pressure (OOM), 0 Workers crashed due to other reasons at node (ID: bae2adcfd6202a21433d02e181657b3de30558255df568a5a061643f, IP: 192.168.1.201) over the last time period. To see more information about the Workers killed on this node, use `ray logs raylet.out -ip 192.168.1.201`
+[33m(raylet)[0m 
+[33m(raylet)[0m Refer to the documentation on how to address the out of memory issue: https://docs.ray.io/en/latest/ray-core/scheduling/ray-oom-prevention.html. Consider provisioning more memory on this node or reducing task parallelism by requesting more CPUs per task. To adjust the kill threshold, set the environment variable `RAY_memory_usage_threshold` when starting Ray. To disable worker killing, set the environment variable `RAY_memory_monitor_refresh_ms` to zero.
+Running Genetic Algorithm...
+14 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+100 Worms Loaded
+14 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+1300 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+190 Worms Loaded
+1300 Worms Loaded
+250 Worms Loaded
+100 Worms Loaded
+1300 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+1300 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+250 Worms Loaded
+190 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+190 Worms Loaded
+14 Worms Loaded
+250 Worms Loaded
+100 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+100 Worms Loaded
+1300 Worms Loaded
+1300 Worms Loaded
+1300 Worms Loaded
+190 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+1300 Worms Loaded
+14 Worms Loaded
+190 Worms Loaded
+250 Worms Loaded
+100 Worms Loaded
+100 Worms Loaded
+190 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+190 Worms Loaded
+1300 Worms Loaded
+100 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+1300 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+14 Worms Loaded
+100 Worms Loaded
+100 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+250 Worms Loaded
+100 Worms Loaded
+100 Worms Loaded
+190 Worms Loaded
+250 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+190 Worms Loaded
+1300 Worms Loaded
+1300 Worms Loaded
+190 Worms Loaded
+250 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+100 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+14 Worms Loaded
+1300 Worms Loaded
+100 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+14 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+1300 Worms Loaded
+100 Worms Loaded
+190 Worms Loaded
+100 Worms Loaded
+100 Worms Loaded
+14 Worms Loaded
+14 Worms Loaded
+190 Worms Loaded
+14 Worms Loaded
+100 Worms Loaded
+100 Worms Loaded
+250 Worms Loaded
+1300 Worms Loaded
+250 Worms Loaded
+14 Worms Loaded
+100 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+190 Worms Loaded
+14 Worms Loaded
+190 Worms Loaded
+250 Worms Loaded
+1300 Worms Loaded
+100 Worms Loaded
+1300 Worms Loaded
+1300 Worms Loaded
+250 Worms Loaded
+250 Worms Loaded
+190 Worms Loaded
+100 Worms Loaded
+1300 Worms Loaded
+250 Worms Loaded
+100 Worms Loaded
+190 Worms Loaded
+
+===  Best Pure NOMAD worm  ===
+File : Pure_nomad15.csv
+Index: 12
+Score: 35.00
+
+===  Best Hybrid NOMAD worm ===
+File : Hybrid_nomad29.csv
+Index: 134
+Score: 33.00
+
+=====  Final-generation food-targets consumed  =====
+rENOMAD             :  32.73 ± 1.66  (min 29.0, max 35.0, n = 30)
+Evolutionary        :  28.62 ± 3.05  (min 23.0, max 34.0, n = 26)
+cfNOMAD             :  17.43 ± 3.06  (min 13.0, max 25.0, n = 30)
+OPENAI-ES           :  18.80 ± 1.06  (min 17.0, max 21.0, n = 30)
+mENOMAD             :  30.13 ± 1.68  (min 27.0, max 33.0, n = 30)
+
+=====  Final-generation metrics =====
+rENOMAD             :  L2 = 10.34 ± 3.98  (min 5.8, max 24.6) | changes = 255.7 ± 45.2  (min 148, max 346, n=30)
+Evolutionary        :  L2 = 85.79 ± 12.37  (min 53.7, max 107.9) | changes = 54.2 ± 10.6  (min 30, max 74, n=26)
+cfNOMAD             :  L2 = 33.65 ± 5.86  (min 18.5, max 42.5) | changes = 8.0 ± 0.0  (min 8, max 8, n=30)
+OPENAI-ES           :  L2 = 16.48 ± 0.20  (min 16.1, max 16.9) | changes = 3682.0 ± 0.2  (min 3681, max 3682, n=30)
+mENOMAD             :  L2 = 64.18 ± 11.95  (min 40.2, max 88.7) | changes = 30.1 ± 7.9  (min 11, max 46, n=30)
+Best weight matrix found: None

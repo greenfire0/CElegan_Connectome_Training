@@ -63,6 +63,8 @@ class Genetic_Dyn_Algorithm:
             return "forestgreen"
         if "hybrid" in fname and "nomad" in fname:
             return "black"
+        if "pure_nomad_random" in fname:
+            return "crimson"
         if "cmaes" in fname:
             return "red"
         if "random" in fname:
@@ -87,25 +89,25 @@ class Genetic_Dyn_Algorithm:
 
         # ── plotting setup: horizontal 1 × 3 layout ──
         fig, (ax1, ax2, ax3) = plt.subplots(
-            1, 3, figsize=(30, 10), sharex=True, constrained_layout=True
+            1, 3, figsize=(30, 9), sharex=True, constrained_layout=True
         )
-        ax1.set_ylabel("Food Targets", fontsize=28)
-        ax1.set_title("Task Performance", fontsize=30, pad=18)
-        ax2.set_title("Distance to Original Connectome", fontsize=30, pad=18)
-        ax2.set_ylabel("L2 distance", fontsize=28)
-        ax3.set_title("Number of weight changes", fontsize=30, pad=18)
-        ax3.set_ylabel("Changed synapses", fontsize=28)
+        ax1.set_ylabel("Food Targets Consumed", fontsize=30)
+        ax1.set_title("Task Performance", fontsize=32, pad=18)
+        ax2.set_title("Distance to Original Connectome", fontsize=32, pad=18)
+        ax2.set_ylabel("L2 distance", fontsize=30)
+        ax3.set_title("Number of Weight Changes", fontsize=32, pad=18)
+        ax3.set_ylabel("Changed synapses", fontsize=30)
         for ax in (ax1, ax2, ax3):
-            ax.set_xlabel("Time (minutes)", fontsize=28)
-            ax.tick_params(axis="both", labelsize=24)
+            ax.set_xlabel("Time (minutes)", fontsize=30)
+            ax.tick_params(axis="both", labelsize=30)
 
         # metrics container
         metrics = {k: defaultdict(list) for k in ("fitness", "distance", "changes")}
         colour_axes = {"fitness": ax1, "distance": ax2, "changes": ax3}
         label_map = {
             "royalblue": "OPENAI-ES",
-            "crimson": "Large-diff search",
-            "darkorange": "Rand. Mutation NOMAD",
+            "crimson": "Large-L2 search",
+            "darkorange": "cfNOMAD",
             "purple": "rENOMAD",
             "black": "mENOMAD",
             "forestgreen": "Evolutionary",
@@ -119,7 +121,9 @@ class Genetic_Dyn_Algorithm:
         best_hybrid_score, best_hybrid_file, best_hybrid_idx = -np.inf, None, None
 
         # ── gather metrics over every CSV in the folder ──────────────────────
-        for filename in os.listdir(full_folder)[:20]:
+        for filename in os.listdir(full_folder):
+            if ("pure_nomad_random" in filename.lower()):
+                continue
             self.population.clear()
             genomes = read_arrays_from_csv_pandas(os.path.join(full_folder, filename))
             self.initialize_population(genomes)
@@ -212,34 +216,58 @@ class Genetic_Dyn_Algorithm:
             "rENOMAD",
             "Evolutionary",
             "OPENAI-ES",
-            "Large-diff search",
-            "Rand. Mutation NOMAD",
+            "Large-L2 search",
+            "cfNOMAD",
         ]
         h, l = ax1.get_legend_handles_labels()
         m = {lab.replace(" (mean)", ""): (handle, lab) for handle, lab in zip(h, l)}
-        ax2.legend(
+        ax1.legend(
             [m[o][0] for o in legend_order if o in m],     # handles
             [m[o][1] for o in legend_order if o in m],     # labels
-            fontsize=18,
+            fontsize=26,
             ncol=1,
             loc='upper left',                              # anchor point of the legend box
-            bbox_to_anchor=(0.5, 0.2),                     # x, y coordinates in axes fraction
+            bbox_to_anchor=(0.25, 0.41),       #41               # x, y coordinates in axes fraction
         )
 
         for i, ax in enumerate((ax1, ax2, ax3)):
             ax.text(
-                -0.12,
-                1.04,
-                f"{chr(97 + i)})",
+                -0.13,
+                1.09,
+                f"({chr(97 + i)})",
                 transform=ax.transAxes,
-                fontsize=28,
+                fontsize=34,
                 fontweight="bold",
                 va="top",
                 ha="left",
             )
 
-        plt.savefig("fig7.svg")
+        
+        plt.savefig("fig7.png",dpi=300)
 
+
+        LABEL = {
+            "royalblue": "OPENAI-ES",
+            "crimson": "crimson",
+            "darkorange": "cfNOMAD",
+            "purple": "rENOMAD",
+            "black": "mENOMAD",
+            "forestgreen": "Evolutionary",
+        }
+        summary = {}
+
+        # ── Final‑generation food‑target metrics ──
+        for colour, runs in metrics["fitness"].items():
+            if not runs:
+                continue  # skip groups with no data
+            last_scores = np.vstack(runs)[:, -1].astype(float)
+            summary[LABEL.get(colour, colour)] = {
+                "mean": last_scores.mean(),
+                "std": last_scores.std(ddof=1),
+                "min": last_scores.min(),
+                "max": last_scores.max(),
+                "n": len(last_scores),
+            }
         # ── REPORT BEST PURE / HYBRID WORMS ──────────────────────────────────
         print("\n===  Best Pure NOMAD worm  ===")
         if best_pure_file is not None:
@@ -256,6 +284,59 @@ class Genetic_Dyn_Algorithm:
             print(f"Score: {best_hybrid_score:.2f}")
         else:
             print("No \"hybrid\" file found.")
+        try:
+                    evo_mean = summary["Evolutionary"]["mean"]
+                    hybrid_mean = summary["NOMAD Hybrid"]["mean"]
+                    pure_mean = summary["Pure NOMAD"]["mean"]
+                    summary["Hybrid vs Evolutionary % gain"] = 100 * (hybrid_mean - evo_mean) / evo_mean
+                    summary["Pure vs Evolutionary % gain"] = 100 * (pure_mean - evo_mean) / evo_mean
+        except KeyError:
+                    pass  # one of the algorithms wasn’t present this run
 
+        print("\n=====  Final-generation food-targets consumed  =====")
+        for key, vals in summary.items():
+            if isinstance(vals, dict):
+                print(
+                    f"{key:20s}:  {vals['mean']:.2f} ± {vals['std']:.2f}  "
+                    f"(min {vals['min']:.1f}, max {vals['max']:.1f}, n = {vals['n']})"
+                )
+            else:  # percent gains
+                print(f"{key:20s}:  {vals:.1f}%")
+
+        summary = {}
+
+        # ── Final‑generation distance / change metrics ──
+        for colour, dist_runs in metrics["distance"].items():
+            change_runs = metrics["changes"].get(colour, [])
+            if not dist_runs or not change_runs:
+                continue  # skip if either metric missing
+
+            last_dist = np.vstack(dist_runs)[:, -1].astype(float)
+            last_changes = np.vstack(change_runs)[:, -1].astype(float)
+
+            label = LABEL.get(colour, colour)
+            summary[label] = {
+                "dist_mean": last_dist.mean(),
+                "dist_std": last_dist.std(ddof=1),
+                "dist_min": last_dist.min(),
+                "dist_max": last_dist.max(),
+                "change_mean": last_changes.mean(),
+                "change_std": last_changes.std(ddof=1),
+                "change_min": last_changes.min(),
+                "change_max": last_changes.max(),
+                "n": len(last_dist),
+            }
+
+        print("\n=====  Final-generation metrics =====")
+        for name, v in summary.items():
+            print(
+                f"{name:20s}:  "
+                f"L2 = {v['dist_mean']:.2f} ± {v['dist_std']:.2f} "
+                f" (min {v['dist_min']:.1f}, max {v['dist_max']:.1f}) | "
+                f"changes = {v['change_mean']:.1f} ± {v['change_std']:.1f} "
+                f" (min {v['change_min']:.0f}, max {v['change_max']:.0f}, n={v['n']})"
+            )
         # ── teardown ──
         ray.shutdown()
+
+

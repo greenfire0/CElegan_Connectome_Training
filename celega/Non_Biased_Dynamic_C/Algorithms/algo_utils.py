@@ -25,6 +25,16 @@ def initialize_population_with_random_worms(population_size,shape, genome=None):
         return population
 
 @staticmethod
+def initialize_random(population_size,shape, genome=None):
+        """
+        Initializes the population with population_size-1 random one and one worm with the original connectome
+        """
+        population = []
+        for _ in range(population_size):
+                population.append(WormConnectome(weight_matrix=np.random.uniform(low=-20, high=20, size=3682).astype(np.float32), all_neuron_names=all_neuron_names))
+        return population
+
+@staticmethod
 def select_parents(population, fitnesses, num_parents):
     parents = np.argsort(fitnesses)[-num_parents:]
     return [population[i] for i in parents]

@@ -1,6 +1,6 @@
 import numpy as np
 import ray
-from Worm_Env.connectome import WormConnectome
+from Worm_Env.connectome2 import WormConnectome
 from Worm_Env.weight_dict import muscles, muscleList, mLeft, mRight, all_neuron_names
 from matplotlib import pyplot as plt
 from tqdm import tqdm
@@ -164,118 +164,114 @@ class Genetic_Dyn_Video:
         plt.close('all')
 
 
-    def run_image_simulation(
-            self,
-            out_img: str = "nomad_vs_hybrid_trajectories.svg") -> None:
-        """
-        4 × 3 figure:
-        rows 0–1 → PURE NOMAD
-        rows 2–3 → NOMAD HYBRID
-        Each panel shows the worm trajectory and “FOOD EATEN”.
-        """
-        # ── imports ───────────────────────────────────────────────
+    def run_image_simulation(self, out_img: str = "nomad_vs_hybrid_trajectories.svg") -> None:
         import os, numpy as np
         import matplotlib.pyplot as plt
         from matplotlib import cm
         from matplotlib.colors import Normalize
+        from matplotlib.gridspec import GridSpec
         from tqdm import tqdm
 
-        csv_sets = [("array",     "PURE NOMAD"),
-                    ("EVO_NOMAD", "NOMAD HYBRID")]
+        # Top block = rENOMAD, bottom block = mENOMAD
+        csv_sets = [("pure24", "rENOMAD"), ("graph_positions_over_time", "mENOMAD")]
 
-        # ── 1. load data ──────────────────────────────────────────
+        # 1) Load candidates and envs
         cands, envs, food_pts = [], [], []
         for csv_prefix, _ in csv_sets:
-            for pat in self.food_patterns:                       # expects 3 patterns
+            for pat in self.food_patterns:
                 csv = os.path.join("24hr", f"{csv_prefix}{pat}.csv")
                 arr = read_arrays_from_csv_pandas(csv)
                 if not arr:
                     raise FileNotFoundError(f"{csv} missing / empty")
-                cands.append(WormConnectome(np.asarray(arr[-1], float),
-                                            all_neuron_names))
-                env = WormSimulationEnv();  env.reset(pat, num_food=36)
-                envs.append(env);  food_pts.append(env.food.copy())
+                cands.append(WormConnectome(np.asarray(arr[-1], float), all_neuron_names))
+                env = WormSimulationEnv(); env.reset(pat, num_food=36)
+                envs.append(env); food_pts.append(env.food.copy())
 
-        # ── 2. simulate ──────────────────────────────────────────
-        n_steps      = self.total_episodes * self.training_interval
-        trajectories = [[] for _ in envs];  food_eaten = [0] * len(envs)
+        # 2) Simulate
+        n_steps = self.total_episodes * self.training_interval
+        trajectories = [[] for _ in envs]
+        food_eaten   = [0] * len(envs)
 
         for _ in tqdm(range(n_steps), desc="Simulating"):
             for i, (env, cand) in enumerate(zip(envs, cands)):
                 obs = env._get_observations()
-                trajectories[i].append(obs[0][1:3])
-                mv = cand.move(obs[0][0], env.worms[0].sees_food,
-                            mLeft, mRight, muscleList, muscles)
+                trajectories[i].append(obs[0][1:3])  # (x,y)
+                mv = cand.move(obs[0][0], env.worms[0].sees_food, mLeft, mRight, muscleList, muscles)
                 _, r, _ = env.step(mv, 0, cand)
                 food_eaten[i] += r
 
-        # ── 3. plot ──────────────────────────────────────────────
-        fig, axes = plt.subplots(4, 3, figsize=(17, 20), squeeze=False)
-        fig.subplots_adjust(wspace=0.00)                      # tighter columns
-        axes = axes.flatten()
+        # 3) Layout: 5 rows x 3 cols (spacer row between blocks)
+        fig = plt.figure(figsize=(17, 20))
+        gs = GridSpec(5, 3, figure=fig,
+                    height_ratios=[1, 1, 0.2, 1, 1],
+                    hspace=-0.2, wspace=0.06)
+
+        def panel_rc(idx):
+            block = idx // 6        # 0 = top, 1 = bottom
+            inblk = idx % 6
+            rbase = 0 if block == 0 else 3
+            return rbase + (inblk // 3), inblk % 3
 
         cmap = cm.get_cmap("viridis")
         norm = Normalize(0, max(len(t) for t in trajectories) - 1)
 
-        for idx, (ax, traj, foods, eaten) in enumerate(
-                zip(axes, trajectories, food_pts, food_eaten)):
+        axes = []
+        for idx in range(12):
+            r, c = panel_rc(idx)
+            ax = fig.add_subplot(gs[r, c])
+            axes.append(ax)
 
-            ax.set_xlim(0, 1600);  ax.set_ylim(0, 1200);  ax.set_aspect("equal")
-            row, col = divmod(idx, 3)
+            ax.set_xlim(0, 1600); ax.set_ylim(0, 1200); ax.set_aspect("equal")
 
-            # axis labels & ticks
+            # Only leftmost column gets Y label; only bottom row in each 2-row block gets X label
+            row_in_block = (idx % 6) // 3
+            col = idx % 3
             if col == 0:
-                ax.set_ylabel("Y POSITION", fontsize=28)
-                ax.tick_params(axis="y", labelsize=24)
+                ax.set_ylabel("Y POSITION", fontsize=22)
+                ax.tick_params(axis="y", labelsize=18)
             else:
                 ax.set_yticks([])
-            if row == 3:
-                ax.set_xlabel("X POSITION", fontsize=28)
-                ax.tick_params(axis="x", labelsize=24)
+
+            if row_in_block == 1 and idx > 7:
+                ax.set_xlabel("X POSITION", fontsize=22)
+                ax.tick_params(axis="x", labelsize=18)
             else:
                 ax.set_xticks([])
 
-            # food dots
-            x_f, y_f = foods.T
-            ax.plot(x_f, y_f, "ro", ms=7)
+            # Food points (red dots)
+            xf, yf = food_pts[idx].T
+            ax.plot(xf, yf, "o", ms=6, color="red")
 
-            # trajectory
-            traj = np.asarray(traj)
+            # Trajectory, colored by time
+            traj = np.asarray(trajectories[idx])
             for j in range(1, len(traj)):
-                ax.plot(traj[j-1:j+1, 0], traj[j-1:j+1, 1],
-                        lw=3.2, color=cmap(norm(j)))
+                ax.plot(traj[j-1:j+1, 0], traj[j-1:j+1, 1], lw=3.0, color=cmap(norm(j)))
 
-            # food‑eaten box
-            ax.text(0.03, 0.06, f"FOOD EATEN: {int(eaten)}",
-                    transform=ax.transAxes, fontsize=26,
-                    bbox=dict(boxstyle="round",
-                            facecolor="wheat",
-                            alpha=0.85))
+            # Food-eaten box
+            ax.text(0.03, 0.06, f"FOOD EATEN: {int(food_eaten[idx])}",
+                    transform=ax.transAxes, fontsize=18,
+                    bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.85))
 
-        # ── 4. colour‑bar & title (fixed positions) ───────────────
-        sm = cm.ScalarMappable(norm=norm, cmap=cmap);  sm.set_array([])
-        cbar_ax = fig.add_axes([0.30, 0.945, 0.70, 0.02])
-        cbar = fig.colorbar(sm, cax=cbar_ax, orientation="horizontal")
-        cbar.ax.tick_params(labelsize=24)
-
-        fig.text(0.65, 0.992, "TIME",
-                ha="center", va="top", fontsize=38, weight="bold")
-        # ── 5. pack axes tightly, then add row labels dynamically ─
-        plt.tight_layout(rect=[0, 0, 1.21, 0.93])        # no fixed bottom margin
-
-        # mid‑heights for the two row pairs, after tight‑layout
+        # Centers for row headers
         top_mid = 0.5 * (axes[0].get_position().y1 + axes[3].get_position().y0)
         bot_mid = 0.5 * (axes[6].get_position().y1 + axes[9].get_position().y0)
 
-        label_kw = dict(transform=fig.transFigure,
-                        fontsize=30, rotation=90,
-                        ha="left", va="center", weight="bold")
+        # Row headers
+        fig.text(0.5, top_mid + 0.18, "rENOMAD", ha="center", va="center", fontsize=30, weight="bold")
+        fig.text(0.5, bot_mid + 0.18, "mENOMAD", ha="center", va="center", fontsize=30, weight="bold")
 
-        fig.text(0.002, top_mid, "rENOMAD",   **label_kw)
-        fig.text(0.002, bot_mid, "mENOMAD", **label_kw)
+        # (a) and (b) tags at left
+        fig.text(0.015, top_mid + 0.18, "(a)", ha="left", va="center", fontsize=30, weight="bold")
+        fig.text(0.015, bot_mid + 0.18, "(b)", ha="left", va="center", fontsize=30, weight="bold")
 
-        # ── 6. save (crop all excess) ─────────────────────────────
-        fig.savefig(out_img, dpi=300,
-                    bbox_inches="tight", pad_inches=0.03)
+        # Single vertical colorbar on the right spanning both blocks
+        sm = cm.ScalarMappable(norm=norm, cmap=cmap); sm.set_array([])
+        # [left, bottom, width, height] in figure coords
+        cax = fig.add_axes([0.93, 0.25, 0.02, 0.5])
+        cbar = fig.colorbar(sm, cax=cax, orientation="vertical")
+        cbar.ax.tick_params(labelsize=18)
+        cbar.ax.set_ylabel("time", rotation=90, labelpad=20, fontsize=26, weight="bold")
+
+        fig.savefig(out_img, dpi=300, bbox_inches="tight", pad_inches=0.02)
         plt.close(fig)
         print(f"Saved → {out_img}")

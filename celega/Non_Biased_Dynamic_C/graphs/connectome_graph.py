@@ -106,7 +106,8 @@ class ConnectomeViewer:
         self._draw_graph(baseline)
         self.ax.set_axis_off()
         self.fig.tight_layout()
-        plt.show(block=False)
+        self._add_side_labels()    
+        #plt.show(block=False)
 
     # ------------------------------------------------------------------
     # public API
@@ -221,7 +222,26 @@ class ConnectomeViewer:
                 d["length"] = 1.0 / max(w, 1e-9)
             return nx.kamada_kawai_layout(H, weight="length")
         raise ValueError(name)
+    def _add_side_labels(self):
+        # collect positions of muscles already drawn
+        left_nodes  = [n for n in self.pos if n in mLeft]
+        right_nodes = [n for n in self.pos if n in mRight]
 
+        def _label(nodes, text):
+            if not nodes:                       # nothing to label
+                return
+            xs = [self.pos[n][0] for n in nodes]
+            ys = [self.pos[n][1] for n in nodes]
+            x  = float(np.mean(xs))             # center over column
+            y  = float(max(ys)) + 0.3           # a bit above top node
+            self.ax.text(
+                x, y, text,
+                ha="center", va="bottom",
+                fontsize=16, fontweight="bold"
+            )
+
+        _label(left_nodes,  "L")
+        _label(right_nodes, "R")
     # ---------------- grouped Kamada-Kawai --------------------
     def _compute_kamada_group_layout(self) -> Dict[str, np.ndarray]:
         """

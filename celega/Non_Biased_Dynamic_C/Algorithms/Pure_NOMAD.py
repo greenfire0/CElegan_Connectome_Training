@@ -4,7 +4,7 @@ from Worm_Env.connectome2 import WormConnectome
 from Worm_Env.weight_dict import muscles,muscleList,mLeft,mRight,all_neuron_names
 from tqdm import tqdm
 import csv
-from Algorithms.algo_utils import initialize_population, select_parents,\
+from Algorithms.algo_utils import initialize_population,initialize_random, select_parents,\
 crossover, evaluate_fitness_ray,evaluate_fitness_static,BlackboxWrapper,evaluate_fitness_nomad
 from util.snip import write_worm_to_csv
 import numpy.typing as npt
@@ -20,7 +20,7 @@ class Genetic_Dyn_Algorithm:
         self.original_genome = genome
         self.food_patterns:list = pattern
         assert(len(genome) == matrix_shape)
-        self.population = initialize_population(self.population_size,genome)
+        self.population = initialize_random(self.population_size,genome)
 
     def run(self, env, generations=50, batch_size=32,filename:str = "Pure_nomad"):
         last_best = 0
@@ -68,7 +68,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_worm)
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv(filename, best_worm,max_rows=generations)
+                write_worm_to_csv("pure_nomad_random_init", best_worm,max_rows=generations)
 
             return best_weights
         finally:

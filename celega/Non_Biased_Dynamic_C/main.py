@@ -19,7 +19,7 @@ os.environ["DISABLE_TQDM"] = "1"
 # =========================================
 config = {
     "population_size": 64,
-    "generations": 190*2, ### 21 min for es worm
+    "generations": 14*2, ### 21 min for es worm
     "training_interval": 250,
     "total_episodes": 1,
     "food_patterns": [5],
@@ -60,8 +60,8 @@ length = len(values_list)
 
 #from graphs.graph_video import GeneticDynVideo
 #GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
-#from graphs.fig5 import run
-#run()
+from graphs.fig5 import run
+run()
 
 def main(config):
     # Clean environment if requested
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     ray.init(
             ignore_reinit_error=True,
             object_store_memory=14 * 1024 * 1024 * 1024,
-            num_cpus=10,
+            num_cpus=11,
     )
     main(config)
     quit()
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     num_cpus=multiprocessing.cpu_count()
     #print(f"using {num_cpus} cpu's")
 
-    algos = ["OPENAI_ES"]
+    algos = ["pure_nomad_algorithm"]
     for a in (algos):
         for _ in range (30):
 

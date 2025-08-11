@@ -70,7 +70,7 @@ class Genetic_Dyn_Algorithm:
             "Evolutionary_algorithm2.csv",
             "ES_worms.csv",
             "Random_50_nomad.csv",
-            "Hybrid_nomad2.csv",
+            "Hybrid_nomad29.csv",
             "Pure_nomad15.csv",
         ],
         batch_size=10,
@@ -87,7 +87,7 @@ class Genetic_Dyn_Algorithm:
         """
 
         # ── 0) create figure & axes grid ───────────────────────────── #
-        fig, axs = plt.subplots(2, 3, figsize=(18, 12))
+        fig, axs = plt.subplots(2, 3, figsize=(20, 12))
         axs = axs.flatten()        # easier indexing
 
         # ── 1) build population (your original logic) ─────────────── #
@@ -115,7 +115,7 @@ class Genetic_Dyn_Algorithm:
             "Before Training",
             "Evolutionary Algorithm",
             "OPENAI_ES Algorithm",
-            "Random NOMAD",
+            "cfNOMAD",
             "mENOMAD",
             "rENOMAD",
             
@@ -127,19 +127,19 @@ class Genetic_Dyn_Algorithm:
                 break
 
             ax = axs[idx]
-            ax.set_title(titles[idx], fontsize=24)
+            ax.set_title(titles[idx], fontsize=28)
 
             # only left-most column shows Y-ticks
             if idx % 3 == 0:
-                ax.set_ylabel("Y Position",fontsize=22)
-                ax.tick_params(axis="y", labelsize=22)
+                ax.set_ylabel("Y Position",fontsize=26)
+                ax.tick_params(axis="y", labelsize=26)
             else:
                 ax.set_yticks([])
 
             # only bottom row shows X-ticks
             if idx // 3 == 1:
-                ax.set_xlabel("X Position",fontsize=22)
-                ax.tick_params(axis="x", labelsize=22)
+                ax.set_xlabel("X Position",fontsize=26)
+                ax.tick_params(axis="x", labelsize=26)
             else:
                 ax.set_xticks([])
 
@@ -166,7 +166,7 @@ class Genetic_Dyn_Algorithm:
             ax.text(
                 0.03, 0.12, f"Food Sources Eaten: {fitness:.1f}",
                 transform=ax.transAxes,
-                fontsize=22,
+                fontsize=26,
                 va="top", ha="left",
                 bbox=dict(facecolor="wheat", alpha=0.5, boxstyle="round,pad=0.2"),
             )
@@ -184,9 +184,9 @@ class Genetic_Dyn_Algorithm:
         # add an axes for the colour-bar (left, bottom, width, height)
         cbar_ax = fig.add_axes([0.20, 0.97, 0.60, 0.02])
         cbar = fig.colorbar(sm, cax=cbar_ax, orientation="horizontal")
-        cbar.ax.tick_params(labelsize=14, length=0)
+        cbar.ax.tick_params(labelsize=20, length=0)
 
         # ── 5) save/show ────────────────────────────────────────────── #
-        fig.savefig("fig_pos_over_time.svg",dpi=300)
+        fig.savefig("fig_pos_over_time.png",dpi=300)
         plt.show()
         ray.shutdown()

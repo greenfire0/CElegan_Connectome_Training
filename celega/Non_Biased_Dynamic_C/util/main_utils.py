@@ -157,7 +157,7 @@ def polygon_test(config:Dict,values_list:npt.NDArray[np.float64],length:int):
     print("Starting Polygon Test Experiment...")
 
     env = WormSimulationEnv()
-    GA_Class = GD_EA_Nomad 
+    GA_Class = GD_PureNomad 
 
     for food_pattern in range(3, 9):  # Iterate from 6 to 10 (inclusive)
         print(f"Running with food pattern: {food_pattern}")
@@ -171,7 +171,7 @@ def polygon_test(config:Dict,values_list:npt.NDArray[np.float64],length:int):
             matrix_shape=length
         )
         best_weight_matrix = ga.run(env=env, generations=config["generations"],batch_size=32,\
-                                    filename=str(config["ga_variant"])+str(food_pattern))  # Run for 40 generations
+                                    filename=str("pure24")+str(food_pattern))  # Run for 40 generations
 
         print(f"Completed training for food pattern {food_pattern}")
         print("Best weight matrix found:", best_weight_matrix)
