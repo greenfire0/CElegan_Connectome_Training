@@ -20,7 +20,7 @@ class Genetic_Dyn_Algorithm:
         self.original_genome = genome
         self.food_patterns:list = pattern
         assert(len(genome) == matrix_shape)
-        self.population = initialize_random(self.population_size,genome)
+        self.population = initialize_population(self.population_size,genome)
 
     def run(self, env, generations=50, batch_size=32,filename:str = "Pure_nomad"):
         last_best = 0
