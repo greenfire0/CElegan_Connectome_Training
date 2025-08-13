@@ -122,7 +122,7 @@ class Genetic_Dyn_Algorithm:
 
         # ── gather metrics over every CSV in the folder ──────────────────────
         for filename in os.listdir(full_folder):
-            if ("pure_nomad_random" in filename.lower()):
+            if ("es_worms" in filename.lower()):
                 continue
             self.population.clear()
             genomes = read_arrays_from_csv_pandas(os.path.join(full_folder, filename))
@@ -227,7 +227,7 @@ class Genetic_Dyn_Algorithm:
             fontsize=26,
             ncol=1,
             loc='upper left',                              # anchor point of the legend box
-            bbox_to_anchor=(0.25, 0.41),       #41               # x, y coordinates in axes fraction
+            bbox_to_anchor=(0.28, 0.41),       #41               # x, y coordinates in axes fraction
         )
 
         for i, ax in enumerate((ax1, ax2, ax3)):
@@ -243,7 +243,7 @@ class Genetic_Dyn_Algorithm:
             )
 
         
-        plt.savefig("fig7.png",dpi=300)
+        plt.savefig("fig7.svg",dpi=300)
 
 
         LABEL = {

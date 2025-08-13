@@ -169,13 +169,13 @@ def plot_three(wc_orig, wc_pure, wc_hyb,
 
     # panel letters (a), (b), (c) -------------------------------------
     for i, ax in enumerate(axs):
-        ax.text(-0.05, 1.1, f"({chr(97 + i)})",
+        ax.text(0.00, 0.95, f"({chr(97 + i)})",
                 transform=ax.transAxes,
                 fontsize=40, fontweight="bold",
                 va="top", ha="left")
 
     plt.tight_layout()
-    plt.savefig("fig5.png", dpi=300)
+    plt.savefig("fig5.svg", dpi=300)
     print("✓ saved fig5.svg (width-only)")
 
 # ──────────────────────────────────────────────

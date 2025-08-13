@@ -45,7 +45,7 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "graph_fitness_over_time_legacy", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES, CMA_ES
-    "ga_variant": "graph_fitness_over_time_legacy", ## evo nomad = bad 
+    "ga_variant": "graph_positions_over_time", ## evo nomad = bad 
     
     ##change order before graphing bigger text
 }
@@ -60,8 +60,8 @@ length = len(values_list)
 
 #from graphs.graph_video import GeneticDynVideo
 #GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
-from graphs.fig5 import run
-run()
+#from graphs.fig5 import run
+#run()
 
 def main(config):
     # Clean environment if requested

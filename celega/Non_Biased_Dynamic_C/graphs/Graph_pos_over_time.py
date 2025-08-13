@@ -177,16 +177,17 @@ class Genetic_Dyn_Algorithm:
         sm.set_array([])
 
         # reserve 10 % of the figure’s height at the top:
-        fig.tight_layout(rect=[0, 0, 1, 0.95])
+        fig.tight_layout(rect=[0, 0, 1, 0.90])
         # make the rows sit a bit closer together
         # overall title
 
         # add an axes for the colour-bar (left, bottom, width, height)
-        cbar_ax = fig.add_axes([0.20, 0.97, 0.60, 0.02])
+        cbar_ax = fig.add_axes([0.20, 0.94, 0.60, 0.02])
         cbar = fig.colorbar(sm, cax=cbar_ax, orientation="horizontal")
         cbar.ax.tick_params(labelsize=20, length=0)
+        cbar_ax.set_title("Time", fontsize=28, pad=10,fontweight="bold")  # pad pushes it upward
 
         # ── 5) save/show ────────────────────────────────────────────── #
-        fig.savefig("fig_pos_over_time.png",dpi=300)
+        fig.savefig("fig_pos_over_time.svg",dpi=300)
         plt.show()
         ray.shutdown()
