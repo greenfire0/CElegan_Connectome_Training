@@ -1,0 +1,5 @@
+class	hemisphere	decrease	increase	mean_abs_delta
+interneuron->interneuron	C	2.0	7.0	11.823182354927749
+interneuron->interneuron	L	2.0	4.0	11.823182354927749
+interneuron->interneuron	R	3.0	2.0	11.823182354927749
+sensory->interneuron	R	2.0	0.0	13.12395572209419

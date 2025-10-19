@@ -16,7 +16,7 @@ from Algorithms.algo_utils import evaluate_fitness_ray
 
 
 class Genetic_Dyn_Algorithm:
-    """Dynamic‑training genetic search over C. elegans connectome weights."""
+    """Dynamic-training genetic search over C. elegans connectome weights."""
 
     # ─────────────────────────────────────────────────────────────────────────────
     #  Construction helpers
@@ -116,7 +116,7 @@ class Genetic_Dyn_Algorithm:
         base_dir = os.path.dirname(__file__)
         full_folder = os.path.join(base_dir, folder)
 
-        # ── BEST‑WORM BOOK‑KEEPING ────────────────────────────────────────────
+        # ── BEST-WORM BOOK-KEEPING ────────────────────────────────────────────
         best_pure_score, best_pure_file, best_pure_idx = -np.inf, None, None
         best_hybrid_score, best_hybrid_file, best_hybrid_idx = -np.inf, None, None
 
@@ -135,7 +135,7 @@ class Genetic_Dyn_Algorithm:
             ]
 
             for batch in batches:
-                # expensive roll‑outs – parallelised with Ray
+                # expensive roll-outs – parallelised with Ray
                 fitness.extend(
                     ray.get(
                         [
@@ -155,7 +155,7 @@ class Genetic_Dyn_Algorithm:
                         ]
                     )
                 )
-                # cheap post‑processing
+                # cheap post-processing
                 dist.extend(
                     [
                         self.calculate_euclidean_distance(c.weight_matrix) + jitter_strength
@@ -164,7 +164,7 @@ class Genetic_Dyn_Algorithm:
                 )
                 changes.extend([self.count_changes(c.weight_matrix) for c in batch])
 
-            # ── update best‑pure / best‑hybrid trackers ──
+            # ── update best-pure / best-hybrid trackers ──
             local_best = max(fitness)
             local_idx = fitness.index(local_best)
             fname_lower = filename.lower()
@@ -226,8 +226,8 @@ class Genetic_Dyn_Algorithm:
             [m[o][1] for o in legend_order if o in m],     # labels
             fontsize=26,
             ncol=1,
-            loc='upper left',                              # anchor point of the legend box
-            bbox_to_anchor=(0.28, 0.41),       #41               # x, y coordinates in axes fraction
+            loc='upper left',
+            bbox_to_anchor=(0.28, 0.41),
         )
 
         for i, ax in enumerate((ax1, ax2, ax3)):
@@ -242,9 +242,7 @@ class Genetic_Dyn_Algorithm:
                 ha="left",
             )
 
-        
-        plt.savefig("fig7.svg",dpi=300)
-
+        plt.savefig("fig7.svg", dpi=300)
 
         LABEL = {
             "royalblue": "OPENAI-ES",
@@ -256,10 +254,10 @@ class Genetic_Dyn_Algorithm:
         }
         summary = {}
 
-        # ── Final‑generation food‑target metrics ──
+        # ── Final-generation food-target metrics ──
         for colour, runs in metrics["fitness"].items():
             if not runs:
-                continue  # skip groups with no data
+                continue
             last_scores = np.vstack(runs)[:, -1].astype(float)
             summary[LABEL.get(colour, colour)] = {
                 "mean": last_scores.mean(),
@@ -268,14 +266,14 @@ class Genetic_Dyn_Algorithm:
                 "max": last_scores.max(),
                 "n": len(last_scores),
             }
-        # ── REPORT BEST PURE / HYBRID WORMS ──────────────────────────────────
+
         print("\n===  Best Pure NOMAD worm  ===")
         if best_pure_file is not None:
             print(f"File : {best_pure_file}")
             print(f"Index: {best_pure_idx}")
             print(f"Score: {best_pure_score:.2f}")
         else:
-            print("No \"pure\" file found.")
+            print('No "pure" file found.')
 
         print("\n===  Best Hybrid NOMAD worm ===")
         if best_hybrid_file is not None:
@@ -283,15 +281,15 @@ class Genetic_Dyn_Algorithm:
             print(f"Index: {best_hybrid_idx}")
             print(f"Score: {best_hybrid_score:.2f}")
         else:
-            print("No \"hybrid\" file found.")
+            print('No "hybrid" file found.')
         try:
-                    evo_mean = summary["Evolutionary"]["mean"]
-                    hybrid_mean = summary["NOMAD Hybrid"]["mean"]
-                    pure_mean = summary["Pure NOMAD"]["mean"]
-                    summary["Hybrid vs Evolutionary % gain"] = 100 * (hybrid_mean - evo_mean) / evo_mean
-                    summary["Pure vs Evolutionary % gain"] = 100 * (pure_mean - evo_mean) / evo_mean
+            evo_mean = summary["Evolutionary"]["mean"]
+            hybrid_mean = summary["NOMAD Hybrid"]["mean"]
+            pure_mean = summary["Pure NOMAD"]["mean"]
+            summary["Hybrid vs Evolutionary % gain"] = 100 * (hybrid_mean - evo_mean) / evo_mean
+            summary["Pure vs Evolutionary % gain"] = 100 * (pure_mean - evo_mean) / evo_mean
         except KeyError:
-                    pass  # one of the algorithms wasn’t present this run
+            pass
 
         print("\n=====  Final-generation food-targets consumed  =====")
         for key, vals in summary.items():
@@ -300,16 +298,16 @@ class Genetic_Dyn_Algorithm:
                     f"{key:20s}:  {vals['mean']:.2f} ± {vals['std']:.2f}  "
                     f"(min {vals['min']:.1f}, max {vals['max']:.1f}, n = {vals['n']})"
                 )
-            else:  # percent gains
+            else:
                 print(f"{key:20s}:  {vals:.1f}%")
 
         summary = {}
 
-        # ── Final‑generation distance / change metrics ──
+        # ── Final-generation distance / change metrics ──
         for colour, dist_runs in metrics["distance"].items():
             change_runs = metrics["changes"].get(colour, [])
             if not dist_runs or not change_runs:
-                continue  # skip if either metric missing
+                continue
 
             last_dist = np.vstack(dist_runs)[:, -1].astype(float)
             last_changes = np.vstack(change_runs)[:, -1].astype(float)
@@ -336,7 +334,78 @@ class Genetic_Dyn_Algorithm:
                 f"changes = {v['change_mean']:.1f} ± {v['change_std']:.1f} "
                 f" (min {v['change_min']:.0f}, max {v['change_max']:.0f}, n={v['n']})"
             )
+
+        # ─────────────────────────────────────────────────────────────────────
+        #  Statistical significance (prints at the end)
+        #  - Global: Kruskal–Wallis on final-generation fitness
+        #  - Pairwise: Mann–Whitney U (two-sided) with BH-FDR correction
+        # ─────────────────────────────────────────────────────────────────────
+        def _final_values_from_runs(runs_list):
+            """Take final value of each trajectory."""
+            arr = np.asarray([np.asarray(r, float)[-1] for r in runs_list], float)
+            return arr[~np.isnan(arr)]
+
+        def _groups_from_metric(metric_bucket, label_dict, skip):
+            groups = {}
+            for colour, runs_list in metric_bucket.items():
+                if colour in skip or not runs_list:
+                    continue
+                name = label_dict.get(colour, colour)
+                vals = _final_values_from_runs(runs_list)
+                if vals.size:
+                    groups[name] = vals
+            return groups
+
+        def _bh_fdr(pvals, alpha=0.05):
+            p = np.asarray(pvals, float)
+            n = p.size
+            if n == 0:
+                return np.array([], bool), np.array([], float)
+            order = np.argsort(p)
+            ranks = np.empty_like(order)
+            ranks[order] = np.arange(1, n + 1)
+            q = p * n / ranks
+            q_sorted = np.minimum.accumulate(q[order][::-1])[::-1]
+            qvals = np.empty_like(q_sorted)
+            qvals[order] = q_sorted
+            reject = qvals <= alpha
+            return reject, qvals
+
+        def _print_sig_for(groups, title):
+            try:
+                from scipy import stats
+                names = list(groups.keys())
+                data = [groups[k] for k in names]
+                H, p_global = stats.kruskal(*data, nan_policy="omit")
+                print(f"\n=== {title} — Kruskal–Wallis ===")
+                print(f"H = {H:.4f}, p = {p_global:.4g}")
+
+                # pairwise MWU
+                import itertools
+                pairs, pvals = [], []
+                for a, b in itertools.combinations(names, 2):
+                    u, p = stats.mannwhitneyu(groups[a], groups[b], alternative="two-sided")
+                    pairs.append((a, b))
+                    pvals.append(p)
+                reject, qvals = _bh_fdr(pvals, alpha=0.05)
+
+                header = "group_a, group_b, p_value, q_value(BH-FDR), reject"
+                print(f"--- {title} — Pairwise (MWU, two-sided; FDR=0.05) ---")
+                print(header)
+                for (a, b), p, q, r in sorted(
+                    zip(pairs, pvals, qvals, reject), key=lambda z: (z[2], z[0][0], z[0][1])
+                ):
+                    print(f"{a}, {b}, {p:.4g}, {q:.4g}, {int(r)}")
+            except Exception as e:
+                print(f"\n=== {title} — significance skipped (SciPy not available): {e} ===")
+
+        fitness_groups = _groups_from_metric(metrics["fitness"], label_map, excluded)
+        dist_groups    = _groups_from_metric(metrics["distance"], label_map, excluded)
+        changes_groups = _groups_from_metric(metrics["changes"], label_map, excluded)
+
+        _print_sig_for(fitness_groups, "Final-generation Fitness")
+        _print_sig_for(dist_groups,    "Final-generation L2 Distance")
+        _print_sig_for(changes_groups, "Final-generation Changed-Synapses")
+
         # ── teardown ──
         ray.shutdown()
-
-

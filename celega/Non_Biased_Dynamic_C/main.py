@@ -10,7 +10,6 @@ from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment
     graph_quartiles,graph_aggregates,calculate_worm_suffering_index, run_openai_es,\
         run_cma_es,graph_image_ngons,\
         test_last_generations,graph_training_results,graph_trained_population,graph_video_ngons
-
 os.environ["RAY_DEDUP_LOGS"] = "0"
 os.environ["DISABLE_TQDM"] = "1"
 
@@ -45,7 +44,7 @@ config = {
     # "pure_nomad_algorithm", "random_nomad_algorithm",
     # "graph_fitness_over_time_legacy", "nomad_evolutionary_algorithm"
     # EVO_NOMAD, OPENAI_ES, CMA_ES
-    "ga_variant": "graph_positions_over_time", ## evo nomad = bad 
+    "ga_variant": "graph_fitness_over_time_legacy", ## evo nomad = bad 
     
     ##change order before graphing bigger text
 }
@@ -57,12 +56,13 @@ for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
 connectome_weights:npt.NDArray[np.float64] = np.array(values_list)
 length = len(values_list)
-
+from graphs.heatmap_nomad import main
+main()
 #from graphs.graph_video import GeneticDynVideo
 #GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
 #from graphs.fig5 import run
 #run()
-
+quit()
 def main(config):
     # Clean environment if requested
     if config["clean_env"]:
@@ -124,7 +124,7 @@ def main(config):
 if __name__ == "__main__":
     ray.init(
             ignore_reinit_error=True,
-            object_store_memory=14 * 1024 * 1024 * 1024,
+            object_store_memory=16 * 1024 * 1024 * 1024,
             num_cpus=11,
     )
     main(config)
@@ -133,9 +133,9 @@ if __name__ == "__main__":
     num_cpus=multiprocessing.cpu_count()
     #print(f"using {num_cpus} cpu's")
 
-    algos = ["pure_nomad_algorithm"]
+    algos = ["nomad_evolutionary_algorithm","standard_evolutionary_algorithm"]
     for a in (algos):
-        for _ in range (30):
+        for _ in range (15):
 
             config.update({
                     "ga_variant": a,

@@ -1,585 +1,0 @@
-nohup: ignoring input
-2025-08-11 03:08:49,806	INFO worker.py:1888 -- Started a local Ray instance.
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]Generations:   7%|▋         | 1/14 [00:28<06:13, 28.72s/it]Generations:  14%|█▍        | 2/14 [00:54<05:24, 27.00s/it]Generations:  21%|██▏       | 3/14 [01:21<04:59, 27.20s/it]Generations:  29%|██▊       | 4/14 [01:51<04:40, 28.07s/it]Generations:  36%|███▌      | 5/14 [02:18<04:09, 27.75s/it]Generations:  43%|████▎     | 6/14 [02:47<03:45, 28.13s/it]Generations:  50%|█████     | 7/14 [03:14<03:14, 27.86s/it]Generations:  57%|█████▋    | 8/14 [03:43<02:49, 28.21s/it]Generations:  64%|██████▍   | 9/14 [04:11<02:20, 28.04s/it]Generations:  71%|███████▏  | 10/14 [04:40<01:53, 28.35s/it]Generations:  79%|███████▊  | 11/14 [05:08<01:24, 28.23s/it]Generations:  86%|████████▌ | 12/14 [05:35<00:56, 28.03s/it]Generations:  93%|█████████▎| 13/14 [06:04<00:28, 28.22s/it]Generations: 100%|██████████| 14/14 [06:33<00:00, 28.45s/it]Generations: 100%|██████████| 14/14 [06:33<00:00, 28.11s/it]
-Generation 1 best fitness: 429.7081134618445
-Generation 2 best fitness: 521.0858932533677
-Generation 3 best fitness: 549.7310035891298
-Generation 4 best fitness: 580.8414385013253
-Generation 5 best fitness: 642.8461128668267
-Generation 6 best fitness: 672.7906629144395
-Generation 7 best fitness: 673.1441710401573
-Generation 8 best fitness: 673.1441710401573
-Generation 9 best fitness: 673.2148521849522
-Generation 10 best fitness: 702.2588687886158
-Generation 11 best fitness: 702.2639959043328
-Generation 12 best fitness: 702.8546342994727
-Generation 13 best fitness: 732.3427425497852
-Generation 14 best fitness: 732.3427425497852
-Best weight matrix found: [-17.64919662   6.29000473  -6.09176874 ...   4.77913404  17.04212761
- -17.95748138]
-[pure_nomad_algorithm] 14 gens finished in 6.6 min (395.0 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 03:15:25,819	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:28, 34.48s/it]Generations:  14%|█▍        | 2/14 [01:03<06:14, 31.20s/it]Generations:  21%|██▏       | 3/14 [01:32<05:31, 30.10s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.69s/it]Generations:  36%|███▌      | 5/14 [02:29<04:23, 29.26s/it]Generations:  43%|████▎     | 6/14 [02:58<03:51, 28.99s/it]Generations:  50%|█████     | 7/14 [03:26<03:21, 28.85s/it]Generations:  57%|█████▋    | 8/14 [03:55<02:53, 28.84s/it]Generations:  64%|██████▍   | 9/14 [04:23<02:22, 28.56s/it]Generations:  71%|███████▏  | 10/14 [04:51<01:53, 28.40s/it]Generations:  79%|███████▊  | 11/14 [05:19<01:24, 28.27s/it]Generations:  86%|████████▌ | 12/14 [05:47<00:56, 28.24s/it]Generations:  93%|█████████▎| 13/14 [06:15<00:28, 28.10s/it]Generations: 100%|██████████| 14/14 [06:43<00:00, 28.05s/it]Generations: 100%|██████████| 14/14 [06:43<00:00, 28.82s/it]
-Generation 1 best fitness: 461.4446994964492
-Generation 2 best fitness: 521.0020063989258
-Generation 3 best fitness: 521.354460916554
-Generation 4 best fitness: 581.4599962100281
-Generation 5 best fitness: 612.0878838065871
-Generation 6 best fitness: 612.0975977461602
-Generation 7 best fitness: 612.1075660879155
-Generation 8 best fitness: 612.1075660879155
-Generation 9 best fitness: 640.6644964410607
-Generation 10 best fitness: 642.4099061494231
-Generation 11 best fitness: 642.5057253091089
-Generation 12 best fitness: 642.5318227956996
-Generation 13 best fitness: 672.4021613894917
-Generation 14 best fitness: 672.4645748633075
-Best weight matrix found: [  9.67819786  -8.5879879   -2.24731517 ... -10.95802593  17.03169632
-  10.70763588]
-[pure_nomad_algorithm] 14 gens finished in 6.7 min (404.8 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 03:22:10,636	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:33, 34.87s/it]Generations:  14%|█▍        | 2/14 [01:03<06:14, 31.20s/it]Generations:  21%|██▏       | 3/14 [01:32<05:33, 30.34s/it]Generations:  29%|██▊       | 4/14 [02:01<04:58, 29.83s/it]Generations:  36%|███▌      | 5/14 [02:30<04:23, 29.31s/it]Generations:  43%|████▎     | 6/14 [02:58<03:52, 29.01s/it]Generations:  50%|█████     | 7/14 [03:27<03:22, 28.95s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:53, 28.84s/it]Generations:  64%|██████▍   | 9/14 [04:24<02:23, 28.68s/it]Generations:  71%|███████▏  | 10/14 [04:52<01:54, 28.57s/it]Generations:  79%|███████▊  | 11/14 [05:21<01:25, 28.55s/it]Generations:  86%|████████▌ | 12/14 [05:49<00:56, 28.49s/it]Generations:  93%|█████████▎| 13/14 [06:17<00:28, 28.34s/it]Generations: 100%|██████████| 14/14 [06:45<00:00, 28.32s/it]Generations: 100%|██████████| 14/14 [06:45<00:00, 28.99s/it]
-Generation 1 best fitness: 398.68876022016553
-Generation 2 best fitness: 430.7124845868922
-Generation 3 best fitness: 492.09713760878986
-Generation 4 best fitness: 554.2204383744056
-Generation 5 best fitness: 583.9882167188438
-Generation 6 best fitness: 584.0179552303465
-Generation 7 best fitness: 584.271345917935
-Generation 8 best fitness: 584.298224834078
-Generation 9 best fitness: 584.298224834078
-Generation 10 best fitness: 584.298224834078
-Generation 11 best fitness: 584.3427955714092
-Generation 12 best fitness: 584.396054752742
-Generation 13 best fitness: 613.2377693505141
-Generation 14 best fitness: 614.2391575128134
-Best weight matrix found: [-6.41001797 16.70372963 -1.69448793 ...  3.68911028 -1.74702895
- 14.10961056]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (407.1 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 03:28:57,764	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:39, 35.31s/it]Generations:  14%|█▍        | 2/14 [01:04<06:20, 31.68s/it]Generations:  21%|██▏       | 3/14 [01:32<05:32, 30.24s/it]Generations:  29%|██▊       | 4/14 [02:02<04:57, 29.77s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.38s/it]Generations:  43%|████▎     | 6/14 [02:59<03:52, 29.10s/it]Generations:  50%|█████     | 7/14 [03:28<03:22, 28.99s/it]Generations:  57%|█████▋    | 8/14 [03:57<02:54, 29.00s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:24, 28.82s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:54, 28.71s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:25, 28.61s/it]Generations:  86%|████████▌ | 12/14 [05:50<00:57, 28.58s/it]Generations:  93%|█████████▎| 13/14 [06:19<00:28, 28.48s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 28.40s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 29.10s/it]
-Generation 1 best fitness: 431.07993094680023
-Generation 2 best fitness: 460.684311056883
-Generation 3 best fitness: 491.45487794399037
-Generation 4 best fitness: 520.0565764743445
-Generation 5 best fitness: 521.2249795801858
-Generation 6 best fitness: 521.2718449373982
-Generation 7 best fitness: 521.9383671112296
-Generation 8 best fitness: 580.9019542528249
-Generation 9 best fitness: 610.8972223660909
-Generation 10 best fitness: 610.8994810941683
-Generation 11 best fitness: 610.9570546957972
-Generation 12 best fitness: 640.1128076524736
-Generation 13 best fitness: 640.1484456044983
-Generation 14 best fitness: 640.9913686301669
-Best weight matrix found: [  5.94976091 -14.52846718  13.76832581 ...  -4.74313593   2.61524487
-  -1.96808577]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (408.7 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 03:35:46,462	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:40, 35.45s/it]Generations:  14%|█▍        | 2/14 [01:04<06:22, 31.90s/it]Generations:  21%|██▏       | 3/14 [01:33<05:35, 30.47s/it]Generations:  29%|██▊       | 4/14 [02:02<04:59, 29.94s/it]Generations:  36%|███▌      | 5/14 [02:31<04:27, 29.67s/it]Generations:  43%|████▎     | 6/14 [03:00<03:54, 29.37s/it]Generations:  50%|█████     | 7/14 [03:29<03:24, 29.25s/it]Generations:  57%|█████▋    | 8/14 [03:58<02:54, 29.15s/it]Generations:  64%|██████▍   | 9/14 [04:26<02:24, 28.88s/it]Generations:  71%|███████▏  | 10/14 [04:56<01:56, 29.13s/it]Generations:  79%|███████▊  | 11/14 [05:24<01:26, 28.68s/it]Generations:  86%|████████▌ | 12/14 [05:52<00:57, 28.64s/it]Generations:  93%|█████████▎| 13/14 [06:21<00:28, 28.49s/it]Generations: 100%|██████████| 14/14 [06:49<00:00, 28.39s/it]Generations: 100%|██████████| 14/14 [06:49<00:00, 29.23s/it]
-Generation 1 best fitness: 461.8726658798717
-Generation 2 best fitness: 492.0711521568353
-Generation 3 best fitness: 492.1877381841487
-Generation 4 best fitness: 521.6381874342475
-Generation 5 best fitness: 583.0882095943509
-Generation 6 best fitness: 583.0982575451778
-Generation 7 best fitness: 583.2177129902626
-Generation 8 best fitness: 583.2909459381848
-Generation 9 best fitness: 583.294595051529
-Generation 10 best fitness: 583.2993691599082
-Generation 11 best fitness: 612.0860772952174
-Generation 12 best fitness: 612.4223617535124
-Generation 13 best fitness: 612.4333285281743
-Generation 14 best fitness: 612.4889027662568
-Best weight matrix found: [-14.960243    18.80656815 -14.97127724 ...  -1.00527465  -9.90311146
-  -0.81371993]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (410.5 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 03:42:37,005	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:36, 35.11s/it]Generations:  14%|█▍        | 2/14 [01:03<06:16, 31.34s/it]Generations:  21%|██▏       | 3/14 [01:32<05:33, 30.31s/it]Generations:  29%|██▊       | 4/14 [02:01<04:57, 29.73s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.40s/it]Generations:  43%|████▎     | 6/14 [02:59<03:53, 29.22s/it]Generations:  50%|█████     | 7/14 [03:27<03:23, 29.00s/it]Generations:  57%|█████▋    | 8/14 [03:58<02:55, 29.33s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:24, 28.82s/it]Generations:  71%|███████▏  | 10/14 [04:54<01:54, 28.70s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:25, 28.65s/it]Generations:  86%|████████▌ | 12/14 [05:51<00:57, 28.62s/it]Generations:  93%|█████████▎| 13/14 [06:19<00:28, 28.59s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 28.64s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 29.18s/it]
-Generation 1 best fitness: 550.8676898094919
-Generation 2 best fitness: 581.077624950599
-Generation 3 best fitness: 581.1392793819169
-Generation 4 best fitness: 581.147428100677
-Generation 5 best fitness: 581.147428100677
-Generation 6 best fitness: 581.147428100677
-Generation 7 best fitness: 581.5478608470003
-Generation 8 best fitness: 582.606724531293
-Generation 9 best fitness: 582.6320372426666
-Generation 10 best fitness: 582.6353449949221
-Generation 11 best fitness: 582.8121149197234
-Generation 12 best fitness: 641.3543964710896
-Generation 13 best fitness: 641.4674906410382
-Generation 14 best fitness: 641.5269701292143
-Best weight matrix found: [-13.96084404 -14.51293659 -12.14208031 ...   8.86378574   3.26927662
-  13.75284195]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (409.8 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 03:49:26,839	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:32, 34.80s/it]Generations:  14%|█▍        | 2/14 [01:03<06:16, 31.39s/it]Generations:  21%|██▏       | 3/14 [01:32<05:29, 29.93s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.63s/it]Generations:  36%|███▌      | 5/14 [02:29<04:23, 29.26s/it]Generations:  43%|████▎     | 6/14 [02:58<03:52, 29.03s/it]Generations:  50%|█████     | 7/14 [03:26<03:21, 28.77s/it]Generations:  57%|█████▋    | 8/14 [03:54<02:51, 28.55s/it]Generations:  64%|██████▍   | 9/14 [04:23<02:22, 28.52s/it]Generations:  71%|███████▏  | 10/14 [04:51<01:53, 28.49s/it]Generations:  79%|███████▊  | 11/14 [05:19<01:25, 28.38s/it]Generations:  86%|████████▌ | 12/14 [05:47<00:56, 28.36s/it]Generations:  93%|█████████▎| 13/14 [06:15<00:28, 28.22s/it]Generations: 100%|██████████| 14/14 [06:43<00:00, 28.11s/it]Generations: 100%|██████████| 14/14 [06:43<00:00, 28.84s/it]
-Generation 1 best fitness: 431.9177498848211
-Generation 2 best fitness: 493.00180688350986
-Generation 3 best fitness: 580.3492376840234
-Generation 4 best fitness: 580.4692693197486
-Generation 5 best fitness: 610.5006269271893
-Generation 6 best fitness: 611.4022336184812
-Generation 7 best fitness: 641.4790433635334
-Generation 8 best fitness: 670.6248265663515
-Generation 9 best fitness: 670.8297016921505
-Generation 10 best fitness: 670.8633754954234
-Generation 11 best fitness: 670.8633754954234
-Generation 12 best fitness: 700.7446699918062
-Generation 13 best fitness: 700.7772317970542
-Generation 14 best fitness: 701.1861684521208
-Best weight matrix found: [ 18.43719864  -0.69277257 -10.48496532 ...   9.54808712 -15.20534801
-   5.05481195]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (405.1 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 03:56:11,978	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:35, 35.03s/it]Generations:  14%|█▍        | 2/14 [01:03<06:16, 31.35s/it]Generations:  21%|██▏       | 3/14 [01:33<05:37, 30.66s/it]Generations:  29%|██▊       | 4/14 [02:02<04:58, 29.89s/it]Generations:  36%|███▌      | 5/14 [02:31<04:25, 29.49s/it]Generations:  43%|████▎     | 6/14 [02:59<03:54, 29.27s/it]Generations:  50%|█████     | 7/14 [03:28<03:23, 29.05s/it]Generations:  57%|█████▋    | 8/14 [03:57<02:53, 28.86s/it]Generations:  64%|██████▍   | 9/14 [04:26<02:25, 29.14s/it]Generations:  71%|███████▏  | 10/14 [04:54<01:55, 28.80s/it]Generations:  79%|███████▊  | 11/14 [05:23<01:26, 28.87s/it]Generations:  86%|████████▌ | 12/14 [05:53<00:58, 29.07s/it]Generations:  93%|█████████▎| 13/14 [06:20<00:28, 28.60s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 28.44s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 29.21s/it]
-Generation 1 best fitness: 373.0809673737863
-Generation 2 best fitness: 432.6964266503172
-Generation 3 best fitness: 463.12720877354764
-Generation 4 best fitness: 493.05391518114357
-Generation 5 best fitness: 550.5519004966296
-Generation 6 best fitness: 581.0172572432791
-Generation 7 best fitness: 581.0909070337991
-Generation 8 best fitness: 581.1274284222736
-Generation 9 best fitness: 581.1402144305481
-Generation 10 best fitness: 611.0318275855287
-Generation 11 best fitness: 611.0944705730021
-Generation 12 best fitness: 611.2036657080928
-Generation 13 best fitness: 611.2069043580179
-Generation 14 best fitness: 611.5617874921646
-Best weight matrix found: [ 17.13820625   8.58936977  -2.17250562 ... -11.55047703   9.755867
-   9.24445438]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (410.3 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:03:02,328	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:38, 35.29s/it]Generations:  14%|█▍        | 2/14 [01:05<06:24, 32.02s/it]Generations:  21%|██▏       | 3/14 [01:33<05:33, 30.32s/it]Generations:  29%|██▊       | 4/14 [02:03<05:03, 30.34s/it]Generations:  36%|███▌      | 5/14 [02:32<04:27, 29.73s/it]Generations:  43%|████▎     | 6/14 [03:00<03:54, 29.29s/it]Generations:  50%|█████     | 7/14 [03:29<03:22, 28.99s/it]Generations:  57%|█████▋    | 8/14 [03:58<02:54, 29.02s/it]Generations:  64%|██████▍   | 9/14 [04:26<02:24, 28.80s/it]Generations:  71%|███████▏  | 10/14 [04:54<01:54, 28.64s/it]Generations:  79%|███████▊  | 11/14 [05:23<01:25, 28.54s/it]Generations:  86%|████████▌ | 12/14 [05:51<00:56, 28.44s/it]Generations:  93%|█████████▎| 13/14 [06:19<00:28, 28.31s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 28.29s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 29.11s/it]
-Generation 1 best fitness: 461.19045121583616
-Generation 2 best fitness: 491.2247523408209
-Generation 3 best fitness: 491.52459746684053
-Generation 4 best fitness: 550.8571283405493
-Generation 5 best fitness: 581.200318031233
-Generation 6 best fitness: 581.2394330362588
-Generation 7 best fitness: 611.2452185449941
-Generation 8 best fitness: 611.2588192005436
-Generation 9 best fitness: 611.266458605329
-Generation 10 best fitness: 611.266458605329
-Generation 11 best fitness: 611.266458605329
-Generation 12 best fitness: 611.4485329070361
-Generation 13 best fitness: 611.4491835003616
-Generation 14 best fitness: 611.4560784309368
-Best weight matrix found: [ 11.6739378   -3.48363376 -11.82174324 ...   6.04355955  -4.85813236
-   4.71345186]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (409.0 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:09:51,276	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:36, 35.12s/it]Generations:  14%|█▍        | 2/14 [01:03<06:13, 31.15s/it]Generations:  21%|██▏       | 3/14 [01:32<05:32, 30.19s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.66s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.37s/it]Generations:  43%|████▎     | 6/14 [02:59<03:53, 29.17s/it]Generations:  50%|█████     | 7/14 [03:27<03:22, 28.96s/it]Generations:  57%|█████▋    | 8/14 [03:55<02:52, 28.79s/it]Generations:  64%|██████▍   | 9/14 [04:26<02:25, 29.18s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:54, 28.68s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:26, 28.75s/it]Generations:  86%|████████▌ | 12/14 [05:50<00:57, 28.56s/it]Generations:  93%|█████████▎| 13/14 [06:19<00:28, 28.61s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 28.44s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 29.10s/it]
-Generation 1 best fitness: 372.48557746595316
-Generation 2 best fitness: 461.85803641639654
-Generation 3 best fitness: 520.1703366654676
-Generation 4 best fitness: 580.9266963373798
-Generation 5 best fitness: 580.9400496317562
-Generation 6 best fitness: 580.9473783267994
-Generation 7 best fitness: 610.1928947886589
-Generation 8 best fitness: 610.1938148620991
-Generation 9 best fitness: 610.9561087051492
-Generation 10 best fitness: 641.8496429118788
-Generation 11 best fitness: 671.0490753055203
-Generation 12 best fitness: 671.2275869084552
-Generation 13 best fitness: 671.2275869084552
-Generation 14 best fitness: 671.7573239925924
-Best weight matrix found: [  2.82643938  -3.51140714  -4.16914654 ... -15.36673428  16.5428524
- -12.78711891]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (408.7 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:16:40,026	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:33, 34.88s/it]Generations:  14%|█▍        | 2/14 [01:04<06:18, 31.56s/it]Generations:  21%|██▏       | 3/14 [01:32<05:31, 30.10s/it]Generations:  29%|██▊       | 4/14 [02:02<05:01, 30.12s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.44s/it]Generations:  43%|████▎     | 6/14 [03:00<03:55, 29.40s/it]Generations:  50%|█████     | 7/14 [03:28<03:23, 29.03s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:53, 28.87s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:23, 28.77s/it]Generations:  71%|███████▏  | 10/14 [04:54<01:54, 28.73s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:25, 28.64s/it]Generations:  86%|████████▌ | 12/14 [05:51<00:57, 28.60s/it]Generations:  93%|█████████▎| 13/14 [06:19<00:28, 28.50s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 28.37s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 29.10s/it]
-Generation 1 best fitness: 521.5333237919548
-Generation 2 best fitness: 550.3405426747374
-Generation 3 best fitness: 550.6700358241533
-Generation 4 best fitness: 580.928595712327
-Generation 5 best fitness: 611.3099014366265
-Generation 6 best fitness: 641.2986066610555
-Generation 7 best fitness: 701.1752198681246
-Generation 8 best fitness: 731.0985095274358
-Generation 9 best fitness: 760.6097951155579
-Generation 10 best fitness: 760.8283248782245
-Generation 11 best fitness: 760.8967764440606
-Generation 12 best fitness: 788.8520350745957
-Generation 13 best fitness: 788.9200921406425
-Generation 14 best fitness: 820.2647614649618
-Best weight matrix found: [ 5.68939972 -1.43192244 19.85824585 ... -4.80797672  0.4351989
-  1.28096497]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (408.7 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:23:28,767	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:35, 35.05s/it]Generations:  14%|█▍        | 2/14 [01:03<06:16, 31.36s/it]Generations:  21%|██▏       | 3/14 [01:32<05:32, 30.22s/it]Generations:  29%|██▊       | 4/14 [02:01<04:55, 29.58s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.38s/it]Generations:  43%|████▎     | 6/14 [02:59<03:53, 29.18s/it]Generations:  50%|█████     | 7/14 [03:28<03:23, 29.13s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:53, 28.85s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:24, 28.97s/it]Generations:  71%|███████▏  | 10/14 [04:55<01:57, 29.28s/it]Generations:  79%|███████▊  | 11/14 [05:23<01:26, 28.77s/it]Generations:  86%|████████▌ | 12/14 [05:52<00:57, 28.78s/it]Generations:  93%|█████████▎| 13/14 [06:20<00:28, 28.58s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 28.51s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 29.18s/it]
-Generation 1 best fitness: 431.79600542517016
-Generation 2 best fitness: 463.8314096734291
-Generation 3 best fitness: 641.0353051601792
-Generation 4 best fitness: 641.3665694453844
-Generation 5 best fitness: 642.4626124251466
-Generation 6 best fitness: 642.4626124251466
-Generation 7 best fitness: 642.4626124251466
-Generation 8 best fitness: 642.4768779932712
-Generation 9 best fitness: 642.480287125775
-Generation 10 best fitness: 642.4813673300133
-Generation 11 best fitness: 642.4855518433716
-Generation 12 best fitness: 642.4909148286978
-Generation 13 best fitness: 642.4909148286978
-Generation 14 best fitness: 642.6170490833681
-Best weight matrix found: [ 4.4422574   5.98397779 -7.37093687 ... 18.08572006 15.25806904
- -0.79003829]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (409.8 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:30:18,589	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:37, 35.19s/it]Generations:  14%|█▍        | 2/14 [01:03<06:15, 31.27s/it]Generations:  21%|██▏       | 3/14 [01:33<05:34, 30.45s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.67s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.34s/it]Generations:  43%|████▎     | 6/14 [02:59<03:52, 29.10s/it]Generations:  50%|█████     | 7/14 [03:27<03:22, 28.88s/it]Generations:  57%|█████▋    | 8/14 [03:55<02:52, 28.71s/it]Generations:  64%|██████▍   | 9/14 [04:24<02:23, 28.64s/it]Generations:  71%|███████▏  | 10/14 [04:52<01:53, 28.46s/it]Generations:  79%|███████▊  | 11/14 [05:20<01:25, 28.38s/it]Generations:  86%|████████▌ | 12/14 [05:49<00:57, 28.54s/it]Generations:  93%|█████████▎| 13/14 [06:17<00:28, 28.39s/it]Generations: 100%|██████████| 14/14 [06:45<00:00, 28.25s/it]Generations: 100%|██████████| 14/14 [06:45<00:00, 28.96s/it]
-Generation 1 best fitness: 431.01069593606314
-Generation 2 best fitness: 490.540886553426
-Generation 3 best fitness: 491.0416255815544
-Generation 4 best fitness: 550.3695639920359
-Generation 5 best fitness: 551.3947891360111
-Generation 6 best fitness: 580.7730184267915
-Generation 7 best fitness: 580.7888381866709
-Generation 8 best fitness: 580.8190377989341
-Generation 9 best fitness: 609.9288390237385
-Generation 10 best fitness: 610.0468562254919
-Generation 11 best fitness: 610.6306446575195
-Generation 12 best fitness: 641.5863681758386
-Generation 13 best fitness: 641.9816092406644
-Generation 14 best fitness: 642.1156891373756
-Best weight matrix found: [-14.15203571  -0.91594297 -12.55919075 ...  -0.40312812   1.1193701
-  17.81948662]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (406.8 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:37:05,423	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:33, 34.85s/it]Generations:  14%|█▍        | 2/14 [01:03<06:14, 31.24s/it]Generations:  21%|██▏       | 3/14 [01:32<05:31, 30.16s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.65s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.35s/it]Generations:  43%|████▎     | 6/14 [02:58<03:52, 29.08s/it]Generations:  50%|█████     | 7/14 [03:27<03:23, 29.10s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:53, 28.96s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:24, 28.91s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:55, 28.77s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:26, 28.72s/it]Generations:  86%|████████▌ | 12/14 [05:50<00:57, 28.69s/it]Generations:  93%|█████████▎| 13/14 [06:19<00:28, 28.73s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 28.61s/it]Generations: 100%|██████████| 14/14 [06:48<00:00, 29.15s/it]
-Generation 1 best fitness: 404.29837592279574
-Generation 2 best fitness: 462.9181842574912
-Generation 3 best fitness: 522.2014280110226
-Generation 4 best fitness: 552.2183916102114
-Generation 5 best fitness: 552.4170457471538
-Generation 6 best fitness: 552.4585416515164
-Generation 7 best fitness: 552.694954134907
-Generation 8 best fitness: 552.7143035266284
-Generation 9 best fitness: 582.2653733076268
-Generation 10 best fitness: 582.2902715570722
-Generation 11 best fitness: 612.140659146978
-Generation 12 best fitness: 642.7017667750284
-Generation 13 best fitness: 642.7379944710322
-Generation 14 best fitness: 642.8025708293908
-Best weight matrix found: [ -5.57866335  -1.2612288   11.49285221 ... -17.88908005  11.35641861
- -16.56800461]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (409.5 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:43:54,938	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:39, 35.33s/it]Generations:  14%|█▍        | 2/14 [01:04<06:21, 31.83s/it]Generations:  21%|██▏       | 3/14 [01:33<05:33, 30.30s/it]Generations:  29%|██▊       | 4/14 [02:02<04:58, 29.82s/it]Generations:  36%|███▌      | 5/14 [02:31<04:25, 29.50s/it]Generations:  43%|████▎     | 6/14 [02:59<03:54, 29.25s/it]Generations:  50%|█████     | 7/14 [03:29<03:25, 29.34s/it]Generations:  57%|█████▋    | 8/14 [03:57<02:53, 29.00s/it]Generations:  64%|██████▍   | 9/14 [04:26<02:24, 28.88s/it]Generations:  71%|███████▏  | 10/14 [04:55<01:55, 28.84s/it]Generations:  79%|███████▊  | 11/14 [05:24<01:27, 29.05s/it]Generations:  86%|████████▌ | 12/14 [05:53<00:57, 28.92s/it]Generations:  93%|█████████▎| 13/14 [06:22<00:28, 28.99s/it]Generations: 100%|██████████| 14/14 [06:50<00:00, 28.80s/it]Generations: 100%|██████████| 14/14 [06:50<00:00, 29.34s/it]
-Generation 1 best fitness: 461.44701613683463
-Generation 2 best fitness: 491.2568149372576
-Generation 3 best fitness: 521.6282148372117
-Generation 4 best fitness: 550.9590874083822
-Generation 5 best fitness: 551.8743315928158
-Generation 6 best fitness: 552.2447287920266
-Generation 7 best fitness: 581.925902418553
-Generation 8 best fitness: 581.9963895463021
-Generation 9 best fitness: 582.6198508263188
-Generation 10 best fitness: 611.9549802708051
-Generation 11 best fitness: 611.9868910200431
-Generation 12 best fitness: 641.8542941840172
-Generation 13 best fitness: 672.0529098376002
-Generation 14 best fitness: 672.0529098376002
-Best weight matrix found: [-14.07868958   1.09162092 -14.20347832 ...  -5.97041368  18.99447823
-   5.15458155]
-[pure_nomad_algorithm] 14 gens finished in 6.9 min (412.3 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:50:47,191	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:33, 34.87s/it]Generations:  14%|█▍        | 2/14 [01:03<06:16, 31.37s/it]Generations:  21%|██▏       | 3/14 [01:32<05:30, 30.02s/it]Generations:  29%|██▊       | 4/14 [02:01<04:55, 29.57s/it]Generations:  36%|███▌      | 5/14 [02:29<04:22, 29.16s/it]Generations:  43%|████▎     | 6/14 [02:59<03:56, 29.61s/it]Generations:  50%|█████     | 7/14 [03:28<03:23, 29.09s/it]Generations:  57%|█████▋    | 8/14 [03:57<02:54, 29.14s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:24, 28.84s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:54, 28.71s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:26, 28.81s/it]Generations:  86%|████████▌ | 12/14 [05:51<00:57, 28.86s/it]Generations:  93%|█████████▎| 13/14 [06:20<00:28, 28.84s/it]Generations: 100%|██████████| 14/14 [06:49<00:00, 28.72s/it]Generations: 100%|██████████| 14/14 [06:49<00:00, 29.22s/it]
-Generation 1 best fitness: 432.35002219818733
-Generation 2 best fitness: 462.4958273168567
-Generation 3 best fitness: 492.0334787998151
-Generation 4 best fitness: 550.4331336364718
-Generation 5 best fitness: 581.3849617802737
-Generation 6 best fitness: 582.3851563556797
-Generation 7 best fitness: 611.5868786924286
-Generation 8 best fitness: 611.682179566002
-Generation 9 best fitness: 642.242305210744
-Generation 10 best fitness: 671.4836034167528
-Generation 11 best fitness: 671.6729322725984
-Generation 12 best fitness: 671.81591569205
-Generation 13 best fitness: 671.8705582656144
-Generation 14 best fitness: 671.8705582656144
-Best weight matrix found: [ -7.09693289 -17.68034935 -10.6388483  ... -12.20069885  14.85875702
-  16.13713264]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (410.4 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 04:57:37,642	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:34, 35.00s/it]Generations:  14%|█▍        | 2/14 [01:03<06:13, 31.12s/it]Generations:  21%|██▏       | 3/14 [01:32<05:31, 30.16s/it]Generations:  29%|██▊       | 4/14 [02:01<04:55, 29.56s/it]Generations:  36%|███▌      | 5/14 [02:29<04:23, 29.23s/it]Generations:  43%|████▎     | 6/14 [02:58<03:51, 28.93s/it]Generations:  50%|█████     | 7/14 [03:28<03:25, 29.34s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:53, 28.92s/it]Generations:  64%|██████▍   | 9/14 [04:24<02:23, 28.66s/it]Generations:  71%|███████▏  | 10/14 [04:52<01:54, 28.59s/it]Generations:  79%|███████▊  | 11/14 [05:21<01:25, 28.60s/it]Generations:  86%|████████▌ | 12/14 [05:49<00:57, 28.57s/it]Generations:  93%|█████████▎| 13/14 [06:18<00:28, 28.48s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 28.46s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 29.04s/it]
-Generation 1 best fitness: 430.6523037649967
-Generation 2 best fitness: 460.3913797804454
-Generation 3 best fitness: 490.3814092431004
-Generation 4 best fitness: 491.66992566906083
-Generation 5 best fitness: 520.6217737780154
-Generation 6 best fitness: 550.5224671133533
-Generation 7 best fitness: 550.8053020391928
-Generation 8 best fitness: 580.5478546398576
-Generation 9 best fitness: 580.8580298359308
-Generation 10 best fitness: 580.8609878174517
-Generation 11 best fitness: 580.9529560342792
-Generation 12 best fitness: 610.7593996082716
-Generation 13 best fitness: 610.9459746448146
-Generation 14 best fitness: 610.9968025540588
-Best weight matrix found: [  7.61278057 -18.54658508  12.45150852 ... -15.87709522   8.86654663
-  -7.12320232]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (407.9 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:04:25,559	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:33, 34.89s/it]Generations:  14%|█▍        | 2/14 [01:03<06:13, 31.15s/it]Generations:  21%|██▏       | 3/14 [01:32<05:30, 30.01s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.61s/it]Generations:  36%|███▌      | 5/14 [02:29<04:23, 29.30s/it]Generations:  43%|████▎     | 6/14 [02:58<03:51, 28.99s/it]Generations:  50%|█████     | 7/14 [03:26<03:21, 28.85s/it]Generations:  57%|█████▋    | 8/14 [03:55<02:53, 28.85s/it]Generations:  64%|██████▍   | 9/14 [04:24<02:23, 28.74s/it]Generations:  71%|███████▏  | 10/14 [04:52<01:55, 28.77s/it]Generations:  79%|███████▊  | 11/14 [05:21<01:25, 28.60s/it]Generations:  86%|████████▌ | 12/14 [05:49<00:57, 28.61s/it]Generations:  93%|█████████▎| 13/14 [06:18<00:28, 28.59s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 28.52s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 29.05s/it]
-Generation 1 best fitness: 432.50470038655334
-Generation 2 best fitness: 490.94565725748345
-Generation 3 best fitness: 523.0982463891129
-Generation 4 best fitness: 523.1060221233802
-Generation 5 best fitness: 523.1060221233802
-Generation 6 best fitness: 551.8982870256123
-Generation 7 best fitness: 580.986512750373
-Generation 8 best fitness: 610.7884674291456
-Generation 9 best fitness: 611.0286975392165
-Generation 10 best fitness: 611.0842455839147
-Generation 11 best fitness: 611.0842455839147
-Generation 12 best fitness: 611.0918016670241
-Generation 13 best fitness: 611.5031214553205
-Generation 14 best fitness: 611.5633262210857
-Best weight matrix found: [ 14.57558918  14.62198162  16.28361702 ...  11.20402908 -14.1940012
- -10.66938782]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (408.0 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:11:13,610	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:36, 35.09s/it]Generations:  14%|█▍        | 2/14 [01:03<06:15, 31.29s/it]Generations:  21%|██▏       | 3/14 [01:32<05:31, 30.14s/it]Generations:  29%|██▊       | 4/14 [02:01<04:55, 29.57s/it]Generations:  36%|███▌      | 5/14 [02:29<04:23, 29.24s/it]Generations:  43%|████▎     | 6/14 [02:58<03:51, 28.92s/it]Generations:  50%|█████     | 7/14 [03:26<03:21, 28.82s/it]Generations:  57%|█████▋    | 8/14 [03:55<02:52, 28.78s/it]Generations:  64%|██████▍   | 9/14 [04:23<02:23, 28.67s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:55, 28.88s/it]Generations:  79%|███████▊  | 11/14 [05:21<01:25, 28.56s/it]Generations:  86%|████████▌ | 12/14 [05:50<00:57, 28.78s/it]Generations:  93%|█████████▎| 13/14 [06:18<00:28, 28.59s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 28.64s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 29.09s/it]
-Generation 1 best fitness: 460.7079210150045
-Generation 2 best fitness: 520.6316775848871
-Generation 3 best fitness: 522.5501604633199
-Generation 4 best fitness: 522.9408207201749
-Generation 5 best fitness: 611.6681287888754
-Generation 6 best fitness: 611.677085303308
-Generation 7 best fitness: 611.677085303308
-Generation 8 best fitness: 611.6930383297406
-Generation 9 best fitness: 611.7241579819311
-Generation 10 best fitness: 611.7868032250277
-Generation 11 best fitness: 611.7868032250277
-Generation 12 best fitness: 641.0674552430971
-Generation 13 best fitness: 641.1624806280237
-Generation 14 best fitness: 641.1624806280237
-Best weight matrix found: [-10.47680187  17.48381805  10.2147007  ... -19.47558784  -3.11279392
-   1.87654746]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (408.7 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:18:02,272	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:41, 35.52s/it]Generations:  14%|█▍        | 2/14 [01:04<06:18, 31.50s/it]Generations:  21%|██▏       | 3/14 [01:33<05:34, 30.38s/it]Generations:  29%|██▊       | 4/14 [02:02<04:57, 29.79s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.40s/it]Generations:  43%|████▎     | 6/14 [02:59<03:52, 29.07s/it]Generations:  50%|█████     | 7/14 [03:29<03:25, 29.30s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:52, 28.81s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:23, 28.70s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:54, 28.60s/it]Generations:  79%|███████▊  | 11/14 [05:21<01:25, 28.49s/it]Generations:  86%|████████▌ | 12/14 [05:50<00:56, 28.45s/it]Generations:  93%|█████████▎| 13/14 [06:18<00:28, 28.44s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 28.37s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 29.06s/it]
-/home/z/CElegan_Connectome_Training/celega/Non_Biased_Dynamic_C/Worm_Env/celegan_env.py:14: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
-  self.fig, self.ax = plt.subplots()
-Generation 1 best fitness: 491.3054077495781
-Generation 2 best fitness: 491.80922006093533
-Generation 3 best fitness: 492.0594677666996
-Generation 4 best fitness: 492.0995419297521
-Generation 5 best fitness: 492.1280580861705
-Generation 6 best fitness: 492.6323985726101
-Generation 7 best fitness: 521.8192640665943
-Generation 8 best fitness: 521.8405489491022
-Generation 9 best fitness: 551.4445221426782
-Generation 10 best fitness: 551.4632728097769
-Generation 11 best fitness: 581.7634513909925
-Generation 12 best fitness: 581.7634513909925
-Generation 13 best fitness: 581.7665446057126
-Generation 14 best fitness: 581.816415754789
-Best weight matrix found: [ 2.72009897  4.36869574 14.94774723 ... 18.05740738 10.11216259
- 13.18582821]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (408.3 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:24:50,523	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:41, 35.47s/it]Generations:  14%|█▍        | 2/14 [01:04<06:18, 31.53s/it]Generations:  21%|██▏       | 3/14 [01:32<05:32, 30.23s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.64s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.37s/it]Generations:  43%|████▎     | 6/14 [02:59<03:53, 29.21s/it]Generations:  50%|█████     | 7/14 [03:28<03:23, 29.04s/it]Generations:  57%|█████▋    | 8/14 [03:57<02:54, 29.02s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:23, 28.73s/it]Generations:  71%|███████▏  | 10/14 [04:54<01:55, 28.75s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:26, 28.75s/it]Generations:  86%|████████▌ | 12/14 [05:51<00:57, 28.79s/it]Generations:  93%|█████████▎| 13/14 [06:20<00:28, 28.68s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 28.44s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 29.14s/it]
-Generation 1 best fitness: 428.65861617916676
-Generation 2 best fitness: 521.3794484783798
-Generation 3 best fitness: 521.4282123501034
-Generation 4 best fitness: 521.5277475741871
-Generation 5 best fitness: 551.075082089018
-Generation 6 best fitness: 551.1485680681336
-Generation 7 best fitness: 551.1485680681336
-Generation 8 best fitness: 551.1485680681336
-Generation 9 best fitness: 583.0610740014621
-Generation 10 best fitness: 612.5650040746286
-Generation 11 best fitness: 613.6953981913309
-Generation 12 best fitness: 613.7242483817084
-Generation 13 best fitness: 642.6379319454711
-Generation 14 best fitness: 643.205105078387
-Best weight matrix found: [ -1.22366035  -6.88986254  10.57233047 ... -14.14727402 -17.44103287
-   7.48647356]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (409.3 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:31:39,842	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:39, 35.33s/it]Generations:  14%|█▍        | 2/14 [01:04<06:19, 31.61s/it]Generations:  21%|██▏       | 3/14 [01:33<05:36, 30.55s/it]Generations:  29%|██▊       | 4/14 [02:02<04:57, 29.79s/it]Generations:  36%|███▌      | 5/14 [02:30<04:23, 29.31s/it]Generations:  43%|████▎     | 6/14 [02:59<03:52, 29.08s/it]Generations:  50%|█████     | 7/14 [03:28<03:23, 29.02s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:52, 28.72s/it]Generations:  64%|██████▍   | 9/14 [04:24<02:23, 28.69s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:54, 28.65s/it]Generations:  79%|███████▊  | 11/14 [05:20<01:24, 28.27s/it]Generations:  86%|████████▌ | 12/14 [05:48<00:56, 28.17s/it]Generations:  93%|█████████▎| 13/14 [06:16<00:28, 28.16s/it]Generations: 100%|██████████| 14/14 [06:44<00:00, 28.05s/it]Generations: 100%|██████████| 14/14 [06:44<00:00, 28.91s/it]
-Generation 1 best fitness: 401.9905260942812
-Generation 2 best fitness: 461.23172963376174
-Generation 3 best fitness: 609.7135265024241
-Generation 4 best fitness: 609.7447032429986
-Generation 5 best fitness: 639.7007302688843
-Generation 6 best fitness: 669.4972921270543
-Generation 7 best fitness: 669.5805991275629
-Generation 8 best fitness: 699.5897022153819
-Generation 9 best fitness: 699.5957194344611
-Generation 10 best fitness: 699.6003476019652
-Generation 11 best fitness: 699.6066586057473
-Generation 12 best fitness: 699.6098693887953
-Generation 13 best fitness: 699.6098693887953
-Generation 14 best fitness: 699.6105004262361
-Best weight matrix found: [  1.83839548  17.42580795   4.1956843  ...  -6.83375025 -18.90596962
- -14.90074062]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (406.1 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:38:25,964	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:39, 35.35s/it]Generations:  14%|█▍        | 2/14 [01:04<06:17, 31.48s/it]Generations:  21%|██▏       | 3/14 [01:34<05:38, 30.75s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.61s/it]Generations:  36%|███▌      | 5/14 [02:31<04:28, 29.79s/it]Generations:  43%|████▎     | 6/14 [02:59<03:53, 29.17s/it]Generations:  50%|█████     | 7/14 [03:28<03:22, 28.90s/it]Generations:  57%|█████▋    | 8/14 [03:57<02:53, 28.88s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:24, 28.82s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:54, 28.61s/it]Generations:  79%|███████▊  | 11/14 [05:21<01:25, 28.43s/it]Generations:  86%|████████▌ | 12/14 [05:50<00:56, 28.47s/it]Generations:  93%|█████████▎| 13/14 [06:18<00:28, 28.38s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 28.35s/it]Generations: 100%|██████████| 14/14 [06:47<00:00, 29.07s/it]
-Generation 1 best fitness: 521.8512231605802
-Generation 2 best fitness: 582.801590954284
-Generation 3 best fitness: 582.8886077892581
-Generation 4 best fitness: 613.0545644293383
-Generation 5 best fitness: 613.3668822742179
-Generation 6 best fitness: 613.6759838899296
-Generation 7 best fitness: 642.3822755951016
-Generation 8 best fitness: 643.4181083122016
-Generation 9 best fitness: 643.685351103939
-Generation 10 best fitness: 644.0216614478228
-Generation 11 best fitness: 672.9017240778786
-Generation 12 best fitness: 673.0554288466665
-Generation 13 best fitness: 673.6937057980768
-Generation 14 best fitness: 673.853704899274
-Best weight matrix found: [  0.43523991  13.11134529 -14.09560013 ...  -5.34512329 -15.44289863
-   2.19873881]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (408.3 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:45:14,290	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:36, 35.11s/it]Generations:  14%|█▍        | 2/14 [01:03<06:16, 31.42s/it]Generations:  21%|██▏       | 3/14 [01:33<05:34, 30.43s/it]Generations:  29%|██▊       | 4/14 [02:01<04:56, 29.63s/it]Generations:  36%|███▌      | 5/14 [02:30<04:24, 29.41s/it]Generations:  43%|████▎     | 6/14 [02:59<03:53, 29.14s/it]Generations:  50%|█████     | 7/14 [03:27<03:22, 28.92s/it]Generations:  57%|█████▋    | 8/14 [03:56<02:52, 28.80s/it]Generations:  64%|██████▍   | 9/14 [04:24<02:23, 28.75s/it]Generations:  71%|███████▏  | 10/14 [04:53<01:55, 28.76s/it]Generations:  79%|███████▊  | 11/14 [05:21<01:25, 28.44s/it]Generations:  86%|████████▌ | 12/14 [05:49<00:56, 28.43s/it]Generations:  93%|█████████▎| 13/14 [06:18<00:28, 28.40s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 28.44s/it]Generations: 100%|██████████| 14/14 [06:46<00:00, 29.05s/it]
-Generation 1 best fitness: 431.76543206606704
-Generation 2 best fitness: 491.55220142669504
-Generation 3 best fitness: 521.8677236614622
-Generation 4 best fitness: 582.0461676722185
-Generation 5 best fitness: 582.0537715919628
-Generation 6 best fitness: 582.0620259486296
-Generation 7 best fitness: 582.4946014164553
-Generation 8 best fitness: 582.6164836618532
-Generation 9 best fitness: 582.6433460332164
-Generation 10 best fitness: 611.832398047572
-Generation 11 best fitness: 611.8375365486326
-Generation 12 best fitness: 612.2957389239195
-Generation 13 best fitness: 612.3114491776494
-Generation 14 best fitness: 612.4732154256283
-Best weight matrix found: [-16.73784065  12.00522232   0.44940606 ... -19.25307465   3.75181246
-   9.22573757]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (407.9 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:52:02,208	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:31, 34.77s/it]Generations:  14%|█▍        | 2/14 [01:03<06:12, 31.07s/it]Generations:  21%|██▏       | 3/14 [01:33<05:36, 30.60s/it]Generations:  29%|██▊       | 4/14 [02:01<04:57, 29.77s/it]Generations:  36%|███▌      | 5/14 [02:29<04:21, 29.07s/it]Generations:  43%|████▎     | 6/14 [02:58<03:51, 29.00s/it]Generations:  50%|█████     | 7/14 [03:26<03:21, 28.73s/it]Generations:  57%|█████▋    | 8/14 [03:55<02:52, 28.81s/it]Generations:  64%|██████▍   | 9/14 [04:23<02:22, 28.56s/it]Generations:  71%|███████▏  | 10/14 [04:51<01:53, 28.38s/it]Generations:  79%|███████▊  | 11/14 [05:19<01:24, 28.19s/it]Generations:  86%|████████▌ | 12/14 [05:47<00:56, 28.13s/it]Generations:  93%|█████████▎| 13/14 [06:14<00:27, 27.92s/it]Generations: 100%|██████████| 14/14 [06:43<00:00, 28.03s/it]Generations: 100%|██████████| 14/14 [06:43<00:00, 28.79s/it]
-Generation 1 best fitness: 461.06341216834545
-Generation 2 best fitness: 520.8716157448432
-Generation 3 best fitness: 522.3545567098793
-Generation 4 best fitness: 581.4903455791746
-Generation 5 best fitness: 581.7824934187354
-Generation 6 best fitness: 582.6494618197671
-Generation 7 best fitness: 612.2566986080902
-Generation 8 best fitness: 642.3059686902865
-Generation 9 best fitness: 642.4218706155874
-Generation 10 best fitness: 642.4243685169993
-Generation 11 best fitness: 642.4310507730384
-Generation 12 best fitness: 642.4746096729564
-Generation 13 best fitness: 642.5574205673022
-Generation 14 best fitness: 672.7358462186903
-Best weight matrix found: [12.86292839 -8.68114758 19.92811203 ... -8.56171131  5.47330856
-  6.39613295]
-[pure_nomad_algorithm] 14 gens finished in 6.7 min (404.4 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 05:58:46,644	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:35, 35.04s/it]Generations:  14%|█▍        | 2/14 [01:03<06:16, 31.37s/it]Generations:  21%|██▏       | 3/14 [01:32<05:33, 30.29s/it]Generations:  29%|██▊       | 4/14 [02:01<04:57, 29.72s/it]Generations:  36%|███▌      | 5/14 [02:30<04:23, 29.26s/it]Generations:  43%|████▎     | 6/14 [02:59<03:53, 29.14s/it]Generations:  50%|█████     | 7/14 [03:27<03:22, 28.94s/it]Generations:  57%|█████▋    | 8/14 [03:55<02:52, 28.75s/it]Generations:  64%|██████▍   | 9/14 [04:24<02:23, 28.66s/it]Generations:  71%|███████▏  | 10/14 [04:52<01:54, 28.53s/it]Generations:  79%|███████▊  | 11/14 [05:20<01:25, 28.38s/it]Generations:  86%|████████▌ | 12/14 [05:49<00:56, 28.41s/it]Generations:  93%|█████████▎| 13/14 [06:17<00:28, 28.36s/it]Generations: 100%|██████████| 14/14 [06:45<00:00, 28.27s/it]Generations: 100%|██████████| 14/14 [06:45<00:00, 28.96s/it]
-Generation 1 best fitness: 459.1860375069911
-Generation 2 best fitness: 490.35149058818564
-Generation 3 best fitness: 519.9540770667218
-Generation 4 best fitness: 520.0800795620357
-Generation 5 best fitness: 522.5688560819098
-Generation 6 best fitness: 580.9026409034931
-Generation 7 best fitness: 580.9115842031107
-Generation 8 best fitness: 580.9163196613372
-Generation 9 best fitness: 580.9163196613372
-Generation 10 best fitness: 580.9163196613372
-Generation 11 best fitness: 580.9469768106094
-Generation 12 best fitness: 581.0103676405578
-Generation 13 best fitness: 610.8724411070702
-Generation 14 best fitness: 611.075212718883
-Best weight matrix found: [-12.07557964   6.30885649  -2.76935029 ...   7.09483242  13.95466423
-   9.83086014]
-[pure_nomad_algorithm] 14 gens finished in 6.8 min (406.8 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 06:05:33,464	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:34<07:32, 34.81s/it]Generations:  14%|█▍        | 2/14 [01:03<06:12, 31.05s/it]Generations:  21%|██▏       | 3/14 [01:32<05:32, 30.24s/it]Generations:  29%|██▊       | 4/14 [02:00<04:53, 29.35s/it]Generations:  36%|███▌      | 5/14 [02:29<04:23, 29.22s/it]Generations:  43%|████▎     | 6/14 [02:57<03:50, 28.76s/it]Generations:  50%|█████     | 7/14 [03:26<03:21, 28.77s/it]Generations:  57%|█████▋    | 8/14 [03:54<02:51, 28.61s/it]Generations:  64%|██████▍   | 9/14 [04:23<02:24, 28.84s/it]Generations:  71%|███████▏  | 10/14 [04:51<01:53, 28.38s/it]Generations:  79%|███████▊  | 11/14 [05:18<01:24, 28.21s/it]Generations:  86%|████████▌ | 12/14 [05:46<00:56, 28.08s/it]Generations:  93%|█████████▎| 13/14 [06:14<00:27, 27.98s/it]Generations: 100%|██████████| 14/14 [06:41<00:00, 27.80s/it]Generations: 100%|██████████| 14/14 [06:41<00:00, 28.70s/it]
-Generation 1 best fitness: 462.4307424660976
-Generation 2 best fitness: 520.7929330809917
-Generation 3 best fitness: 521.0569533669678
-Generation 4 best fitness: 521.1367426481753
-Generation 5 best fitness: 552.6513782839601
-Generation 6 best fitness: 581.9588339161373
-Generation 7 best fitness: 611.3667539873858
-Generation 8 best fitness: 611.3828593614264
-Generation 9 best fitness: 611.3847323984692
-Generation 10 best fitness: 611.3872698456728
-Generation 11 best fitness: 613.0450471457536
-Generation 12 best fitness: 641.6924934385946
-Generation 13 best fitness: 641.7208668088497
-Generation 14 best fitness: 641.7208668088497
-Best weight matrix found: [  1.43313253  -5.05052233   2.22050168 ...  -3.15310001 -16.10006905
-  12.96662331]
-[pure_nomad_algorithm] 14 gens finished in 6.7 min (403.1 s)
-Running Genetic Algorithm...
-Generations:   0%|          | 0/14 [00:00<?, ?it/s]2025-08-11 06:12:16,580	INFO worker.py:1888 -- Started a local Ray instance.
-Generations:   7%|▋         | 1/14 [00:35<07:41, 35.48s/it]Generations:  14%|█▍        | 2/14 [01:05<06:24, 32.04s/it]Generations:  21%|██▏       | 3/14 [01:34<05:39, 30.82s/it]Generations:  29%|██▊       | 4/14 [02:03<04:59, 29.98s/it]Generations:  36%|███▌      | 5/14 [02:31<04:26, 29.56s/it]Generations:  43%|████▎     | 6/14 [03:00<03:53, 29.13s/it]Generations:  50%|█████     | 7/14 [03:28<03:22, 28.94s/it]Generations:  57%|█████▋    | 8/14 [03:57<02:52, 28.80s/it]Generations:  64%|██████▍   | 9/14 [04:25<02:23, 28.68s/it]Generations:  71%|███████▏  | 10/14 [04:54<01:55, 28.75s/it]Generations:  79%|███████▊  | 11/14 [05:22<01:25, 28.49s/it]Generations:  86%|████████▌ | 12/14 [05:51<00:56, 28.50s/it]Generations:  93%|█████████▎| 13/14 [06:18<00:28, 28.11s/it]*** SIGTERM received at time=1754918331 on cpu 4 ***
-PC: @     0x716889498d71  (unknown)  (unknown)
-    @     0x716889445330  1546437312  (unknown)
-    @     0x71688949bc8e        224  pthread_cond_timedwait
-    @     0x716887017f9f       1184  ray::core::GetRequest::Wait()
-    @     0x71688701aa67       1424  ray::core::CoreWorkerMemoryStore::GetImpl()
-    @     0x71688701b52e         64  ray::core::CoreWorkerMemoryStore::Get()
-    @     0x71688701b73d        208  ray::core::CoreWorkerMemoryStore::Get()
-    @     0x716886f300b6       1776  ray::core::CoreWorker::GetObjects()
-    @     0x716886f367a0        160  ray::core::CoreWorker::Get()
-    @     0x716886e3ed00        240  __pyx_pw_3ray_7_raylet_10CoreWorker_43get_objects()
-    @           0x4ee5be  (unknown)  _PyEval_EvalFrameDefault
-    @ ... and at least 4 more frames
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496: *** SIGTERM received at time=1754918331 on cpu 4 ***
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496: PC: @     0x716889498d71  (unknown)  (unknown)
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x716889445330  1546437312  (unknown)
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x71688949bc8e        224  pthread_cond_timedwait
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x716887017f9f       1184  ray::core::GetRequest::Wait()
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x71688701aa67       1424  ray::core::CoreWorkerMemoryStore::GetImpl()
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x71688701b52e         64  ray::core::CoreWorkerMemoryStore::Get()
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x71688701b73d        208  ray::core::CoreWorkerMemoryStore::Get()
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x716886f300b6       1776  ray::core::CoreWorker::GetObjects()
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x716886f367a0        160  ray::core::CoreWorker::Get()
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @     0x716886e3ed00        240  __pyx_pw_3ray_7_raylet_10CoreWorker_43get_objects()
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @           0x4ee5be  (unknown)  _PyEval_EvalFrameDefault
-[2025-08-11 06:18:51,733 E 3534999 3534999] logging.cc:496:     @ ... and at least 4 more frames
-Generations:  93%|█████████▎| 13/14 [06:36<00:30, 30.50s/it]
-Generation 1 best fitness: 431.8029174837426
-Generation 2 best fitness: 462.7122642926078
-Generation 3 best fitness: 523.6043567828443
-Generation 4 best fitness: 581.0563151330881
-Generation 5 best fitness: 581.1884695085062
-Generation 6 best fitness: 610.6162487847954
-Generation 7 best fitness: 640.7520835474136
-Generation 8 best fitness: 640.7540319949956
-Generation 9 best fitness: 640.7583244243962
-Generation 10 best fitness: 640.7955982036821
-Generation 11 best fitness: 640.8473526437535
-Generation 12 best fitness: 640.8875417532521
-Generation 13 best fitness: 640.9317813023597

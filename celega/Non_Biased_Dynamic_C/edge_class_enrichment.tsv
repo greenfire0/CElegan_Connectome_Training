@@ -1,0 +1,5 @@
+edge_class	observed	null_mean	z_score	M_changed_edges	n_perm	null_type
+interneuron->interneuron	20	19.5797	0.28637368857411694	22	10000	source-preserving
+sensory->interneuron	2	1.8619	0.1057834182288658	22	10000	source-preserving
+sensory->sensory	0	0.1381	-0.372789977671143	22	10000	source-preserving
+interneuron->sensory	0	0.4203	-0.6545884438737597	22	10000	source-preserving
