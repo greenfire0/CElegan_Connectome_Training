@@ -68,7 +68,7 @@ class Genetic_Dyn_Algorithm:
                 self.population.append(best_worm)
                 
                 #remove or true if you only want improvements
-                write_worm_to_csv("pure_nomad_random_init", best_worm,max_rows=generations)
+                write_worm_to_csv("pure_nomad", best_worm,max_rows=generations)
 
             return best_weights
         finally:

@@ -6,6 +6,8 @@ import multiprocessing
 import numpy.typing as npt
 from Worm_Env.weight_dict import dict
 from graphs.graph_ngon_performance import plot_ngon_performance
+from graphs.chemotax_graph import Genetic_Dyn_Algorithm
+from Worm_Env.celegan_env import ChemotaxisPeakEnv
 from util.main_utils import run_genetic_algorithm,polygon_test,clean_environment,\
     graph_quartiles,graph_aggregates,calculate_worm_suffering_index, run_openai_es,\
         run_cma_es,graph_image_ngons,\
@@ -56,13 +58,17 @@ for sub_dict in dict.values():
     values_list.extend(sub_dict.values())
 connectome_weights:npt.NDArray[np.float64] = np.array(values_list)
 length = len(values_list)
-from graphs.heatmap_nomad import main
-main()
+#from graphs.heatmap_nomad import main
+#main()
 #from graphs.graph_video import GeneticDynVideo
 #GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
 #from graphs.fig5 import run
 #run()
-quit()
+#quit()
+env = ChemotaxisPeakEnv(num_worms=1, sigma=220.0, drift_std=0.0)  # same API as before
+ga = Genetic_Dyn_Algorithm(population_size=1, pattern=[0], total_episodes=10, training_interval=25)
+ga.run(env, gen=0)
+quit(); exit()
 def main(config):
     # Clean environment if requested
     if config["clean_env"]:
@@ -127,15 +133,14 @@ if __name__ == "__main__":
             object_store_memory=16 * 1024 * 1024 * 1024,
             num_cpus=11,
     )
-    main(config)
-    quit()
-    exit()
+
     num_cpus=multiprocessing.cpu_count()
     #print(f"using {num_cpus} cpu's")
 
-    algos = ["nomad_evolutionary_algorithm","standard_evolutionary_algorithm"]
+    algos = ["random_nomad_algorithm","OPENAI_ES","standard_evolutionary_algorithm",
+             "nomad_evolutionary_algorithm","pure_nomad_algorithm"]
     for a in (algos):
-        for _ in range (15):
+        for _ in range (1):
 
             config.update({
                     "ga_variant": a,

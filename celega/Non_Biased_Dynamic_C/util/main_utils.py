@@ -1,6 +1,6 @@
 import numpy as np
 from typing import Dict
-from Worm_Env.celegan_env import WormSimulationEnv
+from Worm_Env.celegan_env import WormSimulationEnv, ChemotaxisPeakEnv
 import ray
 import multiprocessing
 # Genetic Algorithm Variants
@@ -133,8 +133,8 @@ def clean_environment():
 def run_genetic_algorithm(config:Dict,values_list:npt.NDArray[np.float64],shape:int):
     """Runs the genetic algorithm to find the best weight matrix."""
     print("Running Genetic Algorithm...")
-    env = WormSimulationEnv()
-
+    #env = WormSimulationEnv()
+    env = ChemotaxisPeakEnv()
     GA_Class = select_ga_class(config)
     ga = GA_Class(
         population_size=config["population_size"],

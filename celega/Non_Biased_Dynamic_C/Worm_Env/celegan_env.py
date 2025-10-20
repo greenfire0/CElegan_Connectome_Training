@@ -265,3 +265,204 @@ class WormSimulationEnv(gym.Env):
 
     def close(self):
         plt.close()
+
+class ChemotaxisPeakEnv(gym.Env):
+    """
+    API-compatible with WormSimulationEnv:
+      - reset(pattern_type, num_food=...)
+      - step(actions, worm_num, candidate) -> (obs, reward: float, done: bool)
+      - render(worm_num=0, mode="human")
+      - close()
+      - lasso_reg(candidate_weights, original, lambda_=0.1)  [@staticmethod]
+    
+    Key differences in task design:
+      - No 'consumption' or removal of targets. We model a continuous chemo field
+        (Gaussian peak). Reward is dense each step:
+           reward = k_step * dC + k_abs * C_now - k_wall * wall_proximity
+        where C_now is concentration at current position and dC is the one-step
+        improvement (ascent). This tests gradient following (and optionally tracking)
+        rather than discrete pickup.
+    """
+
+    metadata = {"render.modes": ["human"]}
+
+    def __init__(self,
+                 num_worms=1,
+                 sigma=220.0,         # width of Gaussian (controls gradient steepness)
+                 k_step=1.0,          # weight for ascent (delta concentration)
+                 k_abs=0.1,           # weight for being near the peak (absolute concentration)
+                 k_wall=0.002,        # penalty weight near walls
+                 drift_std=0.0        # std of per-step source drift (0 = static peak)
+                 ):
+        super(ChemotaxisPeakEnv, self).__init__()
+        # arena geometry (match your existing env)
+        self.dimx = 1600
+        self.dimy = 1200
+        self.num_worms = int(num_worms)
+
+        # keep these names so your code/tools still work if referenced
+        self.foodradius = 20      # not used for "consumption", kept for compatibility
+        self.range = 150          # also used in wall proximity shaping
+        self.wall_margin = 100
+
+        # gradient + reward config
+        self.sigma = float(sigma)
+        self.k_step = float(k_step)
+        self.k_abs = float(k_abs)
+        self.k_wall = float(k_wall)
+        self.drift_std = float(drift_std)
+
+        # state
+        self.worms = []
+        self.food = np.zeros((0, 2), dtype=float)  # we still call it "food" for API consistency
+        self.prev_C = None
+
+        # plotting (kept the same pattern as your env)
+        self.fig, self.ax = plt.subplots()
+
+    # ---------- Public API (unchanged signatures) ----------
+
+    def reset(self, pattern_type=None, num_food=1):
+        """
+        Keep signature identical; pattern_type/num_food are accepted but ignored.
+        Spawns a single chemo source (peak) and centers the worm(s).
+        """
+        self.worms = [Worm(position=[self.dimx / 2, self.dimy / 2], range=self.range)
+                      for _ in range(self.num_worms)]
+        self.food = np.array([self._sample_peak()], dtype=float)  # shape (1, 2)
+
+        # initialize previous concentration per worm for the ascent term
+        self.prev_C = np.zeros(self.num_worms, dtype=float)
+        for i, w in enumerate(self.worms):
+            self.prev_C[i] = self._concentration(np.asarray(w.position, dtype=float), self.food[0])
+
+        return self._get_observations()
+
+    def step(self, actions, worm_num, candidate):
+        """
+        Same signature as WormSimulationEnv.step.
+        Returns: (observations, reward: float, done: bool)
+        """
+        left_speed, right_speed = actions
+
+        # Pass the current peak as "food_positions" so the worm's internal sensory
+        # logic (e.g., sees_food) continues to work without any code changes.
+        self.worms[worm_num].update(
+            left_speed=left_speed,
+            right_speed=right_speed,
+            food_positions=self.food
+        )
+
+        # Optional: drift the source slightly each step ⇒ tracking behavior required
+        if self.drift_std > 0.0:
+            self.food[0] += np.random.normal(scale=self.drift_std, size=2)
+            self.food[0, 0] = float(np.clip(self.food[0, 0], 0.0, self.dimx))
+            self.food[0, 1] = float(np.clip(self.food[0, 1], 0.0, self.dimy))
+
+        obs = self._get_observations()
+
+        # Dense reward: climb the gradient and remain near the peak; avoid walls
+        worm_pos = np.asarray(self.worms[worm_num].position, dtype=float)
+        C_now = self._concentration(worm_pos, self.food[0])
+        dC = C_now - self.prev_C[worm_num]
+        self.prev_C[worm_num] = C_now
+
+        # wall proximity penalty in [0, 1]: 0 far, 1 at/beyond margin
+        mdw = min(worm_pos[0],
+                  self.dimx - worm_pos[0],
+                  worm_pos[1],
+                  self.dimy - worm_pos[1])
+        wall_prox = max(0.0, (self.range - mdw) / self.range)
+
+        reward = float(self.k_step * dC + self.k_abs * C_now - self.k_wall * wall_prox)
+
+        # This task is continuous; let your outer loop set the horizon (e.g., 250 steps)
+        done = False
+        return obs, reward, done
+
+    def render(self, worm_num=0, mode="human"):
+        self.ax.clear()
+        worm = self.worms[worm_num]
+
+        # worm body + heading
+        self.ax.plot(*worm.position, "ro")
+        self.ax.plot(
+            [worm.position[0], worm.position[0] + 100 * np.cos(worm.facing_dir)],
+            [worm.position[1], worm.position[1] + 100 * np.sin(worm.facing_dir)],
+            "b-",
+        )
+
+        # draw the chemo peak position (red if far, yellow if within 'range')
+        if self.food.size:
+            d = np.linalg.norm(self.food - worm.position, axis=1)
+            close = d < self.range
+            if np.any(~close):
+                self.ax.plot(*self.food[~close].T, "ro")
+            if np.any(close):
+                self.ax.plot(*self.food[close].T, "yo")
+
+        self.ax.set_xlim(0, self.dimx)
+        self.ax.set_ylim(0, self.dimy)
+        self.ax.set_aspect("equal", adjustable="box")
+        plt.pause(0.001)
+
+    def close(self):
+        plt.close()
+
+    # ---------- Helpers (internal) ----------
+
+    def _get_observations(self):
+        """
+        Keep exact structure as your original env:
+        [min_distance_to_wall, x, y, facing_dir, sees_food]
+        """
+        observations = []
+        for worm in self.worms:
+            mdw = min(
+                worm.position[0],
+                self.dimx - worm.position[0],
+                worm.position[1],
+                self.dimy - worm.position[1],
+            )
+            observations.append(np.array([
+                float(mdw),
+                float(worm.position[0]),
+                float(worm.position[1]),
+                float(worm.facing_dir),
+                float(worm.sees_food),
+            ], dtype=float))
+        return np.array(observations, dtype=float)
+
+    def _sample_peak(self):
+        """
+        Deterministic spawn in the top-right corner, kept away from walls
+        by the same safety margin used elsewhere.
+        """
+        margin = max(self.range, self.wall_margin) + 20.0
+        x = self.dimx - margin
+        y = self.dimy - margin
+        return np.array([x, y], dtype=float)
+
+
+    def _concentration(self, pos_xy, src_xy):
+        """
+        Gaussian chemo field centered at src_xy with width sigma.
+        Returns a scalar in (0, 1].
+        """
+        dx = pos_xy[0] - src_xy[0]
+        dy = pos_xy[1] - src_xy[1]
+        d2 = dx * dx + dy * dy
+        return float(np.exp(-d2 / (2.0 * self.sigma * self.sigma)))
+
+    # ---------- Static penalty (unchanged signature) ----------
+
+    @staticmethod
+    @njit
+    def lasso_reg(candidate_weights, original, lambda_=0.1):
+        """
+        Same as in your WormSimulationEnv: -lambda * |W != W0|^1.3
+        Returns a plain Python float (Numba-compatible).
+        """
+        num_differences = np.count_nonzero(candidate_weights != original)
+        penalty = -lambda_ * np.power(num_differences, 1.3)
+        return penalty
