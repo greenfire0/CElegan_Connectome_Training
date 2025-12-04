@@ -61,10 +61,11 @@ length = len(values_list)
 #from graphs.heatmap_nomad import main
 #main()
 #from graphs.graph_video import GeneticDynVideo
-#GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).run()
+from graphs.graph_video import GeneticDynVideo
+GeneticDynVideo(patterns=[5], episodes=1, steps_per_episode=250).save_cover_frame()
 #from graphs.fig5 import run
 #run()
-#quit()
+quit()
 env = ChemotaxisPeakEnv(num_worms=1, sigma=220.0, drift_std=0.0)  # same API as before
 ga = Genetic_Dyn_Algorithm(population_size=1, pattern=[0], total_episodes=10, training_interval=25)
 ga.run(env, gen=0)

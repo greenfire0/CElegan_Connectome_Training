@@ -146,3 +146,70 @@ class GeneticDynVideo:
         for p in pngs:
             os.remove(os.path.join(self.tmp_dir, p))
         print(f"✓ saved {out}  ({len(pngs)} frames)")
+    def save_cover_frame(self, out="connectome_cover.png"):
+        """
+        Run a single episode for the 'middle' pattern and save a high-res
+        transparent connectome frame from the middle of the simulation as `out`.
+        """
+        if not self.patterns:
+            raise ValueError("No patterns provided for GeneticDynVideo.")
+
+        # Pick the 'middle' pattern and mid-step
+        pat_idx     = len(self.patterns) // 2
+        pat         = self.patterns[pat_idx]
+        target_step = self.steps // 2
+
+        worm = WormConnectome(
+            weight_matrix=self._orig_genome(),
+            all_neuron_names=self._all_names(),
+        )
+
+        # Use the cover-specific viewer
+        from graphs.connectome_graph_cover import ConnectomeViewer as CoverConnectomeViewer
+
+        env    = WormSimulationEnv(num_worms=1)
+        viewer = CoverConnectomeViewer(
+            worm,
+            layout="kamada_groups",
+            spread=1,
+            pulse_size=3.0,
+            group_gap=0.5,
+            color_mode="energy",
+        )
+
+        obs = env.reset(pat)
+        worm.V[:] = 0.0
+
+        saved = False
+        for t in range(self.steps):
+            move = worm.move(obs[0, 0], obs[0, 4])
+            obs, _, done = env.step(move, worm_num=0, candidate=None)
+
+            viewer.step()
+            env.render()      # you can drop this if you never use the arena
+            env.ax.axis("off")
+
+            if t == target_step or done:
+                viewer.fig.savefig(
+                    out,
+                    dpi=600,
+                    transparent=True,
+                    facecolor="none",
+                    bbox_inches="tight",
+                    pad_inches=0.0,
+                )
+                print(f"✓ saved cover frame → {out}  (step {t}, pattern {pat})")
+                saved = True
+                break
+
+        if not saved:
+            # Fallback: save last state of the connectome, still transparent
+            viewer.fig.savefig(
+                out,
+                dpi=600,
+                transparent=True,
+                facecolor="none",
+                bbox_inches="tight",
+                pad_inches=0.0,
+            )
+            print(f"✓ saved fallback cover frame → {out}")
