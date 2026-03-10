@@ -1,3 +1,4 @@
+https://doi.org/10.1016/j.isci.2025.114436
 # C. Elegans Connectome Training
 
 ## Overview
