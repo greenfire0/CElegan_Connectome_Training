@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import os
+import sys
 from typing import Dict, List, Tuple, Optional, Any
 
 import numpy as np
@@ -24,6 +25,10 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as mcolors
 import pandas as pd
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_DIR not in sys.path:
+    sys.path.insert(0, PROJECT_DIR)
 
 from util.write_read_txt import read_arrays_from_csv_pandas
 try:
@@ -550,6 +555,8 @@ def _aggregate_sign_gain(pre_post: List[Tuple[np.ndarray, np.ndarray]],
         d = np.asarray(b["deltas"], float)
         ps, qs = np.asarray(b["pre_sign"], float), np.asarray(b["post_sign"], float)
         flips = np.sum(np.sign(ps) != np.sign(qs))
+        pos_to_neg = np.sum((ps > 0.0) & (qs < 0.0))
+        neg_to_pos = np.sum((ps < 0.0) & (qs > 0.0))
         rows.append({
             "src_group": srcg,
             "dst_group": dstg,
@@ -559,11 +566,16 @@ def _aggregate_sign_gain(pre_post: List[Tuple[np.ndarray, np.ndarray]],
             "delta_median": float(np.median(d)) if d.size else 0.0,
             "frac_delta_positive": float(np.mean(d > 0.0)) if d.size else np.nan,
             "sign_flip_frac": float(flips / d.size) if d.size else np.nan,
+            "pos_to_neg_count": int(pos_to_neg),
+            "neg_to_pos_count": int(neg_to_pos),
+            "pos_to_neg_frac": float(pos_to_neg / d.size) if d.size else np.nan,
+            "neg_to_pos_frac": float(neg_to_pos / d.size) if d.size else np.nan,
         })
     if not rows:
         return pd.DataFrame(columns=[
             "src_group","dst_group","hemi","n_edges",
-            "delta_mean","delta_median","frac_delta_positive","sign_flip_frac"
+            "delta_mean","delta_median","frac_delta_positive","sign_flip_frac",
+            "pos_to_neg_count","neg_to_pos_count","pos_to_neg_frac","neg_to_pos_frac"
         ])
     # Sort by magnitude and count
     df = pd.DataFrame(rows)
@@ -698,6 +710,37 @@ def _print_overall_sign_flip(pre_post, k2ij, atol, label: str) -> None:
     pct = 100.0 * flips / max(total_changed, 1)
     print(f"[{label}] sign flips: {flips}/{total_changed} = {pct:.2f}%")
 
+def _print_directional_sign_flips(pre_post, k2ij, atol, label: str) -> None:
+    """
+    Across all runs, consider only edges with |Δw| > atol and report
+    directional sign flips as percentages of all changed edges.
+    """
+    total_changed = 0
+    pos_to_neg = 0
+    neg_to_pos = 0
+    for (g0, gT) in pre_post:
+        L = min(len(g0), len(gT), len(k2ij))
+        if L == 0:
+            continue
+        d = gT[:L] - g0[:L]
+        sel = np.where(np.abs(d) > atol)[0]
+        if sel.size == 0:
+            continue
+        total_changed += int(sel.size)
+        pre = g0[:L][sel]
+        post = gT[:L][sel]
+        pos_to_neg += int(np.sum((pre > 0.0) & (post < 0.0)))
+        neg_to_pos += int(np.sum((pre < 0.0) & (post > 0.0)))
+
+    denom = max(total_changed, 1)
+    pos_to_neg_pct = 100.0 * pos_to_neg / denom
+    neg_to_pos_pct = 100.0 * neg_to_pos / denom
+    print(
+        f"[{label}] directional sign flips (% of changed edges): "
+        f"positive->negative {pos_to_neg}/{total_changed} = {pos_to_neg_pct:.2f}% | "
+        f"negative->positive {neg_to_pos}/{total_changed} = {neg_to_pos_pct:.2f}%"
+    )
+
 def main():
     data_dir = _data_dir()
     if not os.path.isdir(data_dir):
@@ -782,6 +825,8 @@ def main():
     # overall sign-flip percentages
     _print_overall_sign_flip(h_pairs, k2ij, ATOL, "hybrid")
     _print_overall_sign_flip(p_pairs, k2ij, ATOL, "pure")
+    _print_directional_sign_flips(h_pairs, k2ij, ATOL, "hybrid")
+    _print_directional_sign_flips(p_pairs, k2ij, ATOL, "pure")
 
 if __name__ == "__main__":
     main()
